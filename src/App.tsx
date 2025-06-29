@@ -11,6 +11,7 @@ import QRScanner from './pages/QRScanner';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import FreePlay from './pages/FreePlay';
+import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/free-play" element={<FreePlay />} />
+            <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
             <Route path="/player/dashboard" element={
               <ProtectedRoute userType="player">
                 <PlayerDashboard />
