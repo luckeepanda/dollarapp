@@ -115,7 +115,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // get profile
       const profile = await fetchUserProfile(data.user.id);
-
+      console.log('am i here?')
       if (error) {
         console.error('Login error:', error);
         throw error;
