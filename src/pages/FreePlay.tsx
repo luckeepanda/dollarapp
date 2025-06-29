@@ -122,7 +122,7 @@ const FreePlay: React.FC = () => {
         </div>
 
         {/* Game Container */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8">
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
           {/* Force component remount with key prop */}
           <TacoGame 
             key={gameKey}
@@ -131,33 +131,60 @@ const FreePlay: React.FC = () => {
             resetTrigger={resetTrigger}
           />
           
-          {/* Game Over Screen */}
+          {/* Floating Play Again Button - positioned over the canvas */}
           {finalScore !== null && (
-            <div className="mt-8 text-center">
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-2xl border-2 border-purple-200">
-                <h3 className="text-2xl font-bold text-purple-800 mb-4">
-                  🎉 Great Job! 🎉
-                </h3>
-                <p className="text-lg text-purple-700 mb-4">
-                  You scored <span className="font-bold text-2xl">{finalScore}</span> points!
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200 pointer-events-auto">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-purple-800 mb-2">
+                    🎉 Great Job! 🎉
+                  </h3>
+                  <p className="text-lg text-purple-700 mb-4">
+                    You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                  </p>
                   <button
                     onClick={restartGame}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105"
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
                   >
                     Play Again
                   </button>
-                  <Link
-                    to="/register"
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105"
-                  >
-                    Join for Real Prizes!
-                  </Link>
                 </div>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Instructions & Info */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
+              <GamepadIcon className="h-5 w-5 text-purple-600" />
+              <span>How to Play</span>
+            </h3>
+            <ul className="text-gray-600 space-y-2">
+              <li>• Click or press SPACE to make the taco fly</li>
+              <li>• Navigate through the blue pipes</li>
+              <li>• Each pipe you pass gives you 1 point</li>
+              <li>• Try to beat your high score!</li>
+            </ul>
+          </div>
+          
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-2xl border border-purple-200">
+            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
+              <Trophy className="h-5 w-5 text-yellow-600" />
+              <span>Ready for Real Prizes?</span>
+            </h3>
+            <p className="text-gray-700 mb-4">
+              Join Dollar App to compete for real food prizes at local restaurants!
+            </p>
+            <Link
+              to="/register"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
+            >
+              <span>Get Started</span>
+              <ArrowLeft className="h-4 w-4 rotate-180" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

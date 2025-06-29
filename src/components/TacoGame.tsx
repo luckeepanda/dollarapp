@@ -172,36 +172,17 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     }
   }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
 
-  // Game restart handler
-  const handleGameRestart = useCallback(() => {
-    console.log('TacoGame: handleGameRestart called - performing complete restart');
-    
-    // Full cleanup and reset
-    cleanupGame();
-    
-    // Reset state immediately
-    const freshState = createInitialGameState();
-    setGameState(freshState);
-    
-    // Small delay to ensure state is fully reset, then start
-    setTimeout(() => {
-      console.log('TacoGame: Starting game after complete restart');
-      startGame();
-    }, 50);
-  }, [cleanupGame, createInitialGameState, startGame]);
-
   // Event handler functions (defined outside useEffect to prevent recreation)
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (e.code === 'Space') {
       e.preventDefault();
       console.log('TacoGame: Space key pressed');
-      if (gameState.gameOver) {
-        handleGameRestart();
-      } else {
+      // Only handle jump during active gameplay, not restart
+      if (!gameState.gameOver) {
         jump();
       }
     }
-  }, [gameState.gameOver, handleGameRestart, jump]);
+  }, [gameState.gameOver, jump]);
 
   const handleCanvasClick = useCallback(() => {
     console.log('TacoGame: Canvas clicked', {
@@ -209,17 +190,17 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       gameStarted: gameState.gameStarted
     });
     
-    if (gameState.gameOver) {
-      console.log('TacoGame: Game over - restarting from canvas click');
-      handleGameRestart();
-    } else if (!gameState.gameStarted) {
-      console.log('TacoGame: Game not started - starting from canvas click');
-      startGame();
-    } else {
-      console.log('TacoGame: Game active - jumping from canvas click');
-      jump();
+    // Only handle clicks during active gameplay, not restart
+    if (!gameState.gameOver) {
+      if (!gameState.gameStarted) {
+        console.log('TacoGame: Game not started - starting from canvas click');
+        startGame();
+      } else {
+        console.log('TacoGame: Game active - jumping from canvas click');
+        jump();
+      }
     }
-  }, [gameState.gameOver, gameState.gameStarted, handleGameRestart, startGame, jump]);
+  }, [gameState.gameOver, gameState.gameStarted, startGame, jump]);
 
   // Drawing functions
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
@@ -401,7 +382,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     }
 
     if (gameState.gameOver) {
-      // Draw game over screen
+      // Draw game over screen - REMOVED "Click to play again" text
       ctx.fillStyle = 'rgba(135, 206, 235, 0.9)';
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
@@ -413,8 +394,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.font = '20px Arial';
       ctx.fillText(`Final Score: ${gameState.score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.font = '16px Arial';
-      ctx.fillText('Click to play again', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+      // REMOVED: "Click to play again" text
       return;
     }
 
@@ -512,7 +492,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
           style={{ imageRendering: 'pixelated' }}
         />
         
-        {/* Game controls overlay - only show pause button */}
+        {/* Game controls overlay - pause button */}
         <div className="absolute top-4 right-4 flex space-x-2">
           {gameState.gameStarted && !gameState.gameOver && (
             <button
