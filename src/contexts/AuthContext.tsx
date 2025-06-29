@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session?.user?.email);
       
-      setSupabaseUser(session?.user ?? null);
+      // setSupabaseUser(session?.user ?? null);
       
       if (session?.user) {
         // fetch when auth state changes to signed in
