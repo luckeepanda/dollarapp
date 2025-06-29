@@ -68,11 +68,11 @@ const Register: React.FC = () => {
         accountType: formData.accountType
       });
       
-      setSuccess('Account created successfully! Redirecting...');
+      setSuccess('Account created successfully! Redirecting to email verification...');
       
-      // Wait a moment to show success message, then navigate
+      // Wait a moment to show success message, then navigate to email verification
       setTimeout(() => {
-        navigate(`/${formData.accountType}/dashboard`);
+        navigate(`/verify-email?email=${encodeURIComponent(formData.email)}&type=${formData.accountType}`);
       }, 1500);
       
     } catch (error: any) {
@@ -271,7 +271,7 @@ const Register: React.FC = () => {
 
           <div className="mt-4 p-4 bg-blue-50 rounded-xl">
             <p className="text-sm text-blue-800 text-center">
-              <strong>Note:</strong> Email confirmation is disabled for demo purposes. Your account will be created immediately.
+              <strong>Note:</strong> You'll need to verify your email address before you can start using your account.
             </p>
           </div>
         </div>

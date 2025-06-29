@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import EmailVerification from './pages/EmailVerification';
 import PlayerDashboard from './pages/PlayerDashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import GameEntry from './pages/GameEntry';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/free-play" element={<FreePlay />} />
             <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
             <Route path="/player/dashboard" element={
