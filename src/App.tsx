@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Logo from './components/Logo';
@@ -18,13 +18,29 @@ import FreePlay from './pages/FreePlay';
 import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
 import ProtectedRoute from './components/ProtectedRoute';
 
+// Component to conditionally render Logo based on route
+const ConditionalLogo: React.FC = () => {
+  const location = useLocation();
+  
+  // Hide logo on these specific pages
+  const hideLogoRoutes = [
+    '/player/dashboard',
+    '/free-play',
+    '/hamburger-runner'
+  ];
+  
+  const shouldHideLogo = hideLogoRoutes.includes(location.pathname);
+  
+  return shouldHideLogo ? null : <Logo />;
+};
+
 function App() {
   return (
     <LanguageProvider>
       <AuthProvider>
         <Router>
           <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-            <Logo />
+            <ConditionalLogo />
             <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
