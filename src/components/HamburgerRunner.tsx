@@ -540,19 +540,9 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     }
 
     if (gameState.gameOver) {
-      // Draw game over screen
-      ctx.fillStyle = 'rgba(34, 139, 34, 0.9)';
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 28px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('Game Over!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 40);
-      
-      ctx.font = '20px Arial';
-      ctx.fillText(`Final Score: ${gameState.score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-      
+      // Draw game over screen - REMOVED "Game Over!" text and score display
+      // Just show the final game state without overlay text
+      // The parent component will handle the game over UI
       return;
     }
 
