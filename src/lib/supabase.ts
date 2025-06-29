@@ -13,28 +13,56 @@ if (!supabaseUrl.startsWith('https://') || !supabaseUrl.includes('.supabase.co')
   throw new Error('Invalid Supabase URL format. Please check your VITE_SUPABASE_URL in .env file.')
 }
 
-// Create Supabase client with additional options for better error handling
+// Create Supabase client with optimized settings for authentication
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
+    // Disable email confirmation for immediate session establishment
+    flowType: 'implicit'
   },
   global: {
     headers: {
       'Content-Type': 'application/json',
     },
+    fetch: (url, options = {}) => {
+      return fetch(url, {
+        ...options,
+        // Add timeout to prevent hanging requests
+        signal: AbortSignal.timeout(15000), // 15 second timeout
+      }).catch(error => {
+        console.error('Supabase fetch error:', error)
+        if (error.name === 'AbortError') {
+          throw new Error('Request timeout - please check your internet connection')
+        }
+        throw new Error('Network error - please check your connection and try again')
+      })
+    }
   },
 })
 
-// Test connection function
+// Enhanced connection test with session verification
 export const testSupabaseConnection = async () => {
   try {
-    const { data, error } = await supabase.from('games').select('count').limit(1)
+    console.log('Testing Supabase connection to:', supabaseUrl)
+    
+    // Test basic connection
+    const { data, error } = await supabase.auth.getSession()
+    
     if (error) {
       console.error('Supabase connection test failed:', error)
       return false
     }
+    
+    // Test database connection
+    const { error: dbError } = await supabase.from('users').select('count').limit(1)
+    
+    if (dbError && !dbError.message.includes('row-level security')) {
+      console.error('Database connection test failed:', dbError)
+      return false
+    }
+    
     console.log('Supabase connection successful')
     return true
   } catch (err) {

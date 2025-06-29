@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,38 +14,84 @@ const Register: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    
+  const validateForm = () => {
+    if (!formData.email || !formData.username || !formData.password) {
+      setError('All fields are required');
+      return false;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
-      return;
+      return false;
     }
 
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters long');
+      return false;
+    }
+
+    if (formData.username.length < 3) {
+      setError('Username must be at least 3 characters long');
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+    
+    if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
 
     try {
+      console.log('Starting registration process...');
+      
       await register({
-        email: formData.email,
-        username: formData.username,
+        email: formData.email.trim().toLowerCase(),
+        username: formData.username.trim(),
         password: formData.password,
         accountType: formData.accountType
       });
       
-      // Navigate to appropriate dashboard
-      navigate(`/${formData.accountType}/dashboard`);
+      setSuccess('Account created successfully! Redirecting...');
+      
+      // Wait a moment to show success message, then navigate
+      setTimeout(() => {
+        navigate(`/${formData.accountType}/dashboard`);
+      }, 1500);
+      
     } catch (error: any) {
       console.error('Registration failed:', error);
-      setError(error.message || 'Registration failed. Please try again.');
+      
+      // Handle specific error types
+      if (error.message?.includes('User already registered')) {
+        setError('An account with this email already exists. Please try logging in instead.');
+      } else if (error.message?.includes('Invalid email')) {
+        setError('Please enter a valid email address.');
+      } else if (error.message?.includes('Password should be at least 6 characters')) {
+        setError('Password must be at least 6 characters long.');
+      } else if (error.message?.includes('Username already exists')) {
+        setError('This username is already taken. Please choose a different one.');
+      } else if (error.message?.includes('security policy')) {
+        setError('Account creation failed. Please try again in a moment.');
+      } else {
+        setError(error.message || 'Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +111,15 @@ const Register: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <AlertCircle className="h-5 w-5 text-red-600" />
                 <p className="text-sm text-red-800">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <p className="text-sm text-green-800">{success}</p>
               </div>
             </div>
           )}
@@ -120,6 +175,7 @@ const Register: React.FC = () => {
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your email"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -137,6 +193,8 @@ const Register: React.FC = () => {
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Choose a username"
                   required
+                  disabled={isLoading}
+                  minLength={3}
                 />
               </div>
             </div>
@@ -154,12 +212,14 @@ const Register: React.FC = () => {
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Create a password"
                   required
+                  disabled={isLoading}
                   minLength={6}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -179,6 +239,7 @@ const Register: React.FC = () => {
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Confirm your password"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>

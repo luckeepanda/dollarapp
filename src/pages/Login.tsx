@@ -18,8 +18,12 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      // Navigation will be handled by AuthContext based on user type
+      const user = await login(email, password);
+      console.log('Login successful, navigating to dashboard for:', user);
+      
+      // Navigate to appropriate dashboard based on account type
+      navigate(`/${user.account_type}/dashboard`);
+      
     } catch (error: any) {
       console.error('Login failed:', error);
       setError(error.message || 'Login failed. Please check your credentials.');

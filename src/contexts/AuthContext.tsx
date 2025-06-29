@@ -5,7 +5,7 @@ import type { User as SupabaseUser } from '@supabase/supabase-js';
 interface AuthContextType {
   user: User | null;
   supabaseUser: SupabaseUser | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
@@ -36,7 +36,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then( ({ data: { session } }) => {
+      console.log('Initial session check:', session?.user?.email);
       setSupabaseUser(session?.user ?? null);
       if (session?.user) {
         fetchUserProfile(session.user.id);
@@ -53,8 +54,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setSupabaseUser(session?.user ?? null);
       
       if (session?.user) {
+        // fetch when auth state changes to signed in
         await fetchUserProfile(session.user.id);
-      } else {
+      } else if (!session?.user) {
         setUser(null);
         setIsLoading(false);
       }
@@ -71,9 +73,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .select('*')
         .eq('id', userId)
         .single();
-
+      console.log('fetched!!!', data);
       if (error) {
         console.error('Error fetching user profile:', error);
+        // If user profile doesn't exist, this might be an auth-only user
+        setUser(null);
+        setIsLoading(false);
         return;
       }
 
@@ -88,21 +93,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         created_at: data.created_at,
         updated_at: data.updated_at
       });
+
+      return data;
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const login = async (email: string, password: string) => {
-    setIsLoading(true);
+  const login = async (email: string, password: string): Promise<User> => {
     try {
       console.log('Attempting login for:', email);
+      setIsLoading(true);
+      // login
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      // get profile
+      const profile = await fetchUserProfile(data.user.id);
 
       if (error) {
         console.error('Login error:', error);
@@ -110,7 +122,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
 
       console.log('Login successful:', data.user?.email);
-      // User profile will be fetched automatically by the auth state change listener
+      
+      setIsLoading(false);
+      console.log(profile);
+      return profile;
     } catch (error: any) {
       console.error('Login failed:', error);
       setIsLoading(false);
@@ -121,15 +136,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (userData: RegisterData) => {
     setIsLoading(true);
     try {
-      console.log('Attempting registration for:', userData.email);
+      console.log('Starting registration process for:', userData.email);
       
-      // Create auth user
+      // Create auth user with explicit options
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
-        /*options: {
-          emailRedirectTo: undefined // Disable email confirmation
-        }*/
+        options: {
+          data: {
+            username: userData.username,
+            account_type: userData.accountType
+          }
+        }
       });
 
       if (authError) {
@@ -137,35 +155,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         throw authError;
       }
 
-      console.log('Auth user created:', authData.user?.id);
+      console.log('Auth user created:', authData.user.id);
 
-      if (authData.user) {
-        // Create user profile
-        console.log('Creating user profile...');
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: authData.user.id,
-              email: userData.email,
-              username: userData.username,
-              account_type: userData.accountType,
-              balance: 0,
-              is_kyc_verified: userData.accountType === 'restaurant' ? false : null,
-            },
-          ]);
-
-        if (profileError) {
-          console.error('Profile creation error:', profileError);
-          throw profileError;
-        }
-
-        console.log('User profile created successfully');
-      }
     } catch (error: any) {
       console.error('Registration error:', error);
+      // Provide specific error messages
+      if (error.message?.includes('User already registered')) {
+        throw new Error('An account with this email already exists. Please try logging in instead.');
+      } else if (error.message?.includes('duplicate key')) {
+        if (error.message.includes('username')) {
+          throw new Error('This username is already taken. Please choose a different one.');
+        } else {
+          throw new Error('An account with this email already exists. Please try logging in instead.');
+        }
+      } else if (error.message?.includes('invalid email')) {
+        throw new Error('Please enter a valid email address.');
+      } else if (error.message?.includes('Password should be at least')) {
+        throw new Error('Password must be at least 6 characters long.');
+      } else if (error.message?.includes('row-level security policy')) {
+        throw new Error('Account creation failed due to security policy. Please try again or contact support.');
+      } else if (error.message?.includes('session not established')) {
+        throw new Error('Authentication session not established. Please try logging in with your new account.');
+      } else {
+        throw new Error(error.message || 'Registration failed. Please try again.');
+      }
+    } finally {
       setIsLoading(false);
-      throw new Error(error.message || 'Registration failed');
     }
   };
 

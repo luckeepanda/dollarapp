@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, userType }) => {
-  const { user, isLoading } = useAuth();
+  const { user, supabaseUser, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -16,6 +16,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, userType }) =
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
+  }
+
+  // If there's a supabase user but no profile, redirect to complete registration
+  if (supabaseUser && !user) {
+    return <Navigate to="/register" replace />;
   }
 
   if (!user) {
