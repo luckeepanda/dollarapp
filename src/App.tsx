@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import EmailVerification from './pages/EmailVerification';
+import AuthCallback from './pages/AuthCallback';
 import PlayerDashboard from './pages/PlayerDashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import GameEntry from './pages/GameEntry';
@@ -25,6 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/free-play" element={<FreePlay />} />
             <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
             <Route path="/player/dashboard" element={
