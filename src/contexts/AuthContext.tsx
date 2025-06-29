@@ -135,13 +135,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       console.log('Starting registration process for:', userData.email);
       
-      // Get the current origin for redirect URL
-      const redirectUrl = window.location.origin === 'http://localhost:5173' 
-        ? 'http://localhost:5173/login'
-        : 'https://dollarfood.app/login';
-      
-      console.log('Using redirect URL:', redirectUrl);
-      
       // Create auth user with explicit options and custom redirect URL
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: userData.email,
@@ -151,7 +144,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             username: userData.username,
             account_type: userData.accountType
           },
-          emailRedirectTo: redirectUrl
+          emailRedirectTo: 'https://dollarfood.app/login'
         }
       });
 
