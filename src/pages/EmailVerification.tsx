@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { 
   Mail, 
   CheckCircle, 
@@ -8,7 +9,8 @@ import {
   ArrowLeft, 
   Clock,
   Shield,
-  Sparkles
+  Sparkles,
+  ExternalLink
 } from 'lucide-react';
 
 const EmailVerification: React.FC = () => {
@@ -19,9 +21,57 @@ const EmailVerification: React.FC = () => {
   const [resendSuccess, setResendSuccess] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationComplete, setVerificationComplete] = useState(false);
 
   const email = searchParams.get('email') || supabaseUser?.email || '';
   const accountType = searchParams.get('type') || 'player';
+
+  // Check for email verification tokens in URL (when user clicks email link)
+  useEffect(() => {
+    const handleEmailVerification = async () => {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      const type = hashParams.get('type');
+
+      if (type === 'signup' && accessToken && refreshToken) {
+        setIsVerifying(true);
+        try {
+          // Set the session with the tokens from the email link
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+
+          if (error) {
+            console.error('Error setting session:', error);
+            return;
+          }
+
+          if (data.user?.email_confirmed_at) {
+            setVerificationComplete(true);
+            
+            // Show success message briefly, then redirect to sign-in
+            setTimeout(() => {
+              navigate('/login', { 
+                state: { 
+                  message: 'Email verified successfully! Please sign in to continue.',
+                  email: data.user.email 
+                }
+              });
+            }, 2000);
+          }
+        } catch (error) {
+          console.error('Verification error:', error);
+        } finally {
+          setIsVerifying(false);
+        }
+      }
+    };
+
+    handleEmailVerification();
+  }, [navigate]);
 
   // Countdown timer for resend button
   useEffect(() => {
@@ -45,9 +95,18 @@ const EmailVerification: React.FC = () => {
 
     setIsResending(true);
     try {
-      // In a real app, you'd call supabase.auth.resend() here
-      // For demo purposes, we'll simulate the resend
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/verify-email`
+        }
+      });
+
+      if (error) {
+        console.error('Error resending email:', error);
+        throw error;
+      }
       
       setResendSuccess(true);
       setCanResend(false);
@@ -56,6 +115,7 @@ const EmailVerification: React.FC = () => {
       setTimeout(() => setResendSuccess(false), 5000);
     } catch (error) {
       console.error('Failed to resend verification email:', error);
+      alert('Failed to resend verification email. Please try again.');
     } finally {
       setIsResending(false);
     }
@@ -66,6 +126,35 @@ const EmailVerification: React.FC = () => {
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // Show verification in progress
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20 text-center max-w-md">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Verifying your email...</h2>
+          <p className="text-gray-600">Please wait while we confirm your account.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show verification complete
+  if (verificationComplete) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20 text-center max-w-md">
+          <div className="bg-green-100 p-4 rounded-2xl w-20 h-20 mx-auto mb-6">
+            <CheckCircle className="h-12 w-12 text-green-600 mx-auto" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Email Verified!</h2>
+          <p className="text-gray-600 mb-4">Your account has been successfully verified.</p>
+          <p className="text-sm text-gray-500">Redirecting you to sign in...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -137,11 +226,11 @@ const EmailVerification: React.FC = () => {
               
               <div className="flex items-start space-x-3">
                 <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
-                  <Shield className="h-4 w-4 text-blue-600" />
+                  <ExternalLink className="h-4 w-4 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Click the verification link</p>
-                  <p className="text-sm text-gray-600">This will confirm your email and activate your {accountType} account.</p>
+                  <p className="text-sm text-gray-600">This will automatically redirect you to the sign-in page to complete setup.</p>
                 </div>
               </div>
               
@@ -152,6 +241,20 @@ const EmailVerification: React.FC = () => {
                 <div>
                   <p className="text-sm font-medium text-gray-900">Check spam folder</p>
                   <p className="text-sm text-gray-600">If you don't see it in a few minutes, check your spam or junk folder.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Important note */}
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+              <div className="flex items-start space-x-2">
+                <Shield className="h-5 w-5 text-amber-600 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-amber-800">Important:</p>
+                  <p className="text-sm text-amber-700">
+                    After clicking the verification link, you'll be redirected to the sign-in page. 
+                    Use your email and password to complete the login process.
+                  </p>
                 </div>
               </div>
             </div>
@@ -202,9 +305,9 @@ const EmailVerification: React.FC = () => {
             {/* Help section */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Still having trouble?{' '}
+                Already verified?{' '}
                 <Link to="/login" className="text-blue-600 font-semibold hover:text-blue-700">
-                  Try signing in
+                  Sign in here
                 </Link>
                 {' '}or{' '}
                 <a href="mailto:support@dollarapp.com" className="text-blue-600 font-semibold hover:text-blue-700">
