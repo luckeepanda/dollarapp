@@ -112,7 +112,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         email,
         password,
       });
-
+      console.log('perhaps here?')
       // get profile
       const profile = await fetchUserProfile(data.user.id);
       console.log('am i here?')
