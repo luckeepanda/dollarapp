@@ -21,16 +21,6 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
   
-  const [gameState, setGameState] = useState<GameState>({
-    tacoY: 250,
-    tacoVelocity: 0,
-    obstacles: [],
-    score: 0,
-    gameStarted: false,
-    gameOver: false,
-    isPaused: false
-  });
-
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
   const TACO_SIZE = 30;
@@ -41,17 +31,30 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
   const OBSTACLE_SPEED = 2;
   const OBSTACLE_SPAWN_DISTANCE = 200;
 
+  // Initial game state
+  const getInitialGameState = useCallback((): GameState => ({
+    tacoY: 250,
+    tacoVelocity: 0,
+    obstacles: [],
+    score: 0,
+    gameStarted: false,
+    gameOver: false,
+    isPaused: false
+  }), []);
+
+  const [gameState, setGameState] = useState<GameState>(getInitialGameState);
+
   const resetGame = useCallback(() => {
-    setGameState({
-      tacoY: 250,
-      tacoVelocity: 0,
-      obstacles: [],
-      score: 0,
-      gameStarted: false,
-      gameOver: false,
-      isPaused: false
-    });
-  }, []);
+    // Cancel any running animation frame
+    if (gameLoopRef.current) {
+      cancelAnimationFrame(gameLoopRef.current);
+      gameLoopRef.current = undefined;
+    }
+    
+    // Reset to initial state
+    setGameState(getInitialGameState());
+    lastTimeRef.current = 0;
+  }, [getInitialGameState]);
 
   const startGame = useCallback(() => {
     setGameState(prev => ({
@@ -61,12 +64,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       isPaused: false,
       tacoY: 250,
       tacoVelocity: 0,
+      score: 0,
       obstacles: [{
         x: CANVAS_WIDTH + 100,
         gapY: Math.random() * (CANVAS_HEIGHT - OBSTACLE_GAP - 100) + 50,
         passed: false
-      }],
-      score: 0
+      }]
     }));
   }, []);
 
@@ -91,18 +94,13 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     }
   }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
 
-  const handleCanvasClick = useCallback(() => {
-    if (gameState.gameOver) {
-      // Reset and start a new game
-      resetGame();
-      // Use setTimeout to ensure state is reset before starting
-      setTimeout(() => {
-        startGame();
-      }, 50);
-    } else {
-      jump();
-    }
-  }, [gameState.gameOver, resetGame, startGame, jump]);
+  const handleGameRestart = useCallback(() => {
+    resetGame();
+    // Small delay to ensure state is fully reset
+    setTimeout(() => {
+      startGame();
+    }, 10);
+  }, [resetGame, startGame]);
 
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
     ctx.save();
@@ -346,10 +344,20 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       if (e.code === 'Space') {
         e.preventDefault();
         if (gameState.gameOver) {
-          handleCanvasClick();
+          handleGameRestart();
         } else {
           jump();
         }
+      }
+    };
+
+    const handleCanvasClick = () => {
+      if (gameState.gameOver) {
+        handleGameRestart();
+      } else if (!gameState.gameStarted) {
+        startGame();
+      } else {
+        jump();
       }
     };
 
@@ -365,7 +373,16 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
         canvas.removeEventListener('click', handleCanvasClick);
       }
     };
-  }, [jump, gameState.gameOver, handleCanvasClick]);
+  }, [jump, gameState.gameOver, gameState.gameStarted, handleGameRestart, startGame]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (gameLoopRef.current) {
+        cancelAnimationFrame(gameLoopRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center space-y-4">
