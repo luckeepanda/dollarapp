@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import TacoGame from '../components/TacoGame';
 import { 
-  ArrowLeft,
   Trophy,
   Star,
   GamepadIcon,
@@ -152,39 +151,6 @@ const FreePlay: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Instructions & Info */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-              <GamepadIcon className="h-5 w-5 text-purple-600" />
-              <span>How to Play</span>
-            </h3>
-            <ul className="text-gray-600 space-y-2">
-              <li>• Click or press SPACE to make the taco fly</li>
-              <li>• Navigate through the blue pipes</li>
-              <li>• Each pipe you pass gives you 1 point</li>
-              <li>• Try to beat your high score!</li>
-            </ul>
-          </div>
-          
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-2xl border border-purple-200">
-            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-              <Trophy className="h-5 w-5 text-yellow-600" />
-              <span>Ready for Real Prizes?</span>
-            </h3>
-            <p className="text-gray-700 mb-4">
-              Join Dollar App to compete for real food prizes at local restaurants!
-            </p>
-            <Link
-              to="/register"
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
-            >
-              <span>Get Started</span>
-              <ArrowLeft className="h-4 w-4 rotate-180" />
-            </Link>
-          </div>
         </div>
       </div>
     </div>
