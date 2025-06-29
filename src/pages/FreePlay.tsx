@@ -13,9 +13,15 @@ import {
 const FreePlay: React.FC = () => {
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
+  const [gameKey, setGameKey] = useState(0); // Key prop for forcing component remount
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  console.log('FreePlay: Component rendered', { gameActive, finalScore, resetTrigger });
+  console.log('FreePlay: Component rendered', { 
+    gameActive, 
+    finalScore, 
+    gameKey, 
+    resetTrigger 
+  });
 
   const handleGameEnd = useCallback((score: number) => {
     console.log('FreePlay: Game ended with score:', score);
@@ -24,11 +30,18 @@ const FreePlay: React.FC = () => {
   }, []);
 
   const restartGame = useCallback(() => {
-    console.log('FreePlay: Restarting game - resetting all state');
+    console.log('FreePlay: Restarting game - forcing component remount');
     
     // Reset all game-related state
     setFinalScore(null);
     setGameActive(false);
+    
+    // Force component remount by changing key
+    setGameKey(prev => {
+      const newKey = prev + 1;
+      console.log('FreePlay: Game key incremented to force remount:', newKey);
+      return newKey;
+    });
     
     // Trigger reset in TacoGame component
     setResetTrigger(prev => {
@@ -39,14 +52,15 @@ const FreePlay: React.FC = () => {
     
     // Small delay to ensure reset is processed, then activate game
     setTimeout(() => {
-      console.log('FreePlay: Activating game after reset');
+      console.log('FreePlay: Activating game after reset and remount');
       setGameActive(true);
-    }, 50);
+    }, 100);
   }, []);
 
   console.log('FreePlay: About to render TacoGame with props:', {
     gameActive,
     resetTrigger,
+    gameKey,
     finalScore
   });
 
@@ -109,7 +123,9 @@ const FreePlay: React.FC = () => {
 
         {/* Game Container */}
         <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8">
+          {/* Force component remount with key prop */}
           <TacoGame 
+            key={gameKey}
             onGameEnd={handleGameEnd} 
             gameActive={gameActive}
             resetTrigger={resetTrigger}
