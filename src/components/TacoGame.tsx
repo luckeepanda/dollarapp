@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Trophy, Play, Pause } from 'lucide-react';
 
 interface GameState {
@@ -18,6 +19,7 @@ interface TacoGameProps {
 }
 
 const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
+  const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
@@ -373,7 +375,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.fillText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       ctx.font = '16px Arial';
-      ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText(t('game.clickOrSpaceFlyer'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
       // Draw taco in center
@@ -425,10 +427,10 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     ctx.textAlign = 'left';
     ctx.strokeStyle = '#4682B4';
     ctx.lineWidth = 3;
-    ctx.strokeText(`Score: ${gameState.score}`, 20, 40);
-    ctx.fillText(`Score: ${gameState.score}`, 20, 40);
+    ctx.strokeText(`${t('game.score')}: ${gameState.score}`, 20, 40);
+    ctx.fillText(`${t('game.score')}: ${gameState.score}`, 20, 40);
 
-  }, [gameState]);
+  }, [gameState, t]);
 
   // Start game loop
   useEffect(() => {
@@ -512,12 +514,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       {/* Instructions */}
       <div className="text-center max-w-md">
         <p className="text-sm text-blue-700 mb-2">
-          Click or press SPACE to make the taco fly! Navigate through the blue pipes.
+          {t('game.clickOrSpaceFlyer')}
         </p>
         {gameState.score > 0 && (
           <div className="flex items-center justify-center space-x-2 text-blue-600">
             <Trophy className="h-4 w-4" />
-            <span className="font-semibold">Current Score: {gameState.score}</span>
+            <span className="font-semibold">{t('game.currentScore')}: {gameState.score}</span>
           </div>
         )}
       </div>

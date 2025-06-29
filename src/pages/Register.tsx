@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Register: React.FC = () => {
@@ -17,6 +18,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const { register, loginWithGoogle, loginWithApple } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -129,7 +131,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 pl-20">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
@@ -142,9 +144,9 @@ const Register: React.FC = () => {
             <span className="text-2xl font-bold text-white">$</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">
-            Create Account
+            {t('auth.createAccount')}
           </h2>
-          <p className="text-gray-600">Join the Dollar App community</p>
+          <p className="text-gray-600">{t('auth.createAccountSubtitle')}</p>
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -183,7 +185,7 @@ const Register: React.FC = () => {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
               )}
-              <span>Continue with Google</span>
+              <span>{t('auth.continueWithGoogle')}</span>
             </button>
 
             <button
@@ -198,7 +200,7 @@ const Register: React.FC = () => {
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                 </svg>
               )}
-              <span>Continue with Apple</span>
+              <span>{t('auth.continueWithApple')}</span>
             </button>
           </div>
 
@@ -208,7 +210,7 @@ const Register: React.FC = () => {
               <div className="w-full border-t border-gray-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 rounded-lg">Or create account with email</span>
+              <span className="px-4 bg-white text-gray-500 rounded-lg">{t('auth.orCreateWith')}</span>
             </div>
           </div>
 
@@ -216,7 +218,7 @@ const Register: React.FC = () => {
             {/* Account Type Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                Account Type
+                {t('auth.accountType')}
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -230,8 +232,8 @@ const Register: React.FC = () => {
                   } disabled:opacity-50`}
                 >
                   <div className="text-center">
-                    <div className="text-lg font-semibold">Player</div>
-                    <div className="text-sm opacity-70">Play games & win prizes</div>
+                    <div className="text-lg font-semibold">{t('auth.player')}</div>
+                    <div className="text-sm opacity-70">{t('auth.playerDesc')}</div>
                   </div>
                 </button>
                 <button
@@ -245,8 +247,8 @@ const Register: React.FC = () => {
                   } disabled:opacity-50`}
                 >
                   <div className="text-center">
-                    <div className="text-lg font-semibold">Restaurant</div>
-                    <div className="text-sm opacity-70">Accept QR redemptions</div>
+                    <div className="text-lg font-semibold">{t('auth.restaurant')}</div>
+                    <div className="text-sm opacity-70">{t('auth.restaurantDesc')}</div>
                   </div>
                 </button>
               </div>
@@ -254,7 +256,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t('auth.email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -263,7 +265,7 @@ const Register: React.FC = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your email"
+                  placeholder={t('auth.emailPlaceholder')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -272,7 +274,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Username
+                {t('auth.username')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -281,7 +283,7 @@ const Register: React.FC = () => {
                   value={formData.username}
                   onChange={(e) => setFormData({...formData, username: e.target.value})}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Choose a username"
+                  placeholder={t('auth.usernamePlaceholder')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                   minLength={3}
@@ -291,7 +293,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('auth.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -300,7 +302,7 @@ const Register: React.FC = () => {
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Create a password"
+                  placeholder={t('auth.createPasswordPlaceholder')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                   minLength={6}
@@ -318,7 +320,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+                {t('auth.confirmPassword')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -327,7 +329,7 @@ const Register: React.FC = () => {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Confirm your password"
+                  placeholder={t('auth.confirmPasswordPlaceholder')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -342,26 +344,26 @@ const Register: React.FC = () => {
               {isLoading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>Creating Account...</span>
+                  <span>{t('auth.creatingAccount')}</span>
                 </>
               ) : (
-                <span>Create Account</span>
+                <span>{t('auth.signUp')}</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link to="/login" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-                Sign in
+                {t('nav.login')}
               </Link>
             </p>
           </div>
 
           <div className="mt-4 p-4 bg-blue-50 rounded-xl">
             <p className="text-sm text-blue-800 text-center">
-              <strong>Note:</strong> OAuth accounts are created instantly. Email accounts require verification.
+              <strong>Note:</strong> {t('auth.oauthNote')}
             </p>
           </div>
         </div>
