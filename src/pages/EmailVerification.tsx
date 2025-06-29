@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
 import { 
   Mail, 
   CheckCircle, 
@@ -46,19 +45,9 @@ const EmailVerification: React.FC = () => {
 
     setIsResending(true);
     try {
-      // Resend verification email with custom redirect URL
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email: email,
-        options: {
-          emailRedirectTo: 'https://dollarfood.app/login'
-        }
-      });
-
-      if (error) {
-        console.error('Failed to resend verification email:', error);
-        throw error;
-      }
+      // In a real app, you'd call supabase.auth.resend() here
+      // For demo purposes, we'll simulate the resend
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
       setResendSuccess(true);
       setCanResend(false);
@@ -67,8 +56,6 @@ const EmailVerification: React.FC = () => {
       setTimeout(() => setResendSuccess(false), 5000);
     } catch (error) {
       console.error('Failed to resend verification email:', error);
-      // Show error to user
-      alert('Failed to resend verification email. Please try again later.');
     } finally {
       setIsResending(false);
     }
@@ -154,7 +141,7 @@ const EmailVerification: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Click the verification link</p>
-                  <p className="text-sm text-gray-600">This will take you to dollarfood.app/login where you can sign in to your {accountType} account.</p>
+                  <p className="text-sm text-gray-600">This will confirm your email and activate your {accountType} account.</p>
                 </div>
               </div>
               
@@ -165,21 +152,6 @@ const EmailVerification: React.FC = () => {
                 <div>
                   <p className="text-sm font-medium text-gray-900">Check spam folder</p>
                   <p className="text-sm text-gray-600">If you don't see it in a few minutes, check your spam or junk folder.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Important note about redirect */}
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-              <div className="flex items-start space-x-3">
-                <div className="bg-amber-100 p-1.5 rounded-full mt-0.5">
-                  <Shield className="h-4 w-4 text-amber-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-amber-900">Important</p>
-                  <p className="text-sm text-amber-800">
-                    After clicking the verification link, you'll be redirected to <strong>dollarfood.app/login</strong> where you can sign in with your new account.
-                  </p>
                 </div>
               </div>
             </div>
@@ -235,7 +207,7 @@ const EmailVerification: React.FC = () => {
                   Try signing in
                 </Link>
                 {' '}or{' '}
-                <a href="mailto:support@dollarfood.app" className="text-blue-600 font-semibold hover:text-blue-700">
+                <a href="mailto:support@dollarapp.com" className="text-blue-600 font-semibold hover:text-blue-700">
                   contact support
                 </a>
               </p>

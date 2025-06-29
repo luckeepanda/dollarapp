@@ -135,7 +135,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       console.log('Starting registration process for:', userData.email);
       
-      // Create auth user with explicit options and custom redirect URL
+      // Create auth user with explicit options
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
@@ -143,8 +143,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           data: {
             username: userData.username,
             account_type: userData.accountType
-          },
-          emailRedirectTo: 'https://dollarfood.app/login'
+          }
         }
       });
 
