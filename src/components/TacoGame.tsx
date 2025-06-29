@@ -14,9 +14,10 @@ interface GameState {
 interface TacoGameProps {
   onGameEnd: (score: number) => void;
   gameActive: boolean;
+  resetTrigger: number;
 }
 
-const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
+const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
@@ -31,62 +32,112 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
   const OBSTACLE_SPEED = 2;
   const OBSTACLE_SPAWN_DISTANCE = 200;
 
-  // Initial game state
-  const getInitialGameState = useCallback((): GameState => ({
-    tacoY: 250,
-    tacoVelocity: 0,
-    obstacles: [],
-    score: 0,
-    gameStarted: false,
-    gameOver: false,
-    isPaused: false
-  }), []);
+  // Initial game state factory
+  const createInitialGameState = useCallback((): GameState => {
+    const initialState = {
+      tacoY: 250,
+      tacoVelocity: 0,
+      obstacles: [],
+      score: 0,
+      gameStarted: false,
+      gameOver: false,
+      isPaused: false
+    };
+    console.log('TacoGame: Created initial game state:', initialState);
+    return initialState;
+  }, []);
 
-  const [gameState, setGameState] = useState<GameState>(getInitialGameState);
+  const [gameState, setGameState] = useState<GameState>(createInitialGameState);
 
+  // Debug logging for state changes
+  useEffect(() => {
+    console.log('TacoGame: Game state changed:', {
+      gameStarted: gameState.gameStarted,
+      gameOver: gameState.gameOver,
+      isPaused: gameState.isPaused,
+      score: gameState.score,
+      tacoY: gameState.tacoY,
+      obstacleCount: gameState.obstacles.length
+    });
+  }, [gameState]);
+
+  // Reset game function with comprehensive logging
   const resetGame = useCallback(() => {
+    console.log('TacoGame: resetGame called - cancelling animation frame and resetting state');
+    
     // Cancel any running animation frame
     if (gameLoopRef.current) {
+      console.log('TacoGame: Cancelling animation frame:', gameLoopRef.current);
       cancelAnimationFrame(gameLoopRef.current);
       gameLoopRef.current = undefined;
     }
     
-    // Reset to initial state
-    setGameState(getInitialGameState());
+    // Reset timing reference
     lastTimeRef.current = 0;
-  }, [getInitialGameState]);
+    
+    // Reset to initial state
+    const newState = createInitialGameState();
+    console.log('TacoGame: Setting new initial state:', newState);
+    setGameState(newState);
+  }, [createInitialGameState]);
 
+  // Start game function with logging
   const startGame = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
+    console.log('TacoGame: startGame called - initializing game with obstacles');
+    
+    const newState = {
+      ...createInitialGameState(),
       gameStarted: true,
       gameOver: false,
       isPaused: false,
-      tacoY: 250,
-      tacoVelocity: 0,
-      score: 0,
       obstacles: [{
         x: CANVAS_WIDTH + 100,
         gapY: Math.random() * (CANVAS_HEIGHT - OBSTACLE_GAP - 100) + 50,
         passed: false
       }]
-    }));
-  }, []);
+    };
+    
+    console.log('TacoGame: Starting game with state:', newState);
+    setGameState(newState);
+  }, [createInitialGameState, CANVAS_WIDTH, CANVAS_HEIGHT, OBSTACLE_GAP]);
 
+  // Handle reset trigger from parent component
+  useEffect(() => {
+    if (resetTrigger > 0) {
+      console.log('TacoGame: Reset trigger received:', resetTrigger);
+      resetGame();
+    }
+  }, [resetTrigger, resetGame]);
+
+  // Toggle pause function
   const togglePause = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
-      isPaused: !prev.isPaused
-    }));
+    console.log('TacoGame: Toggling pause state');
+    setGameState(prev => {
+      const newPauseState = !prev.isPaused;
+      console.log('TacoGame: Pause state changed to:', newPauseState);
+      return {
+        ...prev,
+        isPaused: newPauseState
+      };
+    });
   }, []);
 
+  // Jump function with state validation
   const jump = useCallback(() => {
+    console.log('TacoGame: Jump called', {
+      gameStarted: gameState.gameStarted,
+      gameOver: gameState.gameOver,
+      isPaused: gameState.isPaused
+    });
+
     if (!gameState.gameStarted && !gameState.gameOver) {
+      console.log('TacoGame: Starting game from jump');
       startGame();
       return;
     }
     
     if (gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
+      console.log('TacoGame: Applying jump force');
       setGameState(prev => ({
         ...prev,
         tacoVelocity: JUMP_FORCE
@@ -94,14 +145,19 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     }
   }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
 
+  // Game restart handler
   const handleGameRestart = useCallback(() => {
+    console.log('TacoGame: handleGameRestart called');
     resetGame();
+    
     // Small delay to ensure state is fully reset
     setTimeout(() => {
+      console.log('TacoGame: Starting game after reset delay');
       startGame();
-    }, 10);
+    }, 20);
   }, [resetGame, startGame]);
 
+  // Drawing functions
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
     ctx.save();
     ctx.translate(x + TACO_SIZE / 2, y + TACO_SIZE / 2);
@@ -153,11 +209,13 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     ctx.strokeRect(x, gapY + OBSTACLE_GAP, OBSTACLE_WIDTH, CANVAS_HEIGHT - gapY - OBSTACLE_GAP);
   };
 
+  // Collision detection
   const checkCollision = (tacoY: number, obstacles: Array<{ x: number; gapY: number }>) => {
     const tacoX = 80;
     
     // Check ground and ceiling collision
     if (tacoY <= 0 || tacoY >= CANVAS_HEIGHT - TACO_SIZE) {
+      console.log('TacoGame: Collision detected - boundary hit');
       return true;
     }
     
@@ -165,6 +223,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     for (const obstacle of obstacles) {
       if (tacoX + TACO_SIZE > obstacle.x && tacoX < obstacle.x + OBSTACLE_WIDTH) {
         if (tacoY < obstacle.gapY || tacoY + TACO_SIZE > obstacle.gapY + OBSTACLE_GAP) {
+          console.log('TacoGame: Collision detected - obstacle hit');
           return true;
         }
       }
@@ -173,6 +232,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     return false;
   };
 
+  // Main game loop
   const gameLoop = useCallback((currentTime: number) => {
     if (!gameActive || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) {
       return;
@@ -201,6 +261,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       newObstacles = newObstacles.map(obstacle => {
         if (obstacle.x + OBSTACLE_WIDTH < 80 && !obstacle.passed) {
           newScore += 1;
+          console.log('TacoGame: Score increased to:', newScore);
           return { ...obstacle, passed: true };
         }
         return obstacle;
@@ -221,6 +282,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
 
       // Check collision
       if (checkCollision(newTacoY, newObstacles)) {
+        console.log('TacoGame: Game over - calling onGameEnd with score:', newScore);
         onGameEnd(newScore);
         return {
           ...prev,
@@ -327,12 +389,14 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
   // Start game loop
   useEffect(() => {
     if (gameActive && gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
+      console.log('TacoGame: Starting game loop');
       lastTimeRef.current = performance.now();
       gameLoopRef.current = requestAnimationFrame(gameLoop);
     }
     
     return () => {
       if (gameLoopRef.current) {
+        console.log('TacoGame: Cleaning up game loop');
         cancelAnimationFrame(gameLoopRef.current);
       }
     };
@@ -343,6 +407,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.code === 'Space') {
         e.preventDefault();
+        console.log('TacoGame: Space key pressed');
         if (gameState.gameOver) {
           handleGameRestart();
         } else {
@@ -352,11 +417,19 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     };
 
     const handleCanvasClick = () => {
+      console.log('TacoGame: Canvas clicked', {
+        gameOver: gameState.gameOver,
+        gameStarted: gameState.gameStarted
+      });
+      
       if (gameState.gameOver) {
+        console.log('TacoGame: Game over - restarting from canvas click');
         handleGameRestart();
       } else if (!gameState.gameStarted) {
+        console.log('TacoGame: Game not started - starting from canvas click');
         startGame();
       } else {
+        console.log('TacoGame: Game active - jumping from canvas click');
         jump();
       }
     };
@@ -378,6 +451,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      console.log('TacoGame: Component unmounting - cleaning up');
       if (gameLoopRef.current) {
         cancelAnimationFrame(gameLoopRef.current);
       }

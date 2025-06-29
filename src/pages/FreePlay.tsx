@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import TacoGame from '../components/TacoGame';
@@ -13,16 +13,42 @@ import {
 const FreePlay: React.FC = () => {
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
+  const [resetTrigger, setResetTrigger] = useState(0);
 
-  const handleGameEnd = (score: number) => {
+  console.log('FreePlay: Component rendered', { gameActive, finalScore, resetTrigger });
+
+  const handleGameEnd = useCallback((score: number) => {
+    console.log('FreePlay: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
-  };
+  }, []);
 
-  const restartGame = () => {
+  const restartGame = useCallback(() => {
+    console.log('FreePlay: Restarting game - resetting all state');
+    
+    // Reset all game-related state
     setFinalScore(null);
-    setGameActive(true);
-  };
+    setGameActive(false);
+    
+    // Trigger reset in TacoGame component
+    setResetTrigger(prev => {
+      const newTrigger = prev + 1;
+      console.log('FreePlay: Reset trigger incremented to:', newTrigger);
+      return newTrigger;
+    });
+    
+    // Small delay to ensure reset is processed, then activate game
+    setTimeout(() => {
+      console.log('FreePlay: Activating game after reset');
+      setGameActive(true);
+    }, 50);
+  }, []);
+
+  console.log('FreePlay: About to render TacoGame with props:', {
+    gameActive,
+    resetTrigger,
+    finalScore
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
@@ -83,7 +109,11 @@ const FreePlay: React.FC = () => {
 
         {/* Game Container */}
         <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8">
-          <TacoGame onGameEnd={handleGameEnd} gameActive={gameActive} />
+          <TacoGame 
+            onGameEnd={handleGameEnd} 
+            gameActive={gameActive}
+            resetTrigger={resetTrigger}
+          />
           
           {/* Game Over Screen */}
           {finalScore !== null && (
