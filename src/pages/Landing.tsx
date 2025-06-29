@@ -50,23 +50,23 @@ const Landing: React.FC = () => {
           </a>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pl-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pl-16 sm:pl-20">
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
                 {/* Simple $1 Display */}
-                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
-                  <div className="text-6xl font-bold text-white drop-shadow-2xl">
+                <div className="bg-white/20 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-2xl">
+                  <div className="text-4xl sm:text-6xl font-bold text-white drop-shadow-2xl">
                     $1
                   </div>
                 </div>
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
               {t('landing.title')}
             </h1>
-            <p className="text-xl md:text-2xl text-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-sm">
+            <p className="text-lg sm:text-xl md:text-2xl text-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-sm">
               {t('landing.subtitle')}
             </p>
             
@@ -76,14 +76,14 @@ const Landing: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/register"
-                  className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   {t('landing.getStarted')}
                 </Link>
                 
                 <Link
                   to="/login"
-                  className="border-2 border-white/80 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 hover:border-white transition-all transform hover:scale-105 backdrop-blur-sm"
+                  className="border-2 border-white/80 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-white/10 hover:border-white transition-all transform hover:scale-105 backdrop-blur-sm"
                 >
                   {t('landing.signIn')}
                 </Link>
@@ -93,7 +93,7 @@ const Landing: React.FC = () => {
               <div className="mt-6">
                 <Link
                   to="/free-play"
-                  className="group relative inline-flex items-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
+                  className="group relative inline-flex items-center space-x-2 sm:space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold text-lg sm:text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
                   style={{
                     background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 25%, #16a34a 50%, #15803d 75%, #166534 100%)',
                     boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
@@ -101,7 +101,7 @@ const Landing: React.FC = () => {
                 >
                   {/* Animated Play Icon */}
                   <div className="relative">
-                    <Play className="h-6 w-6 fill-current group-hover:animate-pulse" />
+                    <Play className="h-5 w-5 sm:h-6 sm:w-6 fill-current group-hover:animate-pulse" />
                     <div className="absolute inset-0 bg-white/20 rounded-full animate-ping group-hover:animate-none"></div>
                   </div>
                   
@@ -119,42 +119,42 @@ const Landing: React.FC = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('landing.howItWorks')}</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+      <div className="py-16 sm:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-16 sm:pl-20">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{t('landing.howItWorks')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
               {t('landing.howItWorksSubtitle')}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <CreditCard className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 sm:p-6 rounded-2xl w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step1.title')}</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{t('landing.step1.title')}</h3>
+              <p className="text-sm sm:text-base text-gray-600">
                 {t('landing.step1.desc')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <Trophy className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 sm:p-6 rounded-2xl w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step2.title')}</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{t('landing.step2.title')}</h3>
+              <p className="text-sm sm:text-base text-gray-600">
                 {t('landing.step2.desc')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <QrCode className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 sm:p-6 rounded-2xl w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                <QrCode className="h-6 w-6 sm:h-8 sm:w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step3.title')}</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{t('landing.step3.title')}</h3>
+              <p className="text-sm sm:text-base text-gray-600">
                 {t('landing.step3.desc')}
               </p>
             </div>
@@ -163,17 +163,17 @@ const Landing: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-blue-500 to-blue-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pl-20">
-          <h2 className="text-3xl font-bold text-white mb-4">
+      <div className="py-12 sm:py-16 bg-gradient-to-r from-blue-500 to-blue-600">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pl-16 sm:pl-20">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
             {t('landing.cta.title')}
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8">
             {t('landing.cta.subtitle')}
           </p>
           <Link
             to="/register"
-            className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg inline-block"
+            className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg inline-block"
           >
             {t('landing.cta.button')}
           </Link>
