@@ -1,8 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { Users, Trophy, QrCode, CreditCard, Play } from 'lucide-react';
 
 const Landing: React.FC = () => {
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect logged-in users to their dashboard
+  useEffect(() => {
+    if (!isLoading && user) {
+      navigate(`/${user.accountType}/dashboard`);
+    }
+  }, [user, isLoading, navigate]);
+
+  // Show loading spinner while checking authentication status
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
