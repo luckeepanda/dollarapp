@@ -59,11 +59,14 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       gameStarted: true,
       gameOver: false,
       isPaused: false,
+      tacoY: 250,
+      tacoVelocity: 0,
       obstacles: [{
         x: CANVAS_WIDTH + 100,
         gapY: Math.random() * (CANVAS_HEIGHT - OBSTACLE_GAP - 100) + 50,
         passed: false
-      }]
+      }],
+      score: 0
     }));
   }, []);
 
@@ -87,6 +90,19 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       }));
     }
   }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
+
+  const handleCanvasClick = useCallback(() => {
+    if (gameState.gameOver) {
+      // Reset and start a new game
+      resetGame();
+      // Use setTimeout to ensure state is reset before starting
+      setTimeout(() => {
+        startGame();
+      }, 50);
+    } else {
+      jump();
+    }
+  }, [gameState.gameOver, resetGame, startGame, jump]);
 
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
     ctx.save();
@@ -329,32 +345,27 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.code === 'Space') {
         e.preventDefault();
-        jump();
-      }
-    };
-
-    const handleClick = () => {
-      if (gameState.gameOver) {
-        resetGame();
-        startGame();
-      } else {
-        jump();
+        if (gameState.gameOver) {
+          handleCanvasClick();
+        } else {
+          jump();
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.addEventListener('click', handleClick);
+      canvas.addEventListener('click', handleCanvasClick);
     }
 
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
       if (canvas) {
-        canvas.removeEventListener('click', handleClick);
+        canvas.removeEventListener('click', handleCanvasClick);
       }
     };
-  }, [jump, gameState.gameOver, resetGame]);
+  }, [jump, gameState.gameOver, handleCanvasClick]);
 
   return (
     <div className="flex flex-col items-center space-y-4">
