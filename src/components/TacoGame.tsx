@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Trophy, RotateCcw, Play, Pause } from 'lucide-react';
+import { Trophy, Play, Pause } from 'lucide-react';
 
 interface GameState {
   tacoY: number;
@@ -274,7 +274,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
       ctx.fillText(`Final Score: ${gameState.score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
       ctx.font = '16px Arial';
-      ctx.fillText('Click restart to play again', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
+      ctx.fillText('Click to play again', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
       return;
     }
 
@@ -334,7 +334,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
     };
 
     const handleClick = () => {
-      jump();
+      if (gameState.gameOver) {
+        resetGame();
+        startGame();
+      } else {
+        jump();
+      }
     };
 
     window.addEventListener('keydown', handleKeyPress);
@@ -349,7 +354,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
         canvas.removeEventListener('click', handleClick);
       }
     };
-  }, [jump]);
+  }, [jump, gameState.gameOver, resetGame]);
 
   return (
     <div className="flex flex-col items-center space-y-4">
@@ -362,7 +367,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
           style={{ imageRendering: 'pixelated' }}
         />
         
-        {/* Game controls overlay */}
+        {/* Game controls overlay - only show pause button */}
         <div className="absolute top-4 right-4 flex space-x-2">
           {gameState.gameStarted && !gameState.gameOver && (
             <button
@@ -376,13 +381,6 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive }) => {
               )}
             </button>
           )}
-          
-          <button
-            onClick={resetGame}
-            className="bg-white/90 hover:bg-white p-2 rounded-lg shadow-md transition-all border border-blue-200"
-          >
-            <RotateCcw className="h-4 w-4 text-blue-700" />
-          </button>
         </div>
       </div>
 

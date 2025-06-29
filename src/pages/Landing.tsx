@@ -9,6 +9,22 @@ const Landing: React.FC = () => {
       <div className="relative overflow-hidden bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
         <div className="absolute inset-0 bg-blue-900/10"></div>
         
+        {/* Bolt.new Logo - Top Right */}
+        <div className="absolute top-4 right-4 z-10">
+          <a 
+            href="http://bolt.new/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="block hover:scale-105 transition-transform duration-200"
+          >
+            <img 
+              src="/white_circle_360x360.png" 
+              alt="Powered by Bolt.new" 
+              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 opacity-90 hover:opacity-100 transition-opacity duration-200"
+            />
+          </a>
+        </div>
+        
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <div className="flex justify-center mb-6">
