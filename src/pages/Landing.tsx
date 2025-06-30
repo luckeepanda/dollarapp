@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { Users, Trophy, QrCode, CreditCard, Play } from 'lucide-react';
 
 const Landing: React.FC = () => {
   const { user, isLoading } = useAuth();
-  const { t } = useLanguage();
   const navigate = useNavigate();
 
   // Redirect logged-in users to their dashboard
@@ -22,7 +20,7 @@ const Landing: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">{t('common.loading')}</p>
+          <p className="text-white text-lg">Loading...</p>
         </div>
       </div>
     );
@@ -50,7 +48,7 @@ const Landing: React.FC = () => {
           </a>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pl-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
@@ -64,10 +62,10 @@ const Landing: React.FC = () => {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
-              {t('landing.title')}
+              Dollar App
             </h1>
             <p className="text-xl md:text-2xl text-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-sm">
-              {t('landing.subtitle')}
+              Pay $1, play for prizes, redeem at restaurants.
             </p>
             
             {/* Clean Button Layout */}
@@ -78,14 +76,14 @@ const Landing: React.FC = () => {
                   to="/register"
                   className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  {t('landing.getStarted')}
+                  Get Started
                 </Link>
                 
                 <Link
                   to="/login"
                   className="border-2 border-white/80 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 hover:border-white transition-all transform hover:scale-105 backdrop-blur-sm"
                 >
-                  {t('landing.signIn')}
+                  Sign In
                 </Link>
               </div>
               
@@ -106,7 +104,7 @@ const Landing: React.FC = () => {
                   </div>
                   
                   <span className="relative">
-                    {t('landing.freePlay')}
+                    FREE PLAY
                   </span>
                   
                   {/* Shimmer Effect */}
@@ -120,11 +118,11 @@ const Landing: React.FC = () => {
 
       {/* Features Section */}
       <div className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pl-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('landing.howItWorks')}</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              {t('landing.howItWorksSubtitle')}
+              Join the food game revolution with our simple three-step process
             </p>
           </div>
 
@@ -133,9 +131,9 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step1.title')}</h3>
+              <h3 className="text-xl font-semibold mb-4">1. Deposit & Play</h3>
               <p className="text-gray-600">
-                {t('landing.step1.desc')}
+                Add funds via Apple Pay, Cash App, or Zelle. Enter games for just $1 each.
               </p>
             </div>
 
@@ -143,9 +141,9 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step2.title')}</h3>
+              <h3 className="text-xl font-semibold mb-4">2. Win Prizes</h3>
               <p className="text-gray-600">
-                {t('landing.step2.desc')}
+                Compete for growing prize pools. Winners receive QR codes for restaurant redemption.
               </p>
             </div>
 
@@ -153,9 +151,9 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">{t('landing.step3.title')}</h3>
+              <h3 className="text-xl font-semibold mb-4">3. Redeem & Enjoy</h3>
               <p className="text-gray-600">
-                {t('landing.step3.desc')}
+                Use QR codes at participating restaurants. Instant verification and secure payouts.
               </p>
             </div>
           </div>
@@ -164,18 +162,18 @@ const Landing: React.FC = () => {
 
       {/* CTA Section */}
       <div className="py-16 bg-gradient-to-r from-blue-500 to-blue-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 pl-20">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
-            {t('landing.cta.title')}
+            Ready to Join the Game?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            {t('landing.cta.subtitle')}
+            Start playing today and discover amazing food experiences in your area.
           </p>
           <Link
             to="/register"
             className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg inline-block"
           >
-            {t('landing.cta.button')}
+            Create Account
           </Link>
         </div>
       </div>

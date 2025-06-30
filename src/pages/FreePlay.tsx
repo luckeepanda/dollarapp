@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
+import Header from '../components/Header';
 import TacoGame from '../components/TacoGame';
 import { 
   Trophy,
@@ -10,10 +10,9 @@ import {
 } from 'lucide-react';
 
 const FreePlay: React.FC = () => {
-  const { t } = useLanguage();
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
-  const [gameKey, setGameKey] = useState(0);
+  const [gameKey, setGameKey] = useState(0); // Key prop for forcing component remount
   const [resetTrigger, setResetTrigger] = useState(0);
 
   console.log('FreePlay: Component rendered', { 
@@ -65,26 +64,26 @@ const FreePlay: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pl-20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
       {/* Simple Header for Free Play */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-2 rounded-lg">
                 <GamepadIcon className="h-6 w-6 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                {t('freePlay.mode')}
+                Free Play Mode
               </span>
-            </div>
+            </Link>
             
             <Link
               to="/"
               className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition-colors"
             >
               <Home className="h-5 w-5" />
-              <span>{t('freePlay.backToHome')}</span>
+              <span>Back to Home</span>
             </Link>
           </div>
         </div>
@@ -96,9 +95,9 @@ const FreePlay: React.FC = () => {
           <div className="flex items-center justify-center space-x-4 mb-4">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                🌮 {t('freePlay.title')} 🌮
+                🌮 Free Taco Flyer 🌮
               </h1>
-              <p className="text-gray-600 mt-2">{t('freePlay.subtitle')}</p>
+              <p className="text-gray-600 mt-2">Practice your skills with unlimited free plays!</p>
             </div>
           </div>
           
@@ -107,15 +106,15 @@ const FreePlay: React.FC = () => {
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
                 <GamepadIcon className="h-5 w-5 text-purple-500" />
-                <span className="font-semibold">{t('freePlay.mode')}</span>
+                <span className="font-semibold">Free Play Mode</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Trophy className="h-5 w-5 text-yellow-500" />
-                <span>{t('freePlay.noEntryFee')}</span>
+                <span>No Entry Fee</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Star className="h-5 w-5 text-blue-500" />
-                <span>{t('freePlay.practiceAndFun')}</span>
+                <span>Practice & Have Fun!</span>
               </div>
             </div>
           </div>
@@ -137,23 +136,23 @@ const FreePlay: React.FC = () => {
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200 pointer-events-auto">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-purple-800 mb-2">
-                    🎉 {t('freePlay.greatJob')} 🎉
+                    🎉 Great Job! 🎉
                   </h3>
                   <p className="text-lg text-purple-700 mb-4">
-                    {t('freePlay.youScored')} <span className="font-bold text-2xl">{finalScore}</span> {t('freePlay.points')}
+                    You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
                   <div className="flex space-x-3">
                     <button
                       onClick={restartGame}
                       className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
                     >
-                      {t('freePlay.playAgain')}
+                      Play Again
                     </button>
                     <Link
                       to="/hamburger-runner"
                       className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg inline-block"
                     >
-                      {t('freePlay.otherGames')}
+                      Other Games
                     </Link>
                   </div>
                 </div>

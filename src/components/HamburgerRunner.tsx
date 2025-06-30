@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { Trophy, Play, Pause } from 'lucide-react';
 
 interface GameState {
@@ -24,7 +23,6 @@ interface HamburgerRunnerProps {
 }
 
 const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
-  const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
@@ -533,7 +531,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       ctx.fillText('Hamburger Runner', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       ctx.font = '16px Arial';
-      ctx.fillText(t('game.clickOrSpace'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Jump over obstacles and collect coins', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
       // Draw hamburger in center
@@ -584,14 +582,14 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     ctx.lineWidth = 3;
     
     // Score
-    ctx.strokeText(`${t('game.score')}: ${gameState.score}`, 20, 30);
-    ctx.fillText(`${t('game.score')}: ${gameState.score}`, 20, 30);
+    ctx.strokeText(`Score: ${gameState.score}`, 20, 30);
+    ctx.fillText(`Score: ${gameState.score}`, 20, 30);
     
     // Distance
-    ctx.strokeText(`${t('game.distance')}: ${Math.floor(gameState.distance)}m`, 20, 55);
-    ctx.fillText(`${t('game.distance')}: ${Math.floor(gameState.distance)}m`, 20, 55);
+    ctx.strokeText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 55);
+    ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 55);
 
-  }, [gameState, t]);
+  }, [gameState]);
 
   // Start game loop
   useEffect(() => {
@@ -618,7 +616,6 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       const canvas = canvasRef.current;
       if (canvas) {
         canvas.addEventListener('click', handleCanvasClick);
-      
       }
       
       eventListenersAttachedRef.current = true;
@@ -676,12 +673,12 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       {/* Instructions */}
       <div className="text-center max-w-md">
         <p className="text-sm text-green-700 mb-2">
-          {t('game.clickOrSpace')}
+          Click or press SPACE to jump! Avoid obstacles and collect coins for points.
         </p>
         {gameState.score > 0 && (
           <div className="flex items-center justify-center space-x-2 text-green-600">
             <Trophy className="h-4 w-4" />
-            <span className="font-semibold">{t('game.score')}: {gameState.score} | {t('game.distance')}: {Math.floor(gameState.distance)}m</span>
+            <span className="font-semibold">Score: {gameState.score} | Distance: {Math.floor(gameState.distance)}m</span>
           </div>
         )}
       </div>

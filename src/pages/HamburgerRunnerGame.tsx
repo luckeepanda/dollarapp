@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
+import Header from '../components/Header';
 import HamburgerRunner from '../components/HamburgerRunner';
 import { 
   Trophy,
@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 
 const HamburgerRunnerGame: React.FC = () => {
-  const { t } = useLanguage();
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
@@ -63,7 +62,7 @@ const HamburgerRunnerGame: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50 pl-20">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">
       {/* Simple Header for Hamburger Runner */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,7 +79,7 @@ const HamburgerRunnerGame: React.FC = () => {
                   <GamepadIcon className="h-6 w-6 text-white" />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-yellow-500 bg-clip-text text-transparent">
-                  {t('hamburgerRunner.title')}
+                  Hamburger Runner
                 </span>
               </div>
             </div>
@@ -90,7 +89,7 @@ const HamburgerRunnerGame: React.FC = () => {
               className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors"
             >
               <Home className="h-5 w-5" />
-              <span>{t('freePlay.backToHome')}</span>
+              <span>Back to Home</span>
             </Link>
           </div>
         </div>
@@ -102,9 +101,9 @@ const HamburgerRunnerGame: React.FC = () => {
           <div className="flex items-center justify-center space-x-4 mb-4">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-yellow-600 bg-clip-text text-transparent">
-                🍔 {t('hamburgerRunner.title')} 🍔
+                🍔 Hamburger Runner 🍔
               </h1>
-              <p className="text-gray-600 mt-2">{t('hamburgerRunner.subtitle')}</p>
+              <p className="text-gray-600 mt-2">Run, jump, and collect coins in this endless adventure!</p>
             </div>
           </div>
           
@@ -113,15 +112,15 @@ const HamburgerRunnerGame: React.FC = () => {
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
                 <GamepadIcon className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">{t('hamburgerRunner.templeRunStyle')}</span>
+                <span className="font-semibold">Temple Run Style</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Trophy className="h-5 w-5 text-yellow-500" />
-                <span>{t('hamburgerRunner.endlessRunner')}</span>
+                <span>Endless Runner</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Star className="h-5 w-5 text-orange-500" />
-                <span>{t('hamburgerRunner.collectCoins')}</span>
+                <span>Collect Coins & Avoid Obstacles!</span>
               </div>
             </div>
           </div>
@@ -143,23 +142,23 @@ const HamburgerRunnerGame: React.FC = () => {
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-green-200 pointer-events-auto">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-green-800 mb-2">
-                    🎉 {t('hamburgerRunner.amazingRun')} 🎉
+                    🎉 Amazing Run! 🎉
                   </h3>
                   <p className="text-lg text-green-700 mb-4">
-                    {t('freePlay.youScored')} <span className="font-bold text-2xl">{finalScore}</span> {t('freePlay.points')}
+                    You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
                   <div className="flex space-x-3">
                     <button
                       onClick={restartGame}
                       className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg"
                     >
-                      {t('freePlay.playAgain')}
+                      Play Again
                     </button>
                     <button
                       onClick={goBackToFreePlay}
                       className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-lg"
                     >
-                      {t('freePlay.otherGames')}
+                      Other Games
                     </button>
                   </div>
                 </div>
