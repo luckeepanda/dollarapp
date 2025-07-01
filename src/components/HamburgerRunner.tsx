@@ -670,13 +670,30 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
         </div>
       </div>
 
-      {/* Instructions */}
+      {/* Animated Prize Message */}
       <div className="text-center max-w-md">
-        <p className="text-sm text-green-700 mb-2">
-          Click or press SPACE to jump! Avoid obstacles and collect coins for points.
-        </p>
+        <div className="relative overflow-hidden bg-gradient-to-r from-green-400 via-yellow-500 to-orange-500 text-white px-8 py-4 rounded-2xl shadow-lg">
+          {/* Animated background shimmer */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shimmer"></div>
+          
+          {/* Main text */}
+          <div className="relative z-10">
+            <div className="flex items-center justify-center space-x-2 mb-1">
+              <Trophy className="h-6 w-6 text-yellow-200 animate-bounce" />
+              <span className="text-xl font-bold tracking-wide">100 POINTS</span>
+              <Trophy className="h-6 w-6 text-yellow-200 animate-bounce" style={{ animationDelay: '0.5s' }} />
+            </div>
+            <div className="text-lg font-semibold">
+              Gets Free Food Prize! 🍕🍔🌮
+            </div>
+          </div>
+          
+          {/* Pulsing border effect */}
+          <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300 animate-pulse"></div>
+        </div>
+        
         {gameState.score > 0 && (
-          <div className="flex items-center justify-center space-x-2 text-green-600">
+          <div className="flex items-center justify-center space-x-2 text-green-600 mt-3">
             <Trophy className="h-4 w-4" />
             <span className="font-semibold">Score: {gameState.score} | Distance: {Math.floor(gameState.distance)}m</span>
           </div>
