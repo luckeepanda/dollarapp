@@ -227,86 +227,44 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       ctx.rotate(Math.sin(Date.now() * 0.01) * 0.1);
     }
     
-    // Bottom bun (darker brown with texture)
-    ctx.fillStyle = '#8B4513';
+    // Bottom bun
+    ctx.fillStyle = '#D2691E';
     ctx.beginPath();
-    ctx.arc(0, 10, 18, 0, Math.PI * 2);
+    ctx.arc(0, 8, 18, 0, Math.PI * 2);
     ctx.fill();
     
-    // Bottom bun highlight
-    ctx.fillStyle = '#A0522D';
-    ctx.beginPath();
-    ctx.arc(-3, 7, 12, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Lettuce (more realistic green with texture)
+    // Lettuce
     ctx.fillStyle = '#228B22';
-    ctx.fillRect(-16, 2, 32, 4);
-    ctx.fillStyle = '#32CD32';
-    ctx.fillRect(-14, 3, 28, 2);
+    ctx.fillRect(-15, 0, 30, 4);
     
-    // Tomato slices (multiple slices with seeds)
+    // Tomato
     ctx.fillStyle = '#FF6347';
-    ctx.fillRect(-15, -2, 30, 4);
-    ctx.fillStyle = '#FF4500';
-    ctx.fillRect(-13, -1, 26, 2);
+    ctx.fillRect(-12, -4, 24, 3);
     
-    // Tomato seeds
-    ctx.fillStyle = '#FFFF99';
-    for (let i = 0; i < 4; i++) {
-      ctx.beginPath();
-      ctx.arc(-10 + i * 7, 0, 0.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    
-    // Cheese (melted appearance)
+    // Cheese
     ctx.fillStyle = '#FFD700';
-    ctx.fillRect(-17, -6, 34, 4);
-    ctx.fillStyle = '#FFA500';
-    // Cheese drips
-    ctx.fillRect(-15, -2, 2, 3);
-    ctx.fillRect(-5, -2, 2, 3);
-    ctx.fillRect(8, -2, 2, 3);
-    ctx.fillRect(13, -2, 2, 3);
+    ctx.fillRect(-14, -8, 28, 3);
     
-    // Meat patty (more realistic with grill marks)
+    // Meat patty
     ctx.fillStyle = '#8B4513';
-    ctx.fillRect(-18, -14, 36, 8);
-    ctx.fillStyle = '#654321';
-    ctx.fillRect(-16, -12, 32, 4);
+    ctx.fillRect(-16, -12, 32, 6);
     
-    // Grill marks on meat
-    ctx.strokeStyle = '#2F1B14';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 3; i++) {
-      ctx.beginPath();
-      ctx.moveTo(-15 + i * 10, -14);
-      ctx.lineTo(-10 + i * 10, -6);
-      ctx.stroke();
-    }
-    
-    // Top bun (golden brown with sesame seeds)
+    // Top bun
     ctx.fillStyle = '#DEB887';
     ctx.beginPath();
-    ctx.arc(0, -14, 19, 0, Math.PI * 2);
+    ctx.arc(0, -12, 18, 0, Math.PI * 2);
     ctx.fill();
     
-    // Top bun highlight
+    // Sesame seeds
     ctx.fillStyle = '#F5DEB3';
-    ctx.beginPath();
-    ctx.arc(-2, -17, 14, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Sesame seeds (more realistic placement)
-    ctx.fillStyle = '#F5DEB3';
-    const seedPositions = [
-      [-8, -18], [-2, -20], [4, -19], [10, -17], [-5, -15], [7, -15], [0, -16]
-    ];
-    seedPositions.forEach(([seedX, seedY]) => {
+    for (let i = 0; i < 5; i++) {
+      const angle = (i / 5) * Math.PI * 2;
+      const seedX = Math.cos(angle) * 10;
+      const seedY = Math.sin(angle) * 5 - 12;
       ctx.beginPath();
-      ctx.ellipse(seedX, seedY, 1.5, 1, 0, 0, Math.PI * 2);
+      ctx.arc(seedX, seedY, 1.5, 0, Math.PI * 2);
       ctx.fill();
-    });
+    }
     
     // Running legs (simple animation)
     if (isRunning) {
@@ -314,11 +272,6 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       ctx.fillStyle = '#8B4513';
       ctx.fillRect(-8 + legOffset, 15, 6, 8);
       ctx.fillRect(2 - legOffset, 15, 6, 8);
-      
-      // Shoes
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(-9 + legOffset, 22, 8, 3);
-      ctx.fillRect(1 - legOffset, 22, 8, 3);
     }
     
     ctx.restore();
