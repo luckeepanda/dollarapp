@@ -7,7 +7,6 @@ import {
   Trophy, 
   DollarSign, 
   TrendingUp, 
-  Award,
   ArrowRight,
   Play
 } from 'lucide-react';
@@ -50,8 +49,8 @@ const PlayerDashboard: React.FC = () => {
           <p className="text-gray-600">Ready to win some delicious prizes today?</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        {/* Stats Cards - Only Balance */}
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8 max-w-md">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
@@ -60,42 +59,6 @@ const PlayerDashboard: React.FC = () => {
               </div>
               <div className="bg-green-100 p-3 rounded-xl">
                 <DollarSign className="h-6 w-6 text-green-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Games Played</p>
-                <p className="text-2xl font-bold text-blue-600">23</p>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-xl">
-                <Trophy className="h-6 w-6 text-blue-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Won</p>
-                <p className="text-2xl font-bold text-purple-600">$127.50</p>
-              </div>
-              <div className="bg-purple-100 p-3 rounded-xl">
-                <Award className="h-6 w-6 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Win Rate</p>
-                <p className="text-2xl font-bold text-orange-600">34%</p>
-              </div>
-              <div className="bg-orange-100 p-3 rounded-xl">
-                <TrendingUp className="h-6 w-6 text-orange-600" />
               </div>
             </div>
           </div>
@@ -118,12 +81,12 @@ const PlayerDashboard: React.FC = () => {
               </Link>
 
               <Link
-                to="/game"
+                to="/free-play"
                 className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all group"
               >
                 <div className="flex items-center space-x-3">
                   <Trophy className="h-5 w-5 text-purple-600" />
-                  <span className="font-medium">Join Game</span>
+                  <span className="font-medium">Free Play</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
               </Link>
@@ -134,8 +97,8 @@ const PlayerDashboard: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">Featured Game</h2>
-              <Link to="/game" className="text-blue-600 font-medium hover:text-blue-700">
-                View Details
+              <Link to="/free-play" className="text-blue-600 font-medium hover:text-blue-700">
+                Try Free Play
               </Link>
             </div>
             
@@ -199,13 +162,13 @@ const PlayerDashboard: React.FC = () => {
                   <span>Category: {availableGame.category}</span>
                 </div>
 
-                {/* Join Button */}
+                {/* Join Button - Now leads directly to Taco Game */}
                 <Link
-                  to="/game"
+                  to="/free-play"
                   className="w-full bg-white text-orange-600 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-all transform hover:scale-105 flex items-center justify-center space-x-2 shadow-lg"
                 >
                   <Play className="h-5 w-5" />
-                  <span>Play Game - $1</span>
+                  <span>Play Taco Game - $1</span>
                 </Link>
               </div>
             </div>
