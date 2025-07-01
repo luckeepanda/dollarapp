@@ -7,25 +7,34 @@ import {
   Trophy, 
   DollarSign, 
   TrendingUp, 
-  Calendar,
-  Award,
-  ArrowRight
+  ArrowRight,
+  Play
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const recentGames = [
-    { id: 1, date: '2024-01-15', prize: 45.00, status: 'won', game: 'Pizza Challenge' },
-    { id: 2, date: '2024-01-14', prize: 12.00, status: 'lost', game: 'Burger Battle' },
-    { id: 3, date: '2024-01-13', prize: 25.00, status: 'pending', game: 'Taco Tuesday' },
-  ];
+  const availableGame = {
+    id: 1, 
+    name: 'Taco Flyer Challenge', 
+    description: 'Guide the taco through obstacles to win lunch!',
+    prize: 127.50, 
+    players: 89, 
+    maxPlayers: 100,
+    timeLeft: '2h 15m',
+    difficulty: 'Easy',
+    category: 'Lunch',
+    minScore: 5
+  };
 
-  const availableGames = [
-    { id: 1, name: 'Lunch Rush', prize: 67.50, players: 45, timeLeft: '2h 15m' },
-    { id: 2, name: 'Dinner Delight', prize: 89.25, players: 62, timeLeft: '4h 30m' },
-    { id: 3, name: 'Weekend Special', prize: 156.75, players: 87, timeLeft: '1d 6h' },
-  ];
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Easy': return 'bg-green-100 text-green-800';
+      case 'Medium': return 'bg-yellow-100 text-yellow-800';
+      case 'Hard': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,8 +49,8 @@ const PlayerDashboard: React.FC = () => {
           <p className="text-gray-600">Ready to win some delicious prizes today?</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        {/* Stats Cards - Only Balance */}
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8 max-w-md">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
@@ -50,42 +59,6 @@ const PlayerDashboard: React.FC = () => {
               </div>
               <div className="bg-green-100 p-3 rounded-xl">
                 <DollarSign className="h-6 w-6 text-green-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Games Played</p>
-                <p className="text-2xl font-bold text-blue-600">23</p>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-xl">
-                <Trophy className="h-6 w-6 text-blue-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Won</p>
-                <p className="text-2xl font-bold text-purple-600">$127.50</p>
-              </div>
-              <div className="bg-purple-100 p-3 rounded-xl">
-                <Award className="h-6 w-6 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Win Rate</p>
-                <p className="text-2xl font-bold text-orange-600">34%</p>
-              </div>
-              <div className="bg-orange-100 p-3 rounded-xl">
-                <TrendingUp className="h-6 w-6 text-orange-600" />
               </div>
             </div>
           </div>
@@ -108,90 +81,119 @@ const PlayerDashboard: React.FC = () => {
               </Link>
 
               <Link
-                to="/game"
+                to="/free-play"
                 className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all group"
               >
                 <div className="flex items-center space-x-3">
                   <Trophy className="h-5 w-5 text-purple-600" />
-                  <span className="font-medium">Join Game</span>
+                  <span className="font-medium">Free Play</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
               </Link>
             </div>
           </div>
 
-          {/* Available Games */}
+          {/* Featured Game */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Available Games</h2>
-              <Link to="/game" className="text-blue-600 font-medium hover:text-blue-700">
-                View All
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold">Featured Game</h2>
+              <Link to="/free-play" className="text-blue-600 font-medium hover:text-blue-700">
+                Try Free Play
               </Link>
             </div>
-            <div className="space-y-4">
-              {availableGames.map((game) => (
-                <div key={game.id} className="border border-gray-100 rounded-xl p-4 hover:border-blue-200 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{game.name}</h3>
-                      <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
-                        <span>Prize: ${game.prize}</span>
-                        <span>{game.players} players</span>
-                        <span>Ends in {game.timeLeft}</span>
-                      </div>
+            
+            {/* Game Card */}
+            <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
+              {/* Game Header */}
+              <div className="p-6 text-white">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-4xl">🌮</div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(availableGame.difficulty)}`}>
+                    {availableGame.difficulty}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">{availableGame.name}</h3>
+                <p className="text-orange-100 text-sm mb-4">{availableGame.description}</p>
+                
+                {/* Game Stats */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-1 mb-1">
+                      <Trophy className="h-4 w-4 text-yellow-300" />
+                      <span className="text-xs text-orange-100">Prize Pool</span>
                     </div>
-                    <Link
-                      to="/game"
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      Join - $1
-                    </Link>
+                    <p className="text-lg font-bold text-yellow-300">${availableGame.prize}</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-1 mb-1">
+                      <span className="text-xs text-orange-100">Players</span>
+                    </div>
+                    <p className="text-lg font-bold">{availableGame.players}/{availableGame.maxPlayers}</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-1 mb-1">
+                      <span className="text-xs text-orange-100">Time Left</span>
+                    </div>
+                    <p className="text-lg font-bold">{availableGame.timeLeft}</p>
                   </div>
                 </div>
-              ))}
+
+                {/* Progress Bar */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-orange-100">Spots Filled</span>
+                    <span className="text-sm font-medium">
+                      {Math.round((availableGame.players / availableGame.maxPlayers) * 100)}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-orange-400/30 rounded-full h-2">
+                    <div 
+                      className="bg-yellow-300 h-2 rounded-full transition-all"
+                      style={{ width: `${(availableGame.players / availableGame.maxPlayers) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Game Details */}
+                <div className="flex items-center justify-between text-sm text-orange-100 mb-6">
+                  <span>Min Score: {availableGame.minScore}</span>
+                  <span>Category: {availableGame.category}</span>
+                </div>
+
+                {/* Join Button - Now leads directly to Taco Game */}
+                <Link
+                  to="/free-play"
+                  className="w-full bg-white text-orange-600 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-all transform hover:scale-105 flex items-center justify-center space-x-2 shadow-lg"
+                >
+                  <Play className="h-5 w-5" />
+                  <span>Play Taco Game - $1</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Recent Games */}
+        {/* Game Rules */}
         <div className="mt-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-xl font-semibold mb-4">Recent Games</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">Game</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">Prize</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentGames.map((game) => (
-                  <tr key={game.id} className="border-b border-gray-50 hover:bg-gray-50">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-gray-400" />
-                        <span>{game.date}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 font-medium">{game.game}</td>
-                    <td className="py-3 px-4">${game.prize.toFixed(2)}</td>
-                    <td className="py-3 px-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        game.status === 'won' 
-                          ? 'bg-green-100 text-green-800'
-                          : game.status === 'lost'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2">
+            <TrendingUp className="h-5 w-5 text-orange-600" />
+            <span>How It Works</span>
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">1. Join & Play</h3>
+              <p>Pay $1 to enter a game. Guide your taco through obstacles by clicking or pressing SPACE.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">2. Score Points</h3>
+              <p>Each obstacle you pass gives you 1 point. Reach the minimum score to qualify for the prize draw.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">3. Win Prizes</h3>
+              <p>Qualified players are entered into a random draw. Winners receive QR codes for restaurant redemption.</p>
+            </div>
           </div>
         </div>
       </div>

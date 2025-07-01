@@ -28,7 +28,7 @@ export const qrService = {
       .from('qr_codes')
       .select(`
         *,
-        users!qr_codes_user_id_fkey (username)
+        profiles!qr_codes_user_id_fkey (username)
       `)
       .eq('code', code)
       .eq('is_redeemed', false)
@@ -61,7 +61,7 @@ export const qrService = {
     return {
       valid: true,
       amount: qrCode.amount,
-      customer: qrCode.users.username,
+      customer: qrCode.profiles.username,
     };
   },
 
@@ -71,7 +71,7 @@ export const qrService = {
       .from('qr_codes')
       .select(`
         *,
-        users!qr_codes_user_id_fkey (username)
+        profiles!qr_codes_user_id_fkey (username)
       `)
       .eq('redeemed_by', restaurantId)
       .eq('is_redeemed', true)

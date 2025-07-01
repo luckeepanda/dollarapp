@@ -56,7 +56,7 @@ export const testSupabaseConnection = async () => {
     }
     
     // Test database connection
-    const { error: dbError } = await supabase.from('users').select('count').limit(1)
+    const { error: dbError } = await supabase.from('profiles').select('count').limit(1)
     
     if (dbError && !dbError.message.includes('row-level security')) {
       console.error('Database connection test failed:', dbError)

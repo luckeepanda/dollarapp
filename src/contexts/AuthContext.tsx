@@ -6,6 +6,8 @@ interface AuthContextType {
   user: User | null;
   supabaseUser: SupabaseUser | null;
   login: (email: string, password: string) => Promise<User>;
+  loginWithGoogle: () => Promise<void>;
+  loginWithApple: () => Promise<void>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
@@ -53,12 +55,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('Auth state changed:', event, session?.user?.email);
       setSupabaseUser(session?.user ?? null);
       
-      if (session?.user) {
-        // fetch when auth state changes to signed in
-        await fetchUserProfile(session.user.id);
-      } else if (!session?.user) {
+      if (!session?.user) {
         setUser(null);
         setIsLoading(false);
+      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        // For OAuth logins, we might need to create a profile if it doesn't exist
+        await fetchUserProfile(session.user.id);
       }
     });
 
@@ -69,14 +71,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       console.log('Fetching user profile for:', userId);
       const { data, error } = await supabase
-        .from('users')
+        .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
-      console.log('fetched!!!', data);
+      
       if (error) {
         console.error('Error fetching user profile:', error);
-        // If user profile doesn't exist, this might be an auth-only user
+        // If user profile doesn't exist, this might be an OAuth user
         setUser(null);
         setIsLoading(false);
         return;
@@ -103,19 +105,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const createOAuthProfile = async (supabaseUser: SupabaseUser, accountType: 'player' | 'restaurant' = 'player') => {
+    try {
+      // Extract username from email or use a default
+      const username = supabaseUser.email?.split('@')[0] || `user_${supabaseUser.id.slice(0, 8)}`;
+      
+      const { error } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: supabaseUser.id,
+            email: supabaseUser.email!,
+            username: username,
+            account_type: accountType,
+            balance: 0.00,
+            is_kyc_verified: accountType === 'restaurant' ? false : null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }
+        ]);
+
+      if (error) {
+        console.error('Error creating OAuth profile:', error);
+        throw error;
+      }
+
+      // Fetch the newly created profile
+      await fetchUserProfile(supabaseUser.id);
+    } catch (error) {
+      console.error('Failed to create OAuth profile:', error);
+      throw error;
+    }
+  };
+
   const login = async (email: string, password: string): Promise<User> => {
     try {
       console.log('Attempting login for:', email);
       setIsLoading(true);
-      // login
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
-      // get profile
-      const profile = await fetchUserProfile(data.user.id);
-
+      
       if (error) {
         console.error('Login error:', error);
         throw error;
@@ -123,13 +155,59 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       console.log('Login successful:', data.user?.email);
       
+      const profile = await fetchUserProfile(data.user.id);
       setIsLoading(false);
-      console.log(profile);
       return profile;
     } catch (error: any) {
       console.error('Login failed:', error);
       setIsLoading(false);
       throw new Error(error.message || 'Login failed');
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      setIsLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        }
+      });
+
+      if (error) {
+        console.error('Google login error:', error);
+        throw error;
+      }
+    } catch (error: any) {
+      console.error('Google login failed:', error);
+      setIsLoading(false);
+      throw new Error(error.message || 'Google login failed');
+    }
+  };
+
+  const loginWithApple = async () => {
+    try {
+      setIsLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        }
+      });
+
+      if (error) {
+        console.error('Apple login error:', error);
+        throw error;
+      }
+    } catch (error: any) {
+      console.error('Apple login failed:', error);
+      setIsLoading(false);
+      throw new Error(error.message || 'Apple login failed');
     }
   };
 
@@ -203,6 +281,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       user, 
       supabaseUser, 
       login, 
+      loginWithGoogle,
+      loginWithApple,
       register, 
       logout, 
       isLoading, 

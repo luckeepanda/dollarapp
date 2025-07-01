@@ -4,6 +4,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import EmailVerification from './pages/EmailVerification';
+import AuthCallback from './pages/AuthCallback';
 import PlayerDashboard from './pages/PlayerDashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import GameEntry from './pages/GameEntry';
@@ -11,6 +13,8 @@ import QRScanner from './pages/QRScanner';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import FreePlay from './pages/FreePlay';
+import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
+import NoodleTetrisGame from './pages/NoodleTetrisGame';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -22,7 +26,11 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/free-play" element={<FreePlay />} />
+            <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
+            <Route path="/noodle-tetris" element={<NoodleTetrisGame />} />
             <Route path="/player/dashboard" element={
               <ProtectedRoute userType="player">
                 <PlayerDashboard />

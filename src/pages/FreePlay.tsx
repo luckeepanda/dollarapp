@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import TacoGame from '../components/TacoGame';
+import NicknameModal from '../components/NicknameModal';
+import LeaderboardModal from '../components/LeaderboardModal';
+import { useAuth } from '../contexts/AuthContext';
+import { leaderboardService } from '../services/leaderboardService';
 import { 
-  ArrowLeft,
   Trophy,
   Star,
   GamepadIcon,
@@ -11,18 +14,91 @@ import {
 } from 'lucide-react';
 
 const FreePlay: React.FC = () => {
+  const { user } = useAuth();
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
+  const [gameKey, setGameKey] = useState(0);
+  const [resetTrigger, setResetTrigger] = useState(0);
+  const [showNicknameModal, setShowNicknameModal] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
-  const handleGameEnd = (score: number) => {
+  console.log('FreePlay: Component rendered', { 
+    gameActive, 
+    finalScore, 
+    gameKey, 
+    resetTrigger 
+  });
+
+  const handleGameEnd = useCallback((score: number) => {
+    console.log('FreePlay: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
+    
+    // Show nickname modal for score submission
+    setShowNicknameModal(true);
+  }, []);
+
+  const handleNicknameSubmit = async (nickname: string) => {
+    if (finalScore === null) return;
+    
+    setIsSubmittingScore(true);
+    try {
+      await leaderboardService.addScore(nickname, finalScore, user?.id);
+      console.log('Score saved to leaderboard:', { nickname, score: finalScore });
+      setShowNicknameModal(false);
+      setShowLeaderboard(true);
+    } catch (error) {
+      console.error('Failed to save score:', error);
+      alert('Failed to save score to leaderboard. Please try again.');
+    } finally {
+      setIsSubmittingScore(false);
+    }
   };
 
-  const restartGame = () => {
-    setFinalScore(null);
-    setGameActive(true);
+  const handleNicknameSkip = () => {
+    setShowNicknameModal(false);
+    setShowLeaderboard(true);
   };
+
+  const restartGame = useCallback(() => {
+    console.log('FreePlay: Restarting game - forcing component remount');
+    
+    // Close any open modals
+    setShowNicknameModal(false);
+    setShowLeaderboard(false);
+    
+    // Reset all game-related state
+    setFinalScore(null);
+    setGameActive(false);
+    
+    // Force component remount by changing key
+    setGameKey(prev => {
+      const newKey = prev + 1;
+      console.log('FreePlay: Game key incremented to force remount:', newKey);
+      return newKey;
+    });
+    
+    // Trigger reset in TacoGame component
+    setResetTrigger(prev => {
+      const newTrigger = prev + 1;
+      console.log('FreePlay: Reset trigger incremented to:', newTrigger);
+      return newTrigger;
+    });
+    
+    // Small delay to ensure reset is processed, then activate game
+    setTimeout(() => {
+      console.log('FreePlay: Activating game after reset and remount');
+      setGameActive(true);
+    }, 100);
+  }, []);
+
+  console.log('FreePlay: About to render TacoGame with props:', {
+    gameActive,
+    resetTrigger,
+    gameKey,
+    finalScore
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
@@ -82,71 +158,71 @@ const FreePlay: React.FC = () => {
         </div>
 
         {/* Game Container */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8">
-          <TacoGame onGameEnd={handleGameEnd} gameActive={gameActive} />
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
+          {/* Force component remount with key prop */}
+          <TacoGame 
+            key={gameKey}
+            onGameEnd={handleGameEnd} 
+            gameActive={gameActive}
+            resetTrigger={resetTrigger}
+          />
           
-          {/* Game Over Screen */}
-          {finalScore !== null && (
-            <div className="mt-8 text-center">
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-2xl border-2 border-purple-200">
-                <h3 className="text-2xl font-bold text-purple-800 mb-4">
-                  🎉 Great Job! 🎉
-                </h3>
-                <p className="text-lg text-purple-700 mb-4">
-                  You scored <span className="font-bold text-2xl">{finalScore}</span> points!
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Floating Play Again Button - positioned over the canvas */}
+          {finalScore !== null && !showNicknameModal && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200 pointer-events-auto">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-purple-800 mb-2">
+                    🎉 Great Job! 🎉
+                  </h3>
+                  <p className="text-lg text-purple-700 mb-4">
+                    You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                  </p>
+                  <div className="flex space-x-3 mb-4">
+                    <button
+                      onClick={restartGame}
+                      className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
+                    >
+                      Play Again
+                    </button>
+                    <Link
+                      to="/hamburger-runner"
+                      className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg inline-block"
+                    >
+                      Other Games
+                    </Link>
+                  </div>
+                  
+                  {/* Leaderboard Button */}
                   <button
-                    onClick={restartGame}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105"
+                    onClick={() => setShowLeaderboard(true)}
+                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
                   >
-                    Play Again
+                    <Trophy className="h-5 w-5" />
+                    <span>View Leaderboard</span>
                   </button>
-                  <Link
-                    to="/register"
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105"
-                  >
-                    Join for Real Prizes!
-                  </Link>
                 </div>
               </div>
             </div>
           )}
         </div>
-
-        {/* Instructions & Info */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-              <GamepadIcon className="h-5 w-5 text-purple-600" />
-              <span>How to Play</span>
-            </h3>
-            <ul className="text-gray-600 space-y-2">
-              <li>• Click or press SPACE to make the taco fly</li>
-              <li>• Navigate through the blue pipes</li>
-              <li>• Each pipe you pass gives you 1 point</li>
-              <li>• Try to beat your high score!</li>
-            </ul>
-          </div>
-          
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-2xl border border-purple-200">
-            <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-              <Trophy className="h-5 w-5 text-yellow-600" />
-              <span>Ready for Real Prizes?</span>
-            </h3>
-            <p className="text-gray-700 mb-4">
-              Join Dollar App to compete for real food prizes at local restaurants!
-            </p>
-            <Link
-              to="/register"
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
-            >
-              <span>Get Started</span>
-              <ArrowLeft className="h-4 w-4 rotate-180" />
-            </Link>
-          </div>
-        </div>
       </div>
+
+      {/* Nickname Modal */}
+      <NicknameModal
+        isOpen={showNicknameModal}
+        score={finalScore || 0}
+        onSubmit={handleNicknameSubmit}
+        onSkip={handleNicknameSkip}
+        isSubmitting={isSubmittingScore}
+      />
+
+      {/* Leaderboard Modal */}
+      <LeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        currentScore={finalScore || undefined}
+      />
     </div>
   );
 };
