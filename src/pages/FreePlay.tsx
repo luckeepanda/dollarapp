@@ -2,6 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import TacoGame from '../components/TacoGame';
+import NicknameModal from '../components/NicknameModal';
+import LeaderboardModal from '../components/LeaderboardModal';
+import { useAuth } from '../contexts/AuthContext';
+import { leaderboardService } from '../services/leaderboardService';
 import { 
   Trophy,
   Star,
@@ -10,10 +14,14 @@ import {
 } from 'lucide-react';
 
 const FreePlay: React.FC = () => {
+  const { user } = useAuth();
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
-  const [gameKey, setGameKey] = useState(0); // Key prop for forcing component remount
+  const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
+  const [showNicknameModal, setShowNicknameModal] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
   console.log('FreePlay: Component rendered', { 
     gameActive, 
@@ -26,10 +34,39 @@ const FreePlay: React.FC = () => {
     console.log('FreePlay: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
+    
+    // Show nickname modal for score submission
+    setShowNicknameModal(true);
   }, []);
+
+  const handleNicknameSubmit = async (nickname: string) => {
+    if (finalScore === null) return;
+    
+    setIsSubmittingScore(true);
+    try {
+      await leaderboardService.addScore(nickname, finalScore, user?.id);
+      console.log('Score saved to leaderboard:', { nickname, score: finalScore });
+      setShowNicknameModal(false);
+      setShowLeaderboard(true);
+    } catch (error) {
+      console.error('Failed to save score:', error);
+      alert('Failed to save score to leaderboard. Please try again.');
+    } finally {
+      setIsSubmittingScore(false);
+    }
+  };
+
+  const handleNicknameSkip = () => {
+    setShowNicknameModal(false);
+    setShowLeaderboard(true);
+  };
 
   const restartGame = useCallback(() => {
     console.log('FreePlay: Restarting game - forcing component remount');
+    
+    // Close any open modals
+    setShowNicknameModal(false);
+    setShowLeaderboard(false);
     
     // Reset all game-related state
     setFinalScore(null);
@@ -131,7 +168,7 @@ const FreePlay: React.FC = () => {
           />
           
           {/* Floating Play Again Button - positioned over the canvas */}
-          {finalScore !== null && (
+          {finalScore !== null && !showNicknameModal && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200 pointer-events-auto">
                 <div className="text-center">
@@ -141,7 +178,7 @@ const FreePlay: React.FC = () => {
                   <p className="text-lg text-purple-700 mb-4">
                     You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-3 mb-4">
                     <button
                       onClick={restartGame}
                       className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
@@ -155,12 +192,37 @@ const FreePlay: React.FC = () => {
                       Other Games
                     </Link>
                   </div>
+                  
+                  {/* Leaderboard Button */}
+                  <button
+                    onClick={() => setShowLeaderboard(true)}
+                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
+                  >
+                    <Trophy className="h-5 w-5" />
+                    <span>View Leaderboard</span>
+                  </button>
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Nickname Modal */}
+      <NicknameModal
+        isOpen={showNicknameModal}
+        score={finalScore || 0}
+        onSubmit={handleNicknameSubmit}
+        onSkip={handleNicknameSkip}
+        isSubmitting={isSubmittingScore}
+      />
+
+      {/* Leaderboard Modal */}
+      <LeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        currentScore={finalScore || undefined}
+      />
     </div>
   );
 };
