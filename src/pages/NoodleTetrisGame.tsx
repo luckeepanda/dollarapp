@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import HamburgerRunner from '../components/HamburgerRunner';
+import NoodleTetris from '../components/NoodleTetris';
 import { 
   Trophy,
   Star,
@@ -10,13 +10,13 @@ import {
   ArrowLeft
 } from 'lucide-react';
 
-const HamburgerRunnerGame: React.FC = () => {
+const NoodleTetrisGame: React.FC = () => {
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  console.log('HamburgerRunnerGame: Component rendered', { 
+  console.log('NoodleTetrisGame: Component rendered', { 
     gameActive, 
     finalScore, 
     gameKey, 
@@ -24,13 +24,13 @@ const HamburgerRunnerGame: React.FC = () => {
   });
 
   const handleGameEnd = useCallback((score: number) => {
-    console.log('HamburgerRunnerGame: Game ended with score:', score);
+    console.log('NoodleTetrisGame: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
   }, []);
 
   const restartGame = useCallback(() => {
-    console.log('HamburgerRunnerGame: Restarting game - forcing component remount');
+    console.log('NoodleTetrisGame: Restarting game - forcing component remount');
     
     // Reset all game-related state
     setFinalScore(null);
@@ -39,54 +39,54 @@ const HamburgerRunnerGame: React.FC = () => {
     // Force component remount by changing key
     setGameKey(prev => {
       const newKey = prev + 1;
-      console.log('HamburgerRunnerGame: Game key incremented to force remount:', newKey);
+      console.log('NoodleTetrisGame: Game key incremented to force remount:', newKey);
       return newKey;
     });
     
-    // Trigger reset in HamburgerRunner component
+    // Trigger reset in NoodleTetris component
     setResetTrigger(prev => {
       const newTrigger = prev + 1;
-      console.log('HamburgerRunnerGame: Reset trigger incremented to:', newTrigger);
+      console.log('NoodleTetrisGame: Reset trigger incremented to:', newTrigger);
       return newTrigger;
     });
     
     // Small delay to ensure reset is processed, then activate game
     setTimeout(() => {
-      console.log('HamburgerRunnerGame: Activating game after reset and remount');
+      console.log('NoodleTetrisGame: Activating game after reset and remount');
       setGameActive(true);
     }, 100);
   }, []);
 
-  const goBackToFreePlay = () => {
+  const goBackToHamburgerRunner = () => {
     window.history.back();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">
-      {/* Simple Header for Hamburger Runner */}
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
+      {/* Simple Header for Noodle Tetris */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <button
-                onClick={goBackToFreePlay}
+                onClick={goBackToHamburgerRunner}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <ArrowLeft className="h-5 w-5 text-gray-600" />
               </button>
               <div className="flex items-center space-x-2">
-                <div className="bg-gradient-to-r from-green-600 to-yellow-500 p-2 rounded-lg">
+                <div className="bg-gradient-to-r from-amber-600 to-orange-500 p-2 rounded-lg">
                   <GamepadIcon className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-yellow-500 bg-clip-text text-transparent">
-                  Hamburger Runner
+                <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">
+                  Noodle Tetris
                 </span>
               </div>
             </div>
             
             <Link
               to="/"
-              className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors"
+              className="flex items-center space-x-2 text-gray-600 hover:text-amber-600 transition-colors"
             >
               <Home className="h-5 w-5" />
               <span>Back to Home</span>
@@ -100,10 +100,10 @@ const HamburgerRunnerGame: React.FC = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-4 mb-4">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-yellow-600 bg-clip-text text-transparent">
-                🍔 Hamburger Runner 🍔
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                🍜 Noodle Tetris 🍜
               </h1>
-              <p className="text-gray-600 mt-2">Run, jump, and collect coins in this endless adventure!</p>
+              <p className="text-gray-600 mt-2">Stack noodle pieces in this fast-paced Tetris challenge!</p>
             </div>
           </div>
           
@@ -111,16 +111,16 @@ const HamburgerRunnerGame: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 inline-block">
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
-                <GamepadIcon className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Temple Run Style</span>
+                <GamepadIcon className="h-5 w-5 text-amber-500" />
+                <span className="font-semibold">Fast-Paced Tetris</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Trophy className="h-5 w-5 text-yellow-500" />
-                <span>Endless Runner</span>
+                <span>Clear Lines for Points</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Star className="h-5 w-5 text-orange-500" />
-                <span>Collect Coins & Avoid Obstacles!</span>
+                <span>Speed Increases Every Level!</span>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ const HamburgerRunnerGame: React.FC = () => {
         {/* Game Container */}
         <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
           {/* Force component remount with key prop */}
-          <HamburgerRunner 
+          <NoodleTetris 
             key={gameKey}
             onGameEnd={handleGameEnd} 
             gameActive={gameActive}
@@ -139,27 +139,27 @@ const HamburgerRunnerGame: React.FC = () => {
           {/* Floating Play Again Button - positioned over the canvas */}
           {finalScore !== null && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-green-200 pointer-events-auto">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-amber-200 pointer-events-auto">
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold text-green-800 mb-2">
-                    🎉 Amazing Run! 🎉
+                  <h3 className="text-2xl font-bold text-amber-800 mb-2">
+                    🎉 Noodle Master! 🎉
                   </h3>
-                  <p className="text-lg text-green-700 mb-4">
+                  <p className="text-lg text-amber-700 mb-4">
                     You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
                   <div className="flex space-x-3">
                     <button
                       onClick={restartGame}
-                      className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg"
                     >
                       Play Again
                     </button>
-                    <Link
-                      to="/noodle-tetris"
-                      className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg inline-block"
+                    <button
+                      onClick={goBackToHamburgerRunner}
+                      className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-lg"
                     >
                       Other Games
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -171,4 +171,4 @@ const HamburgerRunnerGame: React.FC = () => {
   );
 };
 
-export default HamburgerRunnerGame;
+export default NoodleTetrisGame;
