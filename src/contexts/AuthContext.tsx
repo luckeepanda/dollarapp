@@ -37,14 +37,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then( ({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Session error:', error);
+        // Clear any invalid session data and redirect to home
+        setSupabaseUser(null);
+        setUser(null);
+        setIsLoading(false);
+        return;
+      }
+
       console.log('Initial session check:', session?.user?.email);
       setSupabaseUser(session?.user ?? null);
+      
       if (session?.user) {
         fetchUserProfile(session.user.id);
       } else {
         setIsLoading(false);
       }
+    }).catch((error) => {
+      console.error('Failed to get session:', error);
+      // Handle session retrieval failure by clearing state
+      setSupabaseUser(null);
+      setUser(null);
+      setIsLoading(false);
     });
 
     // Listen for auth changes
@@ -52,12 +68,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session?.user?.email);
-      setSupabaseUser(session?.user ?? null);
       
-      if (!session?.user) {
+      // Handle sign out or invalid session
+      if (event === 'SIGNED_OUT' || !session?.user) {
+        setSupabaseUser(null);
         setUser(null);
         setIsLoading(false);
-      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        return;
+      }
+
+      // Handle token refresh errors
+      if (event === 'TOKEN_REFRESHED' && !session) {
+        console.warn('Token refresh failed, clearing session');
+        setSupabaseUser(null);
+        setUser(null);
+        setIsLoading(false);
+        return;
+      }
+
+      setSupabaseUser(session?.user ?? null);
+      
+      if (session?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
         // For OAuth logins, we might need to create a profile if it doesn't exist
         await fetchUserProfile(session.user.id);
       }
@@ -98,6 +129,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return data;
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      // On any error, clear the user state and stop loading
+      setUser(null);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -241,9 +274,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Logout error:', error);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Logout error:', error);
+        throw error;
+      }
+      // Clear state immediately on successful logout
+      setUser(null);
+      setSupabaseUser(null);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Even if logout fails, clear local state
+      setUser(null);
+      setSupabaseUser(null);
       throw error;
     }
   };
