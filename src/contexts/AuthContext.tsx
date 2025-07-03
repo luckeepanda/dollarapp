@@ -35,6 +35,71 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Logout function
+  const logout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Logout error:', error);
+        throw error;
+      }
+      // Clear state immediately on successful logout
+      setUser(null);
+      setSupabaseUser(null);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Even if logout fails, clear local state
+      setUser(null);
+      setSupabaseUser(null);
+      throw error;
+    }
+  };
+
+  // Handle beforeunload event to logout when user closes browser/tab
+  useEffect(() => {
+    const handleBeforeUnload = async (event: BeforeUnloadEvent) => {
+      // Only logout if user is actually logged in
+      if (user || supabaseUser) {
+        try {
+          // Use sendBeacon for reliable logout during page unload
+          // This is more reliable than async/await during beforeunload
+          navigator.sendBeacon('/api/logout', JSON.stringify({ 
+            action: 'logout',
+            userId: user?.id || supabaseUser?.id 
+          }));
+          
+          // Also attempt immediate logout
+          await supabase.auth.signOut();
+        } catch (error) {
+          console.error('Beforeunload logout failed:', error);
+        }
+      }
+    };
+
+    // Add event listener for beforeunload
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Also handle visibility change (when tab becomes hidden)
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'hidden' && (user || supabaseUser)) {
+        try {
+          // Attempt logout when tab becomes hidden
+          await supabase.auth.signOut();
+        } catch (error) {
+          console.error('Visibility change logout failed:', error);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [user, supabaseUser]);
+
   useEffect(() => {
     let mounted = true;
 
@@ -287,25 +352,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('Logout error:', error);
-        throw error;
-      }
-      // Clear state immediately on successful logout
-      setUser(null);
-      setSupabaseUser(null);
-    } catch (error) {
-      console.error('Logout failed:', error);
-      // Even if logout fails, clear local state
-      setUser(null);
-      setSupabaseUser(null);
-      throw error;
     }
   };
 
