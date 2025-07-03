@@ -20,6 +20,16 @@ interface RegisterData {
   accountType: 'player' | 'restaurant';
 }
 
+// Local storage keys
+const STORAGE_KEYS = {
+  USER_PROFILE: 'dollarapp_user_profile',
+  SUPABASE_USER: 'dollarapp_supabase_user',
+  LAST_SYNC: 'dollarapp_last_sync'
+};
+
+// Cache duration in milliseconds (5 minutes)
+const CACHE_DURATION = 5 * 60 * 1000;
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
@@ -30,63 +40,135 @@ export const useAuth = () => {
   return context;
 };
 
+// Local storage utilities
+const saveToLocalStorage = (key: string, data: any) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    localStorage.setItem(STORAGE_KEYS.LAST_SYNC, Date.now().toString());
+  } catch (error) {
+    console.warn('Failed to save to localStorage:', error);
+  }
+};
+
+const getFromLocalStorage = (key: string) => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch (error) {
+    console.warn('Failed to read from localStorage:', error);
+    return null;
+  }
+};
+
+const clearLocalStorage = () => {
+  try {
+    localStorage.removeItem(STORAGE_KEYS.USER_PROFILE);
+    localStorage.removeItem(STORAGE_KEYS.SUPABASE_USER);
+    localStorage.removeItem(STORAGE_KEYS.LAST_SYNC);
+  } catch (error) {
+    console.warn('Failed to clear localStorage:', error);
+  }
+};
+
+const isCacheValid = () => {
+  try {
+    const lastSync = localStorage.getItem(STORAGE_KEYS.LAST_SYNC);
+    if (!lastSync) return false;
+    
+    const timeDiff = Date.now() - parseInt(lastSync);
+    return timeDiff < CACHE_DURATION;
+  } catch (error) {
+    return false;
+  }
+};
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load cached data on mount
   useEffect(() => {
-    let mounted = true;
-
-    // Get initial session
-    const initializeAuth = async () => {
-      try {
-        console.log('Initializing auth...');
+    const loadCachedData = () => {
+      if (isCacheValid()) {
+        const cachedUser = getFromLocalStorage(STORAGE_KEYS.USER_PROFILE);
+        const cachedSupabaseUser = getFromLocalStorage(STORAGE_KEYS.SUPABASE_USER);
         
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (!mounted) return;
-
-        if (error) {
-          console.error('Session error:', error);
-          setSupabaseUser(null);
-          setUser(null);
+        if (cachedUser && cachedSupabaseUser) {
+          console.log('Loading user data from cache');
+          setUser(cachedUser);
+          setSupabaseUser(cachedSupabaseUser);
           setIsLoading(false);
-          return;
-        }
-
-        console.log('Initial session check:', session?.user?.email);
-        setSupabaseUser(session?.user ?? null);
-        
-        if (session?.user) {
-          await fetchUserProfile(session.user.id);
-        } else {
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error('Failed to initialize auth:', error);
-        if (mounted) {
-          setSupabaseUser(null);
-          setUser(null);
-          setIsLoading(false);
+          return true; // Cache was used
         }
       }
+      return false; // Cache was not used
     };
 
-    initializeAuth();
+    const cacheUsed = loadCachedData();
+    
+    // If cache wasn't used, proceed with normal initialization
+    if (!cacheUsed) {
+      initializeAuth();
+    }
+  }, []);
 
+  const initializeAuth = async () => {
+    let mounted = true;
+
+    try {
+      console.log('Initializing auth from server...');
+      
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (!mounted) return;
+
+      if (error) {
+        console.error('Session error:', error);
+        setSupabaseUser(null);
+        setUser(null);
+        clearLocalStorage();
+        setIsLoading(false);
+        return;
+      }
+
+      console.log('Initial session check:', session?.user?.email);
+      
+      if (session?.user) {
+        setSupabaseUser(session.user);
+        saveToLocalStorage(STORAGE_KEYS.SUPABASE_USER, session.user);
+        await fetchUserProfile(session.user.id);
+      } else {
+        clearLocalStorage();
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Failed to initialize auth:', error);
+      if (mounted) {
+        setSupabaseUser(null);
+        setUser(null);
+        clearLocalStorage();
+        setIsLoading(false);
+      }
+    }
+
+    return () => {
+      mounted = false;
+    };
+  };
+
+  useEffect(() => {
     // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!mounted) return;
-
       console.log('Auth state changed:', event, session?.user?.email);
       
       // Handle sign out or invalid session
       if (event === 'SIGNED_OUT' || !session?.user) {
         setSupabaseUser(null);
         setUser(null);
+        clearLocalStorage();
         setIsLoading(false);
         return;
       }
@@ -96,11 +178,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.warn('Token refresh failed, clearing session');
         setSupabaseUser(null);
         setUser(null);
+        clearLocalStorage();
         setIsLoading(false);
         return;
       }
 
       setSupabaseUser(session?.user ?? null);
+      if (session?.user) {
+        saveToLocalStorage(STORAGE_KEYS.SUPABASE_USER, session.user);
+      }
       
       if (session?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
         // For OAuth logins, we might need to create a profile if it doesn't exist
@@ -109,7 +195,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     return () => {
-      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -118,22 +203,34 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       console.log('Fetching user profile for:', userId);
       
+      // Check cache first if it's still valid
+      if (isCacheValid()) {
+        const cachedUser = getFromLocalStorage(STORAGE_KEYS.USER_PROFILE);
+        if (cachedUser && cachedUser.id === userId) {
+          console.log('Using cached user profile');
+          setUser(cachedUser);
+          setIsLoading(false);
+          return cachedUser;
+        }
+      }
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
-      setIsLoading(false);
+
       if (error) {
         console.error('Error fetching user profile:', error);
         // If user profile doesn't exist, this might be an OAuth user
         setUser(null);
+        clearLocalStorage();
         setIsLoading(false);
         return;
       }
 
-      console.log('User profile fetched:', data);
-      setUser({
+      console.log('User profile fetched from server:', data);
+      const userProfile = {
         id: data.id,
         email: data.email,
         username: data.username,
@@ -142,15 +239,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isKYCVerified: data.is_kyc_verified,
         created_at: data.created_at,
         updated_at: data.updated_at
-      });
+      };
+
+      setUser(userProfile);
+      saveToLocalStorage(STORAGE_KEYS.USER_PROFILE, userProfile);
+      setIsLoading(false);
 
       return data;
     } catch (error) {
       console.error('Error fetching user profile:', error);
       // On any error, clear the user state and stop loading
       setUser(null);
-    } finally {
-      // Always ensure loading is set to false
+      clearLocalStorage();
       setIsLoading(false);
     }
   };
@@ -204,6 +304,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
 
       console.log('Login successful:', data.user?.email);
+      
+      if (data.user) {
+        saveToLocalStorage(STORAGE_KEYS.SUPABASE_USER, data.user);
+      }
       
       const profile = await fetchUserProfile(data.user.id);
       return profile;
@@ -261,7 +365,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         throw authError;
       }
 
-      console.log('Auth user created:', authData.user.id);
+      console.log('Auth user created:', authData.user?.id);
 
     } catch (error: any) {
       console.error('Registration error:', error);
@@ -297,21 +401,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.error('Logout error:', error);
         throw error;
       }
-      // Clear state immediately on successful logout
+      // Clear state and cache immediately on successful logout
       setUser(null);
       setSupabaseUser(null);
+      clearLocalStorage();
     } catch (error) {
       console.error('Logout failed:', error);
-      // Even if logout fails, clear local state
+      // Even if logout fails, clear local state and cache
       setUser(null);
       setSupabaseUser(null);
+      clearLocalStorage();
       throw error;
     }
   };
 
   const updateBalance = (newBalance: number) => {
     if (user) {
-      setUser({ ...user, balance: newBalance });
+      const updatedUser = { ...user, balance: newBalance };
+      setUser(updatedUser);
+      // Update cache with new balance
+      saveToLocalStorage(STORAGE_KEYS.USER_PROFILE, updatedUser);
     }
   };
 
