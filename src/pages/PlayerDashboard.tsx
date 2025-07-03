@@ -213,7 +213,7 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-orange-400" />
               <div>
-                <p className="text-sm font-medium text-orange-300">Insufficient Balance</p>
+                <p className="text-sm font-medium text-orange-600">Insufficient Balance</p>
                 <p className="text-xs text-orange-400">
                   You need at least $1 to join a game. 
                   <Link to="/deposit" className="font-semibold hover:underline ml-1">
