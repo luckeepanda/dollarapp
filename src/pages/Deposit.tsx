@@ -33,7 +33,7 @@ const Deposit: React.FC = () => {
       name: 'Cash App',
       description: 'Pay with your Cash App balance or card',
       icon: Smartphone,
-      color: 'from-green-500 to-green-600',
+      color: 'from-steel-blue-500 to-steel-blue-600',
       available: true
     },
     {
@@ -41,7 +41,7 @@ const Deposit: React.FC = () => {
       name: 'Zelle',
       description: 'Bank-to-bank transfer via Zelle',
       icon: Building,
-      color: 'from-purple-500 to-purple-600',
+      color: 'from-royal-blue-500 to-royal-blue-600',
       available: true
     },
     {
@@ -49,7 +49,7 @@ const Deposit: React.FC = () => {
       name: 'Credit/Debit Card',
       description: 'Secure payment with any major card',
       icon: CreditCard,
-      color: 'from-blue-500 to-blue-600',
+      color: 'from-steel-blue-500 to-royal-blue-600',
       available: true
     }
   ];
@@ -104,7 +104,7 @@ const Deposit: React.FC = () => {
                     onClick={() => setSelectedMethod(method.id)}
                     className={`p-4 rounded-xl border-2 transition-all text-left ${
                       selectedMethod === method.id
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-royal-blue-500 bg-royal-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
@@ -117,7 +117,7 @@ const Deposit: React.FC = () => {
                         <p className="text-sm text-gray-600">{method.description}</p>
                       </div>
                       {selectedMethod === method.id && (
-                        <Check className="h-5 w-5 text-blue-600" />
+                        <Check className="h-5 w-5 text-royal-blue-600" />
                       )}
                     </div>
                   </button>
@@ -137,7 +137,7 @@ const Deposit: React.FC = () => {
                     onClick={() => setAmount(quickAmount.toString())}
                     className={`p-3 rounded-xl border-2 transition-all ${
                       amount === quickAmount.toString()
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        ? 'border-royal-blue-500 bg-royal-blue-50 text-royal-blue-700'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
@@ -153,7 +153,7 @@ const Deposit: React.FC = () => {
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent"
                   placeholder="Enter custom amount"
                   min="1"
                   step="0.01"
@@ -187,7 +187,7 @@ const Deposit: React.FC = () => {
                 <hr className="border-gray-200" />
                 <div className="flex justify-between text-lg">
                   <span className="font-semibold">New Balance</span>
-                  <span className="font-bold text-green-600">
+                  <span className="font-bold text-steel-blue-600">
                     ${((user?.balance || 0) + parseFloat(amount || '0')).toFixed(2)}
                   </span>
                 </div>
@@ -196,7 +196,7 @@ const Deposit: React.FC = () => {
               <button
                 onClick={handleDeposit}
                 disabled={!selectedMethod || !amount || isProcessing || parseFloat(amount || '0') < 1}
-                className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-green-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-royal-blue-600 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-700 hover:to-steel-blue-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
               >
                 {isProcessing ? (
                   <>
@@ -212,14 +212,14 @@ const Deposit: React.FC = () => {
               </button>
 
               {/* Security Notice */}
-              <div className="mt-4 p-3 bg-green-50 rounded-xl">
+              <div className="mt-4 p-3 bg-steel-blue-50 rounded-xl">
                 <div className="flex items-center space-x-2">
-                  <Shield className="h-4 w-4 text-green-600" />
-                  <span className="text-sm text-green-800 font-medium">
+                  <Shield className="h-4 w-4 text-steel-blue-600" />
+                  <span className="text-sm text-steel-blue-800 font-medium">
                     Secure & Encrypted
                   </span>
                 </div>
-                <p className="text-xs text-green-700 mt-1">
+                <p className="text-xs text-steel-blue-700 mt-1">
                   All payments are processed securely and your financial information is never stored.
                 </p>
               </div>

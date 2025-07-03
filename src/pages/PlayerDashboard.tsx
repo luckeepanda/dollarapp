@@ -55,10 +55,10 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Current Balance</p>
-                <p className="text-2xl font-bold text-green-600">${user?.balance.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-steel-blue-600">${user?.balance.toFixed(2)}</p>
               </div>
-              <div className="bg-green-100 p-3 rounded-xl">
-                <DollarSign className="h-6 w-6 text-green-600" />
+              <div className="bg-steel-blue-100 p-3 rounded-xl">
+                <DollarSign className="h-6 w-6 text-steel-blue-600" />
               </div>
             </div>
           </div>
@@ -71,10 +71,10 @@ const PlayerDashboard: React.FC = () => {
             <div className="space-y-3">
               <Link
                 to="/deposit"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl hover:from-blue-100 hover:to-green-100 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-50 to-steel-blue-50 rounded-xl hover:from-royal-blue-100 hover:to-steel-blue-100 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="h-5 w-5 text-blue-600" />
+                  <CreditCard className="h-5 w-5 text-royal-blue-600" />
                   <span className="font-medium">Add Funds</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
@@ -82,10 +82,10 @@ const PlayerDashboard: React.FC = () => {
 
               <Link
                 to="/free-play"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-steel-blue-50 to-royal-blue-50 rounded-xl hover:from-steel-blue-100 hover:to-royal-blue-100 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <Trophy className="h-5 w-5 text-purple-600" />
+                  <Trophy className="h-5 w-5 text-steel-blue-600" />
                   <span className="font-medium">Free Play</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
@@ -97,7 +97,7 @@ const PlayerDashboard: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">Featured Game</h2>
-              <Link to="/free-play" className="text-blue-600 font-medium hover:text-blue-700">
+              <Link to="/free-play" className="text-royal-blue-600 font-medium hover:text-royal-blue-700">
                 Try Free Play
               </Link>
             </div>

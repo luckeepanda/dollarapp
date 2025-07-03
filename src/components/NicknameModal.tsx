@@ -62,7 +62,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
         {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-blue-600 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 p-6 text-white relative">
           <button
             onClick={handleSkip}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -75,14 +75,14 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
             <Trophy className="h-8 w-8 text-yellow-300" />
             <h2 className="text-2xl font-bold">Great Score!</h2>
           </div>
-          <p className="text-green-100">You scored {score} points!</p>
+          <p className="text-steel-blue-100">You scored {score} points!</p>
         </div>
 
         {/* Content */}
         <div className="p-6">
           <div className="text-center mb-6">
-            <div className="bg-gradient-to-r from-green-100 to-blue-100 p-4 rounded-xl mb-4">
-              <Trophy className="h-12 w-12 text-green-600 mx-auto mb-2" />
+            <div className="bg-gradient-to-r from-steel-blue-100 to-royal-blue-100 p-4 rounded-xl mb-4">
+              <Trophy className="h-12 w-12 text-steel-blue-600 mx-auto mb-2" />
               <p className="text-gray-700">
                 Save your score to the all-time leaderboard!
               </p>
@@ -103,7 +103,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                     setNickname(e.target.value);
                     setError('');
                   }}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-steel-blue-500 focus:border-transparent transition-all"
                   placeholder="Enter your nickname"
                   maxLength={20}
                   disabled={isSubmitting}
@@ -124,7 +124,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting || !nickname.trim()}
-                className="flex-1 bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                className="flex-1 bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 text-white py-3 rounded-xl font-semibold hover:from-steel-blue-700 hover:to-royal-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
               >
                 {isSubmitting ? (
                   <>

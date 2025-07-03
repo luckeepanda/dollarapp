@@ -17,14 +17,14 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-white shadow-sm border-b border-steel-blue-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-blue-600 to-green-500 p-2 rounded-lg">
+            <div className="bg-gradient-to-r from-royal-blue-600 to-steel-blue-500 p-2 rounded-lg">
               <DollarSign className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-royal-blue-600 to-steel-blue-500 bg-clip-text text-transparent">
               Dollar App
             </span>
           </Link>
@@ -34,11 +34,11 @@ const Header: React.FC = () => {
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <User className="h-4 w-4" />
                 <span>{user.username}</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                <span className="px-2 py-1 bg-royal-blue-100 text-royal-blue-800 rounded-full text-xs">
                   {user.accountType}
                 </span>
               </div>
-              <div className="text-sm font-semibold text-green-600">
+              <div className="text-sm font-semibold text-steel-blue-600">
                 ${user.balance.toFixed(2)}
               </div>
               <button

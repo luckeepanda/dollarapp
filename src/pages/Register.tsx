@@ -114,16 +114,16 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-steel-blue-50 via-royal-blue-50 to-steel-blue-50">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-steel-blue-400/20 to-royal-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-royal-blue-400/20 to-steel-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">
@@ -195,7 +195,7 @@ const Register: React.FC = () => {
                   disabled={isLoading || isOAuthLoading !== null}
                   className={`p-4 rounded-xl border-2 transition-all ${
                     formData.accountType === 'player'
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      ? 'border-royal-blue-500 bg-royal-blue-50 text-royal-blue-700'
                       : 'border-gray-200 hover:border-gray-300'
                   } disabled:opacity-50`}
                 >
@@ -210,7 +210,7 @@ const Register: React.FC = () => {
                   disabled={isLoading || isOAuthLoading !== null}
                   className={`p-4 rounded-xl border-2 transition-all ${
                     formData.accountType === 'restaurant'
-                      ? 'border-green-500 bg-green-50 text-green-700'
+                      ? 'border-steel-blue-500 bg-steel-blue-50 text-steel-blue-700'
                       : 'border-gray-200 hover:border-gray-300'
                   } disabled:opacity-50`}
                 >
@@ -232,7 +232,7 @@ const Register: React.FC = () => {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
                   placeholder="Enter your email"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -250,7 +250,7 @@ const Register: React.FC = () => {
                   type="text"
                   value={formData.username}
                   onChange={(e) => setFormData({...formData, username: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
                   placeholder="Choose a username"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -269,7 +269,7 @@ const Register: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
                   placeholder="Create a password"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -296,7 +296,7 @@ const Register: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
                   placeholder="Confirm your password"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -307,7 +307,7 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 text-white py-3 rounded-xl font-semibold hover:from-steel-blue-700 hover:to-royal-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
             >
               {isLoading ? (
                 <>
@@ -323,14 +323,14 @@ const Register: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Already have an account?{' '}
-              <Link to="/login" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+              <Link to="/login" className="text-royal-blue-600 font-semibold hover:text-royal-blue-700 transition-colors">
                 Sign in
               </Link>
             </p>
           </div>
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-xl">
-            <p className="text-sm text-blue-800 text-center">
+          <div className="mt-4 p-4 bg-royal-blue-50 rounded-xl">
+            <p className="text-sm text-royal-blue-800 text-center">
               <strong>Note:</strong> OAuth accounts are created instantly. Email accounts require verification.
             </p>
           </div>
