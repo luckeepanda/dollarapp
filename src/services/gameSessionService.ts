@@ -22,6 +22,7 @@ export interface GameParticipant {
   final_score?: number;
   qualified: boolean;
   prize_won?: number;
+  has_played: boolean;
   profiles?: {
     username: string;
   };
@@ -103,7 +104,7 @@ export const gameSessionService = {
 
   // Submit game score
   async submitScore(sessionId: string, userId: string, score: number): Promise<boolean> {
-    const { data, error } = await supabase.rpc('submit_game_score', {
+    const { data, error } = await supabase.rpc('submit_tournament_score', {
       p_session_id: sessionId,
       p_user_id: userId,
       p_score: score
@@ -117,16 +118,38 @@ export const gameSessionService = {
     return data; // Returns whether player qualified
   },
 
-  // Complete game session (distribute prizes)
-  async completeSession(sessionId: string): Promise<void> {
-    const { error } = await supabase.rpc('complete_game_session', {
+  // Check if all players have completed their games
+  async checkSessionComplete(sessionId: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc('check_tournament_complete', {
       p_session_id: sessionId
     });
 
     if (error) {
-      console.error('Error completing session:', error);
+      console.error('Error checking session completion:', error);
       throw error;
     }
+
+    return data;
+  },
+
+  // Get tournament results
+  async getTournamentResults(sessionId: string): Promise<GameParticipant[]> {
+    const { data, error } = await supabase
+      .from('game_participants')
+      .select(`
+        *,
+        profiles(username)
+      `)
+      .eq('session_id', sessionId)
+      .eq('has_played', true)
+      .order('final_score', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching tournament results:', error);
+      throw error;
+    }
+
+    return data || [];
   },
 
   // Listen for session updates

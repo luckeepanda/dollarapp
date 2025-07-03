@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import GameWaitingRoom from '../components/GameWaitingRoom';
-import PaidGameSession from '../components/PaidGameSession';
+import TournamentGameSession from '../components/TournamentGameSession';
 import { useAuth } from '../contexts/AuthContext';
 import { gameSessionService, type GameSession } from '../services/gameSessionService';
 import { 
@@ -14,19 +14,16 @@ import {
   Play,
   AlertCircle,
   CheckCircle,
-  Users
+  Users,
+  Crown
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
   const { user, updateBalance } = useAuth();
   const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
-  const [gameState, setGameState] = useState<'dashboard' | 'waiting' | 'playing' | 'results'>('dashboard');
+  const [gameState, setGameState] = useState<'dashboard' | 'tournament' | 'results'>('dashboard');
   const [isJoining, setIsJoining] = useState(false);
-  const [gameResults, setGameResults] = useState<{
-    qualified: boolean;
-    score: number;
-    prizeWon?: number;
-  } | null>(null);
+  const [gameResults, setGameResults] = useState<any>(null);
 
   useEffect(() => {
     checkCurrentSession();
@@ -39,11 +36,7 @@ const PlayerDashboard: React.FC = () => {
       const session = await gameSessionService.getCurrentSession(user.id);
       if (session) {
         setCurrentSession(session);
-        if (session.status === 'waiting') {
-          setGameState('waiting');
-        } else if (session.status === 'active') {
-          setGameState('playing');
-        }
+        setGameState('tournament');
       }
     } catch (error) {
       console.error('Failed to check current session:', error);
@@ -68,12 +61,7 @@ const PlayerDashboard: React.FC = () => {
       // Get session details
       const { session } = await gameSessionService.getSessionDetails(sessionId);
       setCurrentSession(session);
-      
-      if (session.status === 'waiting') {
-        setGameState('waiting');
-      } else if (session.status === 'active') {
-        setGameState('playing');
-      }
+      setGameState('tournament');
     } catch (error: any) {
       console.error('Failed to join game:', error);
       alert(error.message || 'Failed to join game. Please try again.');
@@ -82,12 +70,8 @@ const PlayerDashboard: React.FC = () => {
     }
   };
 
-  const handleGameStart = () => {
-    setGameState('playing');
-  };
-
-  const handleGameComplete = (qualified: boolean, score: number, prizeWon?: number) => {
-    setGameResults({ qualified, score, prizeWon });
+  const handleGameComplete = (results: any) => {
+    setGameResults(results);
     setGameState('results');
   };
 
@@ -97,99 +81,14 @@ const PlayerDashboard: React.FC = () => {
     setGameResults(null);
   };
 
-  // Render different states
-  if (gameState === 'waiting' && currentSession) {
+  // Render tournament game session
+  if (gameState === 'tournament' && currentSession) {
     return (
-      <GameWaitingRoom
-        sessionId={currentSession.id}
-        onGameStart={handleGameStart}
-        onLeaveSession={handleLeaveSession}
-      />
-    );
-  }
-
-  if (gameState === 'playing' && currentSession) {
-    return (
-      <PaidGameSession
+      <TournamentGameSession
         sessionId={currentSession.id}
         onGameComplete={handleGameComplete}
         onLeaveSession={handleLeaveSession}
       />
-    );
-  }
-
-  if (gameState === 'results' && gameResults) {
-    return (
-      <div className="min-h-screen bg-steel-blue-900">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 max-w-md mx-auto">
-              <div className="text-6xl mb-4">
-                {gameResults.qualified ? '🎉' : '😔'}
-              </div>
-              
-              <h2 className="text-3xl font-bold text-steel-blue-100 mb-4">
-                {gameResults.qualified ? 'Congratulations!' : 'Better Luck Next Time!'}
-              </h2>
-              
-              <div className="space-y-4 mb-6">
-                <div className="bg-white/10 p-4 rounded-xl">
-                  <p className="text-royal-blue-200 text-sm">Your Score</p>
-                  <p className="text-3xl font-bold text-steel-blue-100">{gameResults.score}</p>
-                </div>
-                
-                {gameResults.qualified && gameResults.prizeWon && (
-                  <div className="bg-green-500/20 p-4 rounded-xl border border-green-400/30">
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <Trophy className="h-6 w-6 text-yellow-400" />
-                      <p className="text-green-300 font-semibold">Prize Won!</p>
-                    </div>
-                    <p className="text-2xl font-bold text-green-400">
-                      ${gameResults.prizeWon.toFixed(2)}
-                    </p>
-                  </div>
-                )}
-                
-                {!gameResults.qualified && (
-                  <div className="bg-orange-500/20 p-4 rounded-xl border border-orange-400/30">
-                    <p className="text-orange-300 text-sm">
-                      You needed at least 5 points to qualify for the prize.
-                    </p>
-                  </div>
-                )}
-              </div>
-              
-              <div className="space-y-3">
-                <button
-                  onClick={handleJoinGame}
-                  disabled={isJoining || (user?.balance || 0) < 1}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-red-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
-                >
-                  {isJoining ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span>Joining...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-4 w-4" />
-                      <span>Play Again - $1</span>
-                    </>
-                  )}
-                </button>
-                
-                <button
-                  onClick={handleLeaveSession}
-                  className="w-full bg-white/10 text-steel-blue-100 py-3 rounded-xl font-semibold hover:bg-white/20 transition-all border border-white/20"
-                >
-                  Back to Dashboard
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     );
   }
 
@@ -204,7 +103,7 @@ const PlayerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-steel-blue-100 mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-steel-blue-300">Ready to win some delicious prizes today?</p>
+          <p className="text-steel-blue-300">Ready to compete in the tournament and win big?</p>
         </div>
 
         {/* Balance Warning */}
@@ -215,7 +114,7 @@ const PlayerDashboard: React.FC = () => {
               <div>
                 <p className="text-sm font-medium text-orange-600">Insufficient Balance</p>
                 <p className="text-xs text-orange-400">
-                  You need at least $1 to join a game. 
+                  You need at least $1 to join a tournament. 
                   <Link to="/deposit" className="font-semibold hover:underline ml-1">
                     Add funds now
                   </Link>
@@ -258,28 +157,28 @@ const PlayerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Featured Game */}
+          {/* Featured Tournament */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-steel-blue-100">Taco Flyer Challenge</h2>
+              <h2 className="text-xl font-semibold text-steel-blue-100">Taco Flyer Tournament</h2>
             </div>
             
-            {/* Game Card */}
+            {/* Tournament Card */}
             <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
-              {/* Game Header */}
+              {/* Tournament Header */}
               <div className="p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-4xl">🌮</div>
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Live Game
+                  <div className="text-4xl">🏆</div>
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Tournament Mode
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">$1 Entry • $5 Prize Pool</h3>
+                <h3 className="text-2xl font-bold mb-2">$1 Entry • Winner Takes All</h3>
                 <p className="text-orange-100 text-sm mb-4">
-                  Join 4 other players in this competitive taco flying challenge!
+                  Compete against 4 other players - highest score wins the entire prize pool!
                 </p>
                 
-                {/* Game Stats */}
+                {/* Tournament Stats */}
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
@@ -294,26 +193,26 @@ const PlayerDashboard: React.FC = () => {
                       <Users className="h-4 w-4 text-orange-100" />
                       <span className="text-xs text-orange-100">Players</span>
                     </div>
-                    <p className="text-lg font-bold">5 Max</p>
+                    <p className="text-lg font-bold">5 Total</p>
                   </div>
                   
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Trophy className="h-4 w-4 text-yellow-300" />
-                      <span className="text-xs text-orange-100">Min Score</span>
+                      <Crown className="h-4 w-4 text-yellow-300" />
+                      <span className="text-xs text-orange-100">Prize</span>
                     </div>
-                    <p className="text-lg font-bold">5 Points</p>
+                    <p className="text-lg font-bold">$5.00</p>
                   </div>
                 </div>
 
                 {/* How it Works */}
                 <div className="bg-white/10 p-4 rounded-xl mb-6">
-                  <h4 className="font-semibold mb-2">How it Works:</h4>
+                  <h4 className="font-semibold mb-2">Tournament Format:</h4>
                   <ul className="text-sm text-orange-100 space-y-1">
-                    <li>• Pay $1 to join a 5-player game</li>
-                    <li>• Score 5+ points to qualify for prizes</li>
-                    <li>• Qualified players split the $5 prize pool</li>
-                    <li>• Game starts when 5 players join</li>
+                    <li>• 5 players each pay $1 to enter</li>
+                    <li>• Each player plays the taco game once</li>
+                    <li>• Player with the highest score wins all $5</li>
+                    <li>• Tournament starts when 5 players join</li>
                   </ul>
                 </div>
 
@@ -326,12 +225,12 @@ const PlayerDashboard: React.FC = () => {
                   {isJoining ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-600"></div>
-                      <span>Joining Game...</span>
+                      <span>Joining Tournament...</span>
                     </>
                   ) : (
                     <>
                       <Play className="h-5 w-5" />
-                      <span>Join Game - $1</span>
+                      <span>Join Tournament - $1</span>
                     </>
                   )}
                 </button>
@@ -340,24 +239,24 @@ const PlayerDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Game Rules */}
+        {/* Tournament Rules */}
         <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-steel-blue-100">
             <TrendingUp className="h-5 w-5 text-orange-400" />
-            <span>How Paid Games Work</span>
+            <span>How Tournaments Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-steel-blue-300">
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join & Pay</h3>
-              <p>Pay $1 to join a game session. You'll wait for 4 other players to join before the game starts.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join & Wait</h3>
+              <p>Pay $1 to join a tournament. Wait for 4 other players to join before the tournament begins.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play & Score</h3>
-              <p>Guide your taco through obstacles. Score at least 5 points to qualify for the prize pool.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play Your Best</h3>
+              <p>Each player gets one attempt at the taco game. Your final score is recorded on the tournament leaderboard.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Win Prizes</h3>
-              <p>All qualified players split the $5 prize pool equally. The more players qualify, the smaller each share.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Winner Takes All</h3>
+              <p>The player with the highest score wins the entire $5 prize pool. Results are shown when everyone finishes.</p>
             </div>
           </div>
         </div>
