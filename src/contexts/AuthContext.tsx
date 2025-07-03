@@ -123,7 +123,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .select('*')
         .eq('id', userId)
         .single();
-      
+      setIsLoading(false);
       if (error) {
         console.error('Error fetching user profile:', error);
         // If user profile doesn't exist, this might be an OAuth user
