@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { 
   ArrowLeft, 
   CreditCard, 
@@ -10,16 +11,26 @@ import {
   Shield,
   Check,
   Apple,
-  DollarSign
+  DollarSign,
+  Zap
 } from 'lucide-react';
 
 const Deposit: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateBalance } = useAuth();
   const [selectedMethod, setSelectedMethod] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
 
   const paymentMethods = [
+    {
+      id: 'dummy_pay',
+      name: 'Dummy Pay',
+      description: 'Instant test payment - adds funds immediately',
+      icon: Zap,
+      color: 'from-purple-500 to-pink-600',
+      available: true,
+      isTest: true
+    },
     {
       id: 'apple_pay',
       name: 'Apple Pay',
@@ -62,15 +73,68 @@ const Deposit: React.FC = () => {
       return;
     }
 
+    if (!user) {
+      alert('User not found. Please log in again.');
+      return;
+    }
+
     setIsProcessing(true);
 
-    // Simulate payment processing
-    setTimeout(() => {
-      alert(`Successfully deposited $${amount} via ${paymentMethods.find(m => m.id === selectedMethod)?.name}!`);
+    try {
+      if (selectedMethod === 'dummy_pay') {
+        // Handle Dummy Pay - actually update the balance in Supabase
+        const depositAmount = parseFloat(amount);
+        
+        // Update balance in Supabase using the add_balance function
+        const { error } = await supabase.rpc('add_balance', {
+          user_id: user.id,
+          amount: depositAmount
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        // Update local state
+        updateBalance(user.balance + depositAmount);
+
+        // Create transaction record
+        const { error: transactionError } = await supabase
+          .from('transactions')
+          .insert([
+            {
+              user_id: user.id,
+              type: 'deposit',
+              amount: depositAmount,
+              status: 'completed',
+              payment_method: 'Dummy Pay'
+            }
+          ]);
+
+        if (transactionError) {
+          console.error('Failed to create transaction record:', transactionError);
+          // Don't throw here as the balance was already updated
+        }
+
+        alert(`✅ Successfully deposited $${amount} via Dummy Pay! Your new balance is $${(user.balance + depositAmount).toFixed(2)}`);
+        setAmount('');
+        setSelectedMethod('');
+      } else {
+        // Simulate other payment methods
+        setTimeout(() => {
+          alert(`Successfully deposited $${amount} via ${paymentMethods.find(m => m.id === selectedMethod)?.name}!`);
+          setIsProcessing(false);
+          setAmount('');
+          setSelectedMethod('');
+        }, 3000);
+        return; // Exit early for simulated payments
+      }
+    } catch (error: any) {
+      console.error('Deposit failed:', error);
+      alert(`Deposit failed: ${error.message || 'Unknown error occurred'}`);
+    } finally {
       setIsProcessing(false);
-      setAmount('');
-      setSelectedMethod('');
-    }, 3000);
+    }
   };
 
   return (
@@ -102,12 +166,19 @@ const Deposit: React.FC = () => {
                   <button
                     key={method.id}
                     onClick={() => setSelectedMethod(method.id)}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${
+                    className={`p-4 rounded-xl border-2 transition-all text-left relative ${
                       selectedMethod === method.id
                         ? 'border-blue-500 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
+                    {method.isTest && (
+                      <div className="absolute top-2 right-2">
+                        <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
+                          TEST
+                        </span>
+                      </div>
+                    )}
                     <div className="flex items-center space-x-4">
                       <div className={`p-3 rounded-xl bg-gradient-to-r ${method.color}`}>
                         <method.icon className="h-6 w-6 text-white" />
@@ -115,6 +186,11 @@ const Deposit: React.FC = () => {
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900">{method.name}</h3>
                         <p className="text-sm text-gray-600">{method.description}</p>
+                        {method.isTest && (
+                          <p className="text-xs text-purple-600 font-medium mt-1">
+                            ⚡ Instantly adds funds to your account
+                          </p>
+                        )}
                       </div>
                       {selectedMethod === method.id && (
                         <Check className="h-5 w-5 text-blue-600" />
@@ -182,7 +258,9 @@ const Deposit: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Processing Fee</span>
-                  <span className="font-semibold">$0.00</span>
+                  <span className="font-semibold">
+                    {selectedMethod === 'dummy_pay' ? '$0.00' : '$0.00'}
+                  </span>
                 </div>
                 <hr className="border-gray-200" />
                 <div className="flex justify-between text-lg">
@@ -203,6 +281,11 @@ const Deposit: React.FC = () => {
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                     <span>Processing...</span>
                   </>
+                ) : selectedMethod === 'dummy_pay' ? (
+                  <>
+                    <Zap className="h-4 w-4" />
+                    <span>Add Funds Instantly</span>
+                  </>
                 ) : (
                   <>
                     <CreditCard className="h-4 w-4" />
@@ -211,18 +294,35 @@ const Deposit: React.FC = () => {
                 )}
               </button>
 
-              {/* Security Notice */}
-              <div className="mt-4 p-3 bg-green-50 rounded-xl">
-                <div className="flex items-center space-x-2">
-                  <Shield className="h-4 w-4 text-green-600" />
-                  <span className="text-sm text-green-800 font-medium">
-                    Secure & Encrypted
-                  </span>
+              {/* Payment Method Info */}
+              {selectedMethod === 'dummy_pay' && (
+                <div className="mt-4 p-3 bg-purple-50 rounded-xl border border-purple-200">
+                  <div className="flex items-center space-x-2">
+                    <Zap className="h-4 w-4 text-purple-600" />
+                    <span className="text-sm text-purple-800 font-medium">
+                      Test Payment Method
+                    </span>
+                  </div>
+                  <p className="text-xs text-purple-700 mt-1">
+                    This instantly adds funds to your account for testing purposes. Real payment processing is simulated for other methods.
+                  </p>
                 </div>
-                <p className="text-xs text-green-700 mt-1">
-                  All payments are processed securely and your financial information is never stored.
-                </p>
-              </div>
+              )}
+
+              {/* Security Notice */}
+              {selectedMethod !== 'dummy_pay' && (
+                <div className="mt-4 p-3 bg-green-50 rounded-xl">
+                  <div className="flex items-center space-x-2">
+                    <Shield className="h-4 w-4 text-green-600" />
+                    <span className="text-sm text-green-800 font-medium">
+                      Secure & Encrypted
+                    </span>
+                  </div>
+                  <p className="text-xs text-green-700 mt-1">
+                    All payments are processed securely and your financial information is never stored.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
