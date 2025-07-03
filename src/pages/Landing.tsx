@@ -69,29 +69,19 @@ const Landing: React.FC = () => {
             </p>
             
             {/* Clean Button Layout */}
-            <div className="flex flex-col items-center space-y-4">
-              {/* Main Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col items-center space-y-6">
+              {/* Main Action Buttons - Same Size and Aligned */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-lg">
                 <Link
                   to="/register"
-                  className="bg-white text-royal-blue-500 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="flex-1 bg-white text-royal-blue-500 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl text-center"
                 >
                   Get Started
                 </Link>
                 
                 <Link
-                  to="/login"
-                  className="border-2 border-white/80 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 hover:border-white transition-all transform hover:scale-105 backdrop-blur-sm"
-                >
-                  Sign In
-                </Link>
-              </div>
-              
-              {/* Free Play Button - Clean Green Design */}
-              <div className="mt-6">
-                <Link
                   to="/free-play"
-                  className="group relative inline-flex items-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
+                  className="flex-1 group relative inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   style={{
                     background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 25%, #16a34a 50%, #15803d 75%, #166534 100%)',
                     boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
@@ -99,7 +89,7 @@ const Landing: React.FC = () => {
                 >
                   {/* Animated Play Icon */}
                   <div className="relative">
-                    <Play className="h-6 w-6 fill-current group-hover:animate-pulse" />
+                    <Play className="h-5 w-5 fill-current group-hover:animate-pulse" />
                     <div className="absolute inset-0 bg-white/20 rounded-full animate-ping group-hover:animate-none"></div>
                   </div>
                   

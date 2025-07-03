@@ -154,12 +154,12 @@ const HamburgerRunnerGame: React.FC = () => {
                     >
                       Play Again
                     </button>
-                    <Link
-                      to="/noodle-tetris"
-                      className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg inline-block"
+                    <button
+                      onClick={goBackToFreePlay}
+                      className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-lg"
                     >
-                      Other Games
-                    </Link>
+                      Back to Games
+                    </button>
                   </div>
                 </div>
               </div>
