@@ -7,7 +7,6 @@ interface AuthContextType {
   supabaseUser: SupabaseUser | null;
   login: (email: string, password: string) => Promise<User>;
   loginWithGoogle: () => Promise<void>;
-  loginWithApple: () => Promise<void>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
@@ -190,27 +189,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const loginWithApple = async () => {
-    try {
-      setIsLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'apple',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        }
-      });
-
-      if (error) {
-        console.error('Apple login error:', error);
-        throw error;
-      }
-    } catch (error: any) {
-      console.error('Apple login failed:', error);
-      setIsLoading(false);
-      throw new Error(error.message || 'Apple login failed');
-    }
-  };
-
   const register = async (userData: RegisterData) => {
     setIsLoading(true);
     try {
@@ -282,7 +260,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       supabaseUser, 
       login, 
       loginWithGoogle,
-      loginWithApple,
       register, 
       logout, 
       isLoading, 
