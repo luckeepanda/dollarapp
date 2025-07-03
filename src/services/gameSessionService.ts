@@ -29,16 +29,16 @@ export interface GameParticipant {
 }
 
 export const gameSessionService = {
-  // Join a game session (deducts $1 from balance)
+  // Join a tournament (simplified - just deducts $1 and creates a session)
   async joinGameSession(userId: string, gameType: string = 'taco_flyer'): Promise<string> {
-    const { data, error } = await supabase.rpc('join_game_session', {
+    const { data, error } = await supabase.rpc('join_tournament_game', {
       p_user_id: userId,
       p_game_type: gameType
     });
 
     if (error) {
-      console.error('Error joining game session:', error);
-      throw new Error(error.message || 'Failed to join game session');
+      console.error('Error joining tournament:', error);
+      throw new Error(error.message || 'Failed to join tournament');
     }
 
     return data; // Returns session ID
@@ -53,7 +53,7 @@ export const gameSessionService = {
         game_participants!inner(user_id)
       `)
       .eq('game_participants.user_id', userId)
-      .in('status', ['waiting', 'active'])
+      .eq('status', 'active')
       .single();
 
     if (error && error.code !== 'PGRST116') {
@@ -102,7 +102,7 @@ export const gameSessionService = {
     };
   },
 
-  // Submit game score
+  // Submit tournament score
   async submitScore(sessionId: string, userId: string, score: number): Promise<boolean> {
     const { data, error } = await supabase.rpc('submit_tournament_score', {
       p_session_id: sessionId,
@@ -111,25 +111,11 @@ export const gameSessionService = {
     });
 
     if (error) {
-      console.error('Error submitting score:', error);
+      console.error('Error submitting tournament score:', error);
       throw error;
     }
 
     return data; // Returns whether player qualified
-  },
-
-  // Check if all players have completed their games
-  async checkSessionComplete(sessionId: string): Promise<boolean> {
-    const { data, error } = await supabase.rpc('check_tournament_complete', {
-      p_session_id: sessionId
-    });
-
-    if (error) {
-      console.error('Error checking session completion:', error);
-      throw error;
-    }
-
-    return data;
   },
 
   // Get tournament results
