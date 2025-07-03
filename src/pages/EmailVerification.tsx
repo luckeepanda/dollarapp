@@ -68,11 +68,11 @@ const EmailVerification: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-royal-blue-50 via-steel-blue-50 to-royal-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-royal-blue-400/20 to-steel-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-steel-blue-400/20 to-royal-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -93,8 +93,8 @@ const EmailVerification: React.FC = () => {
             {/* Header with animated icon */}
             <div className="text-center mb-8">
               <div className="relative mx-auto w-20 h-20 mb-6">
-                <div className="absolute inset-0 bg-gradient-to-r from-royal-blue-500 to-steel-blue-600 rounded-2xl animate-pulse"></div>
-                <div className="relative bg-gradient-to-r from-royal-blue-600 to-steel-blue-700 p-4 rounded-2xl shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl animate-pulse"></div>
+                <div className="relative bg-gradient-to-r from-blue-600 to-purple-700 p-4 rounded-2xl shadow-lg">
                   <Mail className="h-12 w-12 text-white mx-auto" />
                   <div className="absolute -top-1 -right-1">
                     <Sparkles className="h-6 w-6 text-yellow-400 animate-bounce" />
@@ -111,10 +111,10 @@ const EmailVerification: React.FC = () => {
             </div>
 
             {/* Email display */}
-            <div className="bg-gradient-to-r from-royal-blue-50 to-steel-blue-50 p-4 rounded-2xl border border-royal-blue-100 mb-6">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-2xl border border-blue-100 mb-6">
               <div className="flex items-center space-x-3">
-                <div className="bg-royal-blue-100 p-2 rounded-xl">
-                  <Mail className="h-5 w-5 text-royal-blue-600" />
+                <div className="bg-blue-100 p-2 rounded-xl">
+                  <Mail className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Verification email sent to:</p>
@@ -136,8 +136,8 @@ const EmailVerification: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="bg-royal-blue-100 p-1.5 rounded-full mt-0.5">
-                  <Shield className="h-4 w-4 text-royal-blue-600" />
+                <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
+                  <Shield className="h-4 w-4 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Click the verification link</p>
@@ -146,8 +146,8 @@ const EmailVerification: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="bg-steel-blue-100 p-1.5 rounded-full mt-0.5">
-                  <Clock className="h-4 w-4 text-steel-blue-600" />
+                <div className="bg-purple-100 p-1.5 rounded-full mt-0.5">
+                  <Clock className="h-4 w-4 text-purple-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Check spam folder</p>
@@ -177,7 +177,7 @@ const EmailVerification: React.FC = () => {
                 <button
                   onClick={handleResendEmail}
                   disabled={!canResend || isResending}
-                  className="w-full bg-gradient-to-r from-royal-blue-600 to-steel-blue-600 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-700 hover:to-steel-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
                 >
                   {isResending ? (
                     <>
@@ -203,11 +203,11 @@ const EmailVerification: React.FC = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Still having trouble?{' '}
-                <Link to="/login" className="text-royal-blue-600 font-semibold hover:text-royal-blue-700">
+                <Link to="/login" className="text-blue-600 font-semibold hover:text-blue-700">
                   Try signing in
                 </Link>
                 {' '}or{' '}
-                <a href="mailto:support@dollarapp.com" className="text-royal-blue-600 font-semibold hover:text-royal-blue-700">
+                <a href="mailto:support@dollarapp.com" className="text-blue-600 font-semibold hover:text-blue-700">
                   contact support
                 </a>
               </p>

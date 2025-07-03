@@ -96,7 +96,7 @@ const AuthCallback: React.FC = () => {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => navigate('/login')}
-            className="w-full bg-royal-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-royal-blue-700 transition-colors"
+            className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors"
           >
             Back to Login
           </button>
@@ -106,10 +106,10 @@ const AuthCallback: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal-blue-50 to-steel-blue-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg text-center">
-        <div className="w-16 h-16 bg-royal-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-royal-blue-600"></div>
+        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Completing Sign In</h2>
         <p className="text-gray-600">

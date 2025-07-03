@@ -62,10 +62,10 @@ const RestaurantDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Available Balance</p>
-                <p className="text-2xl font-bold text-steel-blue-600">${user?.balance.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-green-600">${user?.balance.toFixed(2)}</p>
               </div>
-              <div className="bg-steel-blue-100 p-3 rounded-xl">
-                <DollarSign className="h-6 w-6 text-steel-blue-600" />
+              <div className="bg-green-100 p-3 rounded-xl">
+                <DollarSign className="h-6 w-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -74,10 +74,10 @@ const RestaurantDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Today's Redemptions</p>
-                <p className="text-2xl font-bold text-royal-blue-600">8</p>
+                <p className="text-2xl font-bold text-blue-600">8</p>
               </div>
-              <div className="bg-royal-blue-100 p-3 rounded-xl">
-                <QrCode className="h-6 w-6 text-royal-blue-600" />
+              <div className="bg-blue-100 p-3 rounded-xl">
+                <QrCode className="h-6 w-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -86,10 +86,10 @@ const RestaurantDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Monthly Revenue</p>
-                <p className="text-2xl font-bold text-steel-blue-600">$1,247</p>
+                <p className="text-2xl font-bold text-purple-600">$1,247</p>
               </div>
-              <div className="bg-steel-blue-100 p-3 rounded-xl">
-                <TrendingUp className="h-6 w-6 text-steel-blue-600" />
+              <div className="bg-purple-100 p-3 rounded-xl">
+                <TrendingUp className="h-6 w-6 text-purple-600" />
               </div>
             </div>
           </div>
@@ -98,10 +98,10 @@ const RestaurantDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Customers</p>
-                <p className="text-2xl font-bold text-royal-blue-600">156</p>
+                <p className="text-2xl font-bold text-orange-600">156</p>
               </div>
-              <div className="bg-royal-blue-100 p-3 rounded-xl">
-                <Users className="h-6 w-6 text-royal-blue-600" />
+              <div className="bg-orange-100 p-3 rounded-xl">
+                <Users className="h-6 w-6 text-orange-600" />
               </div>
             </div>
           </div>
@@ -114,10 +114,10 @@ const RestaurantDashboard: React.FC = () => {
             <div className="space-y-3">
               <Link
                 to="/scan"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-50 to-steel-blue-50 rounded-xl hover:from-royal-blue-100 hover:to-steel-blue-100 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl hover:from-blue-100 hover:to-purple-100 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <QrCode className="h-5 w-5 text-royal-blue-600" />
+                  <QrCode className="h-5 w-5 text-blue-600" />
                   <span className="font-medium">Scan QR Code</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
@@ -127,12 +127,12 @@ const RestaurantDashboard: React.FC = () => {
                 to="/withdraw"
                 className={`flex items-center justify-between p-4 rounded-xl transition-all group ${
                   user?.isKYCVerified 
-                    ? 'bg-gradient-to-r from-steel-blue-50 to-royal-blue-50 hover:from-steel-blue-100 hover:to-royal-blue-100'
+                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100'
                     : 'bg-gray-50 cursor-not-allowed opacity-50'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-steel-blue-600' : 'text-gray-400'}`} />
+                  <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-green-600' : 'text-gray-400'}`} />
                   <span className="font-medium">Withdraw Funds</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
@@ -152,7 +152,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">Recent Redemptions</h2>
-              <Link to="/scan" className="text-royal-blue-600 font-medium hover:text-royal-blue-700">
+              <Link to="/scan" className="text-blue-600 font-medium hover:text-blue-700">
                 View All
               </Link>
             </div>

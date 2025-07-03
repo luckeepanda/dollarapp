@@ -49,16 +49,16 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-royal-blue-50 via-steel-blue-50 to-royal-blue-50">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-royal-blue-400/20 to-steel-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-steel-blue-400/20 to-royal-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-royal-blue-600 to-steel-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">
@@ -119,7 +119,7 @@ const Login: React.FC = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Enter your email"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -137,7 +137,7 @@ const Login: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Enter your password"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -156,7 +156,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-600 to-steel-blue-600 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-700 hover:to-steel-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
             >
               {isLoading ? (
                 <>
@@ -172,7 +172,7 @@ const Login: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link to="/register" className="text-royal-blue-600 font-semibold hover:text-royal-blue-700 transition-colors">
+              <Link to="/register" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
                 Sign up
               </Link>
             </p>

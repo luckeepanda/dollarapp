@@ -17,7 +17,7 @@ const Landing: React.FC = () => {
   // Show loading spinner while checking authentication status
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal-blue-400 via-royal-blue-500 to-steel-blue-600">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white text-lg">Loading...</p>
@@ -29,8 +29,8 @@ const Landing: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-royal-blue-400 via-royal-blue-500 to-steel-blue-600">
-        <div className="absolute inset-0 bg-royal-blue-900/10"></div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
+        <div className="absolute inset-0 bg-blue-900/10"></div>
         
         {/* Bolt.new Logo - Top Right */}
         <div className="absolute top-4 right-4 z-10">
@@ -64,7 +64,7 @@ const Landing: React.FC = () => {
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
               Dollar App
             </h1>
-            <p className="text-xl md:text-2xl text-royal-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-sm">
+            <p className="text-xl md:text-2xl text-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-sm">
               Pay $1, play for prizes, redeem at restaurants.
             </p>
             
@@ -74,7 +74,7 @@ const Landing: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/register"
-                  className="bg-white text-royal-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-50 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   Get Started
                 </Link>
@@ -128,7 +128,7 @@ const Landing: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-semibold mb-4">1. Deposit & Play</h3>
@@ -138,7 +138,7 @@ const Landing: React.FC = () => {
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-semibold mb-4">2. Win Prizes</h3>
@@ -148,7 +148,7 @@ const Landing: React.FC = () => {
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-semibold mb-4">3. Redeem & Enjoy</h3>
@@ -161,17 +161,17 @@ const Landing: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-600">
+      <div className="py-16 bg-gradient-to-r from-blue-500 to-blue-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Join the Game?
           </h2>
-          <p className="text-xl text-royal-blue-100 mb-8">
+          <p className="text-xl text-blue-100 mb-8">
             Start playing today and discover amazing food experiences in your area.
           </p>
           <Link
             to="/register"
-            className="bg-white text-royal-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-50 transition-all transform hover:scale-105 shadow-lg inline-block"
+            className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg inline-block"
           >
             Create Account
           </Link>

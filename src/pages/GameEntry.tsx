@@ -154,11 +154,11 @@ const GameEntry: React.FC = () => {
                   <span>Prize: ${currentGameData.prizePool}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <Users className="h-4 w-4 text-royal-blue-500" />
+                  <Users className="h-4 w-4 text-blue-500" />
                   <span>{currentGameData.players} players</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <Star className="h-4 w-4 text-steel-blue-500" />
+                  <Star className="h-4 w-4 text-purple-500" />
                   <span>Min Score: {currentGameData.minScore}</span>
                 </div>
               </div>
@@ -167,7 +167,7 @@ const GameEntry: React.FC = () => {
 
           {/* Game Container */}
           <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-            <TacoGame onGameEnd={handleGameEnd} gameActive={gameActive} resetTrigger={0} />
+            <TacoGame onGameEnd={handleGameEnd} gameActive={gameActive} />
           </div>
         </div>
       </div>
@@ -197,7 +197,7 @@ const GameEntry: React.FC = () => {
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="text-center">
               <p className="text-sm text-gray-600">Your Balance</p>
-              <p className="text-xl font-bold text-steel-blue-600">${user?.balance.toFixed(2)}</p>
+              <p className="text-xl font-bold text-green-600">${user?.balance.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -252,10 +252,10 @@ const GameEntry: React.FC = () => {
                   
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Users className="h-4 w-4 text-royal-blue-500" />
+                      <Users className="h-4 w-4 text-blue-500" />
                       <span className="text-xs text-gray-600">Players</span>
                     </div>
-                    <p className="text-lg font-bold text-royal-blue-600">{game.players}/{game.maxPlayers}</p>
+                    <p className="text-lg font-bold text-blue-600">{game.players}/{game.maxPlayers}</p>
                   </div>
                 </div>
 
@@ -282,7 +282,7 @@ const GameEntry: React.FC = () => {
                     <span className="text-sm">Ends in {game.timeLeft}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <GamepadIcon className="h-4 w-4 text-steel-blue-500" />
+                    <GamepadIcon className="h-4 w-4 text-purple-500" />
                     <span className="text-sm text-gray-600">Min Score: {game.minScore}</span>
                   </div>
                 </div>
@@ -291,7 +291,7 @@ const GameEntry: React.FC = () => {
                 <button
                   onClick={() => handleJoinGame(game.id)}
                   disabled={isJoining && selectedGame === game.id || (user && user.balance < 1)}
-                  className="w-full bg-gradient-to-r from-royal-blue-600 to-steel-blue-600 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-700 hover:to-steel-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                  className="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-xl font-semibold hover:from-orange-700 hover:to-red-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
                 >
                   {isJoining && selectedGame === game.id ? (
                     <>
@@ -313,7 +313,7 @@ const GameEntry: React.FC = () => {
         {/* Game Rules */}
         <div className="mt-12 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-royal-blue-600" />
+            <TrendingUp className="h-5 w-5 text-orange-600" />
             <span>How Taco Flyer Works</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">

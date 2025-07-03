@@ -101,23 +101,23 @@ const FreePlay: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-steel-blue-50 to-royal-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
       {/* Simple Header for Free Play */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-steel-blue-600 to-royal-blue-500 p-2 rounded-lg">
+              <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-2 rounded-lg">
                 <GamepadIcon className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-steel-blue-600 to-royal-blue-500 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
                 Free Play Mode
               </span>
             </Link>
             
             <Link
               to="/"
-              className="flex items-center space-x-2 text-gray-600 hover:text-steel-blue-600 transition-colors"
+              className="flex items-center space-x-2 text-gray-600 hover:text-purple-600 transition-colors"
             >
               <Home className="h-5 w-5" />
               <span>Back to Home</span>
@@ -131,7 +131,7 @@ const FreePlay: React.FC = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-4 mb-4">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 🌮 Free Taco Flyer 🌮
               </h1>
               <p className="text-gray-600 mt-2">Practice your skills with unlimited free plays!</p>
@@ -142,7 +142,7 @@ const FreePlay: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 inline-block">
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2">
-                <GamepadIcon className="h-5 w-5 text-steel-blue-500" />
+                <GamepadIcon className="h-5 w-5 text-purple-500" />
                 <span className="font-semibold">Free Play Mode</span>
               </div>
               <div className="flex items-center space-x-2">
@@ -150,7 +150,7 @@ const FreePlay: React.FC = () => {
                 <span>No Entry Fee</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-royal-blue-500" />
+                <Star className="h-5 w-5 text-blue-500" />
                 <span>Practice & Have Fun!</span>
               </div>
             </div>
@@ -170,18 +170,18 @@ const FreePlay: React.FC = () => {
           {/* Floating Play Again Button - positioned over the canvas */}
           {finalScore !== null && !showNicknameModal && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-steel-blue-200 pointer-events-auto">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200 pointer-events-auto">
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold text-steel-blue-800 mb-2">
+                  <h3 className="text-2xl font-bold text-purple-800 mb-2">
                     🎉 Great Job! 🎉
                   </h3>
-                  <p className="text-lg text-steel-blue-700 mb-4">
+                  <p className="text-lg text-purple-700 mb-4">
                     You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
                   <div className="flex space-x-3 mb-4">
                     <button
                       onClick={restartGame}
-                      className="bg-gradient-to-r from-steel-blue-600 to-royal-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-steel-blue-700 hover:to-royal-blue-700 transition-all transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
                     >
                       Play Again
                     </button>
