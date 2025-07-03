@@ -32,33 +32,33 @@ const PlayerDashboard: React.FC = () => {
       case 'Easy': return 'bg-green-100 text-green-800';
       case 'Medium': return 'bg-yellow-100 text-yellow-800';
       case 'Hard': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white-400 text-white-100';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-steel-blue-900">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-gray-600">Ready to win some delicious prizes today?</p>
+          <p className="text-royal-blue-200">Ready to win some delicious prizes today?</p>
         </div>
 
         {/* Stats Cards - Only Balance */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8 max-w-md">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Current Balance</p>
-                <p className="text-2xl font-bold text-green-600">${user?.balance.toFixed(2)}</p>
+                <p className="text-sm text-royal-blue-200">Current Balance</p>
+                <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
               </div>
-              <div className="bg-green-100 p-3 rounded-xl">
-                <DollarSign className="h-6 w-6 text-green-600" />
+              <div className="bg-green-500/20 p-3 rounded-xl">
+                <DollarSign className="h-6 w-6 text-green-400" />
               </div>
             </div>
           </div>
@@ -66,38 +66,38 @@ const PlayerDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+            <h2 className="text-xl font-semibold mb-4 text-white">Quick Actions</h2>
             <div className="space-y-3">
               <Link
                 to="/deposit"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl hover:from-blue-100 hover:to-green-100 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-500/20 to-steel-blue-500/20 rounded-xl hover:from-royal-blue-500/30 hover:to-steel-blue-500/30 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="h-5 w-5 text-blue-600" />
-                  <span className="font-medium">Add Funds</span>
+                  <CreditCard className="h-5 w-5 text-royal-blue-300" />
+                  <span className="font-medium text-white">Add Funds</span>
                 </div>
-                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+                <ArrowRight className="h-4 w-4 text-royal-blue-200 group-hover:text-white" />
               </Link>
 
               <Link
                 to="/free-play"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl hover:from-green-500/30 hover:to-emerald-500/30 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <Trophy className="h-5 w-5 text-purple-600" />
-                  <span className="font-medium">Free Play</span>
+                  <Trophy className="h-5 w-5 text-green-400" />
+                  <span className="font-medium text-white">Free Play</span>
                 </div>
-                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+                <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
               </Link>
             </div>
           </div>
 
           {/* Featured Game */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
+          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Featured Game</h2>
-              <Link to="/free-play" className="text-blue-600 font-medium hover:text-blue-700">
+              <h2 className="text-xl font-semibold text-white">Featured Game</h2>
+              <Link to="/free-play" className="text-royal-blue-300 font-medium hover:text-royal-blue-200">
                 Try Free Play
               </Link>
             </div>
@@ -176,22 +176,22 @@ const PlayerDashboard: React.FC = () => {
         </div>
 
         {/* Game Rules */}
-        <div className="mt-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-orange-600" />
+        <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-white">
+            <TrendingUp className="h-5 w-5 text-orange-400" />
             <span>How It Works</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-royal-blue-200">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">1. Join & Play</h3>
+              <h3 className="font-semibold text-white mb-2">1. Join & Play</h3>
               <p>Pay $1 to enter a game. Guide your taco through obstacles by clicking or pressing SPACE.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">2. Score Points</h3>
+              <h3 className="font-semibold text-white mb-2">2. Score Points</h3>
               <p>Each obstacle you pass gives you 1 point. Reach the minimum score to qualify for the prize draw.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">3. Win Prizes</h3>
+              <h3 className="font-semibold text-white mb-2">3. Win Prizes</h3>
               <p>Qualified players are entered into a random draw. Winners receive QR codes for restaurant redemption.</p>
             </div>
           </div>

@@ -44,8 +44,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
         return <Award className="h-6 w-6 text-amber-600" />;
       default:
         return (
-          <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-            <span className="text-sm font-bold text-blue-600">{rank}</span>
+          <div className="w-6 h-6 rounded-full bg-royal-blue-800 flex items-center justify-center">
+            <span className="text-sm font-bold text-royal-blue-100">{rank}</span>
           </div>
         );
     }
@@ -60,7 +60,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
       case 3:
         return 'bg-gradient-to-r from-amber-50 to-amber-100 border-amber-200';
       default:
-        return 'bg-white border-gray-100';
+        return 'bg-white border-white-400';
     }
   };
 
@@ -86,7 +86,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 p-6 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -98,11 +98,11 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
             <Trophy className="h-8 w-8 text-yellow-300" />
             <h2 className="text-2xl font-bold">Leaderboard</h2>
           </div>
-          <p className="text-purple-100">Top Taco Flyers of All Time</p>
+          <p className="text-royal-blue-100">Top Taco Flyers of All Time</p>
           
           {currentScore !== undefined && (
             <div className="mt-4 p-3 bg-white/20 rounded-xl">
-              <p className="text-sm text-purple-100">Your Score</p>
+              <p className="text-sm text-royal-blue-100">Your Score</p>
               <p className="text-xl font-bold">{currentScore} points</p>
             </div>
           )}
@@ -112,12 +112,12 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
         <div className="p-6 overflow-y-auto max-h-96">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-royal-blue-500"></div>
             </div>
           ) : leaderboard.length === 0 ? (
             <div className="text-center py-8">
-              <Trophy className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600">No scores yet. Be the first!</p>
+              <Trophy className="h-12 w-12 text-white-300 mx-auto mb-4" />
+              <p className="text-white-200">No scores yet. Be the first!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -129,7 +129,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                   <div
                     key={entry.id}
                     className={`p-4 rounded-xl border-2 transition-all ${getRankBg(rank)} ${
-                      isCurrentScore ? 'ring-2 ring-purple-500 ring-offset-2' : ''
+                      isCurrentScore ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -137,17 +137,17 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                         {getRankIcon(rank)}
                         <div>
                           <div className="flex items-center space-x-2">
-                            <User className="h-4 w-4 text-gray-500" />
-                            <span className="font-semibold text-gray-900">
+                            <User className="h-4 w-4 text-white-300" />
+                            <span className="font-semibold text-white-100">
                               {entry.nickname}
                             </span>
                             {isCurrentScore && (
-                              <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
+                              <span className="px-2 py-1 bg-royal-blue-800 text-royal-blue-100 text-xs rounded-full font-medium">
                                 You
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center space-x-1 text-sm text-gray-500">
+                          <div className="flex items-center space-x-1 text-sm text-white-300">
                             <Calendar className="h-3 w-3" />
                             <span>{formatDate(entry.created_at)}</span>
                           </div>
@@ -155,10 +155,10 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                       </div>
                       
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-white-100">
                           {entry.score}
                         </div>
-                        <div className="text-sm text-gray-500">points</div>
+                        <div className="text-sm text-white-300">points</div>
                       </div>
                     </div>
                   </div>
@@ -169,10 +169,10 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-gray-50 border-t border-gray-100">
+        <div className="p-6 bg-steel-blue-900 border-t border-white-400">
           <button
             onClick={onClose}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
+            className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all"
           >
             Close
           </button>
