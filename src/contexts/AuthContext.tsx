@@ -36,37 +36,60 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
-      if (error) {
-        console.error('Session error:', error);
-        // Clear any invalid session data and redirect to home
-        setSupabaseUser(null);
-        setUser(null);
-        setIsLoading(false);
-        return;
-      }
+    let mounted = true;
 
-      console.log('Initial session check:', session?.user?.email);
-      setSupabaseUser(session?.user ?? null);
-      
-      if (session?.user) {
-        fetchUserProfile(session.user.id);
-      } else {
-        setIsLoading(false);
+    // Get initial session with timeout
+    const initializeAuth = async () => {
+      try {
+        console.log('Initializing auth...');
+        
+        // Set a timeout for the session check
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session check timeout')), 10000)
+        );
+
+        const { data: { session }, error } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ]) as any;
+
+        if (!mounted) return;
+
+        if (error) {
+          console.error('Session error:', error);
+          setSupabaseUser(null);
+          setUser(null);
+          setIsLoading(false);
+          return;
+        }
+
+        console.log('Initial session check:', session?.user?.email);
+        setSupabaseUser(session?.user ?? null);
+        
+        if (session?.user) {
+          await fetchUserProfile(session.user.id);
+        } else {
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Failed to initialize auth:', error);
+        if (mounted) {
+          setSupabaseUser(null);
+          setUser(null);
+          setIsLoading(false);
+        }
       }
-    }).catch((error) => {
-      console.error('Failed to get session:', error);
-      // Handle session retrieval failure by clearing state
-      setSupabaseUser(null);
-      setUser(null);
-      setIsLoading(false);
-    });
+    };
+
+    initializeAuth();
 
     // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!mounted) return;
+
       console.log('Auth state changed:', event, session?.user?.email);
       
       // Handle sign out or invalid session
@@ -94,17 +117,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchUserProfile = async (userId: string) => {
     try {
       console.log('Fetching user profile for:', userId);
-      const { data, error } = await supabase
+      
+      // Set a timeout for the profile fetch
+      const profilePromise = supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
+        
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Profile fetch timeout')), 8000)
+      );
+
+      const { data, error } = await Promise.race([
+        profilePromise,
+        timeoutPromise
+      ]) as any;
       
       if (error) {
         console.error('Error fetching user profile:', error);
@@ -131,8 +168,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.error('Error fetching user profile:', error);
       // On any error, clear the user state and stop loading
       setUser(null);
-      setIsLoading(false);
     } finally {
+      // Always ensure loading is set to false
       setIsLoading(false);
     }
   };
@@ -188,7 +225,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('Login successful:', data.user?.email);
       
       const profile = await fetchUserProfile(data.user.id);
-      setIsLoading(false);
       return profile;
     } catch (error: any) {
       console.error('Login failed:', error);
