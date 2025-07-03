@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { gameSessionService, type GameSession } from '../services/gameSessionService';
+import { leaderboardService } from '../services/leaderboardService';
 import TacoGame from './TacoGame';
 import NicknameModal from './NicknameModal';
 import TournamentResultsModal from './TournamentResultsModal';
-import { Trophy, DollarSign, Users, Crown } from 'lucide-react';
+import { Trophy, DollarSign, Users, Crown, RotateCcw } from 'lucide-react';
 
 interface TournamentGameSessionProps {
   sessionId: string;
@@ -26,6 +27,7 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [isSubmittingScore, setIsSubmittingScore] = useState(false);
+  const [entryCount, setEntryCount] = useState(1);
 
   useEffect(() => {
     loadSessionData();
@@ -57,18 +59,15 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
       // Submit score to tournament
       await gameSessionService.submitScore(sessionId, user.id, finalScore);
       
-      // Add to global leaderboard with tournament indicator
-      await fetch('/api/leaderboard', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nickname: `🏆 ${nickname}`,
-          score: finalScore,
-          userId: user.id,
-          tournamentId: sessionId
-        })
-      });
+      // Add to global leaderboard with tournament indicator and entry number
+      await leaderboardService.addScore(
+        `🏆 ${nickname} (#${entryCount})`, 
+        finalScore, 
+        user.id
+      );
 
+      console.log(`Tournament entry #${entryCount} submitted with score: ${finalScore}`);
+      
       setShowNicknameModal(false);
       setShowResultsModal(true);
     } catch (error) {
@@ -79,14 +78,66 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
     }
   };
 
-  const handleNicknameSkip = () => {
+  const handleNicknameSkip = async () => {
+    if (finalScore !== null && user) {
+      try {
+        // Still submit to tournament even if skipping nickname
+        await gameSessionService.submitScore(sessionId, user.id, finalScore);
+        
+        // Add to leaderboard with default name
+        await leaderboardService.addScore(
+          `🏆 Player (#${entryCount})`, 
+          finalScore, 
+          user.id
+        );
+      } catch (error) {
+        console.error('Failed to submit score:', error);
+      }
+    }
+    
     setShowNicknameModal(false);
     setShowResultsModal(true);
   };
 
+  const handlePlayAgain = async () => {
+    if (!user || user.balance < 1) {
+      alert('Insufficient balance. Please add funds to play again.');
+      return;
+    }
+
+    try {
+      // Join another tournament session
+      const newSessionId = await gameSessionService.joinGameSession(user.id, 'taco_flyer');
+      
+      // Update user balance locally
+      updateBalance(user.balance - 1);
+      
+      // Increment entry count
+      setEntryCount(prev => prev + 1);
+      
+      // Reset game state for new session
+      setFinalScore(null);
+      setGameActive(false);
+      setShowResultsModal(false);
+      
+      // Force component remount
+      setGameKey(prev => prev + 1);
+      setResetTrigger(prev => prev + 1);
+      
+      // Activate game after reset
+      setTimeout(() => {
+        setGameActive(true);
+      }, 100);
+      
+    } catch (error: any) {
+      console.error('Failed to join new tournament:', error);
+      alert(error.message || 'Failed to start new tournament. Please try again.');
+    }
+  };
+
   const handleResultsClose = () => {
     setShowResultsModal(false);
-    onLeaveSession();
+    // Don't automatically leave - let user choose to play again or leave
   };
 
   if (!session) {
@@ -106,7 +157,7 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
         {/* Tournament Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-royal-blue-100 to-steel-blue-100 bg-clip-text text-transparent mb-4">
-            🏆 Tournament Game 🏆
+            🏆 Tournament Game #{entryCount} 🏆
           </h1>
           
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 inline-block">
@@ -117,11 +168,11 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
               </div>
               <div className="flex items-center space-x-2">
                 <Crown className="h-5 w-5 text-yellow-400" />
-                <span className="text-white">Tournament Mode</span>
+                <span className="text-white">Tournament #{entryCount}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Trophy className="h-5 w-5 text-orange-400" />
-                <span className="text-white">Compete for Glory!</span>
+                <span className="text-white">Balance: ${user?.balance.toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -137,25 +188,19 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
           />
           
           {/* Game Over Overlay */}
-          {finalScore !== null && !showNicknameModal && (
+          {finalScore !== null && !showNicknameModal && !showResultsModal && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-royal-blue-300 pointer-events-auto">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
-                    🎉 Tournament Complete! 🎉
+                    🎉 Tournament #{entryCount} Complete! 🎉
                   </h3>
                   <p className="text-lg text-royal-blue-600 mb-4">
                     Final Score: <span className="font-bold text-2xl">{finalScore}</span> points
                   </p>
                   <p className="text-sm text-royal-blue-500 mb-4">
-                    Your score has been submitted to the tournament!
+                    Your score will be submitted to the tournament leaderboard!
                   </p>
-                  <button
-                    onClick={onLeaveSession}
-                    className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 shadow-lg"
-                  >
-                    Back to Dashboard
-                  </button>
                 </div>
               </div>
             </div>
@@ -166,11 +211,11 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
         <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
           <h3 className="text-white font-semibold mb-3">Tournament Format:</h3>
           <ul className="text-royal-blue-200 text-sm space-y-1">
-            <li>• $1 entry fee per game</li>
-            <li>• Play the taco game and get your best score</li>
-            <li>• Your score is added to the tournament leaderboard</li>
-            <li>• Compete against other players for the highest score</li>
-            <li>• Winners are determined by the global tournament rankings</li>
+            <li>• $1 entry fee per game attempt</li>
+            <li>• Play as many times as you want (balance permitting)</li>
+            <li>• Each score is added to the tournament leaderboard</li>
+            <li>• Compete for the highest scores across all players</li>
+            <li>• Multiple entries allowed - improve your ranking!</li>
           </ul>
         </div>
       </div>
@@ -190,6 +235,10 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
         onClose={handleResultsClose}
         userScore={finalScore || 0}
         sessionId={sessionId}
+        onPlayAgain={handlePlayAgain}
+        onLeaveSession={onLeaveSession}
+        canPlayAgain={user ? user.balance >= 1 : false}
+        entryNumber={entryCount}
       />
     </div>
   );

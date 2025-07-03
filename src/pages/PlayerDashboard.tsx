@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import GameWaitingRoom from '../components/GameWaitingRoom';
 import TournamentGameSession from '../components/TournamentGameSession';
 import { useAuth } from '../contexts/AuthContext';
 import { gameSessionService, type GameSession } from '../services/gameSessionService';
@@ -13,17 +12,16 @@ import {
   ArrowRight,
   Play,
   AlertCircle,
-  CheckCircle,
   Users,
-  Crown
+  Crown,
+  Target
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
   const { user, updateBalance } = useAuth();
   const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
-  const [gameState, setGameState] = useState<'dashboard' | 'tournament' | 'results'>('dashboard');
+  const [gameState, setGameState] = useState<'dashboard' | 'tournament'>('dashboard');
   const [isJoining, setIsJoining] = useState(false);
-  const [gameResults, setGameResults] = useState<any>(null);
 
   useEffect(() => {
     checkCurrentSession();
@@ -71,14 +69,13 @@ const PlayerDashboard: React.FC = () => {
   };
 
   const handleGameComplete = (results: any) => {
-    setGameResults(results);
-    setGameState('results');
+    // Results are handled within the tournament session
+    console.log('Tournament game completed:', results);
   };
 
   const handleLeaveSession = () => {
     setCurrentSession(null);
     setGameState('dashboard');
-    setGameResults(null);
   };
 
   // Render tournament game session
@@ -103,7 +100,7 @@ const PlayerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-steel-blue-100 mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-steel-blue-300">Ready to compete in the tournament and win big?</p>
+          <p className="text-steel-blue-300">Ready to compete in unlimited tournaments and climb the leaderboard?</p>
         </div>
 
         {/* Balance Warning */}
@@ -131,6 +128,9 @@ const PlayerDashboard: React.FC = () => {
               <div>
                 <p className="text-sm text-steel-blue-300">Current Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
+                <p className="text-xs text-steel-blue-400 mt-1">
+                  {user ? Math.floor(user.balance) : 0} tournament entries available
+                </p>
               </div>
               <div className="bg-green-500/20 p-3 rounded-xl">
                 <DollarSign className="h-6 w-6 text-green-400" />
@@ -160,7 +160,7 @@ const PlayerDashboard: React.FC = () => {
           {/* Featured Tournament */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-steel-blue-100">Taco Flyer Tournament</h2>
+              <h2 className="text-xl font-semibold text-steel-blue-100">Unlimited Tournament Mode</h2>
             </div>
             
             {/* Tournament Card */}
@@ -170,12 +170,12 @@ const PlayerDashboard: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-4xl">🏆</div>
                   <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                    Tournament Mode
+                    Unlimited Entries
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">$1 Entry • Winner Takes All</h3>
+                <h3 className="text-2xl font-bold mb-2">$1 Per Entry • Unlimited Attempts</h3>
                 <p className="text-orange-100 text-sm mb-4">
-                  Compete against 4 other players - highest score wins the entire prize pool!
+                  Play as many times as you want! Each entry adds your score to the global tournament leaderboard.
                 </p>
                 
                 {/* Tournament Stats */}
@@ -183,36 +183,37 @@ const PlayerDashboard: React.FC = () => {
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <DollarSign className="h-4 w-4 text-yellow-300" />
-                      <span className="text-xs text-orange-100">Entry Fee</span>
+                      <span className="text-xs text-orange-100">Per Entry</span>
                     </div>
                     <p className="text-lg font-bold text-yellow-300">$1.00</p>
                   </div>
                   
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Users className="h-4 w-4 text-orange-100" />
-                      <span className="text-xs text-orange-100">Players</span>
+                      <Target className="h-4 w-4 text-orange-100" />
+                      <span className="text-xs text-orange-100">Attempts</span>
                     </div>
-                    <p className="text-lg font-bold">5 Total</p>
+                    <p className="text-lg font-bold">Unlimited</p>
                   </div>
                   
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <Crown className="h-4 w-4 text-yellow-300" />
-                      <span className="text-xs text-orange-100">Prize</span>
+                      <span className="text-xs text-orange-100">Ranking</span>
                     </div>
-                    <p className="text-lg font-bold">$5.00</p>
+                    <p className="text-lg font-bold">Global</p>
                   </div>
                 </div>
 
                 {/* How it Works */}
                 <div className="bg-white/10 p-4 rounded-xl mb-6">
-                  <h4 className="font-semibold mb-2">Tournament Format:</h4>
+                  <h4 className="font-semibold mb-2">How It Works:</h4>
                   <ul className="text-sm text-orange-100 space-y-1">
-                    <li>• 5 players each pay $1 to enter</li>
-                    <li>• Each player plays the taco game once</li>
-                    <li>• Player with the highest score wins all $5</li>
-                    <li>• Tournament starts when 5 players join</li>
+                    <li>• Pay $1 for each tournament entry</li>
+                    <li>• Play the taco game and submit your score</li>
+                    <li>• Each score appears on the global leaderboard</li>
+                    <li>• Play multiple times to improve your ranking</li>
+                    <li>• Compete against all players for top scores</li>
                   </ul>
                 </div>
 
@@ -230,7 +231,7 @@ const PlayerDashboard: React.FC = () => {
                   ) : (
                     <>
                       <Play className="h-5 w-5" />
-                      <span>Join Tournament - $1</span>
+                      <span>Enter Tournament - $1</span>
                     </>
                   )}
                 </button>
@@ -243,20 +244,20 @@ const PlayerDashboard: React.FC = () => {
         <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-steel-blue-100">
             <TrendingUp className="h-5 w-5 text-orange-400" />
-            <span>How Tournaments Work</span>
+            <span>Tournament System</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-steel-blue-300">
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join & Wait</h3>
-              <p>Pay $1 to join a tournament. Wait for 4 other players to join before the tournament begins.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Multiple Entries</h3>
+              <p>Pay $1 per entry and play as many times as you want. Each game is a separate tournament entry with its own score submission.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play Your Best</h3>
-              <p>Each player gets one attempt at the taco game. Your final score is recorded on the tournament leaderboard.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Global Leaderboard</h3>
+              <p>All tournament scores are ranked on a global leaderboard. Your best scores will help you climb the rankings against all players.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Winner Takes All</h3>
-              <p>The player with the highest score wins the entire $5 prize pool. Results are shown when everyone finishes.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Unlimited Competition</h3>
+              <p>Keep playing to improve your scores and ranking. The more you play, the better your chances of achieving top leaderboard positions.</p>
             </div>
           </div>
         </div>

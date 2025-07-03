@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Medal, Award, X, User, Calendar, Crown } from 'lucide-react';
-import { gameSessionService, type GameParticipant } from '../services/gameSessionService';
+import { Trophy, Medal, Award, X, User, Calendar, Crown, RotateCcw, Home } from 'lucide-react';
+import { leaderboardService, type LeaderboardEntry } from '../services/leaderboardService';
 
 interface TournamentResultsModalProps {
   isOpen: boolean;
   onClose: () => void;
   userScore: number;
   sessionId: string;
+  onPlayAgain: () => void;
+  onLeaveSession: () => void;
+  canPlayAgain: boolean;
+  entryNumber: number;
 }
 
 const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({ 
   isOpen, 
   onClose, 
   userScore,
-  sessionId
+  sessionId,
+  onPlayAgain,
+  onLeaveSession,
+  canPlayAgain,
+  entryNumber
 }) => {
-  const [tournamentResults, setTournamentResults] = useState<GameParticipant[]>([]);
+  const [tournamentResults, setTournamentResults] = useState<LeaderboardEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,8 +35,11 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
   const fetchTournamentResults = async () => {
     try {
       setIsLoading(true);
-      const results = await gameSessionService.getTournamentResults(sessionId);
-      setTournamentResults(results);
+      // Get top tournament scores from the global leaderboard
+      const results = await leaderboardService.getTopScores(20);
+      // Filter for tournament entries (those with 🏆 emoji)
+      const tournamentEntries = results.filter(entry => entry.nickname.includes('🏆'));
+      setTournamentResults(tournamentEntries);
     } catch (error) {
       console.error('Failed to fetch tournament results:', error);
     } finally {
@@ -82,12 +93,12 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
           
           <div className="flex items-center space-x-3 mb-2">
             <Trophy className="h-8 w-8 text-yellow-300" />
-            <h2 className="text-2xl font-bold">Tournament Results</h2>
+            <h2 className="text-2xl font-bold">Tournament Leaderboard</h2>
           </div>
-          <p className="text-royal-blue-100">See how you ranked against other players</p>
+          <p className="text-royal-blue-100">Global tournament rankings</p>
           
           <div className="mt-4 p-3 bg-white/20 rounded-xl">
-            <p className="text-sm text-royal-blue-100">Your Score</p>
+            <p className="text-sm text-royal-blue-100">Your Entry #{entryNumber} Score</p>
             <p className="text-xl font-bold">{userScore} points</p>
           </div>
         </div>
@@ -101,19 +112,19 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
           ) : tournamentResults.length === 0 ? (
             <div className="text-center py-8">
               <Trophy className="h-12 w-12 text-white-300 mx-auto mb-4" />
-              <p className="text-white-200">No tournament results yet.</p>
+              <p className="text-white-200">No tournament entries yet. Be the first!</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {tournamentResults.map((participant, index) => {
+              {tournamentResults.map((entry, index) => {
                 const rank = index + 1;
-                const isUserScore = participant.final_score === userScore;
+                const isRecentEntry = entry.score === userScore;
                 
                 return (
                   <div
-                    key={participant.id}
+                    key={entry.id}
                     className={`p-4 rounded-xl border-2 transition-all ${getRankBg(rank)} ${
-                      isUserScore ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
+                      isRecentEntry ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -121,13 +132,12 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
                         {getRankIcon(rank)}
                         <div>
                           <div className="flex items-center space-x-2">
-                            <User className="h-4 w-4 text-white-300" />
                             <span className="font-semibold text-white-100">
-                              {participant.profiles?.username || `Player ${rank}`}
+                              {entry.nickname}
                             </span>
-                            {isUserScore && (
-                              <span className="px-2 py-1 bg-royal-blue-800 text-royal-blue-100 text-xs rounded-full font-medium">
-                                You
+                            {isRecentEntry && (
+                              <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-medium">
+                                Latest
                               </span>
                             )}
                           </div>
@@ -140,7 +150,7 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
                       
                       <div className="text-right">
                         <div className="text-2xl font-bold text-white-100">
-                          {participant.final_score || 0}
+                          {entry.score}
                         </div>
                         <div className="text-sm text-white-300">points</div>
                       </div>
@@ -152,13 +162,30 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="p-6 bg-steel-blue-900 border-t border-white-400">
+        {/* Action Buttons */}
+        <div className="p-6 bg-steel-blue-900 border-t border-white-400 space-y-3">
+          {canPlayAgain && (
+            <button
+              onClick={onPlayAgain}
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center justify-center space-x-2"
+            >
+              <RotateCcw className="h-4 w-4" />
+              <span>Play Again - $1</span>
+            </button>
+          )}
+          
+          {!canPlayAgain && (
+            <div className="w-full bg-gray-600 text-white py-3 rounded-xl font-semibold text-center opacity-50">
+              Insufficient Balance - Add Funds to Play Again
+            </div>
+          )}
+          
           <button
-            onClick={onClose}
-            className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all"
+            onClick={onLeaveSession}
+            className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all flex items-center justify-center space-x-2"
           >
-            Back to Dashboard
+            <Home className="h-4 w-4" />
+            <span>Back to Dashboard</span>
           </button>
         </div>
       </div>
