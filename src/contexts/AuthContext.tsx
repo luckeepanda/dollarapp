@@ -128,7 +128,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('Fetching user profile for:', userId);
       
       // Set a timeout for the profile fetch
-      const profilePromise = supabase
+      const profilePromise = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
