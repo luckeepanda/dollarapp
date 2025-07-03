@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { gameSessionService, type GameSession, type GameParticipant } from '../services/gameSessionService';
 import TacoGame from './TacoGame';
 import { Trophy, DollarSign, Users, Clock, Star, Crown } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface TournamentGameSessionProps {
   sessionId: string;
