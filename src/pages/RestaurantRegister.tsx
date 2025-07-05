@@ -206,7 +206,7 @@ const RestaurantRegister: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 text-white py-3 rounded-xl font-semibold hover:from-steel-blue-600 hover:to-royal-blue-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 text-white py-3 rounded-2xl font-bold hover:from-steel-blue-600 hover:to-royal-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-steel-blue-400/30"
             >
               {isLoading ? (
                 <>

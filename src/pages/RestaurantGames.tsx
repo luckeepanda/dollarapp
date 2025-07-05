@@ -218,7 +218,7 @@ const RestaurantGames: React.FC = () => {
                   <button
                     onClick={() => handleJoinGame(game)}
                     disabled={isJoining === game.id || (user && user.balance < game.entry_fee) || game.current_players >= game.max_players}
-                    className="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-xl font-semibold hover:from-orange-700 hover:to-red-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-2xl font-bold hover:from-orange-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-orange-400/30"
                   >
                     {isJoining === game.id ? (
                       <>

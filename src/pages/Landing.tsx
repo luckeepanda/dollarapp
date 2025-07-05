@@ -18,22 +18,20 @@ const Landing: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
-        <div className="absolute inset-0 bg-royal-blue-900/10"></div>
-        
-        {/* Bolt.new Logo - Top Right */}
-        <div className="absolute top-4 right-4 z-10">
+        {/* Top Navigation */}
+        <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
+          {/* For Restaurant Button - Top Left */}
+          <Link
+            to="/restaurant/login"
+            className="group relative inline-flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
+          >
+            <div className="w-6 h-6 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+              <span className="text-white text-sm font-bold">🍽️</span>
+            </div>
+            <span>For Restaurants</span>
+          </Link>
+          
+          {/* Bolt.new Logo - Top Right (existing) */}
           <a 
             href="http://bolt.new/" 
             target="_blank" 
@@ -47,6 +45,20 @@ const Landing: React.FC = () => {
             />
           </a>
         </div>
+
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
+        <div className="absolute inset-0 bg-royal-blue-900/10"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
@@ -65,7 +77,7 @@ const Landing: React.FC = () => {
               Dollar App
             </h1>
             <p className="text-xl md:text-2xl text-royal-blue-100 mb-8 max-w-3xl mx-auto drop-shadow-sm">
-              Pay $1, play for prizes, redeem at restaurants.
+              <strong>Pay $1, play for prizes, redeem at restaurants.</strong>
             </p>
             
             {/* Clean Button Layout */}
@@ -74,14 +86,14 @@ const Landing: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-lg">
                 <Link
                   to="/register"
-                  className="flex-1 bg-white text-royal-blue-500 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-100 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl text-center"
+                  className="flex-1 bg-white text-royal-blue-500 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center border-2 border-transparent hover:border-royal-blue-200"
                 >
                   Get Started
                 </Link>
                 
                 <Link
                   to="/free-play"
-                  className="flex-1 group relative inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="flex-1 group relative inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-300/30 hover:border-green-200/50"
                   style={{
                     background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 25%, #16a34a 50%, #15803d 75%, #166534 100%)',
                     boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
@@ -94,21 +106,11 @@ const Landing: React.FC = () => {
                   </div>
                   
                   <span className="relative">
-                    FREE PLAY
+                    PLAY FREE NOW
                   </span>
                   
                   {/* Shimmer Effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </Link>
-              </div>
-              
-              {/* Restaurant Link */}
-              <div className="mt-4">
-                <Link
-                  to="/restaurant/login"
-                  className="text-royal-blue-200 hover:text-white transition-colors text-lg font-medium underline decoration-2 underline-offset-4"
-                >
-                  For Restaurants
                 </Link>
               </div>
             </div>
@@ -131,7 +133,7 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">1. Deposit & Play</h3>
+              <h3 className="text-xl font-bold mb-4">1. Deposit & Play</h3>
               <p className="text-white-200">
                 Add funds via Apple Pay, Cash App, or Zelle. Enter games for just $1 each.
               </p>
@@ -141,7 +143,7 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">2. Win Prizes</h3>
+              <h3 className="text-xl font-bold mb-4">2. Win Prizes</h3>
               <p className="text-white-200">
                 Compete for growing prize pools. Winners receive QR codes for restaurant redemption.
               </p>
@@ -151,7 +153,7 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">3. Redeem & Enjoy</h3>
+              <h3 className="text-xl font-bold mb-4">3. Redeem & Enjoy</h3>
               <p className="text-white-200">
                 Use QR codes at participating restaurants. Instant verification and secure payouts.
               </p>
@@ -171,7 +173,7 @@ const Landing: React.FC = () => {
           </p>
           <Link
             to="/register"
-            className="bg-white text-royal-blue-500 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-royal-blue-100 transition-all transform hover:scale-105 shadow-lg inline-block"
+            className="bg-white text-royal-blue-500 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl inline-block border-2 border-transparent hover:border-royal-blue-200"
           >
             Create Account
           </Link>

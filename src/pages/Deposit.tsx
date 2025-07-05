@@ -274,7 +274,7 @@ const Deposit: React.FC = () => {
               <button
                 onClick={handleDeposit}
                 disabled={!selectedMethod || !amount || isProcessing || parseFloat(amount || '0') < 1}
-                className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-green-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-3 rounded-2xl font-bold hover:from-blue-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-blue-400/30"
               >
                 {isProcessing ? (
                   <>

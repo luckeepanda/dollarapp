@@ -124,7 +124,7 @@ const RestaurantGameManagement: React.FC = () => {
           
           <button
             onClick={() => setShowCreateForm(true)}
-            className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+            className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-xl hover:shadow-2xl border border-green-400/30"
           >
             <Plus className="h-5 w-5" />
             <span>Create Game</span>
@@ -217,7 +217,7 @@ const RestaurantGameManagement: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isCreating}
-                      className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                      className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-green-400/30"
                     >
                       {isCreating ? (
                         <>
@@ -236,7 +236,7 @@ const RestaurantGameManagement: React.FC = () => {
                       type="button"
                       onClick={() => setShowCreateForm(false)}
                       disabled={isCreating}
-                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+                      className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-xl"
                     >
                       Cancel
                     </button>
@@ -334,7 +334,7 @@ const RestaurantGameManagement: React.FC = () => {
                 <div className="mt-4">
                   <Link
                     to={`/restaurant/games/${game.id}`}
-                    className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
                   >
                     <Eye className="h-4 w-4" />
                     <span>View Details</span>
@@ -352,7 +352,7 @@ const RestaurantGameManagement: React.FC = () => {
             <p className="text-royal-blue-200 mb-6">Create your first game to start attracting players!</p>
             <button
               onClick={() => setShowCreateForm(true)}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center space-x-2 mx-auto"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"
             >
               <Plus className="h-5 w-5" />
               <span>Create Your First Game</span>

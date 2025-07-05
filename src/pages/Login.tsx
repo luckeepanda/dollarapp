@@ -82,7 +82,7 @@ const Login: React.FC = () => {
             <button
               onClick={handleGoogleLogin}
               disabled={isOAuthLoading !== null || isLoading}
-              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-xl font-semibold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-sm"
+              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-2xl font-bold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-xl hover:shadow-2xl"
             >
               {isOAuthLoading === 'google' ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white-200"></div>
@@ -156,7 +156,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
             >
               {isLoading ? (
                 <>

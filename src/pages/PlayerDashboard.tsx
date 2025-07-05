@@ -85,7 +85,7 @@ const PlayerDashboard: React.FC = () => {
                 </div>
                 <Link
                   to="/deposit"
-                  className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-4 py-2 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+                  className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-4 py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Add Funds</span>
@@ -123,7 +123,7 @@ const PlayerDashboard: React.FC = () => {
                 <p className="text-steel-blue-300 mb-4">Check back later for new restaurant games!</p>
                 <Link
                   to="/free-play"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-green-400/30"
                 >
                   <Play className="h-4 w-4" />
                   <span>Try Free Play</span>
@@ -199,7 +199,7 @@ const PlayerDashboard: React.FC = () => {
                       {/* Action Button */}
                       <Link
                         to="/restaurant-games"
-                        className="w-full bg-white text-orange-600 py-2 rounded-xl font-semibold hover:bg-orange-50 transition-all transform hover:scale-105 flex items-center justify-center space-x-2 shadow-lg"
+                        className="w-full bg-white text-orange-600 py-2 rounded-2xl font-bold hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-orange-200"
                       >
                         <Play className="h-4 w-4" />
                         <span>Join Game</span>
@@ -215,7 +215,7 @@ const PlayerDashboard: React.FC = () => {
               <div className="mt-6 text-center">
                 <Link
                   to="/restaurant-games"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-700 hover:to-red-700 transition-all transform hover:scale-105 shadow-lg"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-orange-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-orange-400/30"
                 >
                   <Trophy className="h-5 w-5" />
                   <span>View All Restaurant Games</span>
