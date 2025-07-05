@@ -4,7 +4,6 @@ import {
   useStripe,
   useElements,
   PaymentRequestButtonElement,
-  usePaymentRequest,
 } from '@stripe/react-stripe-js';
 import { useAuth } from '../contexts/AuthContext';
 import { Apple, CreditCard, Loader } from 'lucide-react';
@@ -27,16 +26,23 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   const [canMakePayment, setCanMakePayment] = useState(false);
 
   // Apple Pay / Google Pay setup
-  const paymentRequest = usePaymentRequest({
-    country: 'US',
-    currency: 'usd',
-    total: {
-      label: 'Dollar App Deposit',
-      amount: Math.round(amount * 100), // Convert to cents
-    },
-    requestPayerName: true,
-    requestPayerEmail: true,
-  });
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: 'US',
+        currency: 'usd',
+        total: {
+          label: 'Dollar App Deposit',
+          amount: Math.round(amount * 100), // Convert to cents
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+      setPaymentRequest(pr);
+    }
+  }, [stripe, amount]);
 
   useEffect(() => {
     if (paymentRequest) {
