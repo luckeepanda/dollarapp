@@ -183,45 +183,6 @@ const Register: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Account Type Selection */}
-            <div>
-              <label className="block text-sm font-medium text-white-100 mb-3">
-                Account Type
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, accountType: 'player'})}
-                  disabled={isLoading || isOAuthLoading !== null}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    formData.accountType === 'player'
-                      ? 'border-royal-blue-500 bg-royal-blue-50 text-royal-blue-700'
-                      : 'border-white-300 hover:border-royal-blue-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="text-center">
-                    <div className="text-lg font-semibold">Player</div>
-                    <div className="text-sm opacity-70">Play games & win prizes</div>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, accountType: 'restaurant'})}
-                  disabled={isLoading || isOAuthLoading !== null}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    formData.accountType === 'restaurant'
-                      ? 'border-steel-blue-500 bg-steel-blue-50 text-steel-blue-700'
-                      : 'border-white-300 hover:border-steel-blue-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="text-center">
-                    <div className="text-lg font-semibold">Restaurant</div>
-                    <div className="text-sm opacity-70">Accept QR redemptions</div>
-                  </div>
-                </button>
-              </div>
-            </div>
-
             <div>
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Email Address
