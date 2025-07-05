@@ -177,6 +177,12 @@ const Login: React.FC = () => {
               </Link>
             </p>
           </div>
+
+          <div className="mt-4 text-center">
+            <Link to="/" className="text-white-300 hover:text-white-200 text-sm transition-colors">
+              ← Back to main site
+            </Link>
+          </div>
         </div>
       </div>
     </div>
