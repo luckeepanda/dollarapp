@@ -101,6 +101,16 @@ const Landing: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </Link>
               </div>
+              
+              {/* Restaurant Link */}
+              <div className="mt-4">
+                <Link
+                  to="/restaurant/login"
+                  className="text-royal-blue-200 hover:text-white transition-colors text-lg font-medium underline decoration-2 underline-offset-4"
+                >
+                  For Restaurants
+                </Link>
+              </div>
             </div>
           </div>
         </div>

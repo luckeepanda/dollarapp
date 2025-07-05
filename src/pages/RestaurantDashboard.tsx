@@ -113,6 +113,17 @@ const RestaurantDashboard: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4 text-white">Quick Actions</h2>
             <div className="space-y-3">
               <Link
+                to="/restaurant/games"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl hover:from-green-500/30 hover:to-emerald-500/30 transition-all group"
+              >
+                <div className="flex items-center space-x-3">
+                  <Trophy className="h-5 w-5 text-green-400" />
+                  <span className="font-medium text-white">Manage Games</span>
+                </div>
+                <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
+              </Link>
+
+              <Link
                 to="/scan"
                 className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-500/20 to-steel-blue-500/20 rounded-xl hover:from-royal-blue-500/30 hover:to-steel-blue-500/30 transition-all group"
               >

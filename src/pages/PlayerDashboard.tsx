@@ -166,6 +166,17 @@ const PlayerDashboard: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4 text-steel-blue-100">Quick Actions</h2>
             <div className="space-y-3">
               <Link
+                to="/restaurant-games"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-xl hover:from-orange-500/30 hover:to-red-500/30 transition-all group"
+              >
+                <div className="flex items-center space-x-3">
+                  <Trophy className="h-5 w-5 text-orange-400" />
+                  <span className="font-medium text-white">Restaurant Games</span>
+                </div>
+                <ArrowRight className="h-4 w-4 text-orange-300 group-hover:text-white" />
+              </Link>
+
+              <Link
                 to="/deposit"
                 className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-500/20 to-steel-blue-500/20 rounded-xl hover:from-royal-blue-500/30 hover:to-steel-blue-500/30 transition-all group"
               >

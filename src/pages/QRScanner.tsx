@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { useAuth } from '../contexts/AuthContext';
+import { restaurantGameService } from '../services/restaurantGameService';
 import { 
   ArrowLeft, 
   QrCode, 
@@ -18,6 +19,7 @@ const QRScanner: React.FC = () => {
   const { user } = useAuth();
   const [isScanning, setIsScanning] = useState(false);
   const [scannedCode, setScannedCode] = useState<any>(null);
+  const [isRedeeming, setIsRedeeming] = useState(false);
   const [scanHistory, setScanHistory] = useState([
     {
       id: 1,
@@ -50,12 +52,21 @@ const QRScanner: React.FC = () => {
     
     // Simulate QR code scanning
     setTimeout(() => {
-      const mockQRData = {
+      // Simulate scanning a restaurant game QR code
+      const mockQRData = Math.random() > 0.5 ? {
+        code: `RG-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+        amount: (Math.random() * 20 + 5).toFixed(2),
+        customer: `Player${Math.floor(Math.random() * 1000)}`,
+        gameId: Math.floor(Math.random() * 100),
+        isValid: true,
+        isRestaurantGame: true
+      } : {
         code: `QR-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
         amount: (Math.random() * 50 + 10).toFixed(2),
         customer: `Player${Math.floor(Math.random() * 1000)}`,
         gameId: Math.floor(Math.random() * 100),
-        isValid: Math.random() > 0.1 // 90% chance of valid code
+        isValid: Math.random() > 0.1, // 90% chance of valid code
+        isRestaurantGame: false
       };
       
       setScannedCode(mockQRData);
@@ -63,7 +74,56 @@ const QRScanner: React.FC = () => {
     }, 3000);
   };
 
-  const handleRedemption = (approved: boolean) => {
+  const handleRedemption = async (approved: boolean) => {
+    if (approved && scannedCode && user) {
+      setIsRedeeming(true);
+      
+      try {
+        if (scannedCode.isRestaurantGame) {
+          // Handle restaurant game QR redemption
+          const result = await restaurantGameService.redeemQR(scannedCode.code, user.id);
+          
+          if (result.success) {
+            const newRedemption = {
+              id: Date.now(),
+              code: scannedCode.code,
+              amount: result.amount,
+              customer: scannedCode.customer,
+              date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+              status: 'redeemed' as const
+            };
+            
+            setScanHistory([newRedemption, ...scanHistory]);
+            alert(`Successfully redeemed $${result.amount} from restaurant game: ${result.game_name}!`);
+          } else {
+            alert(result.message || 'Failed to redeem QR code');
+          }
+        } else {
+          // Handle regular QR code (existing logic)
+          const newRedemption = {
+            id: Date.now(),
+            code: scannedCode.code,
+            amount: parseFloat(scannedCode.amount),
+            customer: scannedCode.customer,
+            date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            status: 'redeemed' as const
+          };
+          
+          setScanHistory([newRedemption, ...scanHistory]);
+          alert(`Successfully redeemed $${scannedCode.amount} from ${scannedCode.customer}!`);
+        }
+      } catch (error: any) {
+        console.error('Redemption failed:', error);
+        alert(error.message || 'Failed to redeem QR code');
+      } finally {
+        setIsRedeeming(false);
+      }
+    }
+    
+    setScannedCode(null);
+  };
+
+  const handleRedemptionOld = (approved: boolean) => {
     if (approved && scannedCode) {
       const newRedemption = {
         id: Date.now(),
@@ -168,7 +228,7 @@ const QRScanner: React.FC = () => {
                         <p className={`text-sm ${
                           scannedCode.isValid ? 'text-green-600' : 'text-red-600'
                         }`}>
-                          Code: {scannedCode.code}
+                          {scannedCode.isRestaurantGame ? 'Restaurant Game' : 'Standard'} Code: {scannedCode.code}
                         </p>
                       </div>
                     </div>
@@ -185,10 +245,17 @@ const QRScanner: React.FC = () => {
                           <span className="text-gray-600">Customer</span>
                           <span className="font-semibold">{scannedCode.customer}</span>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-600">Game ID</span>
-                          <span className="font-semibold">#{scannedCode.gameId}</span>
-                        </div>
+                        {scannedCode.isRestaurantGame ? (
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-600">Type</span>
+                            <span className="font-semibold text-orange-600">Restaurant Game Prize</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-600">Game ID</span>
+                            <span className="font-semibold">#{scannedCode.gameId}</span>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="mb-6">
@@ -205,14 +272,23 @@ const QRScanner: React.FC = () => {
                       {scannedCode.isValid && (
                         <button
                           onClick={() => handleRedemption(true)}
-                          className="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors"
+                          disabled={isRedeeming}
+                          className="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
                         >
-                          Approve Redemption
+                          {isRedeeming ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                              <span>Processing...</span>
+                            </>
+                          ) : (
+                            'Approve Redemption'
+                          )}
                         </button>
                       )}
                       <button
                         onClick={() => handleRedemption(false)}
-                        className="flex-1 bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition-colors"
+                        disabled={isRedeeming}
+                        className="flex-1 bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition-colors disabled:opacity-50"
                       >
                         {scannedCode.isValid ? 'Reject' : 'Try Again'}
                       </button>
@@ -230,6 +306,7 @@ const QRScanner: React.FC = () => {
                 <li>• Ensure good lighting for accurate scanning</li>
                 <li>• The code will be automatically detected and verified</li>
                 <li>• Always verify the amount and customer before approving</li>
+                <li>• Restaurant game QR codes can only be redeemed by the creating restaurant</li>
               </ul>
             </div>
           </div>
