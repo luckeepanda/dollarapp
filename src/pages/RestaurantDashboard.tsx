@@ -11,7 +11,8 @@ import {
   AlertCircle,
   CheckCircle,
   ArrowUpRight,
-  ArrowRight
+  ArrowRight,
+  Trophy
 } from 'lucide-react';
 
 const RestaurantDashboard: React.FC = () => {
