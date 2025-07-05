@@ -96,36 +96,6 @@ const HamburgerRunnerGame: React.FC = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-yellow-600 bg-clip-text text-transparent">
-                🍔 Hamburger Runner 🍔
-              </h1>
-              <p className="text-gray-600 mt-2">Run, jump, and collect coins in this endless adventure!</p>
-            </div>
-          </div>
-          
-          {/* Game Info */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 inline-block">
-            <div className="flex items-center space-x-6 text-sm">
-              <div className="flex items-center space-x-2">
-                <GamepadIcon className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Temple Run Style</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-yellow-500" />
-                <span>Endless Runner</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-orange-500" />
-                <span>Collect Coins & Avoid Obstacles!</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Game Container */}
         <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
           {/* Force component remount with key prop */}

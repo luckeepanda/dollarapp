@@ -156,7 +156,7 @@ const Register: React.FC = () => {
             <button
               onClick={handleGoogleSignup}
               disabled={isOAuthLoading !== null || isLoading}
-              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-xl font-semibold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-sm"
+              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-2xl font-bold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-xl hover:shadow-2xl"
             >
               {isOAuthLoading === 'google' ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white-200"></div>
@@ -183,45 +183,6 @@ const Register: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Account Type Selection */}
-            <div>
-              <label className="block text-sm font-medium text-white-100 mb-3">
-                Account Type
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, accountType: 'player'})}
-                  disabled={isLoading || isOAuthLoading !== null}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    formData.accountType === 'player'
-                      ? 'border-royal-blue-500 bg-royal-blue-50 text-royal-blue-700'
-                      : 'border-white-300 hover:border-royal-blue-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="text-center">
-                    <div className="text-lg font-semibold">Player</div>
-                    <div className="text-sm opacity-70">Play games & win prizes</div>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, accountType: 'restaurant'})}
-                  disabled={isLoading || isOAuthLoading !== null}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    formData.accountType === 'restaurant'
-                      ? 'border-steel-blue-500 bg-steel-blue-50 text-steel-blue-700'
-                      : 'border-white-300 hover:border-steel-blue-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="text-center">
-                    <div className="text-lg font-semibold">Restaurant</div>
-                    <div className="text-sm opacity-70">Accept QR redemptions</div>
-                  </div>
-                </button>
-              </div>
-            </div>
-
             <div>
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Email Address
@@ -307,7 +268,7 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
             >
               {isLoading ? (
                 <>
@@ -327,6 +288,12 @@ const Register: React.FC = () => {
                 Sign in
               </Link>
             </p>
+          </div>
+
+          <div className="mt-4 text-center">
+            <Link to="/" className="text-white-300 hover:text-white-200 text-sm transition-colors">
+              ← Back to main site
+            </Link>
           </div>
 
           <div className="mt-4 p-4 bg-royal-blue-50 rounded-xl">

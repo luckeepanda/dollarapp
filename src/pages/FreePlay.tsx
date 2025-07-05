@@ -127,36 +127,6 @@ const FreePlay: React.FC = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-royal-blue-100 to-steel-blue-100 bg-clip-text text-transparent">
-                🌮 Free Taco Flyer 🌮
-              </h1>
-              <p className="text-royal-blue-200 mt-2">Practice your skills with unlimited free plays!</p>
-            </div>
-          </div>
-          
-          {/* Game Info */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 inline-block">
-            <div className="flex items-center space-x-6 text-sm">
-              <div className="flex items-center space-x-2">
-                <GamepadIcon className="h-5 w-5 text-royal-blue-300" />
-                <span className="font-semibold text-white">Free Play Mode</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-yellow-400" />
-                <span className="text-white">No Entry Fee</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-royal-blue-300" />
-                <span className="text-white">Practice & Have Fun!</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Game Container */}
         <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 mb-8 relative">
           {/* Force component remount with key prop */}

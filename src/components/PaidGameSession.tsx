@@ -99,31 +99,6 @@ const PaidGameSession: React.FC<PaidGameSessionProps> = ({
   return (
     <div className="min-h-screen bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Game Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-royal-blue-100 to-steel-blue-100 bg-clip-text text-transparent mb-4">
-            🌮 Taco Flyer Challenge 🌮
-          </h1>
-          
-          {/* Game Info */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 inline-block">
-            <div className="flex items-center space-x-8 text-sm">
-              <div className="flex items-center space-x-2">
-                <DollarSign className="h-5 w-5 text-green-400" />
-                <span className="font-semibold text-white">Prize Pool: ${session.prize_pool.toFixed(2)}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-yellow-400" />
-                <span className="text-white">Min Score: {session.min_score}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Users className="h-5 w-5 text-royal-blue-300" />
-                <span className="text-white">{session.current_players} Players</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Game Container */}
         <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 mb-8 relative">
           <TacoGame 

@@ -1,116 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import TournamentGameSession from '../components/TournamentGameSession';
 import { useAuth } from '../contexts/AuthContext';
-import { tournamentService, type Tournament } from '../services/tournamentService';
+import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
-  CreditCard, 
-  Trophy, 
   DollarSign, 
+  Trophy, 
   TrendingUp, 
   ArrowRight,
   Play,
   AlertCircle,
   Users,
   Crown,
-  Target
+  Target,
+  Plus,
+  Star
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
-  const { user, updateBalance } = useAuth();
-  const [currentTournament, setCurrentTournament] = useState<Tournament | null>(null);
-  const [gameState, setGameState] = useState<'dashboard' | 'tournament'>('dashboard');
-  const [isJoining, setIsJoining] = useState(false);
+  const { user } = useAuth();
+  const [restaurantGames, setRestaurantGames] = useState<RestaurantGame[]>([]);
+  const [isLoadingGames, setIsLoadingGames] = useState(true);
 
   useEffect(() => {
-    checkCurrentTournament();
-  }, [user]);
+    loadRestaurantGames();
+  }, []);
 
-  const checkCurrentTournament = async () => {
-    if (!user) return;
-    
+  const loadRestaurantGames = async () => {
     try {
-      // For now, we'll start fresh each time
-      // In a real app, you might want to check if user has an ongoing tournament
-      const tournaments = await tournamentService.getActiveTournaments();
-      if (tournaments.length > 0) {
-        // Check if user is already in a tournament
-        const userInTournament = await tournamentService.isUserInTournament(user.id, tournaments[0].id);
-        if (userInTournament) {
-          setCurrentTournament(tournaments[0]);
-          setGameState('tournament');
-        }
-      }
+      const games = await restaurantGameService.getActiveGames();
+      setRestaurantGames(games.slice(0, 3)); // Show top 3 games
     } catch (error) {
-      console.error('Failed to check current tournament:', error);
-    }
-  };
-
-  const checkActiveTournaments = async () => {
-    try {
-      const tournaments = await tournamentService.getActiveTournaments();
-      console.log('Active tournaments:', tournaments);
-    } catch (error) {
-      console.error('Failed to check tournaments:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      checkActiveTournaments();
-    }
-  }, [user]);
-
-  const handleJoinGame = async () => {
-    if (!user) return;
-    
-    if (user.balance < 1) {
-      alert('Insufficient balance. Please add funds to play.');
-      return;
-    }
-
-    setIsJoining(true);
-    try {
-      const tournamentId = await tournamentService.joinTournament(user.id);
-      
-      // Update user balance locally
-      updateBalance(user.balance - 1);
-      
-      // Get tournament details
-      const tournament = await tournamentService.getTournament(tournamentId);
-      setCurrentTournament(tournament);
-      setGameState('tournament');
-    } catch (error: any) {
-      console.error('Failed to join tournament:', error);
-      alert(error.message || 'Failed to join tournament. Please try again.');
+      console.error('Failed to load restaurant games:', error);
     } finally {
-      setIsJoining(false);
+      setIsLoadingGames(false);
     }
   };
 
-  const handleGameComplete = (results: any) => {
-    // Results are handled within the tournament session
-    console.log('Tournament game completed:', results);
-  };
-
-  const handleLeaveTournament = () => {
-    setCurrentTournament(null);
-    setGameState('dashboard');
-  };
-
-  // Render tournament game session
-  if (gameState === 'tournament' && currentTournament) {
-    return (
-      <TournamentGameSession
-        tournamentId={currentTournament.id}
-        onGameComplete={handleGameComplete}
-        onLeaveTournament={handleLeaveTournament}
-      />
-    );
-  }
-
-  // Main dashboard
   return (
     <div className="min-h-screen bg-steel-blue-900">
       <Header />
@@ -121,7 +47,7 @@ const PlayerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-steel-blue-100 mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-steel-blue-300">Ready to compete in tournaments and climb the leaderboard?</p>
+          <p className="text-steel-blue-300">Ready to play games and win amazing prizes?</p>
         </div>
 
         {/* Balance Warning */}
@@ -132,7 +58,7 @@ const PlayerDashboard: React.FC = () => {
               <div>
                 <p className="text-sm font-medium text-orange-600">Insufficient Balance</p>
                 <p className="text-xs text-orange-400">
-                  You need at least $1 to join a tournament. 
+                  You need at least $1 to join games. 
                   <Link to="/deposit" className="font-semibold hover:underline ml-1">
                     Add funds now
                   </Link>
@@ -142,7 +68,7 @@ const PlayerDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* Stats Cards - Only Balance */}
+        {/* Balance Card with Add Funds Button */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8 max-w-md">
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
@@ -150,135 +76,174 @@ const PlayerDashboard: React.FC = () => {
                 <p className="text-sm text-steel-blue-300">Current Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
                 <p className="text-xs text-steel-blue-400 mt-1">
-                  {user ? Math.floor(user.balance) : 0} tournament entries available
+                  {user ? Math.floor(user.balance) : 0} game entries available
                 </p>
               </div>
-              <div className="bg-green-500/20 p-3 rounded-xl">
-                <DollarSign className="h-6 w-6 text-green-400" />
+              <div className="flex items-center space-x-3">
+                <div className="bg-green-500/20 p-3 rounded-xl">
+                  <DollarSign className="h-6 w-6 text-green-400" />
+                </div>
+                <Link
+                  to="/deposit"
+                  className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-4 py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add Funds</span>
+                </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Quick Actions */}
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+          {/* Games Right Now */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-            <h2 className="text-xl font-semibold mb-4 text-steel-blue-100">Quick Actions</h2>
-            <div className="space-y-3">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-steel-blue-100 flex items-center space-x-2">
+                <Trophy className="h-6 w-6 text-orange-400" />
+                <span>Games Right Now</span>
+              </h2>
               <Link
-                to="/deposit"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-500/20 to-steel-blue-500/20 rounded-xl hover:from-royal-blue-500/30 hover:to-steel-blue-500/30 transition-all group"
+                to="/restaurant-games"
+                className="text-royal-blue-300 hover:text-royal-blue-200 font-medium flex items-center space-x-1"
               >
-                <div className="flex items-center space-x-3">
-                  <CreditCard className="h-5 w-5 text-royal-blue-300" />
-                  <span className="font-medium text-steel-blue-100">Add Funds</span>
-                </div>
-                <ArrowRight className="h-4 w-4 text-royal-blue-200 group-hover:text-steel-blue-100" />
+                <span>View All</span>
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </div>
-
-          {/* Featured Tournament */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-steel-blue-100">5-Player Tournament</h2>
-            </div>
             
-            {/* Tournament Card */}
-            <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
-              {/* Tournament Header */}
-              <div className="p-6 text-white">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-4xl">🏆</div>
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                    Winner Takes Recognition
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">$1 Entry • 5 Players • Winner Announced</h3>
-                <p className="text-orange-100 text-sm mb-4">
-                  Join a tournament with 5 players. After all 5 have played, the highest scorer wins!
-                </p>
-                
-                {/* Tournament Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center space-x-1 mb-1">
-                      <DollarSign className="h-4 w-4 text-yellow-300" />
-                      <span className="text-xs text-orange-100">Entry Fee</span>
-                    </div>
-                    <p className="text-lg font-bold text-yellow-300">$1.00</p>
-                  </div>
-                  
-                  <div className="text-center">
-                    <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Users className="h-4 w-4 text-orange-100" />
-                      <span className="text-xs text-orange-100">Players</span>
-                    </div>
-                    <p className="text-lg font-bold">5 Max</p>
-                  </div>
-                  
-                  <div className="text-center">
-                    <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Crown className="h-4 w-4 text-yellow-300" />
-                      <span className="text-xs text-orange-100">Winner</span>
-                    </div>
-                    <p className="text-lg font-bold">Highest Score</p>
-                  </div>
-                </div>
-
-                {/* How it Works */}
-                <div className="bg-white/10 p-4 rounded-xl mb-6">
-                  <h4 className="font-semibold mb-2">How It Works:</h4>
-                  <ul className="text-sm text-orange-100 space-y-1">
-                    <li>• Pay $1 to join a tournament with up to 5 players</li>
-                    <li>• Play the taco game and submit your score</li>
-                    <li>• After all 5 players complete their games</li>
-                    <li>• The player with the highest score is declared the winner</li>
-                    <li>• Winner gets recognition and bragging rights!</li>
-                  </ul>
-                </div>
-
-                {/* Join Button */}
-                <button
-                  onClick={handleJoinGame}
-                  disabled={isJoining || (user && user.balance < 1)}
-                  className="w-full bg-white text-orange-600 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-lg"
-                >
-                  {isJoining ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-600"></div>
-                      <span>Joining Tournament...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-5 w-5" />
-                      <span>Join Tournament - $1</span>
-                    </>
-                  )}
-                </button>
+            {isLoadingGames ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
               </div>
-            </div>
+            ) : restaurantGames.length === 0 ? (
+              <div className="text-center py-8">
+                <Trophy className="h-12 w-12 text-white/30 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">No Active Games</h3>
+                <p className="text-steel-blue-300 mb-4">Check back later for new restaurant games!</p>
+                <Link
+                  to="/free-play"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-green-400/30"
+                >
+                  <Play className="h-4 w-4" />
+                  <span>Try Free Play</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {restaurantGames.map((game) => (
+                  <div key={game.id} className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
+                    {/* Game Header */}
+                    <div className="p-6 text-white">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="text-4xl">🏆</div>
+                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
+                          Restaurant Game
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">{game.name}</h3>
+                      <p className="text-orange-100 text-sm mb-4">{game.description}</p>
+                      {game.restaurant && (
+                        <p className="text-orange-200 text-xs mb-4">
+                          by {game.restaurant.username}
+                        </p>
+                      )}
+                      
+                      {/* Game Stats */}
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="text-center">
+                          <div className="flex items-center justify-center space-x-1 mb-1">
+                            <DollarSign className="h-4 w-4 text-yellow-300" />
+                            <span className="text-xs text-orange-100">Prize Pool</span>
+                          </div>
+                          <p className="text-lg font-bold text-yellow-300">${game.prize_pool.toFixed(2)}</p>
+                        </div>
+                        
+                        <div className="text-center">
+                          <div className="flex items-center justify-center space-x-1 mb-1">
+                            <Users className="h-4 w-4 text-orange-100" />
+                            <span className="text-xs text-orange-100">Entries</span>
+                          </div>
+                          <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
+                        </div>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div className="mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm text-orange-100">Progress</span>
+                          <span className="text-sm font-medium">
+                            {Math.round((game.current_players / game.max_players) * 100)}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-white/20 rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-2 rounded-full transition-all"
+                            style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      {/* Game Details */}
+                      <div className="space-y-2 text-sm mb-4">
+                        <div className="flex justify-between">
+                          <span className="text-orange-100">Entry Fee:</span>
+                          <span className="font-medium">${game.entry_fee.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-orange-100">Min Score:</span>
+                          <span className="font-medium">{game.min_score}</span>
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <Link
+                        to="/restaurant-games"
+                        className="w-full bg-white text-orange-600 py-2 rounded-2xl font-bold hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-orange-200"
+                      >
+                        <Play className="h-4 w-4" />
+                        <span>Join Game</span>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* View All Games Button */}
+            {restaurantGames.length > 0 && (
+              <div className="mt-6 text-center">
+                <Link
+                  to="/restaurant-games"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-orange-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-orange-400/30"
+                >
+                  <Trophy className="h-5 w-5" />
+                  <span>View All Restaurant Games</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Tournament Rules */}
+        {/* How Restaurant Games Work */}
         <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-steel-blue-100">
             <TrendingUp className="h-5 w-5 text-orange-400" />
-            <span>Tournament System</span>
+            <span>How Restaurant Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-steel-blue-300">
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join Tournament</h3>
-              <p>Pay $1 to join a tournament. You'll be matched with up to 4 other players in the same tournament.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join Restaurant Games</h3>
+              <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play Your Game</h3>
-              <p>Play the taco flyer game and achieve your best score. Your score is recorded for the tournament.</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play & Compete</h3>
+              <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Winner Announced</h3>
-              <p>After all 5 players complete their games, the player with the highest score is declared the winner!</p>
+              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Win Real Prizes</h3>
+              <p>Winners receive QR codes that can be redeemed at the restaurant for real food and prizes!</p>
             </div>
           </div>
         </div>
