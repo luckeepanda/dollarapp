@@ -355,10 +355,11 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas with baby blue gradient background
+    // Clear canvas with sky gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#E6F3FF');
-    gradient.addColorStop(1, '#B3D9FF');
+    gradient.addColorStop(0, '#87CEEB');
+    gradient.addColorStop(0.7, '#98FB98');
+    gradient.addColorStop(1, '#90EE90');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -367,13 +368,24 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.fillStyle = 'rgba(135, 206, 235, 0.9)';
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 24px Arial';
+      // Title text with better contrast
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#2B69E5';
+      ctx.lineWidth = 4;
+      ctx.font = 'bold 28px Arial';
       ctx.textAlign = 'center';
+      ctx.strokeText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       ctx.fillText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
-      ctx.font = '16px Arial';
+      // Instructions with better contrast
+      ctx.font = 'bold 18px Arial';
+      ctx.strokeStyle = '#2B69E5';
+      ctx.lineWidth = 3;
+      ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.strokeText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       ctx.fillText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
       // Draw taco in center
@@ -382,19 +394,9 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     }
 
     if (gameState.gameOver) {
-      // Draw game over screen - REMOVED "Click to play again" text
-      ctx.fillStyle = 'rgba(135, 206, 235, 0.9)';
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 28px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('Game Over!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 40);
-      
-      ctx.font = '20px Arial';
-      ctx.fillText(`Final Score: ${gameState.score}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      
-      // REMOVED: "Click to play again" text
+      // Draw game over screen - REMOVED "Game Over!" text and score display
+      // Just show the final game state without overlay text
+      // The parent component will handle the game over UI
       return;
     }
 
@@ -403,9 +405,13 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.fillStyle = 'rgba(135, 206, 235, 0.7)';
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 24px Arial';
+      // Pause text with better contrast
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#2B69E5';
+      ctx.lineWidth = 4;
+      ctx.font = 'bold 28px Arial';
       ctx.textAlign = 'center';
+      ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       return;
     }
@@ -419,14 +425,16 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     const rotation = Math.max(-0.5, Math.min(0.5, gameState.tacoVelocity * 0.1));
     drawTaco(ctx, 80, gameState.tacoY, rotation);
 
-    // Draw score
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 24px Arial';
+    // Draw UI with enhanced visibility
     ctx.textAlign = 'left';
-    ctx.strokeStyle = '#4682B4';
-    ctx.lineWidth = 3;
-    ctx.strokeText(`Score: ${gameState.score}`, 20, 40);
-    ctx.fillText(`Score: ${gameState.score}`, 20, 40);
+    
+    // Score with enhanced contrast
+    ctx.font = 'bold 22px Arial';
+    ctx.strokeStyle = '#2B69E5';
+    ctx.lineWidth = 4;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeText(`Score: ${gameState.score}`, 20, 35);
+    ctx.fillText(`Score: ${gameState.score}`, 20, 35);
 
   }, [gameState]);
 
@@ -509,32 +517,32 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
         </div>
       </div>
 
-      {/* Animated Prize Message */}
+      {/* Enhanced Prize Message */}
       <div className="text-center max-w-md">
-        <div className="relative overflow-hidden bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white px-8 py-4 rounded-2xl shadow-lg">
+        <div className="relative overflow-hidden bg-gradient-to-r from-royal-blue-500 via-steel-blue-500 to-royal-blue-600 text-white px-8 py-6 rounded-2xl shadow-xl border-2 border-white/20">
           {/* Animated background shimmer */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shimmer"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
           
-          {/* Main text */}
+          {/* Main content */}
           <div className="relative z-10">
-            <div className="flex items-center justify-center space-x-2 mb-1">
-              <Trophy className="h-6 w-6 text-yellow-200 animate-bounce" />
-              <span className="text-xl font-bold tracking-wide">100 POINTS</span>
-              <Trophy className="h-6 w-6 text-yellow-200 animate-bounce" style={{ animationDelay: '0.5s' }} />
+            <div className="flex items-center justify-center space-x-3 mb-2">
+              <Trophy className="h-7 w-7 text-yellow-300 animate-bounce" />
+              <span className="text-2xl font-bold tracking-wide text-white drop-shadow-lg">100 POINTS</span>
+              <Trophy className="h-7 w-7 text-yellow-300 animate-bounce" style={{ animationDelay: '0.5s' }} />
             </div>
-            <div className="text-lg font-semibold">
+            <div className="text-lg font-semibold text-royal-blue-100 drop-shadow-md">
               Gets Free Food Prize! 🍕🍔🌮
             </div>
           </div>
           
-          {/* Pulsing border effect */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300 animate-pulse"></div>
+          {/* Enhanced border effect */}
+          <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300/50 animate-pulse"></div>
         </div>
         
         {gameState.score > 0 && (
-          <div className="flex items-center justify-center space-x-2 text-blue-600 mt-3">
-            <Trophy className="h-4 w-4" />
-            <span className="font-semibold">Current Score: {gameState.score}</span>
+          <div className="flex items-center justify-center space-x-2 text-royal-blue-600 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
+            <Trophy className="h-5 w-5" />
+            <span className="font-bold text-lg">Current Score: {gameState.score}</span>
           </div>
         )}
       </div>

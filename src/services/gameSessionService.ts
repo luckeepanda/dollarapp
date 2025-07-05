@@ -22,22 +22,23 @@ export interface GameParticipant {
   final_score?: number;
   qualified: boolean;
   prize_won?: number;
+  has_played: boolean;
   profiles?: {
     username: string;
   };
 }
 
 export const gameSessionService = {
-  // Join a game session (deducts $1 from balance)
+  // Join a tournament (simplified - just deducts $1 and creates a session)
   async joinGameSession(userId: string, gameType: string = 'taco_flyer'): Promise<string> {
-    const { data, error } = await supabase.rpc('join_game_session', {
+    const { data, error } = await supabase.rpc('join_tournament_game', {
       p_user_id: userId,
       p_game_type: gameType
     });
 
     if (error) {
-      console.error('Error joining game session:', error);
-      throw new Error(error.message || 'Failed to join game session');
+      console.error('Error joining tournament:', error);
+      throw new Error(error.message || 'Failed to join tournament');
     }
 
     return data; // Returns session ID
@@ -52,7 +53,7 @@ export const gameSessionService = {
         game_participants!inner(user_id)
       `)
       .eq('game_participants.user_id', userId)
-      .in('status', ['waiting', 'active'])
+      .eq('status', 'active')
       .single();
 
     if (error && error.code !== 'PGRST116') {
@@ -101,32 +102,40 @@ export const gameSessionService = {
     };
   },
 
-  // Submit game score
+  // Submit tournament score
   async submitScore(sessionId: string, userId: string, score: number): Promise<boolean> {
-    const { data, error } = await supabase.rpc('submit_game_score', {
+    const { data, error } = await supabase.rpc('submit_tournament_score', {
       p_session_id: sessionId,
       p_user_id: userId,
       p_score: score
     });
 
     if (error) {
-      console.error('Error submitting score:', error);
+      console.error('Error submitting tournament score:', error);
       throw error;
     }
 
     return data; // Returns whether player qualified
   },
 
-  // Complete game session (distribute prizes)
-  async completeSession(sessionId: string): Promise<void> {
-    const { error } = await supabase.rpc('complete_game_session', {
-      p_session_id: sessionId
-    });
+  // Get tournament results
+  async getTournamentResults(sessionId: string): Promise<GameParticipant[]> {
+    const { data, error } = await supabase
+      .from('game_participants')
+      .select(`
+        *,
+        profiles(username)
+      `)
+      .eq('session_id', sessionId)
+      .eq('has_played', true)
+      .order('final_score', { ascending: false });
 
     if (error) {
-      console.error('Error completing session:', error);
+      console.error('Error fetching tournament results:', error);
       throw error;
     }
+
+    return data || [];
   },
 
   // Listen for session updates
