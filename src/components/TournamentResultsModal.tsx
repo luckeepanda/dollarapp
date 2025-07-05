@@ -132,7 +132,6 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
                     className={`p-4 rounded-xl border-2 transition-all ${getRankBg(entry.rank)} ${
                       isYourEntry ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
                     } ${entry.is_winner ? 'bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-300' : ''}`}
-                    }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
@@ -197,7 +196,7 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
           )}
           
           <button
-            onClick={onLeaveSession}
+            onClick={onLeaveTournament}
             className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all flex items-center justify-center space-x-2"
           >
             <Home className="h-4 w-4" />
