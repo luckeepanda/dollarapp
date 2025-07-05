@@ -22,7 +22,7 @@ const RestaurantLogin: React.FC = () => {
       console.log('Restaurant login successful, navigating to dashboard for:', user);
       
       // Check if user is actually a restaurant
-      if (user.account_type !== 'restaurant') {
+      if (user.accountType !== 'restaurant') {
         setError('This account is not registered as a restaurant. Please use the player login.');
         setIsLoading(false);
         return;
