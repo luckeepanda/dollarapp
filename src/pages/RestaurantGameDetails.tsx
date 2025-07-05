@@ -156,7 +156,7 @@ const RestaurantGameDetails: React.FC = () => {
                 
                 <div className="flex justify-between">
                   <span className="text-royal-blue-200">Players:</span>
-                  <span className="text-white font-semibold">{game.current_players}/{game.max_players}</span>
+                  <span className="text-white font-semibold">{game.current_players}/{game.max_players} entries</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -240,7 +240,7 @@ const RestaurantGameDetails: React.FC = () => {
               {entries.length === 0 ? (
                 <div className="text-center py-8">
                   <Users className="h-12 w-12 text-white/30 mx-auto mb-4" />
-                  <p className="text-royal-blue-200">No players have joined yet</p>
+                  <p className="text-royal-blue-200">No entries yet</p>
                 </div>
               ) : (
                 <div className="space-y-3">

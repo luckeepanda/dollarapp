@@ -182,14 +182,14 @@ const RestaurantGames: React.FC = () => {
                         <Users className="h-4 w-4 text-royal-blue-300" />
                         <span className="text-xs text-royal-blue-200">Players</span>
                       </div>
-                      <p className="text-lg font-bold text-royal-blue-300">{game.current_players}/{game.max_players}</p>
+                      <p className="text-lg font-bold text-royal-blue-300">{game.current_players}/{game.max_players} entries</p>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-royal-blue-200">Spots Filled</span>
+                      <span className="text-sm text-royal-blue-200">Entries</span>
                       <span className="text-sm font-medium text-white">
                         {Math.round((game.current_players / game.max_players) * 100)}%
                       </span>
@@ -252,11 +252,11 @@ const RestaurantGames: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6 text-sm text-royal-blue-200">
             <div>
               <h3 className="font-semibold text-white mb-2">1. Join & Play</h3>
-              <p>Pay the entry fee to join a restaurant's game. Play the taco flyer game and achieve your best score.</p>
+              <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>
             </div>
             <div>
               <h3 className="font-semibold text-white mb-2">2. Compete for Victory</h3>
-              <p>After all players complete their games, the highest scorer wins the entire prize pool.</p>
+              <p>After the maximum number of entries is reached, the highest scorer wins the entire prize pool.</p>
             </div>
             <div>
               <h3 className="font-semibold text-white mb-2">3. Redeem Your Prize</h3>

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame, type GameResult } from '../services/restaurantGameService';
 import TacoGame from './TacoGame';
-import { Trophy, DollarSign, Users, Crown, QrCode } from 'lucide-react';
+import { Trophy, DollarSign, Users, Crown, QrCode, RotateCcw, Home } from 'lucide-react';
 
 interface RestaurantGameSessionProps {
   game: RestaurantGame;
@@ -22,6 +22,32 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isSubmittingScore, setIsSubmittingScore] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
+  const [userEntryCount, setUserEntryCount] = useState(0);
+  const [userBestScore, setUserBestScore] = useState(0);
+  const [isJoiningAgain, setIsJoiningAgain] = useState(false);
+
+  // Load user's previous entries and best score
+  React.useEffect(() => {
+    if (user && game) {
+      loadUserStats();
+    }
+  }, [user, game]);
+
+  const loadUserStats = async () => {
+    if (!user || !game) return;
+    
+    try {
+      const [entryCount, bestScore] = await Promise.all([
+        restaurantGameService.getUserEntryCount(game.id, user.id),
+        restaurantGameService.getUserBestScore(game.id, user.id)
+      ]);
+      
+      setUserEntryCount(entryCount);
+      setUserBestScore(bestScore);
+    } catch (error) {
+      console.error('Failed to load user stats:', error);
+    }
+  };
 
   const handleGameEnd = useCallback(async (score: number) => {
     console.log('RestaurantGameSession: Game ended with score:', score);
@@ -35,6 +61,9 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
       // Submit score to the restaurant game
       const result = await restaurantGameService.submitScore(game.id, user.id, score);
       setGameResult(result);
+      
+      // Update user stats
+      await loadUserStats();
       
       onGameComplete(result);
     } catch (error) {
@@ -60,6 +89,47 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
     }, 100);
   }, []);
 
+  const handlePlayAgain = async () => {
+    if (!user || !game) return;
+    
+    if (user.balance < game.entry_fee) {
+      alert('Insufficient balance. Please add funds to play again.');
+      return;
+    }
+
+    setIsJoiningAgain(true);
+    try {
+      await restaurantGameService.joinGame(game.id, user.id);
+      
+      // Update user balance locally
+      const { updateBalance } = useAuth();
+      updateBalance(user.balance - game.entry_fee);
+      
+      // Reset game state for new attempt
+      setFinalScore(null);
+      setGameResult(null);
+      setGameActive(false);
+      
+      // Update user stats
+      await loadUserStats();
+      
+      // Force component remount
+      setGameKey(prev => prev + 1);
+      setResetTrigger(prev => prev + 1);
+      
+      // Activate game after reset
+      setTimeout(() => {
+        setGameActive(true);
+      }, 100);
+      
+    } catch (error: any) {
+      console.error('Failed to join game again:', error);
+      alert(error.message || 'Failed to join game. Please try again.');
+    } finally {
+      setIsJoiningAgain(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -82,9 +152,23 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
               </div>
               <div className="flex items-center space-x-2">
                 <Users className="h-5 w-5 text-royal-blue-300" />
-                <span className="text-white">{game.current_players}/{game.max_players} Players</span>
+                <span className="text-white">{game.current_players}/{game.max_players} Entries</span>
               </div>
             </div>
+            
+            {/* User Stats */}
+            {userEntryCount > 0 && (
+              <div className="mt-4 p-3 bg-white/20 rounded-xl">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-royal-blue-200">Your Attempts:</span>
+                  <span className="text-white font-medium">{userEntryCount}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-royal-blue-200">Your Best Score:</span>
+                  <span className="text-yellow-400 font-medium">{userBestScore}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -171,23 +255,42 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                       )}
 
                       <p className="text-sm text-royal-blue-500 mb-4">
-                        Players completed: {gameResult.entries_count}/{gameResult.max_players}
+                        Entries completed: {gameResult.entries_count}/{gameResult.max_players}
                       </p>
                       
                       <div className="flex space-x-3">
-                        {!gameResult.game_completed && (
+                        {!gameResult.game_completed && user && user.balance >= game.entry_fee && (
                           <button
-                            onClick={restartGame}
-                            className="flex-1 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-4 py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 shadow-lg"
+                            onClick={handlePlayAgain}
+                            disabled={isJoiningAgain}
+                            className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 flex items-center justify-center space-x-2"
                           >
-                            Play Again
+                            {isJoiningAgain ? (
+                              <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <span>Joining...</span>
+                              </>
+                            ) : (
+                              <>
+                                <RotateCcw className="h-4 w-4" />
+                                <span>Play Again - ${game.entry_fee.toFixed(2)}</span>
+                              </>
+                            )}
                           </button>
                         )}
+                        
+                        {!gameResult.game_completed && user && user.balance < game.entry_fee && (
+                          <div className="flex-1 bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold text-center opacity-50">
+                            Insufficient Balance
+                          </div>
+                        )}
+                        
                         <button
                           onClick={onLeaveGame}
-                          className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all transform hover:scale-105 shadow-lg"
+                          className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
                         >
-                          {gameResult.game_completed ? 'Back to Games' : 'Leave Game'}
+                          <Home className="h-4 w-4" />
+                          <span>{gameResult.game_completed ? 'Back to Games' : 'Leave Game'}</span>
                         </button>
                       </div>
                     </>
@@ -219,7 +322,8 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
           <ul className="text-royal-blue-200 text-sm space-y-1">
             <li>• Guide the taco through obstacles by clicking or pressing SPACE</li>
             <li>• Score at least {game.min_score} points to qualify</li>
-            <li>• After all {game.max_players} players complete their games, the highest scorer wins</li>
+            <li>• You can play multiple times (${game.entry_fee.toFixed(2)} per attempt)</li>
+            <li>• After {game.max_players} total entries, the highest scorer wins</li>
             <li>• Winner receives ${game.prize_pool.toFixed(2)} and a QR code for restaurant redemption</li>
           </ul>
         </div>

@@ -162,7 +162,7 @@ const PlayerDashboard: React.FC = () => {
                         <div className="text-center">
                           <div className="flex items-center justify-center space-x-1 mb-1">
                             <Users className="h-4 w-4 text-orange-100" />
-                            <span className="text-xs text-orange-100">Players</span>
+                            <span className="text-xs text-orange-100">Entries</span>
                           </div>
                           <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
                         </div>
@@ -235,11 +235,11 @@ const PlayerDashboard: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6 text-sm text-steel-blue-300">
             <div>
               <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join Restaurant Games</h3>
-              <p>Browse games created by local restaurants. Each game has its own entry fee and prize pool.</p>
+              <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
               <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play & Compete</h3>
-              <p>Play the taco flyer game and achieve your best score. Compete against other players for the highest score.</p>
+              <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
               <h3 className="font-semibold text-steel-blue-100 mb-2">3. Win Real Prizes</h3>

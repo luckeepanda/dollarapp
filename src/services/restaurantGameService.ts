@@ -108,7 +108,7 @@ export const restaurantGameService = {
   },
 
   // Join a restaurant game
-  async joinGame(gameId: string, userId: string): Promise<void> {
+  async joinGame(gameId: string, userId: string): Promise<boolean> {
     const { error } = await supabase.rpc('join_restaurant_game', {
       p_game_id: gameId,
       p_user_id: userId
@@ -118,6 +118,8 @@ export const restaurantGameService = {
       console.error('Error joining restaurant game:', error);
       throw error;
     }
+
+    return true;
   },
 
   // Submit score to restaurant game
@@ -172,6 +174,54 @@ export const restaurantGameService = {
     }
 
     return data || null;
+  },
+
+  // Check if user has already played this game
+  async hasUserPlayed(gameId: string, userId: string): Promise<boolean> {
+    const { data, error } = await supabase
+      .from('restaurant_game_entries')
+      .select('id')
+      .eq('game_id', gameId)
+      .eq('user_id', userId)
+      .limit(1);
+
+    if (error) {
+      console.error('Error checking user participation:', error);
+      return false;
+    }
+
+    return (data && data.length > 0);
+  },
+
+  // Get user's entry count for a game
+  async getUserEntryCount(gameId: string, userId: string): Promise<number> {
+    const { data, error } = await supabase
+      .from('restaurant_game_entries')
+      .select('id')
+      .eq('game_id', gameId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error getting user entry count:', error);
+      return 0;
+    }
+
+    return data ? data.length : 0;
+  },
+
+  // Get user's best score for a game
+  async getUserBestScore(gameId: string, userId: string): Promise<number> {
+    const { data, error } = await supabase.rpc('get_user_best_score_for_game', {
+      p_game_id: gameId,
+      p_user_id: userId
+    });
+
+    if (error) {
+      console.error('Error getting user best score:', error);
+      return 0;
+    }
+
+    return data || 0;
   },
 
   // Redeem QR code
