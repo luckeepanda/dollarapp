@@ -144,22 +144,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         updated_at: data.updated_at
       });
 
-      // Return the formatted user object for navigation
-      return {
-        id: data.id,
-        email: data.email,
-        username: data.username,
-        accountType: data.account_type,
-        balance: parseFloat(data.balance || '0'),
-        isKYCVerified: data.is_kyc_verified,
-        created_at: data.created_at,
-        updated_at: data.updated_at
-      };
+      return data;
     } catch (error) {
       console.error('Error fetching user profile:', error);
       // On any error, clear the user state and stop loading
       setUser(null);
-      return null;
     } finally {
       // Always ensure loading is set to false
       setIsLoading(false);
@@ -217,8 +206,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('Login successful:', data.user?.email);
       
       const profile = await fetchUserProfile(data.user.id);
-      
-      // Return the profile so the login function can use it for navigation
       return profile;
     } catch (error: any) {
       console.error('Login failed:', error);
