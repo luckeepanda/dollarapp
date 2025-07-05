@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Elements } from '@stripe/react-stripe-js';
 import Header from '../components/Header';
+import StripePaymentForm from '../components/StripePaymentForm';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
+import { stripePromise, STRIPE_CONFIG } from '../lib/stripe';
 import { 
   ArrowLeft, 
   CreditCard, 
@@ -20,6 +23,8 @@ const Deposit: React.FC = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showStripeForm, setShowStripeForm] = useState(false);
+  const [stripeClientSecret, setStripeClientSecret] = useState<string>('');
 
   const paymentMethods = [
     {
@@ -32,19 +37,11 @@ const Deposit: React.FC = () => {
       isTest: true
     },
     {
-      id: 'apple_pay',
+      id: 'stripe',
       name: 'Apple Pay',
       description: 'Quick and secure payment with Touch ID',
       icon: Apple,
       color: 'from-gray-700 to-black',
-      available: true
-    },
-    {
-      id: 'cash_app',
-      name: 'Cash App',
-      description: 'Pay with your Cash App balance or card',
-      icon: Smartphone,
-      color: 'from-green-500 to-green-600',
       available: true
     },
     {
@@ -56,11 +53,11 @@ const Deposit: React.FC = () => {
       available: true
     },
     {
-      id: 'stripe',
-      name: 'Credit/Debit Card',
-      description: 'Secure payment with any major card',
+      id: 'cash_app',
+      name: 'Cash App',
+      description: 'Pay with your Cash App balance or card',
       icon: CreditCard,
-      color: 'from-blue-500 to-blue-600',
+      color: 'from-green-500 to-green-600',
       available: true
     }
   ];
@@ -68,7 +65,9 @@ const Deposit: React.FC = () => {
   const quickAmounts = [5, 10, 25, 50, 100];
 
   const handleDeposit = async () => {
-    if (!selectedMethod || !amount || parseFloat(amount) < 1) {
+    const depositAmount = parseFloat(amount);
+    
+    if (!selectedMethod || !amount || depositAmount < 1) {
       alert('Please select a payment method and enter a valid amount.');
       return;
     }
@@ -81,9 +80,14 @@ const Deposit: React.FC = () => {
     setIsProcessing(true);
 
     try {
+      if (selectedMethod === 'stripe') {
+        // Handle Stripe payment (Apple Pay, Google Pay, Cards)
+        setShowStripeForm(true);
+        return;
+      }
+      
       if (selectedMethod === 'dummy_pay') {
         // Handle Dummy Pay - actually update the balance in Supabase
-        const depositAmount = parseFloat(amount);
         
         // Update balance in Supabase using the add_balance function
         const { error } = await supabase.rpc('add_balance', {
@@ -137,6 +141,77 @@ const Deposit: React.FC = () => {
     }
   };
 
+  const handleStripeSuccess = async (paymentIntent: any) => {
+    // Payment was successful, update UI
+    const depositAmount = parseFloat(amount);
+    
+    // Update local balance (webhook will have already updated the database)
+    updateBalance(user!.balance + depositAmount);
+    
+    alert(`✅ Successfully deposited $${amount}! Your payment has been processed.`);
+    setAmount('');
+    setSelectedMethod('');
+    setShowStripeForm(false);
+  };
+
+  const handleStripeError = (error: string) => {
+    alert(`❌ Payment failed: ${error}`);
+    setShowStripeForm(false);
+  };
+
+  // Show Stripe payment form
+  if (showStripeForm && selectedMethod === 'stripe') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <div className="flex items-center space-x-4 mb-8">
+            <button 
+              onClick={() => setShowStripeForm(false)}
+              className="p-2 hover:bg-white rounded-lg transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Complete Payment</h1>
+              <p className="text-gray-600">Secure payment with Apple Pay or card</p>
+            </div>
+          </div>
+
+          {/* Payment Form */}
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-lg font-semibold text-gray-900">Deposit Amount</span>
+                <span className="text-2xl font-bold text-green-600">${amount}</span>
+              </div>
+              <div className="text-sm text-gray-600">
+                Adding funds to your Dollar App account
+              </div>
+            </div>
+
+            <Elements 
+              stripe={stripePromise} 
+              options={{
+                ...STRIPE_CONFIG,
+                amount: Math.round(parseFloat(amount) * 100),
+                currency: 'usd',
+              }}
+            >
+              <StripePaymentForm
+                amount={parseFloat(amount)}
+                onSuccess={handleStripeSuccess}
+                onError={handleStripeError}
+              />
+            </Elements>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -189,6 +264,11 @@ const Deposit: React.FC = () => {
                         {method.isTest && (
                           <p className="text-xs text-purple-600 font-medium mt-1">
                             ⚡ Instantly adds funds to your account
+                          </p>
+                        )}
+                        {method.id === 'stripe' && (
+                          <p className="text-xs text-blue-600 font-medium mt-1">
+                            💳 Supports Apple Pay, Google Pay, and all major cards
                           </p>
                         )}
                       </div>
@@ -281,6 +361,11 @@ const Deposit: React.FC = () => {
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                     <span>Processing...</span>
                   </>
+                ) : selectedMethod === 'stripe' ? (
+                  <>
+                    <Apple className="h-4 w-4" />
+                    <span>Continue to Payment</span>
+                  </>
                 ) : selectedMethod === 'dummy_pay' ? (
                   <>
                     <Zap className="h-4 w-4" />
@@ -309,8 +394,23 @@ const Deposit: React.FC = () => {
                 </div>
               )}
 
+              {/* Stripe Payment Method Info */}
+              {selectedMethod === 'stripe' && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-200">
+                  <div className="flex items-center space-x-2">
+                    <Apple className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm text-blue-800 font-medium">
+                      Secure Payment with Stripe
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-700 mt-1">
+                    Pay securely with Apple Pay, Google Pay, or any major credit/debit card. Your payment information is encrypted and secure.
+                  </p>
+                </div>
+              )}
+
               {/* Security Notice */}
-              {selectedMethod !== 'dummy_pay' && (
+              {selectedMethod && selectedMethod !== 'dummy_pay' && selectedMethod !== 'stripe' && (
                 <div className="mt-4 p-3 bg-green-50 rounded-xl">
                   <div className="flex items-center space-x-2">
                     <Shield className="h-4 w-4 text-green-600" />
