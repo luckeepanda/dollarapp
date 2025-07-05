@@ -290,6 +290,12 @@ const Register: React.FC = () => {
             </p>
           </div>
 
+          <div className="mt-4 text-center">
+            <Link to="/" className="text-white-300 hover:text-white-200 text-sm transition-colors">
+              ← Back to main site
+            </Link>
+          </div>
+
           <div className="mt-4 p-4 bg-royal-blue-50 rounded-xl">
             <p className="text-sm text-royal-blue-800 text-center">
               <strong>Note:</strong> OAuth accounts are created instantly. Email accounts require verification.
