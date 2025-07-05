@@ -55,11 +55,18 @@ The following Edge Functions have been created:
    - Select events to send:
      - `payment_intent.succeeded`
      - `payment_intent.payment_failed`
+     - `payment_method.attached`
 
 2. **Get Webhook Secret**
    - After creating the webhook, click on it
    - Copy the "Signing secret" (starts with `whsec_`)
-   - Add this to your Supabase Edge Function secrets
+   - Add this to your Supabase Edge Function secrets as `STRIPE_WEBHOOK_SECRET`
+
+3. **Set Supabase Edge Function Secrets**
+   - Go to your Supabase Dashboard > Edge Functions
+   - Add the following secrets:
+     - `STRIPE_SECRET_KEY`: Your Stripe secret key (sk_test_...)
+     - `STRIPE_WEBHOOK_SECRET`: Your webhook signing secret (whsec_...)
 
 ## 5. Apple Pay Domain Verification
 
@@ -71,10 +78,12 @@ The following Edge Functions have been created:
 2. **Host the Verification File**
    - Place the file at: `https://yourdomain.com/.well-known/apple-developer-merchantid-domain-association`
    - Ensure it's accessible via HTTPS
+   - For local development, you may need to skip this step
 
 3. **Verify Domain in Stripe**
    - Enter your domain in the Stripe dashboard
    - Click "Verify Domain"
+   - Note: This is required for production but may not work in development
 
 ## 6. Testing
 
@@ -91,6 +100,16 @@ Use these test card numbers in development:
 - Use Safari on macOS or iOS device
 - Ensure you have a card set up in Apple Wallet
 - Test in a secure context (HTTPS)
+- Apple Pay button will only appear on supported devices
+
+### Testing Flow
+1. **Local Development**: Apple Pay may not work without domain verification
+2. **Staging/Production**: Ensure domain is verified with Apple Pay
+3. **Test Cards**: Use Stripe test cards for card payments
+4. **Webhook Testing**: Use Stripe CLI for local webhook testing:
+   ```bash
+   stripe listen --forward-to https://your-project.supabase.co/functions/v1/stripe-webhook
+   ```
 
 ## 7. Production Checklist
 
@@ -109,6 +128,8 @@ Before going live:
 4. **Test Real Payments**
    - Make small test transactions with real cards
    - Verify funds are properly credited to user accounts
+   - Test both Apple Pay and card payments
+   - Verify webhook processing
 
 ## 8. Security Notes
 
@@ -117,6 +138,8 @@ Before going live:
 - Use HTTPS in production
 - Regularly rotate API keys
 - Monitor for suspicious activity
+- Webhook signatures are automatically verified
+- User authentication is checked before processing payments
 
 ## 9. Troubleshooting
 
@@ -126,19 +149,30 @@ Before going live:
    - Ensure you're on HTTPS
    - Verify domain is registered with Apple Pay
    - Check that user has cards in Apple Wallet
+   - Confirm you're using Safari on macOS/iOS
 
 2. **Webhook not receiving events**
    - Verify webhook URL is correct
    - Check webhook secret matches
    - Ensure Edge Function is deployed
+   - Check Supabase Edge Function logs
 
 3. **Payment fails**
    - Check Stripe logs in dashboard
    - Verify API keys are correct
    - Ensure sufficient test funds
+   - Check browser console for errors
+   - Verify user exists in database
+
+4. **Balance not updating**
+   - Check webhook is receiving events
+   - Verify webhook signature validation
+   - Check Supabase Edge Function logs
+   - Ensure user ID is correctly passed
 
 ### Support
 
 - [Stripe Documentation](https://stripe.com/docs)
 - [Stripe Support](https://support.stripe.com/)
 - [Apple Pay Documentation](https://developer.apple.com/apple-pay/)
+- [Supabase Edge Functions](https://supabase.com/docs/guides/functions)

@@ -142,20 +142,34 @@ const Deposit: React.FC = () => {
   };
 
   const handleStripeSuccess = async (paymentIntent: any) => {
-    // Payment was successful, update UI
+    console.log('Payment successful:', paymentIntent.id);
+    
+    // Payment was successful, update UI and balance
     const depositAmount = parseFloat(amount);
     
-    // Update local balance (webhook will have already updated the database)
+    // Update local balance immediately for better UX
+    // The webhook will ensure database consistency
     updateBalance(user!.balance + depositAmount);
     
-    alert(`✅ Successfully deposited $${amount}! Your payment has been processed.`);
+    // Show success message
+    alert(`✅ Successfully deposited $${amount}! 
+
+Payment ID: ${paymentIntent.id}
+Your new balance: $${(user!.balance + depositAmount).toFixed(2)}
+
+Funds are now available for games!`);
+    
+    // Reset form
     setAmount('');
     setSelectedMethod('');
     setShowStripeForm(false);
   };
 
   const handleStripeError = (error: string) => {
-    alert(`❌ Payment failed: ${error}`);
+    console.error('Payment failed:', error);
+    alert(`❌ Payment failed: ${error}
+
+Please check your payment method and try again.`);
     setShowStripeForm(false);
   };
 

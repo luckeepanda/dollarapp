@@ -6,7 +6,7 @@ import {
   PaymentRequestButtonElement,
 } from '@stripe/react-stripe-js';
 import { useAuth } from '../contexts/AuthContext';
-import { Apple, CreditCard, Loader } from 'lucide-react';
+import { Apple, CreditCard, Loader, AlertCircle } from 'lucide-react';
 
 interface StripePaymentFormProps {
   amount: number;
@@ -24,12 +24,12 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [canMakePayment, setCanMakePayment] = useState(false);
-
-  // Apple Pay / Google Pay setup
   const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [error, setError] = useState<string>('');
 
+  // Initialize Apple Pay payment request
   useEffect(() => {
-    if (stripe) {
+    if (stripe && amount > 0) {
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -40,27 +40,32 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         requestPayerName: true,
         requestPayerEmail: true,
       });
-      setPaymentRequest(pr);
-    }
-  }, [stripe, amount]);
 
-  useEffect(() => {
-    if (paymentRequest) {
-      paymentRequest.canMakePayment().then((result) => {
+      // Check if Apple Pay is available
+      pr.canMakePayment().then((result) => {
         if (result) {
           setCanMakePayment(true);
+          setPaymentRequest(pr);
         }
       });
     }
-  }, [paymentRequest]);
+  }, [stripe, amount]);
 
+  // Handle Apple Pay payment
   useEffect(() => {
     if (paymentRequest) {
-      paymentRequest.on('paymentmethod', async (event) => {
-        if (!stripe) return;
+      paymentRequest.on('paymentmethod', async (event: any) => {
+        if (!stripe || !user) {
+          event.complete('fail');
+          return;
+        }
 
         setIsProcessing(true);
+        setError('');
+
         try {
+          console.log('Processing Apple Pay payment...');
+
           // Create payment intent using Supabase Edge Function
           const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
             method: 'POST',
@@ -71,15 +76,19 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
             body: JSON.stringify({
               amount: Math.round(amount * 100),
               currency: 'usd',
-              userId: user?.id,
-              paymentMethodId: event.paymentMethod.id,
-              paymentMethodType: 'apple_pay', // This button is specifically for Apple Pay
+              userId: user.id,
+              paymentMethodType: 'apple_pay',
             }),
           });
 
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to create payment intent');
+          }
+
           const { client_secret } = await response.json();
 
-          // Confirm payment
+          // Confirm payment with Apple Pay
           const { error, paymentIntent } = await stripe.confirmCardPayment(
             client_secret,
             {
@@ -88,32 +97,42 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           );
 
           if (error) {
+            console.error('Apple Pay payment failed:', error);
             event.complete('fail');
-            onError(error.message || 'Payment failed');
-          } else {
+            onError(error.message || 'Apple Pay payment failed');
+          } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            console.log('Apple Pay payment succeeded:', paymentIntent.id);
             event.complete('success');
             onSuccess(paymentIntent);
+          } else {
+            event.complete('fail');
+            onError('Payment was not completed successfully');
           }
         } catch (err: any) {
+          console.error('Apple Pay error:', err);
           event.complete('fail');
-          onError(err.message || 'Payment failed');
+          onError(err.message || 'Apple Pay payment failed');
         } finally {
           setIsProcessing(false);
         }
       });
     }
-  }, [paymentRequest, stripe, amount, user?.id, onSuccess, onError]);
+  }, [paymentRequest, stripe, amount, user, onSuccess, onError]);
 
+  // Handle regular card payment
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !user) {
       return;
     }
 
     setIsProcessing(true);
+    setError('');
 
     try {
+      console.log('Processing card payment...');
+
       // Create payment intent using Supabase Edge Function
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
         method: 'POST',
@@ -124,31 +143,40 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         body: JSON.stringify({
           amount: Math.round(amount * 100),
           currency: 'usd',
-          userId: user?.id,
+          userId: user.id,
           paymentMethodType: 'card',
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create payment intent');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create payment intent');
       }
 
       const { client_secret } = await response.json();
 
-      // Confirm payment
+      // Confirm payment with card
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         clientSecret: client_secret,
         redirect: 'if_required',
+        confirmParams: {
+          return_url: window.location.origin + '/deposit',
+        },
       });
 
       if (error) {
-        onError(error.message || 'Payment failed');
+        console.error('Card payment failed:', error);
+        onError(error.message || 'Card payment failed');
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        console.log('Card payment succeeded:', paymentIntent.id);
         onSuccess(paymentIntent);
+      } else {
+        onError('Payment was not completed successfully');
       }
     } catch (err: any) {
-      onError(err.message || 'Payment failed');
+      console.error('Card payment error:', err);
+      onError(err.message || 'Card payment failed');
     } finally {
       setIsProcessing(false);
     }
@@ -156,6 +184,15 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+          <div className="flex items-center space-x-2">
+            <AlertCircle className="h-5 w-5 text-red-600" />
+            <p className="text-sm text-red-800">{error}</p>
+          </div>
+        </div>
+      )}
+
       {/* Apple Pay Button */}
       {canMakePayment && paymentRequest && (
         <div className="space-y-4">
@@ -178,7 +215,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
                 paymentRequest,
                 style: {
                   paymentRequestButton: {
-                    type: 'default', // This will show "Pay with Apple Pay" on supported devices
+                    type: 'default',
                     theme: 'dark',
                     height: '48px',
                   },
