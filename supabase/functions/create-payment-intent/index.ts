@@ -12,6 +12,7 @@ interface PaymentIntentRequest {
   currency: string
   userId: string
   paymentMethodId?: string
+  paymentMethodType?: string
 }
 
 serve(async (req) => {
@@ -25,7 +26,7 @@ serve(async (req) => {
       apiVersion: '2023-10-16',
     })
 
-    const { amount, currency, userId, paymentMethodId }: PaymentIntentRequest = await req.json()
+    const { amount, currency, userId, paymentMethodId, paymentMethodType }: PaymentIntentRequest = await req.json()
 
     // Validate the request
     if (!amount || !currency || !userId) {
@@ -45,6 +46,7 @@ serve(async (req) => {
       metadata: {
         userId,
         type: 'deposit',
+        paymentMethod: paymentMethodType || 'card',
       },
       automatic_payment_methods: {
         enabled: true,

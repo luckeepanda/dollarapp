@@ -73,6 +73,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
               currency: 'usd',
               userId: user?.id,
               paymentMethodId: event.paymentMethod.id,
+              paymentMethodType: 'apple_pay',
             }),
           });
 
@@ -124,6 +125,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           amount: Math.round(amount * 100),
           currency: 'usd',
           userId: user?.id,
+          paymentMethodType: 'card',
         }),
       });
 
