@@ -1,45 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, Medal, Award, X, User, Calendar, Crown, RotateCcw, Home } from 'lucide-react';
-import { leaderboardService, type LeaderboardEntry } from '../services/leaderboardService';
+import { tournamentService, type TournamentResult, type ScoreSubmissionResult } from '../services/tournamentService';
 
 interface TournamentResultsModalProps {
   isOpen: boolean;
   onClose: () => void;
   userScore: number;
-  sessionId: string;
+  tournamentId: string;
   onPlayAgain: () => void;
-  onLeaveSession: () => void;
+  onLeaveTournament: () => void;
   canPlayAgain: boolean;
   entryNumber: number;
+  scoreResult: ScoreSubmissionResult | null;
 }
 
 const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({ 
   isOpen, 
   onClose, 
   userScore,
-  sessionId,
+  tournamentId,
   onPlayAgain,
-  onLeaveSession,
+  onLeaveTournament,
   canPlayAgain,
-  entryNumber
+  entryNumber,
+  scoreResult
 }) => {
-  const [tournamentResults, setTournamentResults] = useState<LeaderboardEntry[]>([]);
+  const [tournamentResults, setTournamentResults] = useState<TournamentResult[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
       fetchTournamentResults();
     }
-  }, [isOpen, sessionId]);
+  }, [isOpen, tournamentId]);
 
   const fetchTournamentResults = async () => {
     try {
       setIsLoading(true);
-      // Get top tournament scores from the global leaderboard
-      const results = await leaderboardService.getTopScores(20);
-      // Filter for tournament entries (those with 🏆 emoji)
-      const tournamentEntries = results.filter(entry => entry.nickname.includes('🏆'));
-      setTournamentResults(tournamentEntries);
+      const results = await tournamentService.getTournamentResults(tournamentId);
+      setTournamentResults(results);
     } catch (error) {
       console.error('Failed to fetch tournament results:', error);
     } finally {
@@ -95,11 +94,18 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
             <Trophy className="h-8 w-8 text-yellow-300" />
             <h2 className="text-2xl font-bold">Tournament Leaderboard</h2>
           </div>
-          <p className="text-royal-blue-100">Global tournament rankings</p>
+          <p className="text-royal-blue-100">
+            {scoreResult?.tournament_completed ? 'Tournament Complete!' : `${scoreResult?.entries_count || 0}/5 Players Completed`}
+          </p>
           
           <div className="mt-4 p-3 bg-white/20 rounded-xl">
             <p className="text-sm text-royal-blue-100">Your Entry #{entryNumber} Score</p>
             <p className="text-xl font-bold">{userScore} points</p>
+            {scoreResult?.tournament_completed && scoreResult.winner_id && (
+              <p className="text-sm text-yellow-300 mt-1">
+                {scoreResult.your_score === scoreResult.winning_score ? '🏆 You Won!' : `Winner: ${scoreResult.winning_score} points`}
+              </p>
+            )}
           </div>
         </div>
 
@@ -112,38 +118,48 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
           ) : tournamentResults.length === 0 ? (
             <div className="text-center py-8">
               <Trophy className="h-12 w-12 text-white-300 mx-auto mb-4" />
-              <p className="text-white-200">No tournament entries yet. Be the first!</p>
+              <p className="text-white-200">No entries yet. Be the first!</p>
             </div>
           ) : (
             <div className="space-y-3">
               {tournamentResults.map((entry, index) => {
-                const rank = index + 1;
-                const isRecentEntry = entry.score === userScore;
+                const isCurrentUser = entry.user_id === scoreResult?.winner_id && entry.is_winner;
+                const isYourEntry = entry.score === userScore;
                 
                 return (
                   <div
                     key={entry.id}
-                    className={`p-4 rounded-xl border-2 transition-all ${getRankBg(rank)} ${
-                      isRecentEntry ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
+                    className={`p-4 rounded-xl border-2 transition-all ${getRankBg(entry.rank)} ${
+                      isYourEntry ? 'ring-2 ring-royal-blue-500 ring-offset-2' : ''
+                    } ${entry.is_winner ? 'bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-300' : ''}`}
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        {getRankIcon(rank)}
+                        {entry.is_winner ? (
+                          <Crown className="h-6 w-6 text-yellow-500 animate-pulse" />
+                        ) : (
+                          getRankIcon(entry.rank)
+                        )}
                         <div>
                           <div className="flex items-center space-x-2">
                             <span className="font-semibold text-white-100">
-                              {entry.nickname}
+                              {entry.username}
                             </span>
-                            {isRecentEntry && (
+                            {entry.is_winner && (
+                              <span className="px-2 py-1 bg-yellow-600 text-white text-xs rounded-full font-medium">
+                                WINNER
+                              </span>
+                            )}
+                            {isYourEntry && (
                               <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-medium">
-                                Latest
+                                You
                               </span>
                             )}
                           </div>
                           <div className="flex items-center space-x-1 text-sm text-white-300">
                             <Calendar className="h-3 w-3" />
-                            <span>Tournament Entry</span>
+                            <span>Rank #{entry.rank}</span>
                           </div>
                         </div>
                       </div>
