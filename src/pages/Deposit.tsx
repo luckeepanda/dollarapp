@@ -196,6 +196,7 @@ const Deposit: React.FC = () => {
               stripe={stripePromise} 
               options={{
                 ...STRIPE_CONFIG,
+               mode: 'payment',
                 amount: Math.round(parseFloat(amount) * 100),
                 currency: 'usd',
               }}
