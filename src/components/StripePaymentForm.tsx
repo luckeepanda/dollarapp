@@ -73,7 +73,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
               currency: 'usd',
               userId: user?.id,
               paymentMethodId: event.paymentMethod.id,
-              paymentMethodType: 'apple_pay',
+              paymentMethodType: 'apple_pay', // This button is specifically for Apple Pay
             }),
           });
 
@@ -156,7 +156,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Apple Pay / Google Pay Button */}
+      {/* Apple Pay Button */}
       {canMakePayment && paymentRequest && (
         <div className="space-y-4">
           <div className="relative">
@@ -164,21 +164,21 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">Quick Payment</span>
+              <span className="px-4 bg-white text-gray-500">Apple Pay</span>
             </div>
           </div>
           
           <div className="bg-gradient-to-r from-gray-900 to-black p-4 rounded-xl">
             <div className="flex items-center justify-center space-x-2 mb-3">
               <Apple className="h-5 w-5 text-white" />
-              <span className="text-white font-medium">Apple Pay & Google Pay</span>
+              <span className="text-white font-medium">Pay with Apple Pay</span>
             </div>
             <PaymentRequestButtonElement
               options={{
                 paymentRequest,
                 style: {
                   paymentRequestButton: {
-                    type: 'default',
+                    type: 'default', // This will show "Pay with Apple Pay" on supported devices
                     theme: 'dark',
                     height: '48px',
                   },
