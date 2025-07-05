@@ -61,11 +61,12 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
 
         setIsProcessing(true);
         try {
-          // Create payment intent on your backend
-          const response = await fetch('/api/create-payment-intent', {
+          // Create payment intent using Supabase Edge Function
+          const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
             },
             body: JSON.stringify({
               amount: Math.round(amount * 100),
@@ -112,11 +113,12 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
     setIsProcessing(true);
 
     try {
-      // Create payment intent on your backend
-      const response = await fetch('/api/create-payment-intent', {
+      // Create payment intent using Supabase Edge Function
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           amount: Math.round(amount * 100),
