@@ -133,45 +133,6 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
   return (
     <div className="min-h-screen bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Game Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-royal-blue-100 to-steel-blue-100 bg-clip-text text-transparent mb-4">
-            🏆 {game.name} 🏆
-          </h1>
-          
-          {/* Game Info */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 inline-block">
-            <div className="flex items-center space-x-8 text-sm">
-              <div className="flex items-center space-x-2">
-                <DollarSign className="h-5 w-5 text-green-400" />
-                <span className="font-semibold text-white">Prize Pool: ${game.prize_pool.toFixed(2)}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-yellow-400" />
-                <span className="text-white">Min Score: {game.min_score}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Users className="h-5 w-5 text-royal-blue-300" />
-                <span className="text-white">{game.current_players}/{game.max_players} Entries</span>
-              </div>
-            </div>
-            
-            {/* User Stats */}
-            {userEntryCount > 0 && (
-              <div className="mt-4 p-3 bg-white/20 rounded-xl">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-royal-blue-200">Your Attempts:</span>
-                  <span className="text-white font-medium">{userEntryCount}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-royal-blue-200">Your Best Score:</span>
-                  <span className="text-yellow-400 font-medium">{userBestScore}</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Game Container */}
         <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 mb-8 relative">
           <TacoGame 
