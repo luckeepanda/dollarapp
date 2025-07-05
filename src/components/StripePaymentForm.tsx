@@ -24,10 +24,44 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [canMakePayment, setCanMakePayment] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [clientSecret, setClientSecret] = useState<string>('');
+
+  // Create payment intent when component mounts
+  useEffect(() => {
+    const createPaymentIntent = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            amount: Math.round(amount * 100),
+            currency: 'usd',
+            userId: user?.id,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create payment intent');
+        }
+
+        const { client_secret } = await response.json();
+        setClientSecret(client_secret);
+      } catch (error: any) {
+        console.error('Error creating payment intent:', error);
+        onError(error.message || 'Failed to initialize payment');
+      }
+    };
+
+    if (user?.id && amount > 0) {
+      createPaymentIntent();
+    }
+  }, [amount, user?.id, onError]);
 
   // Apple Pay / Google Pay setup
-  const [paymentRequest, setPaymentRequest] = useState<any>(null);
-
   useEffect(() => {
     if (stripe) {
       const pr = stripe.paymentRequest({
@@ -35,52 +69,30 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         currency: 'usd',
         total: {
           label: 'Dollar App Deposit',
-          amount: Math.round(amount * 100), // Convert to cents
+          amount: Math.round(amount * 100),
         },
         requestPayerName: true,
         requestPayerEmail: true,
       });
-      setPaymentRequest(pr);
-    }
-  }, [stripe, amount]);
 
-  useEffect(() => {
-    if (paymentRequest) {
-      paymentRequest.canMakePayment().then((result) => {
+      pr.canMakePayment().then((result) => {
         if (result) {
           setCanMakePayment(true);
+          setPaymentRequest(pr);
         }
       });
-    }
-  }, [paymentRequest]);
 
-  useEffect(() => {
-    if (paymentRequest) {
-      paymentRequest.on('paymentmethod', async (event) => {
-        if (!stripe) return;
+      pr.on('paymentmethod', async (event) => {
+        if (!clientSecret) {
+          event.complete('fail');
+          onError('Payment not ready. Please try again.');
+          return;
+        }
 
         setIsProcessing(true);
         try {
-          // Create payment intent using Supabase Edge Function
-          const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({
-              amount: Math.round(amount * 100),
-              currency: 'usd',
-              userId: user?.id,
-              paymentMethodId: event.paymentMethod.id,
-            }),
-          });
-
-          const { client_secret } = await response.json();
-
-          // Confirm payment
           const { error, paymentIntent } = await stripe.confirmCardPayment(
-            client_secret,
+            clientSecret,
             {
               payment_method: event.paymentMethod.id,
             }
@@ -89,7 +101,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           if (error) {
             event.complete('fail');
             onError(error.message || 'Payment failed');
-          } else {
+          } else if (paymentIntent && paymentIntent.status === 'succeeded') {
             event.complete('success');
             onSuccess(paymentIntent);
           }
@@ -101,43 +113,25 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
         }
       });
     }
-  }, [paymentRequest, stripe, amount, user?.id, onSuccess, onError]);
+  }, [stripe, amount, clientSecret, onSuccess, onError]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !clientSecret) {
       return;
     }
 
     setIsProcessing(true);
 
     try {
-      // Create payment intent using Supabase Edge Function
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          amount: Math.round(amount * 100),
-          currency: 'usd',
-          userId: user?.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
-
-      const { client_secret } = await response.json();
-
-      // Confirm payment
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
-        clientSecret: client_secret,
+        clientSecret,
         redirect: 'if_required',
+        confirmParams: {
+          return_url: window.location.origin,
+        },
       });
 
       if (error) {
@@ -151,6 +145,15 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
       setIsProcessing(false);
     }
   };
+
+  if (!clientSecret) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-3 text-gray-600">Initializing payment...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
