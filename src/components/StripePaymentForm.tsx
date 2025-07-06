@@ -3,10 +3,9 @@ import {
   PaymentElement,
   useStripe,
   useElements,
-  PaymentRequestButtonElement,
 } from '@stripe/react-stripe-js';
 import { useAuth } from '../contexts/AuthContext';
-import { Apple, CreditCard, Loader, AlertCircle } from 'lucide-react';
+import { CreditCard, Loader, AlertCircle } from 'lucide-react';
 
 interface StripePaymentFormProps {
   amount: number;
@@ -25,8 +24,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
 
-
-  // Handle regular card payment
+  // Handle card payment with proper elements.submit() flow
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -40,7 +38,16 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
     try {
       console.log('Processing card payment...');
 
-      // Create payment intent using Supabase Edge Function
+      // Step 1: Submit the form to validate the payment element
+      const { error: submitError } = await elements.submit();
+      
+      if (submitError) {
+        console.error('Elements submit error:', submitError);
+        onError(submitError.message || 'Payment form validation failed');
+        return;
+      }
+
+      // Step 2: Create payment intent using Supabase Edge Function
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
         method: 'POST',
         headers: {
@@ -62,7 +69,7 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
 
       const { client_secret } = await response.json();
 
-      // Confirm payment with card
+      // Step 3: Confirm payment with the client secret
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         clientSecret: client_secret,
@@ -99,7 +106,6 @@ const StripePaymentForm: React.FC<StripePaymentFormProps> = ({
           </div>
         </div>
       )}
-
 
       {/* Card Payment Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
