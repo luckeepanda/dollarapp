@@ -14,7 +14,8 @@ import {
   QrCode,
   Eye,
   Star,
-  Trash2
+  Trash2,
+  Gamepad2
 } from 'lucide-react';
 
 const RestaurantGameManagement: React.FC = () => {
@@ -26,9 +27,10 @@ const RestaurantGameManagement: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    entryFee: 5,
-    foodItemAmount: 25,
-    minScore: 10
+    gameType: 'taco_flyer',
+    entryFee: 1,
+    foodItemAmount: 20,
+    minScore: 5
   });
 
   useEffect(() => {
@@ -54,6 +56,14 @@ const RestaurantGameManagement: React.FC = () => {
     e.preventDefault();
     if (!user) return;
 
+    // Calculate max players: Food Item Amount / Entry Fee
+    const maxPlayers = Math.floor(formData.foodItemAmount / formData.entryFee);
+    
+    if (maxPlayers < 2) {
+      alert('Food Item Amount must be at least twice the Entry Fee to allow minimum 2 players.');
+      return;
+    }
+
     setIsCreating(true);
     try {
       await restaurantGameService.createGame(
@@ -61,7 +71,7 @@ const RestaurantGameManagement: React.FC = () => {
         formData.name,
         formData.description,
         formData.entryFee,
-        5, // Fixed max players
+        maxPlayers,
         formData.minScore
       );
       
@@ -69,9 +79,10 @@ const RestaurantGameManagement: React.FC = () => {
       setFormData({
         name: '',
         description: '',
-        entryFee: 5,
-        foodItemAmount: 25,
-        minScore: 10
+        gameType: 'taco_flyer',
+        entryFee: 1,
+        foodItemAmount: 20,
+        minScore: 5
       });
       
       await loadGames();
@@ -182,20 +193,37 @@ const RestaurantGameManagement: React.FC = () => {
                     />
                   </div>
 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Game Selection
+                    </label>
+                    <select
+                      value={formData.gameType}
+                      onChange={(e) => setFormData({...formData, gameType: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      required
+                    >
+                      <option value="taco_flyer">🌮 Taco Flyer</option>
+                      <option value="hamburger_runner">🍔 Hamburger Runner</option>
+                      <option value="noodle_tetris">🍜 Noodle Tetris</option>
+                    </select>
+                  </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2"> 
-                        Entry Fee ($)
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Entry Fee
                       </label>
-                      <input
-                        type="number"
+                      <select
                         value={formData.entryFee}
                         onChange={(e) => setFormData({...formData, entryFee: parseFloat(e.target.value)})}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="1"
-                        step="0.01"
                         required
-                      />
+                      >
+                        <option value={1}>$1</option>
+                        <option value={3}>$3</option>
+                        <option value={5}>$5</option>
+                      </select>
                     </div>
 
                     <div>
@@ -207,11 +235,24 @@ const RestaurantGameManagement: React.FC = () => {
                         value={formData.foodItemAmount}
                         onChange={(e) => setFormData({...formData, foodItemAmount: parseFloat(e.target.value)})}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="5"
+                        min="2"
                         step="0.01"
                         required
                       />
                     </div>
+                  </div>
+
+                  {/* Auto-calculated Number of Players */}
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                    <label className="block text-sm font-medium text-blue-800 mb-2">
+                      Number of Players (Auto-calculated)
+                    </label>
+                    <div className="text-2xl font-bold text-blue-900">
+                      {Math.floor(formData.foodItemAmount / formData.entryFee)} players
+                    </div>
+                    <p className="text-xs text-blue-700 mt-1">
+                      Calculated as: Food Item Amount (${formData.foodItemAmount}) ÷ Entry Fee (${formData.entryFee})
+                    </p>
                   </div>
 
                   <div>
@@ -273,6 +314,18 @@ const RestaurantGameManagement: React.FC = () => {
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(game.status)}`}>
                     {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
                   </span>
+                </div>
+                
+                {/* Game Type Icon */}
+                <div className="mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Gamepad2 className="h-4 w-4 text-white/80" />
+                    <span className="text-sm text-white/80">
+                      {game.game_type === 'taco_flyer' ? '🌮 Taco Flyer' : 
+                       game.game_type === 'hamburger_runner' ? '🍔 Hamburger Runner' : 
+                       game.game_type === 'noodle_tetris' ? '🍜 Noodle Tetris' : 'Game'}
+                    </span>
+                  </div>
                 </div>
                 
                 <p className="text-royal-blue-200 text-sm mb-4">{game.description}</p>

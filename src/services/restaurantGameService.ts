@@ -6,6 +6,7 @@ export interface RestaurantGame {
   name: string;
   description: string;
   entry_fee: number;
+  game_type?: string;
   max_players: number;
   current_players: number;
   prize_pool: number;
@@ -53,7 +54,8 @@ export const restaurantGameService = {
     description: string,
     entryFee: number,
     maxPlayers: number,
-    minScore: number
+    minScore: number,
+    gameType: string = 'taco_flyer'
   ): Promise<string> {
     const { data, error } = await supabase.rpc('create_restaurant_game', {
       p_restaurant_id: restaurantId,
@@ -61,7 +63,8 @@ export const restaurantGameService = {
       p_description: description,
       p_entry_fee: entryFee,
       p_max_players: maxPlayers,
-      p_min_score: minScore
+      p_min_score: minScore,
+      p_game_type: gameType
     });
 
     if (error) {
