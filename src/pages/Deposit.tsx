@@ -267,7 +267,6 @@ Please check your payment method and try again.`);
                         )}
                         {method.id === 'stripe' && (
                           <p className="text-xs text-blue-600 font-medium mt-1">
-                            💳 Supports Apple Pay, Google Pay, and all major cards
                           </p>
                         )}
                       </div>
