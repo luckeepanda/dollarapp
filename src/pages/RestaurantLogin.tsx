@@ -52,10 +52,11 @@ const RestaurantLogin: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-blue-800 bg-clip-text text-transparent mb-2">
+          <h2 className="
+            text-3xl font-bold bg-gradient-to-r from-white to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Restaurant Portal
           </h2>
-          <p className="text-blue-800">Sign in to manage your games and QR redemptions</p>
+          <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -74,7 +75,7 @@ const RestaurantLogin: React.FC = () => {
                 Restaurant Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
                 <input
                   type="email"
                   value={email}
@@ -92,7 +93,7 @@ const RestaurantLogin: React.FC = () => {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -105,7 +106,7 @@ const RestaurantLogin: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white-300 hover:text-white-200 transition-colors"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
