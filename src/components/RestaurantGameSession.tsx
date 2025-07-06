@@ -169,7 +169,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-royal-blue-300 pointer-events-auto max-w-md w-full">
                 <div className="text-center">
                   {isSubmittingScore ? (
-                    
+                    <>
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-royal-blue-500 mx-auto mb-4"></div>
                       <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
                         Submitting Score...
@@ -178,17 +178,19 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                         You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                       </p>
                     </>
-                  )}
+                  ) : (
+                    <>
+                      {gameResult && gameResult.game_completed && (
+                        <button
+                          onClick={handleViewLeaderboard}
+                          className="w-full mt-3 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                        >
+                          View Final Leaderboard
+                        </button>
+                      )}
                   
-                  {gameResult.game_completed && (
-                    <button
-                      onClick={handleViewLeaderboard}
-                      className="w-full mt-3 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
-                    >
-                      View Final Leaderboard
-                    </button>
-                  ) : gameResult ? (
-                    
+                      {gameResult ? (
+                        <>
                       <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
                         {gameResult.game_completed ? '🎉 Game Complete! 🎉' : '✅ Score Submitted!'}
                       </h3>
@@ -289,22 +291,23 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                           <Home className="h-4 w-4" />
                           <span>{gameResult.game_completed ? 'Back to Games' : 'Leave Game'}</span>
                         </button>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
-                        🎉 Game Complete! 🎉
-                      </h3>
-                      <p className="text-lg text-royal-blue-600 mb-4">
-                        You scored <span className="font-bold text-2xl">{finalScore}</span> points!
-                      </p>
-                      <button
-                        onClick={onLeaveGame}
-                        className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-6 py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
-                      >
-                        Back to Games
-                      </button>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
+                            🎉 Game Complete! 🎉
+                          </h3>
+                          <p className="text-lg text-royal-blue-600 mb-4">
+                            You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                          </p>
+                          <button
+                            onClick={onLeaveGame}
+                            className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-6 py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+                          >
+                            Back to Games
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
