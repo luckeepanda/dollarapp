@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Header from '../components/Header'; 
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
@@ -13,7 +13,8 @@ import {
   CheckCircle,
   QrCode,
   Eye,
-  Star
+  Star,
+  Trash2
 } from 'lucide-react';
 
 const RestaurantGameManagement: React.FC = () => {
@@ -26,7 +27,7 @@ const RestaurantGameManagement: React.FC = () => {
     name: '',
     description: '',
     entryFee: 5,
-    maxPlayers: 5,
+    foodItemAmount: 25,
     minScore: 10
   });
 
@@ -60,7 +61,7 @@ const RestaurantGameManagement: React.FC = () => {
         formData.name,
         formData.description,
         formData.entryFee,
-        formData.maxPlayers,
+        5, // Fixed max players
         formData.minScore
       );
       
@@ -69,7 +70,7 @@ const RestaurantGameManagement: React.FC = () => {
         name: '',
         description: '',
         entryFee: 5,
-        maxPlayers: 5,
+        foodItemAmount: 25,
         minScore: 10
       });
       
@@ -79,6 +80,20 @@ const RestaurantGameManagement: React.FC = () => {
       alert(error.message || 'Failed to create game');
     } finally {
       setIsCreating(false);
+    }
+  };
+
+  const handleDeleteGame = async (gameId: string) => {
+    if (!window.confirm('Are you sure you want to delete this game? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await restaurantGameService.deleteGame(gameId);
+      await loadGames();
+    } catch (error: any) {
+      console.error('Failed to delete game:', error);
+      alert(error.message || 'Failed to delete game');
     }
   };
 
@@ -169,7 +184,7 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2"> 
                         Entry Fee ($)
                       </label>
                       <input
@@ -185,15 +200,15 @@ const RestaurantGameManagement: React.FC = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Max Players
+                        Food Item $ Amount
                       </label>
                       <input
                         type="number"
-                        value={formData.maxPlayers}
-                        onChange={(e) => setFormData({...formData, maxPlayers: parseInt(e.target.value)})}
+                        value={formData.foodItemAmount}
+                        onChange={(e) => setFormData({...formData, foodItemAmount: parseFloat(e.target.value)})}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="2"
-                        max="20"
+                        min="5"
+                        step="0.01"
                         required
                       />
                     </div>
@@ -201,7 +216,7 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Minimum Score to Win
+                      Minimum Score Required
                     </label>
                     <input
                       type="number"
@@ -332,13 +347,22 @@ const RestaurantGameManagement: React.FC = () => {
 
                 {/* Action Button */}
                 <div className="mt-4">
+                  <div className="flex space-x-2">
                   <Link
                     to={`/restaurant/games/${game.id}`}
-                    className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+                    className="flex-1 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
                   >
                     <Eye className="h-4 w-4" />
                     <span>View Details</span>
                   </Link>
+                  
+                  <button
+                    onClick={() => handleDeleteGame(game.id)}
+                    className="bg-red-500 text-white p-2 rounded-2xl font-bold hover:bg-red-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:shadow-2xl"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                  </div>
                 </div>
               </div>
             </div>

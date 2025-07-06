@@ -2,7 +2,9 @@ import React, { useState, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame, type GameResult } from '../services/restaurantGameService';
 import TacoGame from './TacoGame';
+import GameLeaderboard from './GameLeaderboard';
 import { Trophy, DollarSign, Users, Crown, QrCode, RotateCcw, Home } from 'lucide-react';
+import type { RestaurantGameEntry } from '../services/restaurantGameService';
 
 interface RestaurantGameSessionProps {
   game: RestaurantGame;
@@ -25,6 +27,8 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
   const [userEntryCount, setUserEntryCount] = useState(0);
   const [userBestScore, setUserBestScore] = useState(0);
   const [isJoiningAgain, setIsJoiningAgain] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [gameEntries, setGameEntries] = useState<RestaurantGameEntry[]>([]);
 
   // Load user's previous entries and best score
   React.useEffect(() => {
@@ -49,6 +53,15 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
     }
   };
 
+  const loadGameEntries = async () => {
+    try {
+      const entries = await restaurantGameService.getGameEntries(game.id);
+      setGameEntries(entries);
+    } catch (error) {
+      console.error('Failed to load game entries:', error);
+    }
+  };
+
   const handleGameEnd = useCallback(async (score: number) => {
     console.log('RestaurantGameSession: Game ended with score:', score);
     setFinalScore(score);
@@ -61,6 +74,9 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
       // Submit score to the restaurant game
       const result = await restaurantGameService.submitScore(game.id, user.id, score);
       setGameResult(result);
+      
+      // Load updated game entries for leaderboard
+      await loadGameEntries();
       
       // Update user stats
       await loadUserStats();
@@ -130,6 +146,11 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
     }
   };
 
+  const handleViewLeaderboard = () => {
+    loadGameEntries();
+    setShowLeaderboard(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -157,6 +178,15 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                         You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                       </p>
                     </>
+                  )}
+                  
+                  {gameResult.game_completed && (
+                    <button
+                      onClick={handleViewLeaderboard}
+                      className="w-full mt-3 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                    >
+                      View Final Leaderboard
+                    </button>
                   ) : gameResult ? (
                     <>
                       <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
@@ -243,6 +273,12 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                         {!gameResult.game_completed && user && user.balance < game.entry_fee && (
                           <div className="flex-1 bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold text-center opacity-50">
                             Insufficient Balance
+                            <button
+                              onClick={handleViewLeaderboard}
+                              className="w-full mt-3 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                            >
+                              View Final Leaderboard
+                            </button>
                           </div>
                         )}
                         
@@ -289,6 +325,14 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
           </ul>
         </div>
       </div>
+      
+      {/* Game Leaderboard Modal */}
+      <GameLeaderboard
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        gameEntries={gameEntries}
+        currentUserScore={finalScore}
+      />
     </div>
   );
 };
