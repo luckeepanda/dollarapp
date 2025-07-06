@@ -38,9 +38,9 @@ const Deposit: React.FC = () => {
     },
     {
       id: 'stripe',
-      name: 'Apple Pay',
-      description: 'Quick and secure payment with Touch ID',
-      icon: Apple,
+      name: 'Credit Card',
+      description: 'Pay securely with any major credit or debit card',
+      icon: CreditCard,
       color: 'from-gray-700 to-black',
       available: true
     }
@@ -194,7 +194,7 @@ Please check your payment method and try again.`);
               stripe={stripePromise} 
               options={{
                 ...STRIPE_CONFIG,
-               mode: 'payment',
+                mode: 'payment',
                 amount: Math.round(parseFloat(amount) * 100),
                 currency: 'usd',
               }}
@@ -362,8 +362,8 @@ Please check your payment method and try again.`);
                   </>
                 ) : selectedMethod === 'stripe' ? (
                   <>
-                    <Apple className="h-4 w-4" />
-                    <span>Continue to Payment</span>
+                    <CreditCard className="h-4 w-4" />
+                    <span>Pay with Card</span>
                   </>
                 ) : selectedMethod === 'dummy_pay' ? (
                   <>
@@ -397,13 +397,13 @@ Please check your payment method and try again.`);
               {selectedMethod === 'stripe' && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-200">
                   <div className="flex items-center space-x-2">
-                    <Apple className="h-4 w-4 text-blue-600" />
+                    <CreditCard className="h-4 w-4 text-blue-600" />
                     <span className="text-sm text-blue-800 font-medium">
                       Secure Payment with Stripe
                     </span>
                   </div>
                   <p className="text-xs text-blue-700 mt-1">
-                    Pay securely with Apple Pay, Google Pay, or any major credit/debit card. Your payment information is encrypted and secure.
+                    Pay securely with any major credit or debit card. Your payment information is encrypted and secure.
                   </p>
                 </div>
               )}
