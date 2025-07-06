@@ -107,6 +107,19 @@ export const restaurantGameService = {
     return data || [];
   },
 
+  // Delete a restaurant game
+  async deleteGame(gameId: string): Promise<void> {
+    const { error } = await supabase
+      .from('restaurant_games')
+      .delete()
+      .eq('id', gameId);
+
+    if (error) {
+      console.error('Error deleting restaurant game:', error);
+      throw error;
+    }
+  },
+
   // Join a restaurant game
   async joinGame(gameId: string, userId: string): Promise<boolean> {
     const { error } = await supabase.rpc('join_restaurant_game', {

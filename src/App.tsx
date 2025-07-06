@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import GameLeaderboard from './components/GameLeaderboard';
 import { AuthProvider } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
