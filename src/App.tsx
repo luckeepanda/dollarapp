@@ -19,6 +19,7 @@ import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import FreePlay from './pages/FreePlay';
 import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
+import NoodleTetrisGame from './pages/NoodleTetris';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/free-play" element={<FreePlay />} />
             <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
+            <Route path="/noodle-tetris" element={<NoodleTetrisGame />} />
             <Route path="/restaurant-games" element={<RestaurantGames />} />
             <Route path="/player/dashboard" element={
               <ProtectedRoute userType="player">

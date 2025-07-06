@@ -517,35 +517,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
         </div>
       </div>
 
-      {/* Enhanced Prize Message */}
-      <div className="text-center max-w-md">
-        <div className="relative overflow-hidden bg-gradient-to-r from-royal-blue-500 via-steel-blue-500 to-royal-blue-600 text-white px-8 py-6 rounded-2xl shadow-xl border-2 border-white/20">
-          {/* Animated background shimmer */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
-          
-          {/* Main content */}
-          <div className="relative z-10">
-            <div className="flex items-center justify-center space-x-3 mb-2">
-              <Trophy className="h-7 w-7 text-yellow-300 animate-bounce" />
-              <span className="text-2xl font-bold tracking-wide text-white drop-shadow-lg">100 POINTS</span>
-              <Trophy className="h-7 w-7 text-yellow-300 animate-bounce" style={{ animationDelay: '0.5s' }} />
-            </div>
-            <div className="text-lg font-semibold text-royal-blue-100 drop-shadow-md">
-              Gets Free Food Prize! 🍕🍔🌮
-            </div>
-          </div>
-          
-          {/* Enhanced border effect */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300/50 animate-pulse"></div>
+      {gameState.score > 0 && (
+        <div className="flex items-center justify-center space-x-2 text-royal-blue-600 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
+          <Trophy className="h-5 w-5" />
+          <span className="font-bold text-lg">Current Score: {gameState.score}</span>
         </div>
-        
-        {gameState.score > 0 && (
-          <div className="flex items-center justify-center space-x-2 text-royal-blue-600 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
-            <Trophy className="h-5 w-5" />
-            <span className="font-bold text-lg">Current Score: {gameState.score}</span>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
