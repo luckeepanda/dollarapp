@@ -183,7 +183,7 @@ const Landing: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-4">3. Redeem & Enjoy</h3>
               <p className="text-gray-600">
-                Use QR codes at participating restaurants. Instant verification.
+                Use QR codes at restaurants. Instant verification.
               </p>
             </div>
           </div>
