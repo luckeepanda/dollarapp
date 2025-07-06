@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import Header from '../components/Header';
 import { 
   QrCode, 
   DollarSign, 
@@ -17,6 +17,7 @@ import {
 
 const RestaurantDashboard: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const recentRedemptions = [
     { id: 1, amount: 25.50, customer: 'Player123', date: '2024-01-15 14:30', code: 'QR-ABC123' },
@@ -28,6 +29,16 @@ const RestaurantDashboard: React.FC = () => {
     { id: 1, amount: 234.50, date: '2024-01-14', status: 'processing' },
     { id: 2, amount: 156.25, date: '2024-01-12', status: 'completed' },
   ];
+
+  const handleLogout = async () => {
+    try {
+      const { logout } = useAuth();
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-steel-blue-900">
