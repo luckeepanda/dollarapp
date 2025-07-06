@@ -208,7 +208,7 @@ const FreePlay: React.FC = () => {
 
         {/* Game Options Section */}
         <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white mb-8">Choose Your Game</h2>
+          <h2 className="text-3xl font-bold text-steel-blue mb-8">Choose Your Game</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Taco Flyer - Currently Playing */}
