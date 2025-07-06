@@ -163,7 +163,7 @@ const Landing: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-4">1. Deposit & Play</h3>
               <p className="text-gray-600">
-                Add funds via Apple Pay, Cash App, or Zelle. Enter games for just $1 each.
+                Add funds. Enter games for just $1 each.
               </p>
             </div>
 
