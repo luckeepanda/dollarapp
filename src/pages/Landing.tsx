@@ -173,7 +173,7 @@ const Landing: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold mb-4">2. Win Prizes</h3>
               <p className="text-gray-600">
-                Compete for growing prize pools. Winners receive QR codes for restaurant redemption.
+                Compete for food prizes.
               </p>
             </div>
 
