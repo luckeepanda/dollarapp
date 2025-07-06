@@ -43,22 +43,6 @@ const Deposit: React.FC = () => {
       icon: Apple,
       color: 'from-gray-700 to-black',
       available: true
-    },
-    {
-      id: 'zelle',
-      name: 'Zelle',
-      description: 'Bank-to-bank transfer via Zelle',
-      icon: Building,
-      color: 'from-purple-500 to-purple-600',
-      available: true
-    },
-    {
-      id: 'cash_app',
-      name: 'Cash App',
-      description: 'Pay with your Cash App balance or card',
-      icon: CreditCard,
-      color: 'from-green-500 to-green-600',
-      available: true
     }
   ];
 
