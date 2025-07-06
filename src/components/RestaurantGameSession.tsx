@@ -169,7 +169,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-royal-blue-300 pointer-events-auto max-w-md w-full">
                 <div className="text-center">
                   {isSubmittingScore ? (
-                    <>
+                    
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-royal-blue-500 mx-auto mb-4"></div>
                       <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
                         Submitting Score...
@@ -188,7 +188,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                       View Final Leaderboard
                     </button>
                   ) : gameResult ? (
-                    <>
+                    
                       <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
                         {gameResult.game_completed ? '🎉 Game Complete! 🎉' : '✅ Score Submitted!'}
                       </h3>
