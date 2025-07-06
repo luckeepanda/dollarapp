@@ -111,17 +111,17 @@ const Landing: React.FC = () => {
             {/* Clean Button Layout */}
             <div className="flex flex-col items-center space-y-6">
               {/* Main Action Buttons - Same Size and Aligned */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-lg">
+              <div className="flex flex-col gap-4 justify-center w-full max-w-lg">
                 <Link
                   to="/register"
-                  className="flex-1 bg-white text-royal-blue-500 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center border-2 border-transparent hover:border-royal-blue-200"
+                  className="bg-white text-royal-blue-500 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl text-center border-2 border-transparent hover:border-royal-blue-200"
                 >
                   Get Started
                 </Link>
                 
                 <Link
                   to="/free-play"
-                  className="flex-1 group relative inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-300/30 hover:border-green-200/50"
+                  className="group relative inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-300/30 hover:border-green-200/50"
                   style={{
                     background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 25%, #16a34a 50%, #15803d 75%, #166534 100%)',
                     boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
@@ -151,7 +151,7 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white-100 mb-4">How It Works</h2>
-            <p className="text-xl text-white-200 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Join the food game revolution with our simple three-step process
             </p>
           </div>
@@ -162,7 +162,7 @@ const Landing: React.FC = () => {
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4">1. Deposit & Play</h3>
-              <p className="text-white-200">
+              <p className="text-gray-600">
                 Add funds via Apple Pay, Cash App, or Zelle. Enter games for just $1 each.
               </p>
             </div>
@@ -172,7 +172,7 @@ const Landing: React.FC = () => {
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4">2. Win Prizes</h3>
-              <p className="text-white-200">
+              <p className="text-gray-600">
                 Compete for growing prize pools. Winners receive QR codes for restaurant redemption.
               </p>
             </div>
@@ -182,7 +182,7 @@ const Landing: React.FC = () => {
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4">3. Redeem & Enjoy</h3>
-              <p className="text-white-200">
+              <p className="text-gray-600">
                 Use QR codes at participating restaurants. Instant verification and secure payouts.
               </p>
             </div>

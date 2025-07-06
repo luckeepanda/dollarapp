@@ -47,7 +47,7 @@ const PlayerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-steel-blue-100 mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-steel-blue-300">Ready to play games and win amazing prizes?</p>
+          <p className="text-gray-300">Ready to play games and win amazing prizes?</p>
         </div>
 
         {/* Balance Warning */}
@@ -56,8 +56,8 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-orange-400" />
               <div>
-                <p className="text-sm font-medium text-orange-600">Insufficient Balance</p>
-                <p className="text-xs text-orange-400">
+                <p className="text-sm font-medium text-orange-300">Insufficient Balance</p>
+                <p className="text-xs text-orange-200">
                   You need at least $1 to join games. 
                   <Link to="/deposit" className="font-semibold hover:underline ml-1">
                     Add funds now
@@ -73,9 +73,9 @@ const PlayerDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-steel-blue-300">Current Balance</p>
+                <p className="text-sm text-gray-300">Current Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
-                <p className="text-xs text-steel-blue-400 mt-1">
+                <p className="text-xs text-gray-400 mt-1">
                   {user ? Math.floor(user.balance) : 0} game entries available
                 </p>
               </div>
@@ -99,7 +99,7 @@ const PlayerDashboard: React.FC = () => {
           {/* Games Right Now */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-steel-blue-100 flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-white flex items-center space-x-2">
                 <Trophy className="h-6 w-6 text-orange-400" />
                 <span>Games Right Now</span>
               </h2>
@@ -119,8 +119,8 @@ const PlayerDashboard: React.FC = () => {
             ) : restaurantGames.length === 0 ? (
               <div className="text-center py-8">
                 <Trophy className="h-12 w-12 text-white/30 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">No Active Games</h3>
-                <p className="text-steel-blue-300 mb-4">Check back later for new restaurant games!</p>
+                <h3 className="text-lg font-semibold text-gray-200 mb-2">No Active Games</h3>
+                <p className="text-gray-300 mb-4">Check back later for new restaurant games!</p>
                 <Link
                   to="/free-play"
                   className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-green-400/30"
@@ -232,17 +232,17 @@ const PlayerDashboard: React.FC = () => {
             <TrendingUp className="h-5 w-5 text-orange-400" />
             <span>How Restaurant Games Work</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-steel-blue-300">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">1. Join Restaurant Games</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">1. Join Restaurant Games</h3>
               <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">2. Play & Compete</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">2. Play & Compete</h3>
               <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-100 mb-2">3. Win Real Prizes</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">3. Win Real Prizes</h3>
               <p>Winners receive QR codes that can be redeemed at the restaurant for real food and prizes!</p>
             </div>
           </div>

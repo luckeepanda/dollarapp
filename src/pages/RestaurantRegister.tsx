@@ -98,7 +98,7 @@ const RestaurantRegister: React.FC = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Join as Restaurant
           </h2>
-          <p className="text-steel-blue-200">Create games and accept QR redemptions</p>
+          <p className="text-blue-200">Create games and accept QR redemptions</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -126,7 +126,7 @@ const RestaurantRegister: React.FC = () => {
                 Restaurant Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="email"
                   value={formData.email}
@@ -144,7 +144,7 @@ const RestaurantRegister: React.FC = () => {
                 Restaurant Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
                   value={formData.username}
@@ -163,7 +163,7 @@ const RestaurantRegister: React.FC = () => {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
@@ -177,7 +177,7 @@ const RestaurantRegister: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white-300 hover:text-white-200 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}

@@ -101,7 +101,7 @@ const RestaurantGames: React.FC = () => {
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-white">Restaurant Games</h1>
-              <p className="text-royal-blue-200">Join games created by restaurants and win prizes!</p>
+              <p className="text-gray-300">Join games created by restaurants and win prizes!</p>
             </div>
           </div>
           
@@ -119,8 +119,8 @@ const RestaurantGames: React.FC = () => {
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-orange-400" />
               <div>
-                <p className="text-sm font-medium text-orange-300">Insufficient Balance</p>
-                <p className="text-xs text-orange-400">
+                <p className="text-sm font-medium text-orange-200">Insufficient Balance</p>
+                <p className="text-xs text-orange-100">
                   You need funds to join games. 
                   <Link to="/deposit" className="font-semibold hover:underline ml-1">
                     Add funds now
@@ -139,8 +139,8 @@ const RestaurantGames: React.FC = () => {
         ) : games.length === 0 ? (
           <div className="text-center py-12">
             <Trophy className="h-16 w-16 text-white/30 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Active Games</h3>
-            <p className="text-royal-blue-200 mb-6">Check back later for new restaurant games!</p>
+            <h3 className="text-xl font-semibold text-gray-200 mb-2">No Active Games</h3>
+            <p className="text-gray-300 mb-6">Check back later for new restaurant games!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -172,7 +172,7 @@ const RestaurantGames: React.FC = () => {
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
                         <DollarSign className="h-4 w-4 text-green-400" />
-                        <span className="text-xs text-royal-blue-200">Prize Pool</span>
+                        <span className="text-xs text-gray-300">Prize Pool</span>
                       </div>
                       <p className="text-lg font-bold text-green-400">${game.prize_pool.toFixed(2)}</p>
                     </div>
@@ -180,16 +180,16 @@ const RestaurantGames: React.FC = () => {
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
                         <Users className="h-4 w-4 text-royal-blue-300" />
-                        <span className="text-xs text-royal-blue-200">Players</span>
+                        <span className="text-xs text-gray-300">Players</span>
                       </div>
-                      <p className="text-lg font-bold text-royal-blue-300">{game.current_players}/{game.max_players} entries</p>
+                      <p className="text-lg font-bold text-blue-300">{game.current_players}/{game.max_players} entries</p>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-royal-blue-200">Entries</span>
+                      <span className="text-sm text-gray-300">Entries</span>
                       <span className="text-sm font-medium text-white">
                         {Math.round((game.current_players / game.max_players) * 100)}%
                       </span>
@@ -205,11 +205,11 @@ const RestaurantGames: React.FC = () => {
                   {/* Game Details */}
                   <div className="space-y-2 text-sm mb-6">
                     <div className="flex justify-between">
-                      <span className="text-royal-blue-200">Entry Fee:</span>
+                      <span className="text-gray-300">Entry Fee:</span>
                       <span className="text-white font-medium">${game.entry_fee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-royal-blue-200">Min Score:</span>
+                      <span className="text-gray-300">Min Score:</span>
                       <span className="text-white font-medium">{game.min_score}</span>
                     </div>
                   </div>
@@ -249,7 +249,7 @@ const RestaurantGames: React.FC = () => {
             <Star className="h-5 w-5 text-orange-400" />
             <span>How Restaurant Games Work</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-royal-blue-200">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
             <div>
               <h3 className="font-semibold text-white mb-2">1. Join & Play</h3>
               <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>

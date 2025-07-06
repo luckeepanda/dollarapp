@@ -34,7 +34,7 @@ const Header: React.FC = () => {
               <div className="flex items-center space-x-2 text-sm text-white-200">
                 <User className="h-4 w-4" />
                 <span>{user.username}</span>
-                <span className="px-2 py-1 bg-royal-blue-800 text-royal-blue-100 rounded-full text-xs">
+                <span className="px-2 py-1 bg-royal-blue-600 text-white rounded-full text-xs font-medium">
                   {user.accountType}
                 </span>
               </div>
@@ -43,7 +43,7 @@ const Header: React.FC = () => {
               </div>
               <button
                 onClick={handleLogout}
-                className="p-2 text-white-200 hover:text-red-600 transition-colors"
+                className="p-2 text-gray-600 hover:text-red-600 transition-colors"
                 title="Logout"
               >
                 <LogOut className="h-5 w-5" />

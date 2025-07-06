@@ -41,7 +41,7 @@ const RestaurantDashboard: React.FC = () => {
               <h1 className="text-3xl font-bold text-white mb-2">
                 Restaurant Dashboard 🍽️
               </h1>
-              <p className="text-royal-blue-200">Manage QR redemptions and track your earnings</p>
+              <p className="text-gray-300">Manage QR redemptions and track your earnings</p>
             </div>
             {!user?.isKYCVerified && (
               <div className="bg-orange-500/20 border border-orange-400/30 rounded-xl p-4">
@@ -62,7 +62,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-royal-blue-200">Available Balance</p>
+                <p className="text-sm text-gray-300">Available Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
               </div>
               <div className="bg-green-500/20 p-3 rounded-xl">
@@ -74,23 +74,11 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-royal-blue-200">Today's Redemptions</p>
-                <p className="text-2xl font-bold text-royal-blue-300">8</p>
+                <p className="text-sm text-gray-300">Today's Redemptions</p>
+                <p className="text-2xl font-bold text-blue-300">8</p>
               </div>
-              <div className="bg-royal-blue-500/20 p-3 rounded-xl">
-                <QrCode className="h-6 w-6 text-royal-blue-300" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-royal-blue-200">Monthly Revenue</p>
-                <p className="text-2xl font-bold text-steel-blue-300">$1,247</p>
-              </div>
-              <div className="bg-steel-blue-500/20 p-3 rounded-xl">
-                <TrendingUp className="h-6 w-6 text-steel-blue-300" />
+              <div className="bg-blue-500/20 p-3 rounded-xl">
+                <QrCode className="h-6 w-6 text-blue-300" />
               </div>
             </div>
           </div>
@@ -98,7 +86,19 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-royal-blue-200">Total Customers</p>
+                <p className="text-sm text-gray-300">Monthly Revenue</p>
+                <p className="text-2xl font-bold text-blue-300">$1,247</p>
+              </div>
+              <div className="bg-blue-500/20 p-3 rounded-xl">
+                <TrendingUp className="h-6 w-6 text-blue-300" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-300">Total Customers</p>
                 <p className="text-2xl font-bold text-orange-400">156</p>
               </div>
               <div className="bg-orange-500/20 p-3 rounded-xl">
