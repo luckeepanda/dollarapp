@@ -191,106 +191,101 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                   
                       {gameResult ? (
                         <>
-                      <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
-                        {gameResult.game_completed ? '🎉 Game Complete! 🎉' : '✅ Score Submitted!'}
-                      </h3>
-                      <p className="text-lg text-royal-blue-600 mb-4">
-                        Final Score: <span className="font-bold text-2xl">{finalScore}</span> points
-                      </p>
-                      
-                      {gameResult.qualified ? (
-                        <p className="text-sm text-green-600 mb-4">
-                          ✅ You qualified! (Min: {game.min_score} points)
-                        </p>
-                      ) : (
-                        <p className="text-sm text-red-600 mb-4">
-                          ❌ Need {game.min_score} points to qualify
-                        </p>
-                      )}
-
-                      {gameResult.game_completed && (
-                        <div className="mb-4 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                          {gameResult.winner_id === user?.id ? (
-                            <>
-                              <div className="flex items-center justify-center space-x-2 mb-2">
-                                <Crown className="h-6 w-6 text-yellow-600" />
-                                <span className="text-lg font-bold text-yellow-800">YOU WON!</span>
-                              </div>
-                              <p className="text-sm text-yellow-700 mb-3">
-                                Congratulations! You won ${game.prize_pool.toFixed(2)}!
-                              </p>
-                              {gameResult.qr_code && (
-                                <div className="bg-white p-3 rounded-lg border border-yellow-300">
-                                  <div className="flex items-center justify-center space-x-2 mb-2">
-                                    <QrCode className="h-5 w-5 text-yellow-600" />
-                                    <span className="font-semibold text-yellow-800">Your QR Code:</span>
-                                  </div>
-                                  <div className="text-xl font-mono text-center text-gray-800 bg-gray-100 p-2 rounded">
-                                    {gameResult.qr_code}
-                                  </div>
-                                  <p className="text-xs text-yellow-700 mt-2 text-center">
-                                    Present this code at {game.restaurant?.username || 'the restaurant'} to claim your prize!
-                                  </p>
-                                </div>
-                              )}
-                            </>
+                          <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
+                            {gameResult.game_completed ? '🎉 Game Complete! 🎉' : '✅ Score Submitted!'}
+                          </h3>
+                          <p className="text-lg text-royal-blue-600 mb-4">
+                            Final Score: <span className="font-bold text-2xl">{finalScore}</span> points
+                          </p>
+                          
+                          {gameResult.qualified ? (
+                            <p className="text-sm text-green-600 mb-4">
+                              ✅ You qualified! (Min: {game.min_score} points)
+                            </p>
                           ) : (
-                            <>
-                              <p className="text-sm text-yellow-700 mb-2">
-                                Game completed! Winner scored {gameResult.winning_score} points.
-                              </p>
-                              <p className="text-xs text-yellow-600">
-                                Better luck next time!
-                              </p>
-                            </>
+                            <p className="text-sm text-red-600 mb-4">
+                              ❌ Need {game.min_score} points to qualify
+                            </p>
                           )}
-                        </div>
-                      )}
 
-                      <p className="text-sm text-royal-blue-500 mb-4">
-                        Entries completed: {gameResult.entries_count}/{gameResult.max_players}
-                      </p>
-                      
-                      <div className="flex space-x-3">
-                        {!gameResult.game_completed && user && user.balance >= game.entry_fee && (
-                          <button
-                            onClick={handlePlayAgain}
-                            disabled={isJoiningAgain}
-                            className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl disabled:opacity-50 flex items-center justify-center space-x-2 border border-green-400/30"
-                          >
-                            {isJoiningAgain ? (
-                              <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                <span>Joining...</span>
-                              </>
-                            ) : (
-                              <>
-                                <RotateCcw className="h-4 w-4" />
-                                <span>Play Again - ${game.entry_fee.toFixed(2)}</span>
-                              </>
+                          {gameResult.game_completed && (
+                            <div className="mb-4 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+                              {gameResult.winner_id === user?.id ? (
+                                <>
+                                  <div className="flex items-center justify-center space-x-2 mb-2">
+                                    <Crown className="h-6 w-6 text-yellow-600" />
+                                    <span className="text-lg font-bold text-yellow-800">YOU WON!</span>
+                                  </div>
+                                  <p className="text-sm text-yellow-700 mb-3">
+                                    Congratulations! You won ${game.prize_pool.toFixed(2)}!
+                                  </p>
+                                  {gameResult.qr_code && (
+                                    <div className="bg-white p-3 rounded-lg border border-yellow-300">
+                                      <div className="flex items-center justify-center space-x-2 mb-2">
+                                        <QrCode className="h-5 w-5 text-yellow-600" />
+                                        <span className="font-semibold text-yellow-800">Your QR Code:</span>
+                                      </div>
+                                      <div className="text-xl font-mono text-center text-gray-800 bg-gray-100 p-2 rounded">
+                                        {gameResult.qr_code}
+                                      </div>
+                                      <p className="text-xs text-yellow-700 mt-2 text-center">
+                                        Present this code at {game.restaurant?.username || 'the restaurant'} to claim your prize!
+                                      </p>
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  <p className="text-sm text-yellow-700 mb-2">
+                                    Game completed! Winner scored {gameResult.winning_score} points.
+                                  </p>
+                                  <p className="text-xs text-yellow-600">
+                                    Better luck next time!
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          )}
+
+                          <p className="text-sm text-royal-blue-500 mb-4">
+                            Entries completed: {gameResult.entries_count}/{gameResult.max_players}
+                          </p>
+                          
+                          <div className="flex space-x-3">
+                            {!gameResult.game_completed && user && user.balance >= game.entry_fee && (
+                              <button
+                                onClick={handlePlayAgain}
+                                disabled={isJoiningAgain}
+                                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl disabled:opacity-50 flex items-center justify-center space-x-2 border border-green-400/30"
+                              >
+                                {isJoiningAgain ? (
+                                  <>
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <span>Joining...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <RotateCcw className="h-4 w-4" />
+                                    <span>Play Again - ${game.entry_fee.toFixed(2)}</span>
+                                  </>
+                                )}
+                              </button>
                             )}
-                          </button>
-                        )}
-                        
-                        {!gameResult.game_completed && user && user.balance < game.entry_fee && (
-                          <div className="flex-1 bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold text-center opacity-50">
-                            Insufficient Balance
+                            
+                            {!gameResult.game_completed && user && user.balance < game.entry_fee && (
+                              <div className="flex-1 bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold text-center opacity-50">
+                                Insufficient Balance
+                              </div>
+                            )}
+                            
                             <button
-                              onClick={handleViewLeaderboard}
-                              className="w-full mt-3 bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                              onClick={onLeaveGame}
+                              className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2 border border-gray-400/30"
                             >
-                              View Final Leaderboard
+                              <Home className="h-4 w-4" />
+                              <span>{gameResult.game_completed ? 'Back to Games' : 'Leave Game'}</span>
                             </button>
                           </div>
-                        )}
-                        
-                        <button
-                          onClick={onLeaveGame}
-                          className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2 border border-gray-400/30"
-                        >
-                          <Home className="h-4 w-4" />
-                          <span>{gameResult.game_completed ? 'Back to Games' : 'Leave Game'}</span>
-                        </button>
                         </>
                       ) : (
                         <>
