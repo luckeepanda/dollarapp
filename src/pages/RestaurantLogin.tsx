@@ -52,7 +52,7 @@ const RestaurantLogin: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-black to-steel-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Restaurant Portal
           </h2>
           <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
