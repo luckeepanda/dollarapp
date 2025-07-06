@@ -41,15 +41,15 @@ const RestaurantDashboard: React.FC = () => {
               <h1 className="text-3xl font-bold text-white mb-2">
                 Restaurant Dashboard 🍽️
               </h1>
-              <p className="text-gray-300">Manage QR redemptions and track your earnings</p>
+              <p className="text-blue-800">Manage QR redemptions and track your earnings</p>
             </div>
             {!user?.isKYCVerified && (
               <div className="bg-orange-500/20 border border-orange-400/30 rounded-xl p-4">
                 <div className="flex items-center space-x-2">
                   <AlertCircle className="h-5 w-5 text-orange-400" />
                   <div>
-                    <p className="text-sm font-medium text-orange-300">KYC Verification Required</p>
-                    <p className="text-xs text-orange-400">Complete verification to enable withdrawals</p>
+                    <p className="text-sm font-medium text-blue-800">KYC Verification Required</p>
+                    <p className="text-xs text-blue-700">Complete verification to enable withdrawals</p>
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-300">Available Balance</p>
+                <p className="text-sm text-blue-800">Available Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
               </div>
               <div className="bg-green-500/20 p-3 rounded-xl">
@@ -74,7 +74,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-300">Today's Redemptions</p>
+                <p className="text-sm text-blue-800">Today's Redemptions</p>
                 <p className="text-2xl font-bold text-blue-300">8</p>
               </div>
               <div className="bg-blue-500/20 p-3 rounded-xl">
@@ -86,7 +86,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-300">Monthly Revenue</p>
+                <p className="text-sm text-blue-800">Monthly Revenue</p>
                 <p className="text-2xl font-bold text-blue-300">$1,247</p>
               </div>
               <div className="bg-blue-500/20 p-3 rounded-xl">
@@ -98,7 +98,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-300">Total Customers</p>
+                <p className="text-sm text-blue-800">Total Customers</p>
                 <p className="text-2xl font-bold text-orange-400">156</p>
               </div>
               <div className="bg-orange-500/20 p-3 rounded-xl">
@@ -111,7 +111,7 @@ const RestaurantDashboard: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-            <h2 className="text-xl font-semibold mb-4 text-white">Quick Actions</h2>
+            <h2 className="text-xl font-semibold mb-4 text-blue-900">Quick Actions</h2>
             <div className="space-y-3">
               <Link
                 to="/restaurant/games"
@@ -119,7 +119,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <Trophy className="h-5 w-5 text-green-400" />
-                  <span className="font-medium text-white">Manage Games</span>
+                  <span className="font-medium text-blue-900">Manage Games</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
               </Link>
@@ -130,7 +130,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <QrCode className="h-5 w-5 text-royal-blue-300" />
-                  <span className="font-medium text-white">Scan QR Code</span>
+                  <span className="font-medium text-blue-900">Scan QR Code</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-royal-blue-200 group-hover:text-white" />
               </Link>
@@ -145,7 +145,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-green-400' : 'text-white-300'}`} />
-                  <span className="font-medium text-white">Withdraw Funds</span>
+                  <span className="font-medium text-blue-900">Withdraw Funds</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
               </Link>
@@ -153,7 +153,7 @@ const RestaurantDashboard: React.FC = () => {
             
             {!user?.isKYCVerified && (
               <div className="mt-4 p-3 bg-yellow-500/20 rounded-xl">
-                <p className="text-sm text-yellow-300">
+                <p className="text-sm text-blue-800">
                   Complete KYC verification to enable withdrawals
                 </p>
               </div>
@@ -163,7 +163,7 @@ const RestaurantDashboard: React.FC = () => {
           {/* Recent Redemptions */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-white">Recent Redemptions</h2>
+              <h2 className="text-xl font-semibold text-blue-900">Recent Redemptions</h2>
               <Link to="/scan" className="text-royal-blue-300 font-medium hover:text-royal-blue-200">
                 View All
               </Link>
@@ -174,10 +174,10 @@ const RestaurantDashboard: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-semibold text-white">${redemption.amount}</span>
-                        <span className="text-sm text-royal-blue-200">from {redemption.customer}</span>
+                        <span className="font-semibold text-blue-900">${redemption.amount}</span>
+                        <span className="text-sm text-blue-700">from {redemption.customer}</span>
                       </div>
-                      <div className="flex items-center space-x-4 mt-1 text-sm text-royal-blue-300">
+                      <div className="flex items-center space-x-4 mt-1 text-sm text-blue-700">
                         <span>{redemption.date}</span>
                         <span>Code: {redemption.code}</span>
                       </div>
@@ -195,15 +195,15 @@ const RestaurantDashboard: React.FC = () => {
 
         {/* Withdrawal History */}
         <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h2 className="text-xl font-semibold mb-4 text-white">Withdrawal History</h2>
+          <h2 className="text-xl font-semibold mb-4 text-blue-900">Withdrawal History</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/20">
-                  <th className="text-left py-3 px-4 font-medium text-royal-blue-200">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-royal-blue-200">Amount</th>
-                  <th className="text-left py-3 px-4 font-medium text-royal-blue-200">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-royal-blue-200">ETA</th>
+                  <th className="text-left py-3 px-4 font-medium text-blue-800">Date</th>
+                  <th className="text-left py-3 px-4 font-medium text-blue-800">Amount</th>
+                  <th className="text-left py-3 px-4 font-medium text-blue-800">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-blue-800">ETA</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,10 +212,10 @@ const RestaurantDashboard: React.FC = () => {
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-2">
                         <Clock className="h-4 w-4 text-royal-blue-300" />
-                        <span className="text-white">{withdrawal.date}</span>
+                        <span className="text-blue-900">{withdrawal.date}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 font-medium text-white">${withdrawal.amount}</td>
+                    <td className="py-3 px-4 font-medium text-blue-900">${withdrawal.amount}</td>
                     <td className="py-3 px-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                         withdrawal.status === 'completed'
@@ -225,7 +225,7 @@ const RestaurantDashboard: React.FC = () => {
                         {withdrawal.status.charAt(0).toUpperCase() + withdrawal.status.slice(1)}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-sm text-royal-blue-200">
+                    <td className="py-3 px-4 text-sm text-blue-700">
                       {withdrawal.status === 'processing' ? '1-2 business days' : 'Completed'}
                     </td>
                   </tr>
