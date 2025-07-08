@@ -153,7 +153,7 @@ const PaidGameSession: React.FC<PaidGameSessionProps> = ({
 
         {/* Instructions */}
         <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h3 className="text-white font-semibold mb-3">How to Win:</h3>
+          <h3 className="text-steel-blue font-semibold mb-3">How to Win:</h3>
           <ul className="text-royal-blue-200 text-sm space-y-1">
             <li>• Guide the taco through obstacles by clicking or pressing SPACE</li>
             <li>• Score at least {session.min_score} points to qualify for the prize</li>

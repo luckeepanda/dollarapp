@@ -61,10 +61,10 @@ const Login: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-royal-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-royal-blue-100 bg-clip-text text-transparent mb-2">
             Welcome back
           </h2>
-          <p className="text-blue-200">Sign in to your Dollar App account</p>
+          <p className="text-steel-blue-200">Sign in to your Dollar App account</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">

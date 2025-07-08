@@ -140,10 +140,10 @@ const RestaurantGameManagement: React.FC = () => {
               to="/restaurant/dashboard"
               className="p-2 hover:bg-white/10 rounded-lg transition-colors"
             >
-              <ArrowLeft className="h-5 w-5 text-white" />
+              <ArrowLeft className="h-5 w-5 text-steel-blue" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-white">Game Management</h1>
+              <h1 className="text-3xl font-bold text-steel-blue">Game Management</h1>
               <p className="text-royal-blue-200">Create and manage your restaurant games</p>
             </div>
           </div>
@@ -310,7 +310,7 @@ const RestaurantGameManagement: React.FC = () => {
               {/* Game Header */}
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-white">{game.name}</h3>
+                  <h3 className="text-xl font-bold text-steel-blue">{game.name}</h3>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(game.status)}`}>
                     {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
                   </span>
@@ -319,8 +319,8 @@ const RestaurantGameManagement: React.FC = () => {
                 {/* Game Type Icon */}
                 <div className="mb-4">
                   <div className="flex items-center space-x-2">
-                    <Gamepad2 className="h-4 w-4 text-white/80" />
-                    <span className="text-sm text-white/80">
+                    <Gamepad2 className="h-4 w-4 text-steel-blue/80" />
+                    <span className="text-sm text-steel-blue/80">
                       {game.game_type === 'taco_flyer' ? '🌮 Taco Flyer' : 
                        game.game_type === 'hamburger_runner' ? '🍔 Hamburger Runner' : 
                        game.game_type === 'noodle_tetris' ? '🍜 Noodle Tetris' : 'Game'}
@@ -353,7 +353,7 @@ const RestaurantGameManagement: React.FC = () => {
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm text-royal-blue-200">Progress</span>
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-steel-blue">
                       {Math.round((game.current_players / game.max_players) * 100)}%
                     </span>
                   </div>
@@ -369,27 +369,27 @@ const RestaurantGameManagement: React.FC = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-royal-blue-200">Entry Fee:</span>
-                    <span className="text-white font-medium">${game.entry_fee.toFixed(2)}</span>
+                    <span className="text-steel-blue font-medium">${game.entry_fee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-royal-blue-200">Min Score:</span>
-                    <span className="text-white font-medium">{game.min_score}</span>
+                    <span className="text-steel-blue font-medium">{game.min_score}</span>
                   </div>
                   {game.status === 'completed' && (
                     <>
                       <div className="flex justify-between">
                         <span className="text-royal-blue-200">Winning Score:</span>
-                        <span className="text-yellow-400 font-medium">{game.winning_score}</span>
+                        <span className="text-green-400 font-medium">{game.winning_score}</span>
                       </div>
                       {game.qr_code && (
                         <div className="flex items-center justify-between">
                           <span className="text-royal-blue-200">QR Code:</span>
                           <div className="flex items-center space-x-2">
-                            <span className="text-white font-mono text-xs">{game.qr_code}</span>
+                            <span className="text-steel-blue font-mono text-xs">{game.qr_code}</span>
                             {game.qr_redeemed ? (
                               <CheckCircle className="h-4 w-4 text-green-400" />
                             ) : (
-                              <QrCode className="h-4 w-4 text-yellow-400" />
+                              <QrCode className="h-4 w-4 text-steel-blue-400" />
                             )}
                           </div>
                         </div>
@@ -424,12 +424,12 @@ const RestaurantGameManagement: React.FC = () => {
 
         {games.length === 0 && (
           <div className="text-center py-12">
-            <Trophy className="h-16 w-16 text-white/30 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Games Created Yet</h3>
+            <Trophy className="h-16 w-16 text-steel-blue/30 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-steel-blue mb-2">No Games Created Yet</h3>
             <p className="text-royal-blue-200 mb-6">Create your first game to start attracting players!</p>
             <button
               onClick={() => setShowCreateForm(true)}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 text-steel-blue px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"
             >
               <Plus className="h-5 w-5" />
               <span>Create Your First Game</span>
