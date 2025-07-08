@@ -55,7 +55,7 @@ const RestaurantLogin: React.FC = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Restaurant Portal
           </h2>
-          <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions dfds</p>
+          <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
           
           <button
                   type="button"
