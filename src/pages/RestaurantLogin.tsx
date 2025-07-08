@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Store, Play } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, Store, MonitorPlay } from 'lucide-react';
 
 const RestaurantLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -56,7 +56,7 @@ const RestaurantLogin: React.FC = () => {
             Restaurant Portal
           </h2>
           <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
-          <Play />
+          <MonitorPlay />
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
