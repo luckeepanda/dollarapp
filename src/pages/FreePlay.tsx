@@ -242,7 +242,7 @@ const FreePlay: React.FC = () => {
             </Link>
             
             {/* Noodle Tetris Game */}
-            <Link
+            {/* <Link
               to="/noodle-tetris"
               className="bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-blue-700 transition-all transform hover:scale-105 relative overflow-hidden group"
             >
@@ -256,7 +256,7 @@ const FreePlay: React.FC = () => {
                   <span>Play Now</span>
                 </div>
               </div>
-            </Link>
+            </Link>*/}
             
             {/* Pizza Hunter - Coming Soon */}
             <div className="bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75">
