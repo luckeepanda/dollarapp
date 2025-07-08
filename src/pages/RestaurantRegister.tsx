@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle, Store } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle, Store, MonitorPlay } from 'lucide-react';
 
 const RestaurantRegister: React.FC = () => {
   const [formData, setFormData] = useState({
