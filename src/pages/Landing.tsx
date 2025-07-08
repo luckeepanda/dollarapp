@@ -207,6 +207,7 @@ const Landing: React.FC = () => {
           </Link>
         </div>
       </div>
+      <span>© 2025 Dollar App</span>
     </div>
   );
 };
