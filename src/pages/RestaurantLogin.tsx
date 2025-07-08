@@ -56,6 +56,14 @@ const RestaurantLogin: React.FC = () => {
             Restaurant Portal
           </h2>
           <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
+          <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white-300 hover:text-white-200 transition-colors"
+                  disabled={isLoading}
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
           <MonitorPlay />
         </div>
 
