@@ -56,6 +56,7 @@ const RestaurantLogin: React.FC = () => {
             Restaurant Portal
           </h2>
           <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p>
+          
           <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
