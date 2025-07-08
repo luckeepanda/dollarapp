@@ -235,7 +235,7 @@ const RestaurantRegister: React.FC = () => {
           </div>
 
           <div className="mt-4 p-4 bg-steel-blue-50 rounded-xl">
-            <p className="text-sm text-steel-blue-800 text-center">
+            <p className="text-sm text-steel-blue-600 text-center">
               <strong>Restaurant Features:</strong> Create games, manage QR redemptions, and track earnings.
             </p>
           </div>
