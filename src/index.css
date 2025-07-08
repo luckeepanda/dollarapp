@@ -3,4 +3,6 @@
 @tailwind utilities;
 footer {
   text-align: center; /* This centers the text within the footer */
+  color: white;
+  background-color: steelblue;
 }
