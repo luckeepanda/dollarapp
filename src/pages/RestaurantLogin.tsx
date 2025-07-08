@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Store } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, Store, Play } from 'lucide-react';
 
 const RestaurantLogin: React.FC = () => {
   const [email, setEmail] = useState('');
