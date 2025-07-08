@@ -205,9 +205,9 @@ const Landing: React.FC = () => {
           >
             Create Account
           </Link>
+          <span>© 2025 Dollar App</span>
         </div>
       </div>
-      <span>© 2025 Dollar App</span>
     </div>
   );
 };
