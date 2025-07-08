@@ -95,7 +95,7 @@ const RestaurantRegister: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-steel-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Join as Restaurant
           </h2>
           <p className="text-blue-200">Create games and accept QR redemptions</p>
