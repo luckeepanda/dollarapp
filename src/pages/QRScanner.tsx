@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import QRScannerModal from '../components/QRScannerModal';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService } from '../services/restaurantGameService';
 import { 
@@ -18,6 +19,7 @@ import {
 const QRScanner: React.FC = () => {
   const { user } = useAuth();
   const [isScanning, setIsScanning] = useState(false);
+  const [showScannerModal, setShowScannerModal] = useState(false);
   const [scannedCode, setScannedCode] = useState<any>(null);
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [scanHistory, setScanHistory] = useState([
@@ -48,30 +50,43 @@ const QRScanner: React.FC = () => {
   ]);
 
   const startScanning = () => {
-    setIsScanning(true);
+    setShowScannerModal(true);
+  };
+
+  const handleScanSuccess = (qrData: string) => {
+    console.log('QR Code scanned:', qrData);
     
-    // Simulate QR code scanning
-    setTimeout(() => {
-      // Simulate scanning a restaurant game QR code
-      const mockQRData = Math.random() > 0.5 ? {
-        code: `RG-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
-        amount: (Math.random() * 20 + 5).toFixed(2),
-        customer: `Player${Math.floor(Math.random() * 1000)}`,
-        gameId: Math.floor(Math.random() * 100),
-        isValid: true,
-        isRestaurantGame: true
-      } : {
-        code: `QR-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
-        amount: (Math.random() * 50 + 10).toFixed(2),
-        customer: `Player${Math.floor(Math.random() * 1000)}`,
-        gameId: Math.floor(Math.random() * 100),
-        isValid: Math.random() > 0.1, // 90% chance of valid code
-        isRestaurantGame: false
-      };
-      
-      setScannedCode(mockQRData);
-      setIsScanning(false);
-    }, 3000);
+    // Process the scanned QR code
+    processScannedCode(qrData);
+    setShowScannerModal(false);
+  };
+
+  const processScannedCode = (qrData: string) => {
+    // Parse the QR code data and create mock data structure
+    // In a real app, you'd validate this against your backend
+    let parsedData;
+    
+    try {
+      // Try to parse as JSON first (for structured QR codes)
+      parsedData = JSON.parse(qrData);
+    } catch {
+      // If not JSON, treat as a simple code string
+      parsedData = { code: qrData };
+    }
+
+    // Determine if it's a restaurant game QR code based on format
+    const isRestaurantGame = qrData.startsWith('RG-') || parsedData.type === 'restaurant_game';
+    
+    const mockQRData = {
+      code: parsedData.code || qrData,
+      amount: parsedData.amount || (Math.random() * 20 + 5).toFixed(2),
+      customer: parsedData.customer || `Player${Math.floor(Math.random() * 1000)}`,
+      gameId: parsedData.gameId || Math.floor(Math.random() * 100),
+      isValid: parsedData.isValid !== false, // Default to valid unless explicitly false
+      isRestaurantGame: isRestaurantGame
+    };
+    
+    setScannedCode(mockQRData);
   };
 
   const handleRedemption = async (approved: boolean) => {
@@ -170,39 +185,16 @@ const QRScanner: React.FC = () => {
                     <QrCode className="h-16 w-16 text-blue-600 mx-auto mb-4" />
                     <h2 className="text-xl font-semibold text-gray-900 mb-2">Ready to Scan</h2>
                     <p className="text-gray-600 mb-6">
-                      Position the QR code within the camera frame to automatically scan
+                      Use your device's camera to scan customer QR codes
                     </p>
                     <button
                       onClick={startScanning}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all flex items-center space-x-2 mx-auto"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all flex items-center space-x-2 mx-auto shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                       <Camera className="h-5 w-5" />
-                      <span>Start Scanning</span>
+                      <span>Start Camera Scanner</span>
                     </button>
                   </div>
-                </div>
-              )}
-
-              {isScanning && (
-                <div className="text-center py-12">
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-2xl text-white mb-6 max-w-md mx-auto">
-                    <div className="animate-pulse">
-                      <Camera className="h-16 w-16 mx-auto mb-4" />
-                    </div>
-                    <h2 className="text-xl font-semibold mb-2">Scanning...</h2>
-                    <p className="text-blue-100">
-                      Looking for QR code in camera view
-                    </p>
-                    <div className="mt-4">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setIsScanning(false)}
-                    className="text-gray-600 hover:text-gray-800 transition-colors"
-                  >
-                    Cancel Scanning
-                  </button>
                 </div>
               )}
 
@@ -353,6 +345,13 @@ const QRScanner: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* QR Scanner Modal */}
+      <QRScannerModal
+        isOpen={showScannerModal}
+        onClose={() => setShowScannerModal(false)}
+        onScanSuccess={handleScanSuccess}
+      />
     </div>
   );
 };
