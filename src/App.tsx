@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GameLeaderboard from './components/GameLeaderboard';
+import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -81,6 +82,7 @@ function App() {
               </ProtectedRoute>
             } />
           </Routes>
+          <Footer />
         </div>
       </Router>
     </AuthProvider>
