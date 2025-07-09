@@ -56,7 +56,7 @@ const RestaurantLogin: React.FC = () => {
             Restaurant Portal
           </h2>
           <p className="text-steel-blue-200">Sign in to manage your games and QR redemptions</p><br/>
-          <Link to="https://www.youtube.com/watch?v=pSeCP5w5mok" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
+          <Link to="https://www.youtube.com/watch?v=0OUchSp8lbg" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
             <button className="w-full bg-gradient-to-r from-orange-600 to-red-500 text-white py-3 rounded-2xl font-bold hover:from-red-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-red-400/30">
             <MonitorPlay />&nbsp; View Demo
           </button>
