@@ -13,7 +13,7 @@ const translations = {
     // Landing page
     'landing.title': 'Dollar App',
     'landing.subtitle': 'Pay $1, play for prizes, redeem at restaurants.',
-    'landing.getStarted': 'Get Started',
+    'landing.getStarted': 'GET STARTED',
     'landing.playFreeNow': 'PLAY FREE NOW',
     'landing.forRestaurants': 'For Restaurants',
     'landing.howItWorks': 'How It Works',
@@ -34,7 +34,7 @@ const translations = {
     // Landing page
     'landing.title': 'Dollar App',
     'landing.subtitle': 'Paga $1, juega por premios, canjea en restaurantes.',
-    'landing.getStarted': 'Comenzar',
+    'landing.getStarted': 'COMENZAR',
     'landing.playFreeNow': 'JUGAR GRATIS AHORA',
     'landing.forRestaurants': 'Para Restaurantes',
     'landing.howItWorks': 'Cómo Funciona',
