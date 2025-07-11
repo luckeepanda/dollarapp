@@ -126,7 +126,7 @@ const Landing: React.FC = () => {
                   <img 
                     src="/falcon-logo.png" 
                     alt="Dollar App Logo" 
-                    className="w-48 h-48 mx-auto drop-shadow-2xl rounded-3xl"
+                    className="w-64 h-64 mx-auto drop-shadow-2xl rounded-3xl"
                   />
                 </div>
               </div>
