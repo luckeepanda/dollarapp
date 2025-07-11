@@ -126,13 +126,13 @@ const Landing: React.FC = () => {
                   <img 
                     src="/falcon-logo.png" 
                     alt="Falcon Logo" 
-                    className="w-64 h-64 object-contain drop-shadow-2xl"
+                    className="w-64 h-64 object-contain drop-shadow-2xl rounded-3xl"
                   />
                 </div>
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg rounded-3xl">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg ">
               {t('landing.title')}
             </h1>
             <p className="text-xl md:text-2xl text-royal-blue-100 mb-8 max-w-3xl mx-auto drop-shadow-sm">
