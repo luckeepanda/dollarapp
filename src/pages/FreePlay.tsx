@@ -242,21 +242,21 @@ const FreePlay: React.FC = () => {
             </Link>
             
             {/* Noodle Tetris Game */}
-            {/* <Link
-              to="/noodle-tetris"
-              className="bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-blue-700 transition-all transform hover:scale-105 relative overflow-hidden group"
+            <Link
+              to="/food-blaster"
+              className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-indigo-700 transition-all transform hover:scale-105 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
               <div className="relative z-10">
-                <div className="text-4xl mb-4">🍜</div>
-                <h3 className="text-xl font-bold mb-2">Noodle Tetris</h3>
-                <p className="text-purple-100 text-sm mb-4">Hold to move, tap to rotate!</p>
+                <div className="text-4xl mb-4">🚀</div>
+                <h3 className="text-xl font-bold mb-2">Food Blaster</h3>
+                <p className="text-purple-100 text-sm mb-4">Shoot the food invaders!</p>
                 <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
                   <Play className="h-4 w-4" />
                   <span>Play Now</span>
                 </div>
               </div>
-            </Link>*/}
+            </Link>
             
             {/* Pizza Hunter - Coming Soon */}
             <div className="bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75">
