@@ -121,10 +121,60 @@ const Landing: React.FC = () => {
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
-                {/* Simple $1 Display */}
-                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
-                  <div className="text-6xl font-bold text-white drop-shadow-2xl">
-                    $1
+                {/* Custom Hawk Logo */}
+                <div className="flex flex-col items-center">
+                  {/* Hawk SVG */}
+                  <div className="relative mb-4">
+                    <svg width="200" height="160" viewBox="0 0 200 160" className="drop-shadow-2xl">
+                      {/* Hawk Body */}
+                      <ellipse cx="100" cy="80" rx="25" ry="35" fill="#DC2626" stroke="#1E3A8A" strokeWidth="3"/>
+                      
+                      {/* Hawk Head */}
+                      <circle cx="100" cy="50" r="20" fill="#DC2626" stroke="#1E3A8A" strokeWidth="3"/>
+                      
+                      {/* Beak */}
+                      <polygon points="100,45 110,55 100,60" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      
+                      {/* Eyes */}
+                      <circle cx="95" cy="45" r="4" fill="#1E3A8A"/>
+                      <circle cx="105" cy="45" r="4" fill="#1E3A8A"/>
+                      <circle cx="95" cy="45" r="2" fill="#F59E0B"/>
+                      <circle cx="105" cy="45" r="2" fill="#F59E0B"/>
+                      
+                      {/* Left Wing */}
+                      <path d="M75 70 Q45 50 30 65 Q35 85 50 90 Q65 85 75 80 Z" fill="#1E3A8A" stroke="#DC2626" strokeWidth="2"/>
+                      <path d="M70 75 Q50 65 40 75 Q45 85 55 85 Q65 80 70 78 Z" fill="#DC2626"/>
+                      
+                      {/* Right Wing */}
+                      <path d="M125 70 Q155 50 170 65 Q165 85 150 90 Q135 85 125 80 Z" fill="#1E3A8A" stroke="#DC2626" strokeWidth="2"/>
+                      <path d="M130 75 Q150 65 160 75 Q155 85 145 85 Q135 80 130 78 Z" fill="#DC2626"/>
+                      
+                      {/* Talons gripping the square */}
+                      <path d="M85 110 Q80 115 85 120 Q90 115 85 110" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      <path d="M90 112 Q85 117 90 122 Q95 117 90 112" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      <path d="M95 110 Q90 115 95 120 Q100 115 95 110" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      
+                      <path d="M115 110 Q120 115 115 120 Q110 115 115 110" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      <path d="M110 112 Q115 117 110 122 Q105 117 110 112" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                      <path d="M105 110 Q110 115 105 120 Q100 115 105 110" fill="#F59E0B" stroke="#1E3A8A" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Red Square with $1 */}
+                  <div className="bg-red-600 border-4 border-blue-900 rounded-lg shadow-2xl p-6 mb-4 relative z-10">
+                    <div className="text-5xl font-bold text-white drop-shadow-2xl text-center">
+                      $1
+                    </div>
+                  </div>
+                  
+                  {/* Proudly Serving Atlanta Text */}
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-red-600 drop-shadow-lg tracking-wider">
+                      PROUDLY SERVING
+                    </div>
+                    <div className="text-3xl font-bold text-red-600 drop-shadow-lg tracking-wider mt-1">
+                      ATLANTA
+                    </div>
                   </div>
                 </div>
               </div>
