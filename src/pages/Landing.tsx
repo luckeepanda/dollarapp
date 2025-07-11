@@ -121,48 +121,10 @@ const Landing: React.FC = () => {
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
-                {/* Animated Hawk Display */}
-                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-                  <div className="relative z-10 flex items-center justify-center">
-                    <img 
-                      src="/hawk_static.gif" 
-                      alt="Flying Hawk" 
-                      className="w-24 h-24 object-contain animate-bounce"
-                      style={{
-                        filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3))',
-                        animation: 'flap 2s ease-in-out infinite, float 3s ease-in-out infinite'
-                      }}
-                    />
-                  </div>
-                  
-                  {/* Floating $1 text overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                    <div className="text-2xl font-bold text-white drop-shadow-2xl bg-black/30 px-3 py-1 rounded-lg backdrop-blur-sm">
-                      $1
-                    </div>
-                  </div>
-                  
-                  {/* Wing flap animation overlay */}
-                  <div className="absolute inset-0 z-5">
-                    <div className="w-full h-full relative">
-                      {/* Left wing */}
-                      <div 
-                        className="absolute left-1/4 top-1/2 w-8 h-4 bg-gradient-to-r from-amber-600 to-amber-800 rounded-full opacity-60 transform -translate-y-1/2"
-                        style={{
-                          animation: 'wingFlapLeft 0.5s ease-in-out infinite alternate',
-                          transformOrigin: 'right center'
-                        }}
-                      ></div>
-                      
-                      {/* Right wing */}
-                      <div 
-                        className="absolute right-1/4 top-1/2 w-8 h-4 bg-gradient-to-l from-amber-600 to-amber-800 rounded-full opacity-60 transform -translate-y-1/2"
-                        style={{
-                          animation: 'wingFlapRight 0.5s ease-in-out infinite alternate',
-                          transformOrigin: 'left center'
-                        }}
-                      ></div>
-                    </div>
+                {/* Simple $1 Display */}
+                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
+                  <div className="text-6xl font-bold text-white drop-shadow-2xl">
+                    $1
                   </div>
                 </div>
               </div>
