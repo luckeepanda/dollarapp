@@ -122,7 +122,7 @@ const Landing: React.FC = () => {
             <div className="flex justify-center mb-6">
               <div className="relative">
                 {/* Falcon Logo */}
-                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
+                <div className="bg-white/20 backdrop-blur-sm p-2 rounded-3xl shadow-2xl">
                   <img 
                     src="/falcon-logo.png" 
                     alt="Falcon Logo" 
