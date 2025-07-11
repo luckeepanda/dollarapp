@@ -132,7 +132,7 @@ const Landing: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg rounded-3xl">
               {t('landing.title')}
             </h1>
             <p className="text-xl md:text-2xl text-royal-blue-100 mb-8 max-w-3xl mx-auto drop-shadow-sm">
