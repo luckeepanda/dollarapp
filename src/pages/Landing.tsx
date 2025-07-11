@@ -121,11 +121,13 @@ const Landing: React.FC = () => {
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
-                {/* Simple $1 Display */}
+                {/* Falcon Logo */}
                 <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
-                  <div className="text-6xl font-bold text-white drop-shadow-2xl">
-                    $1
-                  </div>
+                  <img 
+                    src="/falcon-logo.png" 
+                    alt="Falcon Logo" 
+                    className="w-24 h-24 object-contain drop-shadow-2xl"
+                  />
                 </div>
               </div>
             </div>
