@@ -187,7 +187,7 @@ const Landing: React.FC = () => {
                       <div className="text-4xl sm:text-6xl animate-bounce">🌮</div>
                       {/* $1 Text overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-4xl sm:text-6xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-2xl stroke-2 stroke-white">
+                        <span className="text-4xl sm:text-6xl font-black text-white drop-shadow-2xl">
                           $1
                         </span>
                       </div>
