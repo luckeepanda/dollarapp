@@ -366,7 +366,7 @@ const Landing: React.FC = () => {
                   <p className="text-electric-100 text-sm mb-4">Shoot the food invaders!</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Play Now</span>
+                    <span>Coming Soon</span>
                   </div>
                 </div>
               </Link>
