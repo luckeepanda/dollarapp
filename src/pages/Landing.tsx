@@ -393,7 +393,7 @@ const Landing: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500">
+      {/* <div className="py-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
             {t('landing.cta.title')}
@@ -408,7 +408,7 @@ const Landing: React.FC = () => {
             {t('landing.cta.button')}
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
