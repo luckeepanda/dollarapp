@@ -112,7 +112,7 @@ const Landing: React.FC = () => {
                 <img 
                   src="/falcon-logo.png" 
                   alt="Falcon Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain rounded-xl" 
                 />
               </div>
               {/* Plate emoji and text */}
