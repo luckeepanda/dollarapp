@@ -361,7 +361,6 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       let newBullets = [...prev.bullets];
       let newEnemyBullets = [...prev.enemyBullets];
       let newEnemies = [...prev.enemies];
-      let newEnemyBullets = prev.enemyBullets || [];
       let newScore = prev.score;
       let newLives = prev.lives;
       let newWave = prev.wave;
