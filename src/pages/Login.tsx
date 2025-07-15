@@ -101,10 +101,10 @@ const Login: React.FC = () => {
           {/* Divider */}
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white-300"></div>
+              <div className="w-full border-t border-steel-blue-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-white-300 rounded-lg">Or continue with email</span>
+              <span className="px-4 bg-white text-steel-blue-300 rounded-lg">Or continue with email</span>
             </div>
           </div>
 
@@ -114,7 +114,7 @@ const Login: React.FC = () => {
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-400" />
                 <input
                   type="email"
                   value={email}
@@ -132,7 +132,7 @@ const Login: React.FC = () => {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -145,7 +145,7 @@ const Login: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-steel-blue-400 hover:text-steel-blue-600 transition-colors"
                   disabled={isLoading || isOAuthLoading !== null}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
