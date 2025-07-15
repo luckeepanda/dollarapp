@@ -207,12 +207,12 @@ const FreePlay: React.FC = () => {
         </div>
 
         {/* Game Options Section */}
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="text-center max-w-4xl mx-auto flex flex-col items-center">
           <h2 className="text-3xl font-bold text-steel-blue mb-8">Choose Your Game</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
             {/* Taco Flyer - Currently Playing */}
-            <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white relative overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white relative overflow-hidden w-full">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
               <div className="relative z-10">
                 <div className="text-4xl mb-4">🌮</div>
@@ -227,7 +227,7 @@ const FreePlay: React.FC = () => {
             {/* Hamburger Runner */}
             <Link
               to="/hamburger-runner"
-              className="bg-gradient-to-r from-green-500 to-yellow-500 rounded-2xl p-6 text-white hover:from-green-600 hover:to-yellow-600 transition-all transform hover:scale-105 relative overflow-hidden group"
+              className="bg-gradient-to-r from-green-500 to-yellow-500 rounded-2xl p-6 text-white hover:from-green-600 hover:to-yellow-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
               <div className="relative z-10">
@@ -244,7 +244,7 @@ const FreePlay: React.FC = () => {
             {/* Noodle Tetris Game */}
             <Link
               to="/food-blaster"
-              className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-indigo-700 transition-all transform hover:scale-105 relative overflow-hidden group"
+              className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-indigo-700 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
               <div className="relative z-10">
@@ -259,7 +259,7 @@ const FreePlay: React.FC = () => {
             </Link>
             
             {/* Pizza Hunter - Coming Soon */}
-            <div className="bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75">
+            <div className="bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75 w-full">
               <div className="relative z-10">
                 <div className="text-4xl mb-4">🍕</div>
                 <h3 className="text-xl font-bold mb-2">Pizza Hunter</h3>

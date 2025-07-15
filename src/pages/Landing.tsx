@@ -318,12 +318,12 @@ const Landing: React.FC = () => {
           </div>
 
           {/* Game Options Section */}
-          <div className="text-center max-w-4xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto flex flex-col items-center">
             <h2 className="text-3xl font-bold font-display web3-text-gradient mb-8">Choose Your Game</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
               {/* Taco Flyer - Currently Playing */}
-              <div className="bg-gradient-to-r from-neon-500 to-electric-600 rounded-2xl p-6 text-white relative overflow-hidden web3-glow">
+              <div className="bg-gradient-to-r from-neon-500 to-electric-600 rounded-2xl p-6 text-white relative overflow-hidden web3-glow w-full">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🌮</div>
@@ -338,7 +338,7 @@ const Landing: React.FC = () => {
               {/* Hamburger Runner */}
               <Link
                 to="/hamburger-runner"
-                className="bg-gradient-to-r from-matrix-500 to-neon-500 rounded-2xl p-6 text-white hover:from-matrix-600 hover:to-neon-600 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow"
+                className="bg-gradient-to-r from-matrix-500 to-neon-500 rounded-2xl p-6 text-white hover:from-matrix-600 hover:to-neon-600 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
@@ -371,7 +371,7 @@ const Landing: React.FC = () => {
               </Link> */}
               
               {/* Pizza Hunter - Coming Soon */}
-              <div className="bg-gradient-to-r from-electric-500 to-matrix-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75 web3-glow">
+              <div className="bg-gradient-to-r from-electric-500 to-matrix-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75 web3-glow w-full">
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍕</div>
                   <h3 className="text-xl font-bold font-display mb-2">Pizza Hunter</h3>
