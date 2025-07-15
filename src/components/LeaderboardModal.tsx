@@ -116,8 +116,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
             </div>
           ) : leaderboard.length === 0 ? (
             <div className="text-center py-8">
-              <Trophy className="h-12 w-12 text-white-300 mx-auto mb-4" />
-              <p className="text-white-200">No scores yet. Be the first!</p>
+              <Trophy className="h-12 w-12 text-steel-blue-300 mx-auto mb-4" />
+              <p className="text-steel-blue-200">No scores yet. Be the first!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -137,8 +137,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                         {getRankIcon(rank)}
                         <div>
                           <div className="flex items-center space-x-2">
-                            <User className="h-4 w-4 text-white-300" />
-                            <span className="font-semibold text-white-100">
+                            <User className="h-4 w-4 text-steel-blue-300" />
+                            <span className="font-semibold text-steel-blue-100">
                               {entry.nickname}
                             </span>
                             {isCurrentScore && (
@@ -147,7 +147,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center space-x-1 text-sm text-white-300">
+                          <div className="flex items-center space-x-1 text-sm text-steel-blue-300">
                             <Calendar className="h-3 w-3" />
                             <span>{formatDate(entry.created_at)}</span>
                           </div>
@@ -155,10 +155,10 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                       </div>
                       
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-white-100">
+                        <div className="text-2xl font-bold text-steel-blue-100">
                           {entry.score}
                         </div>
-                        <div className="text-sm text-white-300">points</div>
+                        <div className="text-sm text-steel-blue-300">points</div>
                       </div>
                     </div>
                   </div>
