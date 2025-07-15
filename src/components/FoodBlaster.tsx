@@ -357,9 +357,10 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     setGameState(prev => {
       // Use touch position for player movement if available
-      let newPlayerX = currentTouchMove && currentTouchMove.x !== undefined
-        ? Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, currentTouchMove.x - PLAYER_WIDTH / 2))
-        : prev.playerX;
+      let newPlayerX = prev.playerX;
+      if (currentTouchMove && currentTouchMove.x !== undefined) {
+        newPlayerX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, currentTouchMove.x - PLAYER_WIDTH / 2));
+      }
         
       let newBullets = [...prev.bullets];
       let newEnemyBullets = [...prev.enemyBullets];
