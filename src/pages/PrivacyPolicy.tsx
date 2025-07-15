@@ -22,16 +22,120 @@ const PrivacyPolicy: React.FC = () => {
 
         {/* Content */}
         <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20">
-          <div className="text-steel-blue-200 space-y-6">
-            <p className="text-lg">
-              This Privacy Policy page is currently under construction.
+          <div className="text-steel-blue-200 space-y-6 leading-relaxed">
+            <p className="text-lg font-medium">
+              By accessing or using the Platform, you agree to this Privacy Policy.
             </p>
-            <p>
-              We are committed to protecting your privacy and will update this page with our complete privacy policy soon.
-            </p>
-            <p>
-              If you have any questions about our privacy practices, please contact us.
-            </p>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">1. Information We Collect</h2>
+              
+              <div className="ml-4 space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">a. Information You Provide</h3>
+                  <ul className="ml-4 space-y-2">
+                    <li><strong>Account Info:</strong> Name, email, Google/Apple ID, password hash</li>
+                    <li><strong>KYC Data (if required):</strong> Legal name, date of birth, address, photo ID, selfie</li>
+                    <li><strong>Game Activity:</strong> Gameplay stats, entry fees, wins/losses</li>
+                    <li><strong>Redemption Info:</strong> QR codes, redemption timestamps, restaurant locations</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">b. Payment & Wallet Info</h3>
+                  <ul className="ml-4 space-y-2">
+                    <li>Dollar App processes payments via Stripe, Coinbase Commerce, or similar services</li>
+                    <li>We do not store full credit card numbers</li>
+                    <li>For USDC users: we store Solana wallet public keys and related transaction metadata</li>
+                    <li>Wallets may be encrypted with AWS KMS and user PINs</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">c. Device & Usage Info</h3>
+                  <ul className="ml-4 space-y-2">
+                    <li>IP address, browser type, operating system</li>
+                    <li>Pages visited, game sessions, referral source</li>
+                    <li>Crash reports and technical diagnostics</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">2. How We Use Your Information</h2>
+              <p className="mb-2">We use your information to:</p>
+              <ul className="ml-4 space-y-2">
+                <li>Create and manage your account</li>
+                <li>Enable gameplay, tournaments, and prize redemptions</li>
+                <li>Process payments and blockchain transactions</li>
+                <li>Prevent fraud, abuse, and duplicate accounts</li>
+                <li>Verify identity (for regulatory and prize integrity)</li>
+                <li>Improve game quality and customer experience</li>
+                <li>Communicate with you (e.g., emails, receipts, QR codes)</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">3. How We Share Your Information</h2>
+              <p className="mb-2">We do not sell your data. We may share information with:</p>
+              <ul className="ml-4 space-y-2">
+                <li><strong>Restaurants:</strong> When you redeem a prize, we provide them your redemption details (e.g., QR code ID, item won, time of redemption)</li>
+                <li><strong>Payment Processors:</strong> Stripe, Coinbase, Solana, etc.</li>
+                <li><strong>Identity Verification Vendors:</strong> Such as Persona, if KYC is required</li>
+                <li><strong>Cloud Providers:</strong> For secure storage and processing (e.g., AWS)</li>
+                <li><strong>Legal/Regulatory:</strong> If required by law, court order, or to protect against fraud</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">4. Data Storage & Security</h2>
+              <p className="mb-2">We use AES-256 encryption, AWS KMS, and industry-standard security practices to protect your data.</p>
+              <ul className="ml-4 space-y-2">
+                <li>Wallet keys are encrypted and tied to user credentials</li>
+                <li>Sensitive KYC documents are handled through secure third-party APIs</li>
+                <li>Access to user data is limited to essential personnel</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">5. Your Rights</h2>
+              <p className="mb-2">You may:</p>
+              <ul className="ml-4 space-y-2">
+                <li>Request access to your data</li>
+                <li>Correct inaccurate information</li>
+                <li>Request account deletion</li>
+                <li>Opt out of marketing emails at any time</li>
+              </ul>
+              <p className="mt-2">To exercise any of these rights, contact <a href="mailto:support@dollarfood.app" className="text-royal-blue-300 hover:text-royal-blue-200 underline">support@dollarfood.app</a>.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">6. Cookies & Tracking</h2>
+              <p className="mb-2">We use cookies and similar technologies to:</p>
+              <ul className="ml-4 space-y-2">
+                <li>Keep you signed in</li>
+                <li>Track game engagement and performance</li>
+                <li>Analyze site usage for improvements</li>
+                <li>Serve localized restaurant content</li>
+              </ul>
+              <p className="mt-2">You can disable cookies in your browser, but some features may not work correctly.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">7. Children's Privacy</h2>
+              <p>Dollar App is not intended for users under 18 years old. We do not knowingly collect data from minors. If we discover such data has been collected, we will delete it promptly.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">8. Data Retention</h2>
+              <p>We retain data as long as your account is active or as needed to comply with legal or tax obligations.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-steel-blue mb-4">9. Changes to This Policy</h2>
+              <p>We may update this Privacy Policy from time to time. Changes will be posted here and may be emailed to you. Continued use of the Platform indicates acceptance of the updated policy.</p>
+            </div>
           </div>
         </div>
       </div>
