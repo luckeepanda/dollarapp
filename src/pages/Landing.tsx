@@ -106,20 +106,12 @@ const Landing: React.FC = () => {
               {/* Play Demo Button */}
               <Link
                 to="/restaurant/login"
-                className="group relative inline-flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm text-white px-3 py-2 sm:px-4 sm:py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
+                className="group relative inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white px-4 py-3 sm:px-6 sm:py-4 rounded-xl font-bold hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
               >
-                {/* Falcon Logo */}
-                <div className="w-6 h-6 sm:w-8 sm:h-8 mb-1">
-                  <img 
-                    src="/falcon-logo.png" 
-                    alt="Falcon Logo" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                {/* Plate emoji and text */}
-                <div className="flex items-center space-x-1">
-                  <span className="text-xs sm:text-sm">🍽️</span>
-                  <span className="text-xs sm:text-sm font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
+                {/* Play Demo text as centerpiece */}
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg sm:text-xl">🍽️</span>
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
                     Play Demo
                   </span>
                 </div>
