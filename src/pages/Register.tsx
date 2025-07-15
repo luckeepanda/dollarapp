@@ -124,7 +124,7 @@ const Register: React.FC = () => {
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-            <span className="text-2xl font-bold text-white">$</span>
+            <span className="text-2xl font-bold text-steel-blue">$</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Create Account
@@ -156,7 +156,7 @@ const Register: React.FC = () => {
             <button
               onClick={handleGoogleSignup}
               disabled={isOAuthLoading !== null || isLoading}
-              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-2xl font-bold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-xl hover:shadow-2xl"
+              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-steel-blue-100 py-3 rounded-2xl font-bold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-xl hover:shadow-2xl"
             >
               {isOAuthLoading === 'google' ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white-200"></div>
@@ -178,13 +178,13 @@ const Register: React.FC = () => {
               <div className="w-full border-t border-white-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-white-300 rounded-lg">Or create account with email</span>
+              <span className="px-4 bg-white text-steel-blue-300 rounded-lg">Or create account with email</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -202,7 +202,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Username
               </label>
               <div className="relative">
@@ -221,7 +221,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -248,11 +248,11 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
@@ -268,7 +268,7 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-steel-blue py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
             >
               {isLoading ? (
                 <>
