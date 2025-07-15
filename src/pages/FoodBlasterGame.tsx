@@ -170,7 +170,6 @@ const FoodBlasterGame: React.FC = () => {
                   </div>
                 </div>
               </div>
-            // </div>
           )}
           </>
         </div>
