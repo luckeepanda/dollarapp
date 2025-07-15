@@ -103,7 +103,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                     setNickname(e.target.value);
                     setError('');
                   }}
-                  className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-steel-blue"
                   placeholder="Enter your nickname"
                   maxLength={20}
                   disabled={isSubmitting}
