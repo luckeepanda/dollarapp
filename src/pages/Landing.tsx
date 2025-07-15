@@ -118,7 +118,7 @@ const Landing: React.FC = () => {
               {/* Plate emoji and text */}
               <div className="flex items-center space-x-1">
                 <span className="text-sm">🍽️</span>
-                <span className="text-sm font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
+                <span className="text-md font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
                   Play Demo
                 </span>
               </div>
