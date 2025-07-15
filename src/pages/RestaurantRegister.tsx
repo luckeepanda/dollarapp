@@ -127,7 +127,7 @@ const RestaurantRegister: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue mb-2">
                 Restaurant Email
               </label>
               <div className="relative text-steel-blue">
@@ -145,7 +145,7 @@ const RestaurantRegister: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue mb-2">
                 Restaurant Name
               </label>
               <div className="relative text-steel-blue">
@@ -164,7 +164,7 @@ const RestaurantRegister: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue mb-2">
                 Password
               </label>
               <div className="relative text-steel-blue">
@@ -191,11 +191,11 @@ const RestaurantRegister: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white-100 mb-2">
+              <label className="block text-sm font-medium text-steel-blue mb-2">
                 Confirm Password
               </label>
               <div className="relative text-steel-blue">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
