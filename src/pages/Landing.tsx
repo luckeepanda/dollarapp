@@ -357,7 +357,7 @@ const Landing: React.FC = () => {
               <Link
                 // to="/food-blaster"
                 to="#"
-                className="bg-gradient-to-r from-electric-500 to-cyber-600 rounded-2xl p-6 text-white hover:from-electric-600 hover:to-cyber-700 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow"
+                className="bg-gradient-to-r from-electric-500 to-cyber-600 rounded-2xl p-6 text-white hover:from-electric-600 hover:to-cyber-700 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
