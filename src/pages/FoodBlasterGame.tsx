@@ -136,10 +136,11 @@ const FoodBlasterGame: React.FC = () => {
         <div className="bg-black/30 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-purple-500/30">
           <h3 className="text-purple-300 font-semibold mb-3">🎮 How to Play:</h3>
           <ul className="text-purple-200 text-sm space-y-1">
-            <li>• Use <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">←</kbd> <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">→</kbd> arrow keys or <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">A</kbd> <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">D</kbd> to move your spaceship</li>
-            <li>• Press <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">SPACE</kbd> or <kbd className="bg-purple-800 px-2 py-1 rounded text-xs">↑</kbd> to shoot at the food invaders</li>
+            <li>• <strong>Tap</strong> anywhere to shoot at the food invaders</li>
+            <li>• <strong>Touch and drag</strong> to move your spaceship left and right</li>
+            <li>• <strong>Hold</strong> to continuously fire while moving</li>
             <li>• Destroy all food items to advance to the next wave</li>
-            <li>• Don't let the food invaders reach your spaceship!</li>
+            <li>• Don't let the food invaders or their attacks hit your spaceship!</li>
             <li>• Each wave gets faster and more challenging</li>
             <li>• Score points for each food item destroyed</li>
           </ul>
