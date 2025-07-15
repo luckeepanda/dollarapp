@@ -124,6 +124,7 @@ const FoodBlasterGame: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Game Container */}
         <div className="bg-black/30 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-500/30 mb-8 relative">
+          <>
           <FoodBlaster 
             key={gameKey}
             onGameEnd={handleGameEnd} 
@@ -171,6 +172,7 @@ const FoodBlasterGame: React.FC = () => {
               </div>
             </div>
           )}
+          </>
         </div>
 
         {/* Instructions */}
