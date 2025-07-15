@@ -37,16 +37,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-          <div className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 p-1.5 rounded-lg">
-            <DollarSign className="h-4 w-4 text-white" />
-          </div>
-          <span className="text-steel-blue-200 text-sm font-medium">
-            © 2025 Dollar App
-          </span>
-        </div>
-      </div>
-    </footer>
-  );
-};
-
-export default Footer;
