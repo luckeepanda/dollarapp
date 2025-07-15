@@ -175,22 +175,29 @@ const Landing: React.FC = () => {
                 {/* Outer glow ring */}
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
                 
-                {/* Main logo container */}
-                <div className="relative bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-full shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-500">
+                {/* Main taco logo container */}
+                <div className="relative bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-3xl shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-500 rotate-12 group-hover:rotate-6">
                   {/* Inner gradient background */}
-                  <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full opacity-20 animate-pulse"></div>
+                  <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-2xl opacity-20 animate-pulse"></div>
                   
-                  {/* $1 Text */}
+                  {/* Taco with $1 Text */}
                   <div className="relative z-10 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
-                    <span className="text-4xl sm:text-6xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg animate-bounce">
-                      $1
-                    </span>
+                    <div className="relative">
+                      {/* Taco Shell */}
+                      <div className="text-5xl sm:text-7xl animate-bounce">🌮</div>
+                      {/* $1 Text overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-lg sm:text-2xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
+                          $1
+                        </span>
+                      </div>
+                    </div>
                   </div>
                   
-                  {/* Floating particles */}
-                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-400 rounded-full animate-ping"></div>
-                  <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-orange-400 rounded-full animate-ping delay-300"></div>
-                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 w-0.5 h-0.5 sm:w-1 sm:h-1 bg-red-400 rounded-full animate-ping delay-700"></div>
+                  {/* Floating food particles */}
+                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-xs sm:text-sm animate-ping">🌶️</div>
+                  <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs animate-ping delay-300">🧀</div>
+                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 text-xs animate-ping delay-700">🥬</div>
                 </div>
               </div>
             </div>
