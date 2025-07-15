@@ -113,7 +113,7 @@ const Login: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Email Address
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-400" />
                 <input
                   type="email"
@@ -131,7 +131,7 @@ const Login: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -172,7 +172,7 @@ const Login: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-steel-blue">
               Don't have an account?{' '}
-              <Link to="/register" className="text-royal-blue-500 font-semibold hover:text-royal-blue-600 transition-colors">
+              <Link to="/register" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
                 Sign up
               </Link>
             </p>
