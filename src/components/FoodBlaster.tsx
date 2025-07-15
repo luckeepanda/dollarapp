@@ -272,27 +272,38 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   // Drawing functions
   const drawPlayer = (ctx: CanvasRenderingContext2D, x: number) => {
     // Draw spaceship
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(x + 10, CANVAS_HEIGHT - 40, 10, 15);
+    // Retro pixel art style spaceship
+    ctx.fillStyle = '#39ff14'; // Bright retro green
+    ctx.fillRect(x + 8, CANVAS_HEIGHT - 40, 14, 5);
+    ctx.fillRect(x + 10, CANVAS_HEIGHT - 45, 10, 10);
+    ctx.fillRect(x + 12, CANVAS_HEIGHT - 48, 6, 3);
     
-    ctx.fillStyle = '#0088ff';
-    ctx.fillRect(x + 5, CANVAS_HEIGHT - 25, 20, 10);
+    // Ship body
+    ctx.fillStyle = '#0088ff'; // Retro blue
+    ctx.fillRect(x + 5, CANVAS_HEIGHT - 35, 20, 15);
     
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(x + 12, CANVAS_HEIGHT - 30, 6, 8);
+    // Cockpit
+    ctx.fillStyle = '#ffffff'; // White
+    ctx.fillRect(x + 12, CANVAS_HEIGHT - 32, 6, 6);
     
     // Engine glow
-    ctx.fillStyle = '#ff4400';
-    ctx.fillRect(x + 13, CANVAS_HEIGHT - 15, 4, 6);
+    ctx.fillStyle = '#ff4400'; // Retro orange
+    ctx.fillRect(x + 12, CANVAS_HEIGHT - 20, 6, 5);
+    
+    // Animated engine flame (pixelated)
+    const flicker = Math.random() > 0.5;
+    ctx.fillStyle = flicker ? '#ffff00' : '#ff8800'; // Yellow/orange flicker
+    ctx.fillRect(x + 13, CANVAS_HEIGHT - 15, 4, flicker ? 4 : 6);
   };
 
   const drawBullet = (ctx: CanvasRenderingContext2D, bullet: any) => {
-    ctx.fillStyle = '#ffff00';
+    // Retro pixel bullet
+    ctx.fillStyle = '#ffff00'; // Bright yellow
     ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
     
     // Add glow effect
     ctx.shadowColor = '#ffff00';
-    ctx.shadowBlur = 5;
+    ctx.shadowBlur = 3; // Reduced blur for more pixelated look
     ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
     ctx.shadowBlur = 0;
   };
@@ -309,26 +320,41 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
   const drawEnemy = (ctx: CanvasRenderingContext2D, enemy: any) => {
     const foodEmoji = FOOD_TYPES[enemy.type];
-    ctx.font = '20px Arial';
+    // Use pixelated font for retro look
+    ctx.font = 'bold 20px monospace';
     ctx.textAlign = 'center';
     ctx.fillText(foodEmoji, enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT);
+    
+    // Add pixelated border for retro look
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(enemy.x, enemy.y, ENEMY_WIDTH, ENEMY_HEIGHT);
   };
 
   const drawExplosion = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
-    ctx.fillStyle = '#ff6600';
+    // More pixelated explosion for retro feel
+    ctx.fillStyle = '#ff6600'; // Orange
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, Math.PI * 2);
     ctx.fill();
     
-    ctx.fillStyle = '#ffaa00';
+    ctx.fillStyle = '#ffaa00'; // Yellow-orange
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, Math.PI * 2);
     ctx.fill();
     
-    ctx.fillStyle = '#ffff00';
+    ctx.fillStyle = '#ffff00'; // Yellow
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fill();
+    
+    // Add pixelated particles for retro effect
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const px = x + Math.cos(angle) * 12;
+      const py = y + Math.sin(angle) * 12;
+      ctx.fillRect(px, py, 2, 2);
+    }
   };
 
   // Collision detection
@@ -358,18 +384,18 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     setGameState(prev => {
       // Use touch position for player movement if available
       let newPlayerX = prev.playerX;
-      if (currentTouchMove?.x !== undefined) {
+      if (currentTouchMove) {
         newPlayerX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, currentTouchMove.x - PLAYER_WIDTH / 2));
       }
         
       let newBullets = [...prev.bullets];
       let newEnemyBullets = [...prev.enemyBullets];
       let newEnemies = [...prev.enemies];
-      let newScore = prev.score;
-      let newLives = prev.lives;
-      let newWave = prev.wave;
-      let newEnemyDirection = prev.enemyDirection;
-      let newEnemySpeed = prev.enemySpeed;
+      const newScore = prev.score;
+      const newLives = prev.lives;
+      const newWave = prev.wave;
+      const newEnemyDirection = prev.enemyDirection;
+      const newEnemySpeed = prev.enemySpeed;
 
       // Move bullets
       newBullets = newBullets.map(bullet => ({
@@ -513,42 +539,40 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas with space background
-    const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#000011');
-    gradient.addColorStop(0.5, '#000033');
-    gradient.addColorStop(1, '#000055');
-    ctx.fillStyle = gradient;
+    // Clear canvas with retro space background (darker, more pixelated)
+    ctx.fillStyle = '#000022'; // Dark blue base
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Draw stars
+    // Draw pixelated stars (more retro)
     ctx.fillStyle = '#ffffff';
-    for (let i = 0; i < 50; i++) {
-      const x = (i * 37) % CANVAS_WIDTH;
-      const y = (i * 73) % CANVAS_HEIGHT;
-      ctx.fillRect(x, y, 1, 1);
+    for (let i = 0; i < 40; i++) {
+      const x = Math.floor((i * 37) % CANVAS_WIDTH / 4) * 4; // Pixelated grid
+      const y = Math.floor((i * 73) % CANVAS_HEIGHT / 4) * 4;
+      const size = i % 3 === 0 ? 2 : 1; // Varied star sizes
+      ctx.fillRect(x, y, size, size);
     }
 
     if (!gameState.gameStarted) {
       // Draw start screen
-      ctx.fillStyle = 'rgba(0, 0, 50, 0.8)';
+      ctx.fillStyle = 'rgba(0, 0, 40, 0.9)'; // Darker blue for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
-      ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#00ff00';
-      ctx.lineWidth = 3;
-      ctx.font = 'bold 24px Arial';
+      // Retro title text
+      ctx.fillStyle = '#FFFFFF'; // White
+      ctx.strokeStyle = '#00ff00'; // Green outline
+      ctx.lineWidth = 4; // Thicker outline for retro feel
+      ctx.font = 'bold 24px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('FOOD BLASTER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       ctx.fillText('FOOD BLASTER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
-      ctx.font = 'bold 16px Arial';
-      ctx.strokeStyle = '#0088ff';
+      ctx.font = 'bold 16px monospace'; // Pixelated font
+      ctx.strokeStyle = '#0088ff'; // Blue outline
       ctx.lineWidth = 2;
       ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.font = 'bold 14px Arial';
+      ctx.font = 'bold 14px monospace'; // Pixelated font
       ctx.strokeText('Arrow keys to move, SPACE to shoot', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       ctx.fillText('Arrow keys to move, SPACE to shoot', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
@@ -562,13 +586,13 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     }
 
     if (gameState.isPaused) {
-      ctx.fillStyle = 'rgba(0, 0, 50, 0.7)';
+      ctx.fillStyle = 'rgba(0, 0, 40, 0.8)'; // Darker blue for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
-      ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#00ff00';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 28px Arial';
+      ctx.fillStyle = '#FFFFFF'; // White
+      ctx.strokeStyle = '#00ff00'; // Green outline
+      ctx.lineWidth = 5; // Thicker outline for retro feel
+      ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
@@ -599,10 +623,10 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     // Draw UI
     ctx.textAlign = 'left';
-    ctx.font = 'bold 16px Arial';
-    ctx.strokeStyle = '#0088ff';
-    ctx.lineWidth = 2;
-    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 16px monospace'; // Pixelated font
+    ctx.strokeStyle = '#0088ff'; // Blue outline
+    ctx.lineWidth = 3; // Thicker outline for retro feel
+    ctx.fillStyle = '#FFFFFF'; // White
     
     ctx.strokeText(`Score: ${gameState.score}`, 10, 25);
     ctx.fillText(`Score: ${gameState.score}`, 10, 25);
@@ -613,6 +637,10 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     ctx.strokeText(`Wave: ${gameState.wave}`, 10, 65);
     ctx.fillText(`Wave: ${gameState.wave}`, 10, 65);
 
+    // Draw pixelated border for retro feel
+    ctx.strokeStyle = '#0088ff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   }, [gameState]);
 
   // Start game loop
@@ -678,8 +706,11 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
           ref={canvasRef}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="border-4 border-purple-200 rounded-xl shadow-lg cursor-pointer bg-gradient-to-b from-purple-900 to-black touch-none"
-          style={{ imageRendering: 'pixelated' }}
+          className="border-4 border-purple-300 rounded-xl shadow-lg cursor-pointer bg-black touch-none"
+          style={{ 
+            imageRendering: 'pixelated',
+            boxShadow: '0 0 10px #8b5cf6, inset 0 0 5px #8b5cf6'
+          }}
         />
         
         {/* Game controls overlay - pause button */}

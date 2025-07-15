@@ -220,107 +220,123 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   // Drawing functions
   const drawHamburger = (ctx: CanvasRenderingContext2D, x: number, y: number, isRunning: boolean) => {
     ctx.save();
-    ctx.translate(x + HAMBURGER_SIZE / 2, y + HAMBURGER_SIZE / 2);
+    // Center the hamburger for rotation
+    const centerX = x + HAMBURGER_SIZE / 2;
+    const centerY = y + HAMBURGER_SIZE / 2;
+    ctx.translate(centerX, centerY);
     
     // Add slight rotation when running
     if (isRunning) {
       ctx.rotate(Math.sin(Date.now() * 0.01) * 0.1);
     }
     
-    // Bottom bun
-    ctx.fillStyle = '#D2691E';
-    ctx.beginPath();
-    ctx.arc(0, 8, 18, 0, Math.PI * 2);
-    ctx.fill();
+    // More pixelated retro style hamburger
+    // Bottom bun (rectangular for pixel art style)
+    ctx.fillStyle = '#D2691E'; // Brown
+    ctx.fillRect(-16, 0, 32, 8);
+    ctx.fillRect(-18, 4, 36, 6);
     
     // Lettuce
-    ctx.fillStyle = '#228B22';
-    ctx.fillRect(-15, 0, 30, 4);
+    ctx.fillStyle = '#22DD22'; // Brighter green for retro look
+    ctx.fillRect(-15, -2, 30, 4);
     
     // Tomato
-    ctx.fillStyle = '#FF6347';
-    ctx.fillRect(-12, -4, 24, 3);
+    ctx.fillStyle = '#FF4500'; // Bright red
+    ctx.fillRect(-12, -6, 24, 4);
     
     // Cheese
-    ctx.fillStyle = '#FFD700';
-    ctx.fillRect(-14, -8, 28, 3);
+    ctx.fillStyle = '#FFFF00'; // Bright yellow for retro look
+    ctx.fillRect(-14, -10, 28, 4);
     
     // Meat patty
-    ctx.fillStyle = '#8B4513';
-    ctx.fillRect(-16, -12, 32, 6);
+    ctx.fillStyle = '#8B4513'; // Brown
+    ctx.fillRect(-16, -14, 32, 6);
     
-    // Top bun
-    ctx.fillStyle = '#DEB887';
-    ctx.beginPath();
-    ctx.arc(0, -12, 18, 0, Math.PI * 2);
-    ctx.fill();
+    // Top bun (rectangular for pixel art style)
+    ctx.fillStyle = '#DEB887'; // Tan
+    ctx.fillRect(-18, -20, 36, 6);
+    ctx.fillRect(-16, -24, 32, 4);
     
     // Sesame seeds
     ctx.fillStyle = '#F5DEB3';
-    for (let i = 0; i < 5; i++) {
-      const angle = (i / 5) * Math.PI * 2;
-      const seedX = Math.cos(angle) * 10;
-      const seedY = Math.sin(angle) * 5 - 12;
-      ctx.beginPath();
-      ctx.arc(seedX, seedY, 1.5, 0, Math.PI * 2);
-      ctx.fill();
+    // More pixelated seeds
+    for (let i = 0; i < 4; i++) {
+      const seedX = -10 + i * 7;
+      ctx.fillRect(seedX, -22, 2, 2);
     }
     
     // Running legs (simple animation)
     if (isRunning) {
       const legOffset = Math.sin(Date.now() * 0.02) * 3;
-      ctx.fillStyle = '#8B4513';
-      ctx.fillRect(-8 + legOffset, 15, 6, 8);
-      ctx.fillRect(2 - legOffset, 15, 6, 8);
+      ctx.fillStyle = '#8B4513'; // Brown
+      // Pixelated legs
+      ctx.fillRect(-8 + legOffset, 15, 6, 10);
+      ctx.fillRect(2 - legOffset, 15, 6, 10);
     }
     
     ctx.restore();
   };
 
   const drawObstacle = (ctx: CanvasRenderingContext2D, obstacle: any) => {
-    const gradient = ctx.createLinearGradient(0, 0, 0, obstacle.height);
-    gradient.addColorStop(0, '#8B4513');
-    gradient.addColorStop(1, '#654321');
-    
-    ctx.fillStyle = gradient;
+    // More pixelated retro style obstacles
+    ctx.fillStyle = '#8B4513'; // Solid brown for retro look
     
     if (obstacle.type === 'low') {
       // Ground obstacle (rock/log)
-      ctx.fillRect(obstacle.x, CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height, obstacle.width, obstacle.height);
+      const x = Math.floor(obstacle.x);
+      const y = Math.floor(CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height);
+      ctx.fillRect(x, y, obstacle.width, obstacle.height);
+      
+      // Add pixelated details
+      ctx.fillStyle = '#654321'; // Darker brown
+      for (let i = 0; i < obstacle.width; i += 4) {
+        ctx.fillRect(x + i, y + 2, 2, 2);
+      }
     } else {
       // High obstacle (hanging branch)
-      ctx.fillRect(obstacle.x, CANVAS_HEIGHT - GROUND_HEIGHT - 150, obstacle.width, obstacle.height);
+      const x = Math.floor(obstacle.x);
+      const y = Math.floor(CANVAS_HEIGHT - GROUND_HEIGHT - 150);
+      ctx.fillRect(x, y, obstacle.width, obstacle.height);
+      
+      // Add pixelated details
+      ctx.fillStyle = '#654321'; // Darker brown
+      for (let i = 0; i < obstacle.height; i += 4) {
+        ctx.fillRect(x + 2, y + i, obstacle.width - 4, 2);
+      }
     }
     
     // Add texture
-    ctx.strokeStyle = '#5D4037';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(obstacle.x, 
-      obstacle.type === 'low' ? CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height : CANVAS_HEIGHT - GROUND_HEIGHT - 150, 
-      obstacle.width, obstacle.height);
+    // Pixelated border for retro look
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(
+      Math.floor(obstacle.x), 
+      Math.floor(obstacle.type === 'low' ? CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height : CANVAS_HEIGHT - GROUND_HEIGHT - 150), 
+      obstacle.width, 
+      obstacle.height
+    );
   };
 
   const drawCoin = (ctx: CanvasRenderingContext2D, coin: any) => {
     if (coin.collected) return;
     
+    // More pixelated retro style coin
+    const x = Math.floor(coin.x);
+    const y = Math.floor(coin.y);
+    const size = 16;
+    const halfSize = size / 2;
+    
     ctx.save();
-    ctx.translate(coin.x + 10, coin.y + 10);
-    ctx.rotate(Date.now() * 0.005);
+    ctx.translate(x + halfSize, y + halfSize);
+    ctx.rotate(Date.now() * 0.003); // Slower rotation for retro feel
     
-    // Coin body
-    ctx.fillStyle = '#FFD700';
-    ctx.beginPath();
-    ctx.arc(0, 0, 8, 0, Math.PI * 2);
-    ctx.fill();
+    // Pixelated coin (square with rounded corners)
+    ctx.fillStyle = '#FFD700'; // Gold
+    ctx.fillRect(-6, -6, 12, 12);
     
-    // Coin border
-    ctx.strokeStyle = '#FFA500';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    
-    // Dollar sign
-    ctx.fillStyle = '#B8860B';
-    ctx.font = 'bold 10px Arial';
+    // Pixelated dollar sign
+    ctx.fillStyle = '#B8860B'; // Darker gold
+    ctx.font = 'bold 10px monospace'; // Pixelated font
     ctx.textAlign = 'center';
     ctx.fillText('$', 0, 3);
     
@@ -329,22 +345,23 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
 
   const drawGround = (ctx: CanvasRenderingContext2D) => {
     // Ground
-    const gradient = ctx.createLinearGradient(0, CANVAS_HEIGHT - GROUND_HEIGHT, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#8FBC8F');
-    gradient.addColorStop(1, '#556B2F');
-    
-    ctx.fillStyle = gradient;
+    // More pixelated retro style ground
+    ctx.fillStyle = '#8FBC8F'; // Solid green for retro look
     ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, GROUND_HEIGHT);
     
-    // Ground texture
-    ctx.strokeStyle = '#6B8E23';
+    // Pixelated ground texture
+    ctx.fillStyle = '#556B2F'; // Darker green
     ctx.lineWidth = 1;
-    for (let i = 0; i < CANVAS_WIDTH; i += 20) {
-      ctx.beginPath();
-      ctx.moveTo(i, CANVAS_HEIGHT - GROUND_HEIGHT);
-      ctx.lineTo(i + 10, CANVAS_HEIGHT - GROUND_HEIGHT + 10);
-      ctx.stroke();
+    
+    // Draw pixelated grass tufts
+    for (let i = 0; i < CANVAS_WIDTH; i += 16) {
+      ctx.fillRect(i, CANVAS_HEIGHT - GROUND_HEIGHT, 8, 2);
+      ctx.fillRect(i + 4, CANVAS_HEIGHT - GROUND_HEIGHT - 2, 2, 2);
     }
+    
+    // Draw a solid line at the top of the ground
+    ctx.fillStyle = '#000000'; // Black outline
+    ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, 1);
   };
 
   // Collision detection
@@ -514,34 +531,35 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
 
     // Clear canvas with sky gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#E6F3FF');
-    gradient.addColorStop(0.7, '#98FB98');
-    gradient.addColorStop(1, '#90EE90');
+    // More vibrant retro colors
+    gradient.addColorStop(0, '#87CEEB'); // Bright sky blue
+    gradient.addColorStop(0.7, '#00FF7F'); // Spring green
+    gradient.addColorStop(1, '#32CD32'); // Lime green
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (!gameState.gameStarted) {
       // Draw start screen
-      ctx.fillStyle = 'rgba(34, 139, 34, 0.9)';
+      ctx.fillStyle = 'rgba(0, 100, 0, 0.9)'; // Darker green for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Title text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 28px Arial';
+      ctx.strokeStyle = '#000000'; // Black outline for retro look
+      ctx.lineWidth = 5; // Thicker outline
+      ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('Hamburger Runner', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       ctx.fillText('Hamburger Runner', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       // Instructions with better contrast
-      ctx.font = 'bold 18px Arial';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 3;
+      ctx.font = 'bold 18px monospace'; // Pixelated font
+      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.lineWidth = 4;
       ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.font = 'bold 16px Arial';
+      ctx.font = 'bold 16px monospace'; // Pixelated font
       ctx.strokeText('Jump over obstacles and collect coins', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       ctx.fillText('Jump over obstacles and collect coins', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
@@ -559,14 +577,14 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
 
     if (gameState.isPaused) {
       // Draw pause overlay
-      ctx.fillStyle = 'rgba(34, 139, 34, 0.7)';
+      ctx.fillStyle = 'rgba(0, 100, 0, 0.8)'; // Darker green for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Pause text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 28px Arial';
+      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.lineWidth = 5; // Thicker outline
+      ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
@@ -592,17 +610,22 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     // Draw UI with enhanced visibility
     ctx.textAlign = 'left';
     
-    // Score with enhanced contrast
-    ctx.font = 'bold 22px Arial';
-    ctx.strokeStyle = '#2B69E5';
-    ctx.lineWidth = 4;
-    ctx.fillStyle = '#FFFFFF';
+    // Score with retro pixelated style
+    ctx.font = 'bold 22px monospace'; // Pixelated font
+    ctx.strokeStyle = '#000000'; // Black outline
+    ctx.lineWidth = 3; // Thicker outline
+    ctx.fillStyle = '#FFFFFF'; // White text
     ctx.strokeText(`Score: ${gameState.score}`, 20, 35);
     ctx.fillText(`Score: ${gameState.score}`, 20, 35);
     
-    // Distance with enhanced contrast
+    // Distance with retro pixelated style
     ctx.strokeText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
     ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
+    
+    // Draw pixelated border for retro feel
+    ctx.strokeStyle = '#000000'; // Black
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   }, [gameState]);
 
@@ -664,8 +687,11 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
           ref={canvasRef}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="border-4 border-green-200 rounded-xl shadow-lg cursor-pointer bg-gradient-to-b from-green-100 to-green-200"
-          style={{ imageRendering: 'pixelated' }}
+          className="border-4 border-green-300 rounded-xl shadow-lg cursor-pointer bg-black"
+          style={{ 
+            imageRendering: 'pixelated',
+            boxShadow: '0 0 10px #22c55e, inset 0 0 5px #22c55e'
+          }}
         />
         
         {/* Game controls overlay - pause button */}

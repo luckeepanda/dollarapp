@@ -205,53 +205,68 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   // Drawing functions
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
     ctx.save();
-    ctx.translate(x + TACO_SIZE / 2, y + TACO_SIZE / 2);
+    // Center the taco for rotation
+    const centerX = x + TACO_SIZE / 2;
+    const centerY = y + TACO_SIZE / 2;
+    ctx.translate(centerX, centerY);
     ctx.rotate(rotation);
     
-    // Taco shell (golden brown)
-    ctx.fillStyle = '#D4A574';
-    ctx.beginPath();
-    ctx.arc(0, 0, TACO_SIZE / 2, 0, Math.PI);
-    ctx.fill();
+    // More pixelated retro style taco
+    // Taco shell (rectangular for pixel art style)
+    ctx.fillStyle = '#D4A574'; // Golden brown
+    ctx.fillRect(-12, -6, 24, 12);
+    ctx.fillRect(-10, -10, 20, 4);
     
-    // Taco filling (colorful)
-    ctx.fillStyle = '#E74C3C'; // Tomato
-    ctx.fillRect(-8, -5, 16, 3);
+    // Taco filling (pixelated)
+    ctx.fillStyle = '#FF0000'; // Bright red for retro tomato
+    ctx.fillRect(-8, -4, 16, 2);
     
-    ctx.fillStyle = '#27AE60'; // Lettuce
+    ctx.fillStyle = '#00FF00'; // Bright green for retro lettuce
     ctx.fillRect(-10, -2, 20, 2);
     
-    ctx.fillStyle = '#F39C12'; // Cheese
+    ctx.fillStyle = '#FFFF00'; // Bright yellow for retro cheese
     ctx.fillRect(-6, 0, 12, 2);
     
-    // Taco outline
-    ctx.strokeStyle = '#8B4513';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(0, 0, TACO_SIZE / 2, 0, Math.PI);
-    ctx.stroke();
+    // Pixelated taco outline
+    ctx.strokeStyle = '#000000'; // Black outline for retro look
+    ctx.lineWidth = 1;
+    ctx.strokeRect(-12, -6, 24, 12);
+    ctx.strokeRect(-10, -10, 20, 4);
     
     ctx.restore();
   };
 
   const drawObstacle = (ctx: CanvasRenderingContext2D, x: number, gapY: number) => {
-    const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#87CEEB');
-    gradient.addColorStop(1, '#B0E0E6');
-    
-    ctx.fillStyle = gradient;
+    // More pixelated retro style obstacles
+    ctx.fillStyle = '#4682B4'; // Solid steel blue for retro look
     
     // Top obstacle
-    ctx.fillRect(x, 0, OBSTACLE_WIDTH, gapY);
+    const topX = Math.floor(x);
+    ctx.fillRect(topX, 0, OBSTACLE_WIDTH, gapY);
     
     // Bottom obstacle
-    ctx.fillRect(x, gapY + OBSTACLE_GAP, OBSTACLE_WIDTH, CANVAS_HEIGHT - gapY - OBSTACLE_GAP);
+    const bottomX = Math.floor(x);
+    const bottomY = Math.floor(gapY + OBSTACLE_GAP);
+    ctx.fillRect(bottomX, bottomY, OBSTACLE_WIDTH, CANVAS_HEIGHT - bottomY);
     
-    // Obstacle borders
-    ctx.strokeStyle = '#4682B4';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(x, 0, OBSTACLE_WIDTH, gapY);
-    ctx.strokeRect(x, gapY + OBSTACLE_GAP, OBSTACLE_WIDTH, CANVAS_HEIGHT - gapY - OBSTACLE_GAP);
+    // Pixelated obstacle details
+    ctx.fillStyle = '#87CEEB'; // Lighter blue for details
+    
+    // Top obstacle details
+    for (let i = 0; i < gapY; i += 10) {
+      ctx.fillRect(topX + 5, i + 5, OBSTACLE_WIDTH - 10, 2);
+    }
+    
+    // Bottom obstacle details
+    for (let i = bottomY; i < CANVAS_HEIGHT; i += 10) {
+      ctx.fillRect(bottomX + 5, i + 5, OBSTACLE_WIDTH - 10, 2);
+    }
+    
+    // Pixelated borders
+    ctx.strokeStyle = '#000000'; // Black outline for retro look
+    ctx.lineWidth = 1;
+    ctx.strokeRect(topX, 0, OBSTACLE_WIDTH, gapY);
+    ctx.strokeRect(bottomX, bottomY, OBSTACLE_WIDTH, CANVAS_HEIGHT - bottomY);
   };
 
   // Collision detection
@@ -357,34 +372,35 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
 
     // Clear canvas with sky gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    gradient.addColorStop(0, '#87CEEB');
-    gradient.addColorStop(0.7, '#98FB98');
-    gradient.addColorStop(1, '#90EE90');
+    // More vibrant retro colors
+    gradient.addColorStop(0, '#1E90FF'); // Bright blue
+    gradient.addColorStop(0.7, '#00FF7F'); // Spring green
+    gradient.addColorStop(1, '#32CD32'); // Lime green
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (!gameState.gameStarted) {
       // Draw start screen
-      ctx.fillStyle = 'rgba(135, 206, 235, 0.9)';
+      ctx.fillStyle = 'rgba(0, 0, 139, 0.9)'; // Darker blue for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Title text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 28px Arial';
+      ctx.strokeStyle = '#000000'; // Black outline for retro look
+      ctx.lineWidth = 5; // Thicker outline
+      ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       ctx.fillText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       // Instructions with better contrast
-      ctx.font = 'bold 18px Arial';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 3;
+      ctx.font = 'bold 18px monospace'; // Pixelated font
+      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.lineWidth = 4;
       ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.font = 'bold 16px Arial';
+      ctx.font = 'bold 16px monospace'; // Pixelated font
       ctx.strokeText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       ctx.fillText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
@@ -402,14 +418,14 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
 
     if (gameState.isPaused) {
       // Draw pause overlay
-      ctx.fillStyle = 'rgba(135, 206, 235, 0.7)';
+      ctx.fillStyle = 'rgba(0, 0, 139, 0.8)'; // Darker blue for retro feel
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Pause text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#2B69E5';
-      ctx.lineWidth = 4;
-      ctx.font = 'bold 28px Arial';
+      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.lineWidth = 5; // Thicker outline
+      ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
       ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
@@ -428,13 +444,18 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     // Draw UI with enhanced visibility
     ctx.textAlign = 'left';
     
-    // Score with enhanced contrast
-    ctx.font = 'bold 22px Arial';
-    ctx.strokeStyle = '#2B69E5';
-    ctx.lineWidth = 4;
-    ctx.fillStyle = '#FFFFFF';
+    // Score with retro pixelated style
+    ctx.font = 'bold 22px monospace'; // Pixelated font
+    ctx.strokeStyle = '#000000'; // Black outline
+    ctx.lineWidth = 3; // Thicker outline
+    ctx.fillStyle = '#FFFFFF'; // White text
     ctx.strokeText(`Score: ${gameState.score}`, 20, 35);
     ctx.fillText(`Score: ${gameState.score}`, 20, 35);
+    
+    // Draw pixelated border for retro feel
+    ctx.strokeStyle = '#000000'; // Black
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   }, [gameState]);
 
@@ -496,8 +517,11 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
           ref={canvasRef}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="border-4 border-blue-200 rounded-xl shadow-lg cursor-pointer bg-gradient-to-b from-blue-100 to-blue-200"
-          style={{ imageRendering: 'pixelated' }}
+          className="border-4 border-blue-300 rounded-xl shadow-lg cursor-pointer bg-black"
+          style={{ 
+            imageRendering: 'pixelated',
+            boxShadow: '0 0 10px #3b82f6, inset 0 0 5px #3b82f6'
+          }}
         />
         
         {/* Game controls overlay - pause button */}
