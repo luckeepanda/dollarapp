@@ -307,16 +307,6 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     ctx.shadowBlur = 0;
   };
 
-  const drawEnemyBullet = (ctx: CanvasRenderingContext2D, bullet: any) => {
-    ctx.fillStyle = '#ff6600';
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    
-    ctx.shadowColor = '#ff6600';
-    ctx.shadowBlur = 5;
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    ctx.shadowBlur = 0;
-  };
-
   const drawEnemy = (ctx: CanvasRenderingContext2D, enemy: any) => {
     const foodEmoji = FOOD_TYPES[enemy.type];
     ctx.font = '20px Arial';

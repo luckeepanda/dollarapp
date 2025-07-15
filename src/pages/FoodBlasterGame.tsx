@@ -165,9 +165,7 @@ const FoodBlasterGame: React.FC = () => {
                   >
                     <Trophy className="h-5 w-5" />
                     <span>View Leaderboard</span>
-                    >
-                      Back to Games
-                    </button>
+                  </button>
                   </div>
                 </div>
               </div>
