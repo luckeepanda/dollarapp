@@ -98,10 +98,131 @@ const Landing: React.FC = () => {
       <div className="relative overflow-hidden bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
         <div className="absolute inset-0 bg-royal-blue-900/10"></div>
         
-        {/* Top Navigation - Always Visible */}
-        <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-10">
-          {/* Left side - For Restaurant Button and Language Toggle */}
-          <div className="flex flex-col space-y-3">
+        {/* Header - Responsive Navigation */}
+        <header className="relative z-10 w-full">
+          <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
+            {/* Left side - Play Demo Button and Language Toggle */}
+            <div className="flex flex-col space-y-3">
+              {/* Play Demo Button */}
+              <Link
+                to="/restaurant/login"
+                className="group relative inline-flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm text-white px-3 py-2 sm:px-4 sm:py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
+              >
+                {/* Falcon Logo */}
+                <div className="w-6 h-6 sm:w-8 sm:h-8 mb-1">
+                  <img 
+                    src="/falcon-logo.png" 
+                    alt="Falcon Logo" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                {/* Plate emoji and text */}
+                <div className="flex items-center space-x-1">
+                  <span className="text-xs sm:text-sm">🍽️</span>
+                  <span className="text-xs sm:text-sm font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
+                    Play Demo
+                  </span>
+                </div>
+              </Link>
+              
+              {/* Language Toggle */}
+              <div className="flex bg-royal-blue-100/30 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg overflow-hidden">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-300 text-center ${
+                    language === 'en'
+                      ? 'bg-white/20 text-white'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {t('language.english')}
+                </button>
+                <button
+                  onClick={() => setLanguage('es')}
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-300 text-center ${
+                    language === 'es'
+                      ? 'bg-white/20 text-white'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {t('language.spanish')}
+                </button>
+              </div>
+            </div>
+            
+            {/* Bolt.new Logo - Top Right */}
+            <a 
+              href="http://bolt.new/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block hover:scale-105 transition-transform duration-200"
+            >
+              <img 
+                src="/white_circle_360x360.png" 
+                alt="Powered by Bolt.new" 
+                className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 opacity-90 hover:opacity-100 transition-opacity duration-200"
+              />
+            </a>
+          </div>
+        </header>
+        
+        {/* Hero Content - Now properly spaced below header */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24 sm:pt-12 sm:pb-32">
+          <div className="text-center">
+            {/* Animated $1 Logo */}
+            <div className="flex justify-center mb-8">
+              <div className="relative group">
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
+                
+                {/* Main logo container */}
+                <div className="relative bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-full shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-500">
+                  {/* Inner gradient background */}
+                  <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full opacity-20 animate-pulse"></div>
+                  
+                  {/* $1 Text */}
+                  <div className="relative z-10 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
+                    <span className="text-4xl sm:text-6xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg animate-bounce">
+                      $1
+                    </span>
+                  </div>
+                  
+                  {/* Floating particles */}
+                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-400 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-1 h-1 sm:w-1.5 sm:h-1.5 bg-orange-400 rounded-full animate-ping delay-300"></div>
+                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 w-0.5 h-0.5 sm:w-1 sm:h-1 bg-red-400 rounded-full animate-ping delay-700"></div>
+                </div>
+              </div>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+              {t('landing.title')}
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
+              <strong>{t('landing.subtitle')}</strong>
+            </p>
+            
+            {/* Clean Button Layout */}
+            <div className="flex flex-col items-center space-y-6 px-4">
+              {/* Get Started Button */}
+              <div className="w-full max-w-lg">
+                <button
+                  onClick={handleGetStartedClick}
+                  className="group relative w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-green-400/30 hover:border-green-300/50 overflow-hidden"
+                >
+                  {/* Ripple effect on click */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 opacity-0 group-active:opacity-100 transition-opacity duration-200"></div>
+                  
+                  {/* Shimmer effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  <span className="relative z-10">{t('landing.getStarted')}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
             {/* For Restaurant Button */}
             <Link
               to="/restaurant/login"
