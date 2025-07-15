@@ -184,10 +184,10 @@ const Landing: React.FC = () => {
                   <div className="relative z-10 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                     <div className="relative">
                       {/* Taco Shell */}
-                      <div className="text-5xl sm:text-7xl animate-bounce">🌮</div>
+                      <div className="text-4xl sm:text-6xl animate-bounce">🌮</div>
                       {/* $1 Text overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-lg sm:text-2xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
+                        <span className="text-4xl sm:text-6xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-2xl stroke-2 stroke-white">
                           $1
                         </span>
                       </div>
