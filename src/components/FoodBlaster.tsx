@@ -42,7 +42,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   const BULLET_SPEED = 8;
   const ENEMY_BULLET_SPEED = 3;
   const PLAYER_SPEED = 5;
-  const SHOT_COOLDOWN = 150; // milliseconds
+  const SHOT_COOLDOWN = 200; // milliseconds
 
   // Food emojis for enemies
   const FOOD_TYPES = ['🍕', '🍔', '🌮', '🍟', '🍗', '🥪', '🌭', '🍝', '🍜', '🍱'];
@@ -59,8 +59,9 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       bullets: [],
       enemies: [],
       enemyBullets: [],
+      enemyBullets: [],
       score: 0,
-      lives: 3,
+      lives: 5,
       gameStarted: false,
       gameOver: false,
       isPaused: false,
@@ -198,14 +199,14 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   const handleTouchStart = useCallback((e: TouchEvent) => {
     e.preventDefault();
     const touch = e.touches[0];
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    
-    touchStartRef.current = { x, y };
-    touchMoveRef.current = { x, y };
+    if (canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      
+      touchStartRef.current = { x, y };
+      touchMoveRef.current = { x, y };
+    }
     
     // Start game if not started
     if (!gameState.gameStarted && !gameState.gameOver) {
@@ -232,14 +233,16 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   const handleTouchMove = useCallback((e: TouchEvent) => {
     e.preventDefault();
     if (!touchStartRef.current || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) return;
-    
+
     const touch = e.touches[0];
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    
-    const x = touch.clientX - rect.left;
-    touchMoveRef.current = { x, y: touchStartRef.current.y };
-    
+    if (canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      
+      touchMoveRef.current = { x, y };
+    }
+
     // Move player based on touch position
     setGameState(prev => {
       const newX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, x - PLAYER_WIDTH / 2));
@@ -248,13 +251,23 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
         playerX: newX
       };
     });
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused]);
+  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, CANVAS_WIDTH, PLAYER_WIDTH]);
   
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     e.preventDefault();
     touchStartRef.current = null;
     touchMoveRef.current = null;
   }, []);
+
+  // Check if enemy should fire
+  const shouldEnemyFire = useCallback((enemy: any) => {
+    // Random chance based on game progress and enemy position
+    const baseChance = 0.005; // 0.5% chance per frame
+    const positionFactor = 1 + (CANVAS_HEIGHT - enemy.y) / CANVAS_HEIGHT; // More likely to fire when closer to player
+    
+    // Random check with adjusted probability
+    return Math.random() < baseChance * positionFactor;
+  }, [CANVAS_HEIGHT]);
 
   // Drawing functions
   const drawPlayer = (ctx: CanvasRenderingContext2D, x: number) => {
@@ -279,6 +292,16 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     
     // Add glow effect
     ctx.shadowColor = '#ffff00';
+    ctx.shadowBlur = 5;
+    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
+    ctx.shadowBlur = 0;
+  };
+
+  const drawEnemyBullet = (ctx: CanvasRenderingContext2D, bullet: any) => {
+    ctx.fillStyle = '#ff6600';
+    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
+    
+    ctx.shadowColor = '#ff6600';
     ctx.shadowBlur = 5;
     ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
     ctx.shadowBlur = 0;
@@ -325,17 +348,6 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
            rect1.y < rect2.y + h2 &&
            rect1.y + h1 > rect2.y;
   };
-  
-  // Check if enemy should fire
-  const shouldEnemyFire = (enemy: any) => {
-    // Random chance based on game progress and enemy position
-    const baseChance = 0.005; // 0.5% chance per frame
-    const positionFactor = 1 + (CANVAS_HEIGHT - enemy.y) / CANVAS_HEIGHT; // More likely to fire when closer to player
-    
-    // Random check with adjusted probability
-    return Math.random() < baseChance * positionFactor;
-           rect1.y + h1 > rect2.y;
-  };
 
   // Main game loop
   const gameLoop = useCallback((currentTime: number) => {
@@ -359,6 +371,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       let newBullets = [...prev.bullets];
       let newEnemyBullets = [...prev.enemyBullets];
       let newEnemies = [...prev.enemies];
+      let newEnemyBullets = prev.enemyBullets || [];
       let newScore = prev.score;
       let newLives = prev.lives;
       let newWave = prev.wave;
@@ -372,7 +385,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       })).filter(bullet => bullet.y > -BULLET_HEIGHT);
 
       // Move enemy bullets
-      newEnemyBullets = newEnemyBullets.map(bullet => ({
+      newEnemyBullets = (newEnemyBullets || []).map(bullet => ({
         ...bullet,
         y: bullet.y + ENEMY_BULLET_SPEED
       })).filter(bullet => bullet.y < CANVAS_HEIGHT + BULLET_HEIGHT);
@@ -402,11 +415,11 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
         // Enemies randomly fire bullets
         newEnemies.forEach(enemy => {
           if (shouldEnemyFire(enemy)) {
-            newEnemyBullets.push({
+            newEnemyBullets = [...newEnemyBullets, {
               x: enemy.x + ENEMY_WIDTH / 2,
               y: enemy.y + ENEMY_HEIGHT,
               id: Date.now() + Math.random()
-            });
+            }];
           }
         });
       }
@@ -429,7 +442,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       newEnemies = newEnemies.filter(enemy => !enemiesToRemove.has(enemy.id));
 
       // Check enemy bullet-player collisions
-      const playerHit = newEnemyBullets.some(bullet => 
+      const playerHit = (newEnemyBullets || []).some(bullet => 
         checkCollision(
           { x: newPlayerX, y: CANVAS_HEIGHT - 40 },
           bullet,
@@ -439,7 +452,10 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
           BULLET_HEIGHT
         )
       );
-      newEnemyBullets = newEnemyBullets.filter(bullet => !playerHit);
+      
+      if (playerHit) {
+        newEnemyBullets = newEnemyBullets.filter(bullet => !playerHit);
+      }
 
       // Check if wave is complete
       if (newEnemies.length === 0) {
@@ -469,7 +485,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       if (playerHit) {
         newLives--;
         if (newLives <= 0) {
-          console.log('FoodBlaster: Game over - calling onGameEnd with score:', newScore);
+          console.log('FoodBlaster: Game over from bullet hit - calling onGameEnd with score:', newScore);
           onGameEnd(newScore);
           return {
             ...prev,
@@ -482,6 +498,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
         ...prev,
         playerX: newPlayerX,
         bullets: newBullets,
+        enemyBullets: newEnemyBullets,
         enemyBullets: newEnemyBullets,
         enemies: newEnemies,
         score: newScore,
@@ -577,6 +594,11 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       drawEnemyBullet(ctx, bullet);
     });
 
+    // Draw enemy bullets
+    gameState.enemyBullets?.forEach(bullet => {
+      drawEnemyBullet(ctx, bullet);
+    });
+
     // Draw enemies
     gameState.enemies.forEach(enemy => {
       drawEnemy(ctx, enemy);
@@ -592,8 +614,8 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     ctx.strokeText(`Score: ${gameState.score}`, 10, 25);
     ctx.fillText(`Score: ${gameState.score}`, 10, 25);
     
-    ctx.strokeText(`Lives: ${gameState.lives}`, 10, 45);
-    ctx.fillText(`Lives: ${gameState.lives}`, 10, 45);
+    // Draw lives with heart emojis
+    ctx.fillText(`Lives: ${"❤️".repeat(gameState.lives)}`, 10, 45);
     
     ctx.strokeText(`Wave: ${gameState.wave}`, 10, 65);
     ctx.fillText(`Wave: ${gameState.wave}`, 10, 65);
