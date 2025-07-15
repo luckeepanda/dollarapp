@@ -268,7 +268,7 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-steel-blue py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+              className="w-full bg-gradient-to-r from-royal-blue-500 to-whi-500 text-steel-blue py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
             >
               {isLoading ? (
                 <>
