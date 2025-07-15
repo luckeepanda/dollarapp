@@ -203,7 +203,7 @@ const Landing: React.FC = () => {
                       <div className="text-4xl sm:text-6xl animate-float">🌮</div>
                       {/* Enhanced $1 Text overlay with Web3 styling */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-4xl sm:text-10xl font-black font-display web3-text-gradient drop-shadow-2xl animate-pulse">
+                        <span className="text-4xl sm:text-9xl font-black font-display web3-text-gradient drop-shadow-2xl animate-pulse">
                           $1
                         </span>
                         {/* Glowing outline effect */}
