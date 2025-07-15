@@ -126,10 +126,10 @@ const Register: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-royal-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Create Account
           </h2>
-          <p className="text-steel-blue-200">Join the Dollar App community</p>
+          <p className="text-steel-blue">Join the Dollar App community</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -282,7 +282,7 @@ const Register: React.FC = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-white-200">
+            <p className="text-steel-blue">
               Already have an account?{' '}
               <Link to="/login" className="text-royal-blue-500 font-semibold hover:text-royal-blue-600 transition-colors">
                 Sign in
@@ -291,7 +291,7 @@ const Register: React.FC = () => {
           </div>
 
           <div className="mt-4 text-center">
-            <Link to="/" className="text-white-300 hover:text-white-200 text-sm transition-colors">
+            <Link to="/" className="text-steel-blue-300 hover:text-steel-blue-200 text-sm transition-colors">
               ← Back to main site
             </Link>
           </div>

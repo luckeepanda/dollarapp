@@ -98,7 +98,7 @@ const RestaurantRegister: React.FC = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
             Join as Restaurant
           </h2>
-          <p className="text-steel-blue-200">Create games and accept QR redemptions</p><br/>
+          <p className="text-steel-blue">Create games and accept QR redemptions</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
             <button className="w-full bg-gradient-to-r from-orange-600 to-red-500 text-white py-3 rounded-2xl font-bold hover:from-red-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-red-400/30">
             <MonitorPlay />&nbsp; View Demo
@@ -225,7 +225,7 @@ const RestaurantRegister: React.FC = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-white-200">
+            <p className="text-steel-blue">
               Already have a restaurant account?{' '}
               <Link to="/restaurant/login" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
                 Sign in
@@ -234,7 +234,7 @@ const RestaurantRegister: React.FC = () => {
           </div>
 
           <div className="mt-4 text-center">
-            <Link to="/" className="text-white-300 hover:text-white-200 text-sm transition-colors">
+            <Link to="/" className="text-steel-blue-300 hover:text-steel-blue-200 text-sm transition-colors">
               ← Back to main site
             </Link>
           </div>
