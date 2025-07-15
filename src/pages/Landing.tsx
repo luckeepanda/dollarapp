@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Users, Trophy, QrCode, CreditCard, Play, RotateCcw } from 'lucide-react';
+import { Users, Trophy, QrCode, CreditCard, Play, RotateCcw, Zap, Sparkles } from 'lucide-react';
 import TacoGame from '../components/TacoGame';
 
 const Landing: React.FC = () => {
@@ -55,15 +55,15 @@ const Landing: React.FC = () => {
   // Show loading spinner while checking authentication status
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
+      <div className="min-h-screen flex items-center justify-center bg-dark-950 cyber-grid">
         {/* Top Navigation */}
         <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
           {/* For Restaurant Button - Top Left */}
           <Link
             to="/restaurant/login"
-            className="group relative inline-flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
+            className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
           >
-            <div className="w-6 h-6 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+            <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
               <span className="text-white text-sm font-bold">🍽️</span>
             </div>
             <span>For Restaurants</span>
@@ -85,18 +85,25 @@ const Landing: React.FC = () => {
         </div>
 
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-400 mx-auto mb-4 web3-glow"></div>
+          <p className="text-cyber-300 text-lg font-display">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-dark-950">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-royal-blue-500 via-steel-blue-500 to-royal-blue-600">
-        <div className="absolute inset-0 bg-royal-blue-900/10"></div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-dark-950 via-dark-900 to-dark-950 cyber-grid">
+        <div className="absolute inset-0 bg-web3-mesh"></div>
+        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyber-400/20 to-electric-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-electric-400/20 to-neon-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyber-500/10 to-electric-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
         
         {/* Header - Responsive Navigation */}
         <header className="relative z-10 w-full">
@@ -106,35 +113,39 @@ const Landing: React.FC = () => {
               {/* Play Demo Button */}
               <Link
                 to="/restaurant/login"
-                className="group relative inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white px-4 py-3 sm:px-6 sm:py-4 rounded-xl font-bold hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
+                className="group relative inline-flex items-center justify-center web3-card text-white px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-cyber-200 transition-all duration-300 transform hover:scale-105 web3-glow"
               >
-                {/* Play Demo text as centerpiece */}
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg sm:text-xl">🍽️</span>
-                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent animate-pulse">
+                {/* Enhanced Play Demo button */}
+                <div className="flex items-center space-x-3">
+                  <div className="relative">
+                    <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-electric-400 animate-pulse" />
+                    <div className="absolute inset-0 bg-electric-400 rounded-full blur-sm opacity-50 animate-ping"></div>
+                  </div>
+                  <span className="text-lg sm:text-xl font-bold web3-text-gradient animate-pulse">
                     Play Demo
                   </span>
+                  <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-neon-400 animate-pulse delay-300" />
                 </div>
               </Link>
               
               {/* Language Toggle */}
-              <div className="flex bg-royal-blue-100/30 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg overflow-hidden">
+              <div className="flex web3-card overflow-hidden">
                 <button
                   onClick={() => setLanguage('en')}
-                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-300 text-center ${
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
                     language === 'en'
-                      ? 'bg-white/20 text-white'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-cyber-600/30 text-cyber-300 shadow-glow-sm'
+                      : 'text-cyber-400 hover:text-cyber-300 hover:bg-cyber-600/20'
                   }`}
                 >
                   {t('language.english')}
                 </button>
                 <button
                   onClick={() => setLanguage('es')}
-                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-300 text-center ${
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
                     language === 'es'
-                      ? 'bg-white/20 text-white'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-cyber-600/30 text-cyber-300 shadow-glow-sm'
+                      : 'text-cyber-400 hover:text-cyber-300 hover:bg-cyber-600/20'
                   }`}
                 >
                   {t('language.spanish')}
@@ -161,43 +172,72 @@ const Landing: React.FC = () => {
         {/* Hero Content - Now properly spaced below header */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24 sm:pt-12 sm:pb-32">
           <div className="text-center">
-            {/* Animated $1 Logo */}
+            {/* Enhanced Web3 $1 Logo */}
             <div className="flex justify-center mb-8">
               <div className="relative group">
-                {/* Outer glow ring */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
+                {/* Multiple glow layers for Web3 effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-cyber-400 via-electric-500 to-neon-400 rounded-full blur-2xl opacity-60 group-hover:opacity-100 animate-pulse"></div>
+                <div className="absolute inset-2 bg-gradient-to-r from-electric-400 via-neon-500 to-cyber-400 rounded-full blur-xl opacity-40 group-hover:opacity-80 animate-pulse delay-300"></div>
                 
-                {/* Main taco logo container */}
-                <div className="relative bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-3xl shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-500 rotate-12 group-hover:rotate-6">
-                  {/* Inner gradient background */}
-                  <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-2xl opacity-20 animate-pulse"></div>
+                {/* Main logo container with Web3 styling */}
+                <div className="relative bg-gradient-to-br from-dark-800/80 to-dark-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-cyber-500/30 transform group-hover:scale-105 transition-all duration-500 rotate-12 group-hover:rotate-6 web3-glow">
+                  {/* Animated inner background */}
+                  <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-cyber-400/20 via-electric-500/20 to-neon-400/20 rounded-2xl animate-pulse"></div>
                   
-                  {/* Taco with $1 Text */}
+                  {/* Hexagonal pattern overlay */}
+                  <div className="absolute inset-0 opacity-10">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="hexagons" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                          <polygon points="10,1 18,6 18,14 10,19 2,14 2,6" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill="url(#hexagons)" className="text-cyber-400"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Enhanced Taco with $1 Text */}
                   <div className="relative z-10 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                     <div className="relative">
-                      {/* Taco Shell */}
-                      <div className="text-4xl sm:text-6xl animate-bounce">🌮</div>
-                      {/* $1 Text overlay */}
+                      {/* Animated Taco Shell */}
+                      <div className="text-4xl sm:text-6xl animate-float">🌮</div>
+                      {/* Enhanced $1 Text overlay with Web3 styling */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-4xl sm:text-6xl font-black text-white drop-shadow-2xl">
+                        <span className="text-4xl sm:text-6xl font-black font-display web3-text-gradient drop-shadow-2xl animate-pulse">
+                          $1
+                        </span>
+                        {/* Glowing outline effect */}
+                        <span className="absolute text-4xl sm:text-6xl font-black font-display text-cyber-400 opacity-50 blur-sm animate-pulse delay-150">
                           $1
                         </span>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Floating food particles */}
-                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-xs sm:text-sm animate-ping">🌶️</div>
-                  <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs animate-ping delay-300">🧀</div>
-                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 text-xs animate-ping delay-700">🥬</div>
+                  {/* Enhanced floating particles with Web3 effects */}
+                  <div className="absolute top-1 right-1 sm:top-2 sm:right-2 text-xs sm:text-sm animate-ping">
+                    <span className="drop-shadow-lg">🌶️</span>
+                  </div>
+                  <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs animate-ping delay-300">
+                    <span className="drop-shadow-lg">🧀</span>
+                  </div>
+                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 text-xs animate-ping delay-700">
+                    <span className="drop-shadow-lg">🥬</span>
+                  </div>
+                  
+                  {/* Web3 corner accents */}
+                  <div className="absolute top-2 left-2 w-3 h-3 border-l-2 border-t-2 border-cyber-400 opacity-60"></div>
+                  <div className="absolute top-2 right-2 w-3 h-3 border-r-2 border-t-2 border-electric-400 opacity-60"></div>
+                  <div className="absolute bottom-2 left-2 w-3 h-3 border-l-2 border-b-2 border-neon-400 opacity-60"></div>
+                  <div className="absolute bottom-2 right-2 w-3 h-3 border-r-2 border-b-2 border-cyber-400 opacity-60"></div>
                 </div>
               </div>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-display web3-text-gradient mb-6 drop-shadow-lg animate-pulse">
               {t('landing.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-cyber-200 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
               <strong>{t('landing.subtitle')}</strong>
             </p>
             
@@ -207,14 +247,8 @@ const Landing: React.FC = () => {
               <div className="w-full max-w-lg">
                 <button
                   onClick={handleGetStartedClick}
-                  className="group relative w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-green-400/30 hover:border-green-300/50 overflow-hidden"
+                  className="group relative w-full web3-button text-lg px-6 sm:px-8 py-3 sm:py-4 font-display shadow-xl hover:shadow-2xl overflow-hidden"
                 >
-                  {/* Ripple effect on click */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 opacity-0 group-active:opacity-100 transition-opacity duration-200"></div>
-                  
-                  {/* Shimmer effect on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
                   <span className="relative z-10">{t('landing.getStarted')}</span>
                 </button>
               </div>
@@ -224,23 +258,26 @@ const Landing: React.FC = () => {
       </div>
 
       {/* Free Play Games Section */}
-      <div className="py-16 bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
+      <div className="py-16 bg-gradient-to-br from-dark-900 to-dark-950 relative">
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 cyber-grid opacity-30"></div>
+        
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Title */}
           <div className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent mb-4 drop-shadow-lg">
+            <h2 className="text-5xl md:text-6xl font-bold font-display web3-text-gradient mb-4 drop-shadow-lg animate-pulse">
               Try Our Games
             </h2>
             <div className="flex justify-center mb-4">
-              <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full"></div>
+              <div className="w-24 h-1 bg-gradient-to-r from-cyber-400 via-electric-500 to-neon-400 rounded-full web3-glow"></div>
             </div>
-            <p className="text-xl text-steel-blue-200 max-w-2xl mx-auto">
+            <p className="text-xl text-cyber-300 max-w-2xl mx-auto font-medium">
               Experience our exciting collection of food-themed games. Play instantly and compete for high scores!
             </p>
           </div>
 
           {/* Game Container */}
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 mb-8 relative">
+          <div className="web3-card p-8 mb-8 relative">
             <TacoGame 
               key={gameKey}
               onGameEnd={handleGameEnd} 
@@ -250,26 +287,26 @@ const Landing: React.FC = () => {
             
             {/* Floating Play Again Button */}
             {finalScore !== null && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-royal-blue-300 pointer-events-auto">
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                <div className="web3-card bg-dark-900/95 p-6 shadow-2xl border-2 border-cyber-400/50 pointer-events-auto web3-glow">
                   <div className="text-center">
-                    <h3 className="text-2xl font-bold text-royal-blue-700 mb-2">
+                    <h3 className="text-2xl font-bold font-display web3-text-gradient mb-2">
                       🎉 Great Job! 🎉
                     </h3>
-                    <p className="text-lg text-royal-blue-600 mb-4">
-                      You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                    <p className="text-lg text-cyber-300 mb-4">
+                      You scored <span className="font-bold text-2xl web3-text-gradient">{finalScore}</span> points!
                     </p>
                     <div className="flex space-x-3 mb-4">
                       <button
                         onClick={restartGame}
-                        className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                        className="web3-button px-6 py-3 font-semibold flex items-center space-x-2"
                       >
                         <RotateCcw className="h-4 w-4" />
                         <span>Play Again</span>
                       </button>
                       <button
                         onClick={handlePlayFreeClick}
-                        className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg"
+                        className="bg-gradient-to-r from-neon-600 to-matrix-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-neon-700 hover:to-matrix-700 transition-all transform hover:scale-105 shadow-lg web3-glow"
                       >
                         Other Games
                       </button>
@@ -282,17 +319,17 @@ const Landing: React.FC = () => {
 
           {/* Game Options Section */}
           <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-steel-blue mb-8">Choose Your Game</h2>
+            <h2 className="text-3xl font-bold font-display web3-text-gradient mb-8">Choose Your Game</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Taco Flyer - Currently Playing */}
-              <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
+              <div className="bg-gradient-to-r from-neon-500 to-electric-600 rounded-2xl p-6 text-white relative overflow-hidden web3-glow">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🌮</div>
-                  <h3 className="text-xl font-bold mb-2">Taco Flyer</h3>
-                  <p className="text-orange-100 text-sm mb-4">Guide the taco through obstacles!</p>
-                  <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
+                  <h3 className="text-xl font-bold font-display mb-2">Taco Flyer</h3>
+                  <p className="text-neon-100 text-sm mb-4">Guide the taco through obstacles!</p>
+                  <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     Currently Playing
                   </div>
                 </div>
@@ -301,14 +338,14 @@ const Landing: React.FC = () => {
               {/* Hamburger Runner */}
               <Link
                 to="/hamburger-runner"
-                className="bg-gradient-to-r from-green-500 to-yellow-500 rounded-2xl p-6 text-white hover:from-green-600 hover:to-yellow-600 transition-all transform hover:scale-105 relative overflow-hidden group"
+                className="bg-gradient-to-r from-matrix-500 to-neon-500 rounded-2xl p-6 text-white hover:from-matrix-600 hover:to-neon-600 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍔</div>
-                  <h3 className="text-xl font-bold mb-2">Hamburger Runner</h3>
-                  <p className="text-green-100 text-sm mb-4">Run and jump through obstacles!</p>
-                  <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
+                  <h3 className="text-xl font-bold font-display mb-2">Hamburger Runner</h3>
+                  <p className="text-matrix-100 text-sm mb-4">Run and jump through obstacles!</p>
+                  <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
                     <span>Play Now</span>
                   </div>
@@ -318,14 +355,14 @@ const Landing: React.FC = () => {
               {/* Food Blaster Game */}
               <Link
                 to="/food-blaster"
-                className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-indigo-700 transition-all transform hover:scale-105 relative overflow-hidden group"
+                className="bg-gradient-to-r from-electric-500 to-cyber-600 rounded-2xl p-6 text-white hover:from-electric-600 hover:to-cyber-700 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🚀</div>
-                  <h3 className="text-xl font-bold mb-2">Food Blaster</h3>
-                  <p className="text-purple-100 text-sm mb-4">Shoot the food invaders!</p>
-                  <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
+                  <h3 className="text-xl font-bold font-display mb-2">Food Blaster</h3>
+                  <p className="text-electric-100 text-sm mb-4">Shoot the food invaders!</p>
+                  <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
                     <span>Play Now</span>
                   </div>
@@ -333,12 +370,12 @@ const Landing: React.FC = () => {
               </Link>
               
               {/* Pizza Hunter - Coming Soon */}
-              <div className="bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75">
+              <div className="bg-gradient-to-r from-electric-500 to-matrix-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75 web3-glow">
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍕</div>
-                  <h3 className="text-xl font-bold mb-2">Pizza Hunter</h3>
-                  <p className="text-red-100 text-sm mb-4">Hunt for the perfect slice!</p>
-                  <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
+                  <h3 className="text-xl font-bold font-display mb-2">Pizza Hunter</h3>
+                  <p className="text-electric-100 text-sm mb-4">Hunt for the perfect slice!</p>
+                  <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     Coming Soon
                   </div>
                 </div>
@@ -349,42 +386,44 @@ const Landing: React.FC = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-24 bg-white">
+      <div className="py-24 bg-dark-900 relative">
+        <div className="absolute inset-0 cyber-grid opacity-20"></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white-100 mb-4">{t('landing.howItWorks')}</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-4xl font-bold font-display web3-text-gradient mb-4">{t('landing.howItWorks')}</h2>
+            <p className="text-xl text-cyber-300 max-w-2xl mx-auto">
               {t('landing.howItWorksSubtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <CreditCard className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-cyber-500 to-electric-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform web3-glow">
+                <CreditCard className="h-8 w-8 text-white mx-auto animate-pulse" />
               </div>
-              <h3 className="text-xl font-bold mb-4">1. Deposit & Play</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-cyber-200 mb-4">1. Deposit & Play</h3>
+              <p className="text-cyber-400">
                 {t('landing.step1.description')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <Trophy className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-electric-500 to-neon-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform web3-glow">
+                <Trophy className="h-8 w-8 text-white mx-auto animate-pulse delay-150" />
               </div>
-              <h3 className="text-xl font-bold mb-4">2. Win Prizes</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-cyber-200 mb-4">2. Win Prizes</h3>
+              <p className="text-cyber-400">
                 {t('landing.step2.description')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-royal-blue-500 to-steel-blue-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <QrCode className="h-8 w-8 text-white mx-auto" />
+              <div className="bg-gradient-to-br from-neon-500 to-matrix-500 p-6 rounded-2xl w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform web3-glow">
+                <QrCode className="h-8 w-8 text-white mx-auto animate-pulse delay-300" />
               </div>
-              <h3 className="text-xl font-bold mb-4">3. Redeem & Enjoy</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-cyber-200 mb-4">3. Redeem & Enjoy</h3>
+              <p className="text-cyber-400">
                 {t('landing.step3.description')}
               </p>
             </div>
@@ -392,7 +431,7 @@ const Landing: React.FC = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* CTA Section - Commented out as in original */}
       {/* <div className="py-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
