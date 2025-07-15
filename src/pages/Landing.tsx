@@ -166,13 +166,28 @@ const Landing: React.FC = () => {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <div className="relative">
-                {/* Dollar Logo */}
-                <div className="bg-white/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
-                  <div className="w-48 h-48 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
-                    <span className="text-8xl font-bold text-white">$</span>
+            {/* Animated $1 Logo */}
+            <div className="flex justify-center mb-8">
+              <div className="relative group">
+                {/* Outer glow ring */}
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
+                
+                {/* Main logo container */}
+                <div className="relative bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg p-8 rounded-full shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-500">
+                  {/* Inner gradient background */}
+                  <div className="absolute inset-4 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-full opacity-20 animate-pulse"></div>
+                  
+                  {/* $1 Text */}
+                  <div className="relative z-10 w-32 h-32 flex items-center justify-center">
+                    <span className="text-6xl font-black bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg animate-bounce">
+                      $1
+                    </span>
                   </div>
+                  
+                  {/* Floating particles */}
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-400 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-4 left-4 w-1.5 h-1.5 bg-orange-400 rounded-full animate-ping delay-300"></div>
+                  <div className="absolute top-6 left-2 w-1 h-1 bg-red-400 rounded-full animate-ping delay-700"></div>
                 </div>
               </div>
             </div>
@@ -180,7 +195,7 @@ const Landing: React.FC = () => {
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg ">
               {t('landing.title')}
             </h1>
-            <p className="text-xl md:text-2xl text-royal-blue-100 mb-8 max-w-3xl mx-auto drop-shadow-sm">
+            <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
               <strong>{t('landing.subtitle')}</strong>
             </p>
             
