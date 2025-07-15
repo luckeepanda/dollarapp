@@ -243,7 +243,8 @@ const FreePlay: React.FC = () => {
             
             {/* Noodle Tetris Game */}
             <Link
-              to="/food-blaster"
+              // to="/food-blaster"
+              to="#"
               className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white hover:from-purple-600 hover:to-indigo-700 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
@@ -253,7 +254,7 @@ const FreePlay: React.FC = () => {
                 <p className="text-purple-100 text-sm mb-4">Shoot the food invaders!</p>
                 <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
                   <Play className="h-4 w-4" />
-                  <span>Play Now</span>
+                  <span>Coming Soon</span>
                 </div>
               </div>
             </Link>
