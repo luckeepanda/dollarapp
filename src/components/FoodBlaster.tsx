@@ -345,6 +345,9 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       return;
     }
 
+    // Capture touch reference at the beginning to avoid null access later
+    const currentTouchMove = touchMoveRef.current;
+
     const deltaTime = currentTime - lastTimeRef.current;
     if (deltaTime < 16) { // Cap at ~60 FPS
       gameLoopRef.current = requestAnimationFrame(gameLoop);
@@ -354,8 +357,8 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     setGameState(prev => {
       // Use touch position for player movement if available
-      let newPlayerX = touchMoveRef.current 
-        ? Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, touchMoveRef.current.x - PLAYER_WIDTH / 2))
+      let newPlayerX = currentTouchMove 
+        ? Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, currentTouchMove.x - PLAYER_WIDTH / 2))
         : prev.playerX;
         
       let newBullets = [...prev.bullets];
