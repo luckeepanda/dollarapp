@@ -200,6 +200,19 @@ const Landing: React.FC = () => {
       {/* Free Play Games Section */}
       <div className="py-16 bg-gradient-to-br from-royal-blue-900 to-steel-blue-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Title */}
+          <div className="text-center mb-12">
+            <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent mb-4 drop-shadow-lg">
+              Try Our Games
+            </h2>
+            <div className="flex justify-center mb-4">
+              <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full"></div>
+            </div>
+            <p className="text-xl text-steel-blue-200 max-w-2xl mx-auto">
+              Experience our exciting collection of food-themed games. Play instantly and compete for high scores!
+            </p>
+          </div>
+
           {/* Game Container */}
           <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 mb-8 relative">
             <TacoGame 
