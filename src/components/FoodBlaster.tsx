@@ -245,7 +245,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     // Move player based on touch position
     setGameState(prev => {
-      const newX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, x - PLAYER_WIDTH / 2));
+      const newX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, touchMoveRef.current.x - PLAYER_WIDTH / 2));
       return {
         ...prev,
         playerX: newX
