@@ -354,8 +354,9 @@ const Landing: React.FC = () => {
               
               {/* Food Blaster Game */}
               
-              {/* <Link
-                to="/food-blaster"
+              <Link
+                // to="/food-blaster"
+                to="#"
                 className="bg-gradient-to-r from-electric-500 to-cyber-600 rounded-2xl p-6 text-white hover:from-electric-600 hover:to-cyber-700 transition-all transform hover:scale-105 relative overflow-hidden group web3-glow"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
@@ -368,7 +369,7 @@ const Landing: React.FC = () => {
                     <span>Play Now</span>
                   </div>
                 </div>
-              </Link> */}
+              </Link>
               
               {/* Pizza Hunter - Coming Soon */}
               <div className="bg-gradient-to-r from-electric-500 to-matrix-500 rounded-2xl p-6 text-white relative overflow-hidden opacity-75 web3-glow w-full">
