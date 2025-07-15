@@ -391,11 +391,11 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       let newBullets = [...prev.bullets];
       let newEnemyBullets = [...prev.enemyBullets];
       let newEnemies = [...prev.enemies];
-      const newScore = prev.score;
-      const newLives = prev.lives;
-      const newWave = prev.wave;
-      const newEnemyDirection = prev.enemyDirection;
-      const newEnemySpeed = prev.enemySpeed;
+      let newScore = prev.score;
+      let newLives = prev.lives;
+      let newWave = prev.wave;
+      let newEnemyDirection = prev.enemyDirection;
+      let newEnemySpeed = prev.enemySpeed;
 
       // Move bullets
       newBullets = newBullets.map(bullet => ({
