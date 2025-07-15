@@ -24,6 +24,8 @@ import FreePlay from './pages/FreePlay';
 import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
 import NoodleTetrisGame from './pages/NoodleTetris';
 import FoodBlasterGame from './pages/FoodBlasterGame';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
               <Route path="/noodle-tetris" element={<NoodleTetrisGame />} />
               <Route path="/food-blaster" element={<FoodBlasterGame />} />
               <Route path="/restaurant-games" element={<RestaurantGames />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-use" element={<TermsOfUse />} />
               <Route path="/player/dashboard" element={
                 <ProtectedRoute userType="player">
                   <PlayerDashboard />
