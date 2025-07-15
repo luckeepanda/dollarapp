@@ -130,7 +130,7 @@ const RestaurantRegister: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Restaurant Email
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="email"
@@ -148,7 +148,7 @@ const RestaurantRegister: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Restaurant Name
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
@@ -167,7 +167,7 @@ const RestaurantRegister: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -194,7 +194,7 @@ const RestaurantRegister: React.FC = () => {
               <label className="block text-sm font-medium text-white-100 mb-2">
                 Confirm Password
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white-300" />
                 <input
                   type={showPassword ? 'text' : 'password'}

@@ -187,7 +187,7 @@ const Register: React.FC = () => {
               <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Email Address
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="email"
@@ -205,7 +205,7 @@ const Register: React.FC = () => {
               <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Username
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
@@ -224,7 +224,7 @@ const Register: React.FC = () => {
               <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -251,7 +251,7 @@ const Register: React.FC = () => {
               <label className="block text-sm font-medium text-steel-blue-100 mb-2">
                 Confirm Password
               </label>
-              <div className="relative">
+              <div className="relative text-steel-blue">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
                 <input
                   type={showPassword ? 'text' : 'password'}
