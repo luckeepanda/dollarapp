@@ -108,7 +108,7 @@ const Landing: React.FC = () => {
               className="group relative inline-flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg"
             >
               {/* Falcon Logo */}
-              <div className="w-21 h-21 mb-1">
+              <div className="w-20 h-20 mb-1">
                 <img 
                   src="/falcon-logo.png" 
                   alt="Falcon Logo" 
