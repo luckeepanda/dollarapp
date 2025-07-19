@@ -91,7 +91,6 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Choose a nickname for the leaderboard
               </label>
@@ -116,7 +115,6 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                   <span className="text-sm">{error}</span>
                 </div>
               )}
-              <p className="text-sm text-steel-blue-300 mt-1">
               <p className="text-sm text-gray-600 mt-1">
                 2-20 characters, will be visible to all players
               </p>
