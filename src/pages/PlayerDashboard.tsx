@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import PlayerQRCodes from '../components/PlayerQRCodes';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
@@ -14,7 +15,8 @@ import {
   Crown,
   Target,
   Plus,
-  Star
+  Star,
+  QrCode
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
@@ -96,6 +98,17 @@ const PlayerDashboard: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+          {/* Player QR Codes Section */}
+          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-yellow-300 flex items-center space-x-2">
+                <QrCode className="h-6 w-6 text-yellow-300" />
+                <span>Your QR Codes</span>
+              </h2>
+            </div>
+            <PlayerQRCodes />
+          </div>
+
           {/* Games Right Now */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between mb-6">
