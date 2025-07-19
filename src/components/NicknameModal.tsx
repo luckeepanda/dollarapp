@@ -92,10 +92,11 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-steel-blue-100 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Choose a nickname for the leaderboard
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type="text"
                   value={nickname}
@@ -103,7 +104,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                     setNickname(e.target.value);
                     setError('');
                   }}
-                  className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-steel-blue"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-gray-900"
                   placeholder="Enter your nickname"
                   maxLength={20}
                   disabled={isSubmitting}
@@ -116,6 +117,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                 </div>
               )}
               <p className="text-sm text-steel-blue-300 mt-1">
+              <p className="text-sm text-gray-600 mt-1">
                 2-20 characters, will be visible to all players
               </p>
             </div>
@@ -143,7 +145,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                 type="button"
                 onClick={handleSkip}
                 disabled={isSubmitting}
-                className="px-6 py-3 border border-white-300 text-steel-blue-100 rounded-xl font-semibold hover:bg-steel-blue-900 transition-all disabled:opacity-50"
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
               >
                 Skip
               </button>
