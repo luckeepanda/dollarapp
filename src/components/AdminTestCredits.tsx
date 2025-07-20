@@ -224,7 +224,7 @@ const AdminTestCredits: React.FC = () => {
       {/* Warning */}
       <div className="bg-yellow-500/20 border border-yellow-400/30 rounded-lg p-3">
         <div className="flex items-center space-x-2">
-          <AlertCircle className="h-4 w-4 text-yellow-300" />
+          <AlertCircle className="h-4 w-4 text-yellow-600" />
           <p className="text-yellow-600 text-sm">
             <strong>Admin Only:</strong> This feature is for testing purposes only and is restricted to admin accounts.
           </p>
