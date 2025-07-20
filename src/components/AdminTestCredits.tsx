@@ -152,9 +152,9 @@ const AdminTestCredits: React.FC = () => {
         <div className="bg-red-500/10 border border-red-400/20 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-red-200">{foundUser.username}</p>
-              <p className="text-sm text-red-300">{foundUser.email}</p>
-              <p className="text-sm text-red-300">
+              <p className="font-medium text-red-400">{foundUser.username}</p>
+              <p className="text-sm text-red-600">{foundUser.email}</p>
+              <p className="text-sm text-red-600">
                 {foundUser.account_type} • Balance: ${foundUser.balance.toFixed(2)}
               </p>
             </div>
