@@ -125,7 +125,7 @@ const AdminTestCredits: React.FC = () => {
           <User className="h-4 w-4" />
           <span>Add to My Account</span>
         </button>
-        <span className="text-red-300 text-sm">or search for another user:</span>
+        <span className="text-red-800 text-sm">or search for another user:</span>
       </div>
 
       {/* User Search */}
