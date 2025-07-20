@@ -289,13 +289,13 @@ const AdminDashboard: React.FC = () => {
             <div className="p-4 bg-white/5 rounded-xl">
               <Shield className="h-8 w-8 text-red-400 mb-3" />
               <h3 className="font-semibold text-red-400 mb-2">User Management</h3>
-              <p className="text-gray-300 text-sm">Manage user accounts and permissions</p>
+              <p className="text-gray-600 text-sm">Manage user accounts and permissions</p>
             </div>
             
             <div className="p-4 bg-white/5 rounded-xl">
               <TrendingUp className="h-8 w-8 text-purple-400 mb-3" />
-              <h3 className="font-semibold text-white mb-2">Analytics</h3>
-              <p className="text-gray-300 text-sm">View system analytics and reports</p>
+              <h3 className="font-semibold text-purple-400 mb-2">Analytics</h3>
+              <p className="text-gray-600 text-sm">View system analytics and reports</p>
             </div>
           </div>
         </div>
@@ -303,8 +303,8 @@ const AdminDashboard: React.FC = () => {
         {/* Admin Warning */}
         <div className="mt-8 bg-yellow-500/20 border border-yellow-400/30 rounded-xl p-4">
           <div className="flex items-center space-x-2">
-            <AlertCircle className="h-5 w-5 text-yellow-300" />
-            <p className="text-yellow-200 text-sm">
+            <AlertCircle className="h-5 w-5 text-yellow-600" />
+            <p className="text-yellow-600 text-sm">
               <strong>Admin Access:</strong> You have administrative privileges. Use these tools responsibly and only for testing and system management.
             </p>
           </div>
