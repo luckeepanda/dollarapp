@@ -235,7 +235,7 @@ const AdminDashboard: React.FC = () => {
           {/* Recent Activity */}
           <div className="lg:col-span-1">
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-              <h2 className="text-xl font-semibold text-gray-600 mb-4 flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-steel-blue-600 mb-4 flex items-center space-x-2">
                 <Activity className="h-5 w-5" />
                 <span>Recent Users</span>
               </h2>
