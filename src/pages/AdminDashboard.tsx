@@ -142,7 +142,7 @@ const AdminDashboard: React.FC = () => {
                 className="bg-white/10 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-white/20 hover:bg-white/20 transition-all disabled:opacity-50"
                 title="Refresh dashboard data"
               >
-                <RefreshCw className={`h-5 w-5 text-blue-300 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`h-5 w-5 text-blue-600 ${isRefreshing ? 'animate-spin' : ''}`} />
               </button>
             </div>
           </div>
