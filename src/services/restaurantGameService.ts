@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { playerQRService } from './playerQRService';
 
 export interface RestaurantGame {
   id: string;
@@ -149,6 +150,29 @@ export const restaurantGameService = {
     if (error) {
       console.error('Error submitting restaurant game score:', error);
       throw error;
+    }
+
+    // If game is completed and user is the winner, create QR code in player_qr_codes table
+    if (data && data.game_completed && data.winner_id === userId) {
+      try {
+        // Get game details for QR code
+        const game = await this.getGame(gameId);
+        if (game) {
+          const qrCode = await playerQRService.createRestaurantGameQRCode(
+            userId,
+            gameId,
+            game.name,
+            game.prize_pool
+          );
+          
+          // Add QR code to the result
+          data.qr_code = qrCode;
+          console.log('Restaurant game QR code created:', qrCode);
+        }
+      } catch (qrError) {
+        console.error('Failed to create restaurant game QR code:', qrError);
+        // Don't fail the game completion if QR creation fails
+      }
     }
 
     return data;

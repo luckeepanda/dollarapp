@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import QRScannerModal from '../components/QRScannerModal';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService } from '../services/restaurantGameService';
+import { playerQRService } from '../services/playerQRService';
 import { 
   ArrowLeft, 
   QrCode, 
@@ -100,18 +101,24 @@ const QRScanner: React.FC = () => {
           
           if (result.success) {
             const newRedemption = {
-              id: Date.now(),
-              code: scannedCode.code,
-              amount: result.amount,
-              customer: scannedCode.customer,
-              date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-              status: 'redeemed' as const
-            };
+            // Handle player QR code redemption
+            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id);
             
-            setScanHistory([newRedemption, ...scanHistory]);
-            alert(`Successfully redeemed $${result.amount} from restaurant game: ${result.game_name}!`);
-          } else {
-            alert(result.message || 'Failed to redeem QR code');
+            if (result.success) {
+              const newRedemption = {
+                id: Date.now(),
+                code: scannedCode.code,
+                amount: result.amount,
+                customer: result.player_id || 'Player',
+                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                status: 'redeemed' as const
+              };
+              
+              setScanHistory([newRedemption, ...scanHistory]);
+              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
+            } else {
+              alert(result.message || 'Failed to redeem QR code');
+            }
           }
         } else {
           // Handle regular QR code (existing logic)

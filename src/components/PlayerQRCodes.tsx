@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { QrCode, Copy, CheckCircle, Trophy, Calendar, Gift } from 'lucide-react';
-
-interface PlayerQRCode {
-  id: string;
-  code: string;
-  source: 'tournament' | 'restaurant_game';
-  amount?: number;
-  game_name?: string;
-  created_at: string;
-  redeemed: boolean;
-}
+import { playerQRService } from '../services/playerQRService';
+import { QrCode, Copy, CheckCircle, Trophy, Calendar, Gift, Download } from 'lucide-react';
+import QRCode from 'qrcode';
+import type { PlayerQRCode } from '../lib/supabase';
 
 const PlayerQRCodes: React.FC = () => {
   const { user } = useAuth();
   const [qrCodes, setQrCodes] = useState<PlayerQRCode[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [qrImages, setQrImages] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     if (user) {
@@ -29,93 +23,33 @@ const PlayerQRCodes: React.FC = () => {
     if (!user) return;
     
     try {
-      // For now, we'll simulate QR codes since the tournament system generates them
-      // In a real implementation, you'd fetch from a player_qr_codes table
-      const mockQRCodes: PlayerQRCode[] = [];
+      const codes = await playerQRService.getPlayerQRCodes(user.id);
+      setQrCodes(codes);
       
-      // Check localStorage for any tournament wins (temporary solution)
-      const tournamentWins = localStorage.getItem(`tournament_wins_${user.id}`);
-      if (tournamentWins) {
-        const wins = JSON.parse(tournamentWins);
-        wins.forEach((win: any) => {
-          mockQRCodes.push({
-            id: `tournament_${win.timestamp}`,
-            code: win.qr_code || `TOURNAMENT-${user.id}-${win.timestamp}`,
-            source: 'tournament',
-            amount: win.amount || 5.00,
-            game_name: win.game_name || 'Taco Flyer Tournament',
-            created_at: win.created_at || new Date(win.timestamp).toISOString(),
-            redeemed: false
+      // Generate QR code images for each code
+      const images: { [key: string]: string } = {};
+      for (const qrCode of codes) {
+        try {
+          const qrDataURL = await QRCode.toDataURL(qrCode.code, {
+            width: 240,
+            height: 240,
+            margin: 2,
+            color: {
+              dark: '#000000',
+              light: '#FFFFFF'
+            }
           });
-        });
+          images[qrCode.code] = qrDataURL;
+        } catch (error) {
+          console.error('Error generating QR code image:', error);
+        }
       }
-      
-      setQrCodes(mockQRCodes);
+      setQrImages(images);
     } catch (error) {
       console.error('Failed to load QR codes:', error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const generateQRCodeDataURL = (text: string) => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return '';
-    
-    canvas.width = 150;
-    canvas.height = 150;
-    
-    // Fill white background
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 150, 150);
-    
-    // Create a simple pattern for the QR code
-    ctx.fillStyle = '#000000';
-    const cellSize = 8;
-    const padding = 15;
-    
-    // Generate a deterministic pattern based on the text
-    for (let y = 0; y < 15; y++) {
-      for (let x = 0; x < 15; x++) {
-        const hash = text.charCodeAt((x + y * 15) % text.length);
-        if (hash % 3 === 0) {
-          ctx.fillRect(
-            padding + x * cellSize,
-            padding + y * cellSize,
-            cellSize,
-            cellSize
-          );
-        }
-      }
-    }
-    
-    // Add corner markers
-    const markerSize = 24;
-    // Top-left
-    ctx.fillRect(padding, padding, markerSize, markerSize);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(padding + 4, padding + 4, markerSize - 8, markerSize - 8);
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(padding + 8, padding + 8, markerSize - 16, markerSize - 16);
-    
-    // Top-right
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(150 - padding - markerSize, padding, markerSize, markerSize);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(150 - padding - markerSize + 4, padding + 4, markerSize - 8, markerSize - 8);
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(150 - padding - markerSize + 8, padding + 8, markerSize - 16, markerSize - 16);
-    
-    // Bottom-left
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(padding, 150 - padding - markerSize, markerSize, markerSize);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(padding + 4, 150 - padding - markerSize + 4, markerSize - 8, markerSize - 8);
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(padding + 8, 150 - padding - markerSize + 8, markerSize - 16, markerSize - 16);
-    
-    return canvas.toDataURL();
   };
 
   const copyQRCode = async (code: string) => {
@@ -128,6 +62,18 @@ const PlayerQRCodes: React.FC = () => {
     }
   };
 
+  const downloadQRCode = (code: string, gameName: string) => {
+    const qrImage = qrImages[code];
+    if (!qrImage) return;
+
+    const link = document.createElement('a');
+    link.download = `${gameName.replace(/\s+/g, '_')}_QR_${code}.png`;
+    link.href = qrImage;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -136,6 +82,28 @@ const PlayerQRCodes: React.FC = () => {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const getSourceIcon = (sourceType: string) => {
+    switch (sourceType) {
+      case 'tournament':
+        return '🏆';
+      case 'restaurant_game':
+        return '🍽️';
+      default:
+        return '🎮';
+    }
+  };
+
+  const getSourceLabel = (sourceType: string) => {
+    switch (sourceType) {
+      case 'tournament':
+        return 'Tournament Win';
+      case 'restaurant_game':
+        return 'Restaurant Game';
+      default:
+        return 'Game Win';
+    }
   };
 
   if (isLoading) {
@@ -176,19 +144,19 @@ const PlayerQRCodes: React.FC = () => {
         <div
           key={qrCode.id}
           className={`bg-white/5 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 overflow-hidden ${
-            qrCode.redeemed ? 'opacity-60' : ''
+            qrCode.is_redeemed ? 'opacity-60' : ''
           }`}
         >
           {/* QR Code Header */}
           <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-4 text-white">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5" />
+                <span className="text-lg">{getSourceIcon(qrCode.source_type)}</span>
                 <span className="font-semibold text-sm">
-                  {qrCode.source === 'tournament' ? 'Tournament Win' : 'Restaurant Game'}
+                  {getSourceLabel(qrCode.source_type)}
                 </span>
               </div>
-              {qrCode.redeemed ? (
+              {qrCode.is_redeemed ? (
                 <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full font-medium">
                   Redeemed
                 </span>
@@ -199,20 +167,31 @@ const PlayerQRCodes: React.FC = () => {
               )}
             </div>
             <h3 className="font-bold">{qrCode.game_name}</h3>
-            {qrCode.amount && (
-              <p className="text-yellow-100 text-sm">Prize Value: ${qrCode.amount.toFixed(2)}</p>
-            )}
+            <p className="text-yellow-100 text-sm">Prize Value: ${qrCode.prize_amount.toFixed(2)}</p>
           </div>
 
           {/* QR Code Display */}
           <div className="p-6">
+            {/* Alphanumeric Code */}
+            <div className="bg-white/10 p-4 rounded-xl mb-4">
+              <p className="text-xs text-gray-300 mb-2">QR Code:</p>
+              <p className="text-lg font-mono text-white break-all text-center">{qrCode.code}</p>
+            </div>
+
+            {/* Scannable QR Code */}
             <div className="bg-white p-4 rounded-xl mb-4 text-center">
-              <img 
-                src={generateQRCodeDataURL(qrCode.code)} 
-                alt="QR Code"
-                className="w-24 h-24 mx-auto mb-2"
-              />
-              <p className="text-xs text-gray-600 font-mono break-all">{qrCode.code}</p>
+              <p className="text-xs text-gray-600 mb-3">Scannable QR Code:</p>
+              {qrImages[qrCode.code] ? (
+                <img 
+                  src={qrImages[qrCode.code]} 
+                  alt="QR Code"
+                  className="w-60 h-60 mx-auto border border-gray-200 rounded-lg"
+                />
+              ) : (
+                <div className="w-60 h-60 mx-auto bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-3">
@@ -224,24 +203,43 @@ const PlayerQRCodes: React.FC = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => copyQRCode(qrCode.code)}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all flex items-center justify-center space-x-2"
-              >
-                {copiedCode === qrCode.code ? (
-                  <>
-                    <CheckCircle className="h-4 w-4" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    <span>Copy Code</span>
-                  </>
-                )}
-              </button>
+              {qrCode.is_redeemed && qrCode.redeemed_at && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-300">Redeemed:</span>
+                  <span className="text-green-400">{formatDate(qrCode.redeemed_at)}</span>
+                </div>
+              )}
 
-              {!qrCode.redeemed && (
+              {/* Action Buttons */}
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => copyQRCode(qrCode.code)}
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all flex items-center justify-center space-x-2"
+                >
+                  {copiedCode === qrCode.code ? (
+                    <>
+                      <CheckCircle className="h-4 w-4" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+
+                {qrImages[qrCode.code] && (
+                  <button
+                    onClick={() => downloadQRCode(qrCode.code, qrCode.game_name)}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 px-4 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all flex items-center justify-center"
+                  >
+                    <Download className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+
+              {!qrCode.is_redeemed && (
                 <div className="bg-green-500/20 p-3 rounded-xl border border-green-400/30">
                   <div className="flex items-center space-x-2">
                     <Gift className="h-4 w-4 text-green-400" />

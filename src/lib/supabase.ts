@@ -128,3 +128,16 @@ export interface Transaction {
   payment_method?: string
   created_at: string
 }
+export interface PlayerQRCode {
+  id: string
+  user_id: string
+  code: string
+  source_type: 'tournament' | 'restaurant_game' | 'manual'
+  source_id?: string
+  game_name: string
+  prize_amount: number
+  is_redeemed: boolean
+  redeemed_at?: string
+  redeemed_by?: string
+  created_at: string
+}

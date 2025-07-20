@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { playerQRService } from './playerQRService';
 
 export interface Tournament {
   id: string;
@@ -67,42 +68,31 @@ export const tournamentService = {
 
       if (error) {
         console.error('Error submitting tournament score:', error);
-        // Check if the error is actually a success message or if data was returned
-        if (data || (error.message && error.message.includes('successfully'))) {
-          // Treat as success even if there's an "error"
-          console.log('Tournament score submitted successfully despite error message');
-          return data || {
-            tournament_completed: true,
-            winner_id: userId,
-            winning_score: score,
-            your_score: score,
-            entries_count: 5,
-            max_participants: 5,
-            qr_code: `TOURNAMENT-${userId}-${Date.now()}`
-          };
-        } else {
-          throw error;
+        throw error;
+      }
+
+      // If tournament is completed and user is the winner, create QR code
+      if (data && data.tournament_completed && data.winner_id === userId) {
+        try {
+          const qrCode = await playerQRService.createTournamentQRCode(
+            userId,
+            tournamentId,
+            'Taco Flyer Tournament',
+            5.00
+          );
+          
+          // Add QR code to the result
+          data.qr_code = qrCode;
+          console.log('Tournament QR code created:', qrCode);
+        } catch (qrError) {
+          console.error('Failed to create tournament QR code:', qrError);
+          // Don't fail the tournament completion if QR creation fails
         }
       }
 
       return data;
     } catch (error: any) {
       console.error('Tournament score submission error:', error);
-      
-      // If the error message suggests success or contains tournament data, return success
-      if (error.message && (error.message.includes('successfully') || error.message.includes('tournament'))) {
-        console.log('Treating tournament submission as successful based on error message');
-        return {
-          tournament_completed: true,
-          winner_id: userId,
-          winning_score: score,
-          your_score: score,
-          entries_count: 5,
-          max_participants: 5,
-          qr_code: `TOURNAMENT-${userId}-${Date.now()}`
-        };
-      }
-      
       throw error;
     }
   },
