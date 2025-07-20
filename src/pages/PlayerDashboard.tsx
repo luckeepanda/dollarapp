@@ -125,7 +125,7 @@ const PlayerDashboard: React.FC = () => {
               </h2>
               <Link
                 to="/restaurant-games"
-                className="text-blue-600 hover:text-blue-200 font-medium flex items-center space-x-1"
+                className="text-blue-600 hover:text-blue-400 font-medium flex items-center space-x-1"
               >
                 <span>View All</span>
                 <ArrowRight className="h-4 w-4" />
