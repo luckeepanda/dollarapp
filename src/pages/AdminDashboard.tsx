@@ -164,7 +164,7 @@ const AdminDashboard: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-600">Total Users</p>
                   <p className="text-2xl font-bold text-white">{stats.totalUsers}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-600">
                     {stats.totalPlayers} players, {stats.totalRestaurants} restaurants
                   </p>
                 </div>
