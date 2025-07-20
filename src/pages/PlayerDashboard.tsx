@@ -138,7 +138,7 @@ const PlayerDashboard: React.FC = () => {
               </div>
             ) : restaurantGames.length === 0 ? (
               <div className="text-center py-8">
-                <Trophy className="h-12 w-12 text-orange-300 mx-auto mb-4" />
+                <Trophy className="h-12 w-12 text-orange-500 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-orange-500 mb-2">No Active Games</h3>
                 <p className="text-gray-600 mb-4">Check back later for new restaurant games!</p>
                 <Link
