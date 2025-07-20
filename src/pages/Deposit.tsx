@@ -242,7 +242,7 @@ Please check your payment method and try again.`);
           {/* Payment Methods */}
           <div className="lg:col-span-2">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
-              <h2 className="text-xl font-semibold mb-4">Payment Methods</h2>
+              <h2 className="text-xl font-semibold mb-4 text-blue">Payment Methods</h2>
               <div className="grid gap-4">
                 {paymentMethods.map((method) => (
                   <button
