@@ -75,7 +75,7 @@ const PlayerDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-400">Current Balance</p>
+                <p className="text-sm text-gray-500">Current Balance</p>
                 <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
                 <p className="text-xs text-gray-400 mt-1">
                   {user ? Math.floor(user.balance) : 0} game entries available
