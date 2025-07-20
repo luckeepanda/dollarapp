@@ -209,8 +209,8 @@ const RestaurantGames: React.FC = () => {
                       <span className="text-blue-500 font-medium">${game.entry_fee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-300">Min Score:</span>
-                      <span className="text-white font-medium">{game.min_score}</span>
+                      <span className="text-gray-600">Min Score:</span>
+                      <span className="text-blue-600 font-medium">{game.min_score}</span>
                     </div>
                   </div>
 
