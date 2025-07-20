@@ -177,9 +177,9 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-300">Total Balance</p>
+                  <p className="text-sm text-gray-600">Total Balance</p>
                   <p className="text-2xl font-bold text-green-400">${stats.totalBalance.toFixed(2)}</p>
-                  <p className="text-xs text-gray-400">Across all accounts</p>
+                  <p className="text-xs text-gray-600">Across all accounts</p>
                 </div>
                 <div className="bg-green-500/20 p-3 rounded-xl">
                   <DollarSign className="h-6 w-6 text-green-400" />
@@ -190,9 +190,9 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-300">Active Games</p>
+                  <p className="text-sm text-gray-600">Active Games</p>
                   <p className="text-2xl font-bold text-orange-400">{stats.activeGames}</p>
-                  <p className="text-xs text-gray-400">{stats.completedGames} completed</p>
+                  <p className="text-xs text-gray-600">{stats.completedGames} completed</p>
                 </div>
                 <div className="bg-orange-500/20 p-3 rounded-xl">
                   <GamepadIcon className="h-6 w-6 text-orange-400" />
@@ -203,9 +203,9 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-300">Transactions</p>
-                  <p className="text-2xl font-bold text-purple-400">{stats.totalTransactions}</p>
-                  <p className="text-xs text-gray-400">All time</p>
+                  <p className="text-sm text-gray-600">Transactions</p>
+                  <p className="text-2xl font-bold text-purple-600">{stats.totalTransactions}</p>
+                  <p className="text-xs text-gray-600">All time</p>
                 </div>
                 <div className="bg-purple-500/20 p-3 rounded-xl">
                   <TrendingUp className="h-6 w-6 text-purple-400" />
