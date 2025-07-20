@@ -180,7 +180,7 @@ const RestaurantGames: React.FC = () => {
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
                         <Users className="h-4 w-4 text-blue-500" />
-                        <span className="text-xs text-gray-300">Players</span>
+                        <span className="text-xs text-gray-600">Players</span>
                       </div>
                       <p className="text-lg font-bold text-blue-300">{game.current_players}/{game.max_players} entries</p>
                     </div>
