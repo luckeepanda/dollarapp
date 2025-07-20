@@ -182,7 +182,7 @@ const RestaurantGames: React.FC = () => {
                         <Users className="h-4 w-4 text-blue-500" />
                         <span className="text-xs text-gray-600">Players</span>
                       </div>
-                      <p className="text-lg font-bold text-blue-300">{game.current_players}/{game.max_players} entries</p>
+                      <p className="text-lg font-bold text-blue-600">{game.current_players}/{game.max_players} entries</p>
                     </div>
                   </div>
 
