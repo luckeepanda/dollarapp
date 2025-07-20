@@ -108,7 +108,7 @@ const PlayerDashboard: React.FC = () => {
               </h2>
               <button
                 onClick={() => window.location.reload()}
-                className="text-yellow-400 hover:text-yellow-400 text-sm underline"
+                className="text-yellow-400 hover:text-yellow-600 text-sm underline"
               >
                 Refresh QR Codes
               </button>
