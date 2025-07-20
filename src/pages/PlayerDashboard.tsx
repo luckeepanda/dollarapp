@@ -140,7 +140,7 @@ const PlayerDashboard: React.FC = () => {
               <div className="text-center py-8">
                 <Trophy className="h-12 w-12 text-orange-300 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-orange-500 mb-2">No Active Games</h3>
-                <p className="text-gray-300 mb-4">Check back later for new restaurant games!</p>
+                <p className="text-gray-600 mb-4">Check back later for new restaurant games!</p>
                 <Link
                   to="/free-play"
                   className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-green-400/30"
