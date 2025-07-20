@@ -255,7 +255,7 @@ const AdminDashboard: React.FC = () => {
                       </div>
                       <span className={`px-2 py-1 text-xs rounded-full font-medium ${
                         activity.account_type === 'player' 
-                          ? 'bg-blue-500/20 text-blue-300'
+                          ? 'bg-blue-500/20 text-blue-600'
                           : activity.account_type === 'restaurant'
                           ? 'bg-green-500/20 text-green-300'
                           : 'bg-red-500/20 text-red-300'
