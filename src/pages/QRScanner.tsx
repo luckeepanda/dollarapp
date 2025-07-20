@@ -101,38 +101,38 @@ const QRScanner: React.FC = () => {
           
           if (result.success) {
             const newRedemption = {
-            // Handle player QR code redemption
-            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id);
+              id: Date.now(),
+              code: scannedCode.code,
+              amount: result.amount,
+              customer: result.player_id || 'Player',
+              date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+              status: 'redeemed' as const
+            };
             
-            if (result.success) {
-              const newRedemption = {
-                id: Date.now(),
-                code: scannedCode.code,
-                amount: result.amount,
-                customer: result.player_id || 'Player',
-                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                status: 'redeemed' as const
-              };
-              
-              setScanHistory([newRedemption, ...scanHistory]);
-              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
-            } else {
-              alert(result.message || 'Failed to redeem QR code');
-            }
+            setScanHistory([newRedemption, ...scanHistory]);
+            alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
+          } else {
+            alert(result.message || 'Failed to redeem QR code');
           }
         } else {
-          // Handle regular QR code (existing logic)
-          const newRedemption = {
-            id: Date.now(),
-            code: scannedCode.code,
-            amount: parseFloat(scannedCode.amount),
-            customer: scannedCode.customer,
-            date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            status: 'redeemed' as const
-          };
+          // Handle player QR code redemption
+          const result = await playerQRService.redeemQRCode(scannedCode.code, user.id);
           
-          setScanHistory([newRedemption, ...scanHistory]);
-          alert(`Successfully redeemed $${scannedCode.amount} from ${scannedCode.customer}!`);
+          if (result.success) {
+            const newRedemption = {
+              id: Date.now(),
+              code: scannedCode.code,
+              amount: result.amount,
+              customer: result.player_id || 'Player',
+              date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+              status: 'redeemed' as const
+            };
+            
+            setScanHistory([newRedemption, ...scanHistory]);
+            alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
+          } else {
+            alert(result.message || 'Failed to redeem QR code');
+          }
         }
       } catch (error: any) {
         console.error('Redemption failed:', error);
@@ -140,6 +140,19 @@ const QRScanner: React.FC = () => {
       } finally {
         setIsRedeeming(false);
       }
+    } else {
+      // Handle regular QR code (existing logic)
+      const newRedemption = {
+        id: Date.now(),
+        code: scannedCode.code,
+        amount: parseFloat(scannedCode.amount),
+        customer: scannedCode.customer,
+        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        status: 'redeemed' as const
+      };
+      
+      setScanHistory([newRedemption, ...scanHistory]);
+      alert(`Successfully redeemed $${scannedCode.amount} from ${scannedCode.customer}!`);
     }
     
     setScannedCode(null);
