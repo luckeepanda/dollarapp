@@ -249,7 +249,7 @@ const PlayerDashboard: React.FC = () => {
         {/* How Restaurant Games Work */}
         <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-600">
-            <TrendingUp className="h-5 w-5 text-gray-300" />
+            <TrendingUp className="h-5 w-5 text-gray-600" />
             <span>How Restaurant Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
