@@ -251,15 +251,15 @@ const RestaurantGames: React.FC = () => {
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
             <div>
-              <h3 className="font-semibold text-white mb-2">1. Join & Play</h3>
+              <h3 className="font-semibold text-steel-blue-400 mb-2">1. Join & Play</h3>
               <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-white mb-2">2. Compete for Victory</h3>
+              <h3 className="font-semibold text-steel-blue-400 mb-2">2. Compete for Victory</h3>
               <p>After the maximum number of entries is reached, the highest scorer wins the entire prize pool.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-white mb-2">3. Redeem Your Prize</h3>
+              <h3 className="font-semibold text-steel-blue-400 mb-2">3. Redeem Your Prize</h3>
               <p>Winners receive a unique QR code that can only be redeemed at the restaurant that created the game.</p>
             </div>
           </div>
