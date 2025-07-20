@@ -331,7 +331,7 @@ Please check your payment method and try again.`);
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-8">
-              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-600">Order Summary</h2>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
