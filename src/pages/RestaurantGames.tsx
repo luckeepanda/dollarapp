@@ -190,7 +190,7 @@ const RestaurantGames: React.FC = () => {
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">Entries</span>
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-sm font-medium text-blue-100">
                         {Math.round((game.current_players / game.max_players) * 100)}%
                       </span>
                     </div>
