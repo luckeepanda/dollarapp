@@ -54,6 +54,11 @@ function App() {
                   <PlayerDashboard />
                 </ProtectedRoute>
               } />
+              <Route path="/admin/dashboard" element={
+                <ProtectedRoute userType="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
               <Route path="/restaurant/dashboard" element={
                 <ProtectedRoute userType="restaurant">
                   <RestaurantDashboard />

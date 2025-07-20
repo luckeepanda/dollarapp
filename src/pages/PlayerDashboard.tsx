@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import PlayerQRCodes from '../components/PlayerQRCodes';
+import AdminTestCredits from '../components/AdminTestCredits';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 

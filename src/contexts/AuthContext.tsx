@@ -17,7 +17,7 @@ interface RegisterData {
   email: string;
   username: string;
   password: string;
-  accountType: 'player' | 'restaurant';
+  accountType: 'player' | 'restaurant' | 'admin';
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

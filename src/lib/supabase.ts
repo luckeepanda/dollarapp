@@ -76,7 +76,7 @@ export interface User {
   id: string
   email: string
   username: string
-  accountType: 'player' | 'restaurant'
+  accountType: 'player' | 'restaurant' | 'admin'
   balance: number
   isKYCVerified?: boolean
   created_at: string

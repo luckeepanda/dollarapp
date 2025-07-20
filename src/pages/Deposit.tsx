@@ -71,7 +71,11 @@ const Deposit: React.FC = () => {
       }
       
       if (selectedMethod === 'dummy_pay') {
-        // Handle Dummy Pay - actually update the balance in Supabase
+        // Handle Dummy Pay - restricted to admins only
+        if (user.accountType !== 'admin') {
+          alert('❌ Dummy Pay is restricted to admin users only. Please use a real payment method.');
+          return;
+        }
         
         // Update balance in Supabase using the add_balance function
         const { error } = await supabase.rpc('add_balance', {

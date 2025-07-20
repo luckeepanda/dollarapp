@@ -9,7 +9,7 @@ const Register: React.FC = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    accountType: 'player' as 'player' | 'restaurant'
+    accountType: 'player' as 'player' | 'restaurant' | 'admin'
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
