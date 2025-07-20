@@ -138,8 +138,8 @@ const RestaurantGames: React.FC = () => {
           </div>
         ) : games.length === 0 ? (
           <div className="text-center py-12">
-            <Trophy className="h-16 w-16 text-orange-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-orange-300 mb-2">No Active Games</h3>
+            <Trophy className="h-16 w-16 text-orange-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-orange-400 mb-2">No Active Games</h3>
             <p className="text-gray-300 mb-6">Check back later for new restaurant games!</p>
           </div>
         ) : (
