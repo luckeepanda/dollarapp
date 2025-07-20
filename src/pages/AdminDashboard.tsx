@@ -283,7 +283,7 @@ const AdminDashboard: React.FC = () => {
             >
               <Trophy className="h-8 w-8 text-orange-400 mb-3" />
               <h3 className="font-semibold text-gray-600 mb-2">View All Games</h3>
-              <p className="text-gray-400 text-sm">Monitor all restaurant games and tournaments</p>
+              <p className="text-gray-600 text-sm">Monitor all restaurant games and tournaments</p>
             </Link>
             
             <div className="p-4 bg-white/5 rounded-xl">
