@@ -101,7 +101,7 @@ const RestaurantGames: React.FC = () => {
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-steel-blue-400">Restaurant Games</h1>
-              <p className="text-gray-300">Join games created by restaurants and win prizes!</p>
+              <p className="text-gray-600">Join games created by restaurants and win prizes!</p>
             </div>
           </div>
           
