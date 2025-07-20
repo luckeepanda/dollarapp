@@ -336,15 +336,15 @@ Please check your payment method and try again.`);
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Current Balance</span>
-                  <span className="font-semibold">${user?.balance.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-600">${user?.balance.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Deposit Amount</span>
-                  <span className="font-semibold">${amount || '0.00'}</span>
+                  <span className="font-semibold text-gray-600">${amount || '0.00'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Processing Fee</span>
-                  <span className="font-semibold">
+                  <span className="font-semibold text-gray-600">
                     {selectedMethod === 'dummy_pay' ? '$0.00' : '$0.00'}
                   </span>
                 </div>
