@@ -221,7 +221,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="bg-red-500/30 p-2 rounded-lg">
-                  <Shield className="h-5 w-5 text-red-300" />
+                  <Shield className="h-5 w-5 text-red-600" />
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold text-red-600">Test Credits Management</h2>
