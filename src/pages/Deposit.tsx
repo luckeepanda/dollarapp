@@ -289,7 +289,7 @@ Please check your payment method and try again.`);
 
             {/* Amount Selection */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h2 className="text-xl font-semibold mb-4">Select Amount</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-600">Select Amount</h2>
               
               {/* Quick Amount Buttons */}
               <div className="grid grid-cols-5 gap-3 mb-4">
