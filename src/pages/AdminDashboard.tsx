@@ -251,7 +251,7 @@ const AdminDashboard: React.FC = () => {
                     <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                       <div>
                         <p className="font-medium text-steel-blue-600">{activity.username}</p>
-                        <p className="text-sm text-gray-300">{formatDate(activity.created_at)}</p>
+                        <p className="text-sm text-gray-600">{formatDate(activity.created_at)}</p>
                       </div>
                       <span className={`px-2 py-1 text-xs rounded-full font-medium ${
                         activity.account_type === 'player' 
