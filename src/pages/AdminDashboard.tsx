@@ -224,7 +224,7 @@ const AdminDashboard: React.FC = () => {
                   <Shield className="h-5 w-5 text-red-300" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-600">Test Credits Management</h2>
+                  <h2 className="text-xl font-semibold text-red-600">Test Credits Management</h2>
                   <p className="text-gray-300 text-sm">Add test credits to user accounts for development and testing</p>
                 </div>
               </div>
