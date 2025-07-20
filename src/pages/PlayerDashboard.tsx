@@ -254,7 +254,7 @@ const PlayerDashboard: React.FC = () => {
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
             <div>
-              <h3 className="font-semibold text-white mb-2">1. Join Restaurant Games</h3>
+              <h3 className="font-semibold text-gray-600 mb-2">1. Join Restaurant Games</h3>
               <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
