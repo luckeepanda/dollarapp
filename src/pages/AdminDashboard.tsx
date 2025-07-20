@@ -130,7 +130,7 @@ const AdminDashboard: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-steel-blue mb-2">
+              <h1 className="text-3xl font-bold text-steel-blue-100 mb-2">
                 Admin Dashboard 🛡️
               </h1>
               <p className="text-gray-300">System overview and administration tools</p>
