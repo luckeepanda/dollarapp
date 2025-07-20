@@ -102,7 +102,7 @@ const PlayerDashboard: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 mb-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-yellow-300 flex items-center space-x-2">
-                <QrCode className="h-6 w-6 text-yellow-300" />
+                <QrCode className="h-6 w-6 text-yellow-500" />
                 <span>Your QR Codes</span>
               </h2>
             </div>
