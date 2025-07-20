@@ -104,8 +104,14 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-yellow-400 flex items-center space-x-2">
                 <QrCode className="h-6 w-6 text-yellow-500" />
-                <span>Your QR Codes</span>
+                <span>Your Prize QR Codes</span>
               </h2>
+              <button
+                onClick={() => window.location.reload()}
+                className="text-yellow-300 hover:text-yellow-200 text-sm underline"
+              >
+                Refresh QR Codes
+              </button>
             </div>
             <PlayerQRCodes />
           </div>

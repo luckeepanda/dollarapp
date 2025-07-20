@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { playerQRService } from '../services/playerQRService';
-import { QrCode, Copy, CheckCircle, Trophy, Calendar, Gift, Download } from 'lucide-react';
+import { QrCode, Copy, CheckCircle, Trophy, Calendar, Gift, Download, AlertCircle } from 'lucide-react';
 import QRCode from 'qrcode';
 import type { PlayerQRCode } from '../lib/supabase';
 
@@ -12,6 +12,7 @@ const PlayerQRCodes: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [qrImages, setQrImages] = useState<{ [key: string]: string }>({});
+  const [qrImageErrors, setQrImageErrors] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     if (user) {
@@ -28,11 +29,12 @@ const PlayerQRCodes: React.FC = () => {
       
       // Generate QR code images for each code
       const images: { [key: string]: string } = {};
+      const errors: { [key: string]: boolean } = {};
+      
       for (const qrCode of codes) {
         try {
           const qrDataURL = await QRCode.toDataURL(qrCode.code, {
-            width: 240,
-            height: 240,
+            width: 256,
             margin: 2,
             color: {
               dark: '#000000',
@@ -41,10 +43,13 @@ const PlayerQRCodes: React.FC = () => {
           });
           images[qrCode.code] = qrDataURL;
         } catch (error) {
-          console.error('Error generating QR code image:', error);
+          console.error('Error generating QR code image for', qrCode.code, ':', error);
+          errors[qrCode.code] = true;
         }
       }
+      
       setQrImages(images);
+      setQrImageErrors(errors);
     } catch (error) {
       console.error('Failed to load QR codes:', error);
     } finally {
@@ -179,17 +184,31 @@ const PlayerQRCodes: React.FC = () => {
             </div>
 
             {/* Scannable QR Code */}
-            <div className="bg-white p-4 rounded-xl mb-4 text-center">
-              <p className="text-xs text-gray-600 mb-3">Scannable QR Code:</p>
+            <div className="bg-white p-6 rounded-xl mb-4 text-center">
+              <p className="text-sm font-medium text-gray-800 mb-4">Scannable QR Code:</p>
               {qrImages[qrCode.code] ? (
                 <img 
                   src={qrImages[qrCode.code]} 
-                  alt="QR Code"
-                  className="w-60 h-60 mx-auto border border-gray-200 rounded-lg"
+                  alt={`QR Code for ${qrCode.code}`}
+                  className="w-60 h-60 mx-auto border-2 border-gray-300 rounded-lg shadow-sm"
                 />
+              ) : qrImageErrors[qrCode.code] ? (
+                <div className="w-60 h-60 mx-auto bg-red-50 border-2 border-red-200 rounded-lg flex flex-col items-center justify-center">
+                  <AlertCircle className="h-8 w-8 text-red-500 mb-2" />
+                  <p className="text-sm text-red-600 text-center px-4">
+                    Failed to generate QR code
+                  </p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-2 text-xs text-red-500 underline hover:text-red-700"
+                  >
+                    Refresh page to retry
+                  </button>
+                </div>
               ) : (
-                <div className="w-60 h-60 mx-auto bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+                <div className="w-60 h-60 mx-auto bg-gray-100 border-2 border-gray-200 rounded-lg flex flex-col items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-2"></div>
+                  <p className="text-sm text-gray-600">Generating QR code...</p>
                 </div>
               )}
             </div>

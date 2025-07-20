@@ -3,6 +3,8 @@ import { supabase, type PlayerQRCode } from '../lib/supabase';
 export const playerQRService = {
   // Get all QR codes for a player
   async getPlayerQRCodes(userId: string): Promise<PlayerQRCode[]> {
+    console.log('Fetching QR codes for user:', userId);
+    
     const { data, error } = await supabase
       .from('player_qr_codes')
       .select('*')
@@ -14,6 +16,7 @@ export const playerQRService = {
       throw error;
     }
 
+    console.log('Found QR codes:', data?.length || 0);
     return data || [];
   },
 
@@ -24,6 +27,8 @@ export const playerQRService = {
     gameName: string,
     prizeAmount: number = 5.00
   ): Promise<string> {
+    console.log('Creating tournament QR code:', { userId, tournamentId, gameName, prizeAmount });
+    
     const { data, error } = await supabase.rpc('create_tournament_qr_code', {
       p_user_id: userId,
       p_tournament_id: tournamentId,
@@ -36,6 +41,7 @@ export const playerQRService = {
       throw error;
     }
 
+    console.log('Tournament QR code created:', data);
     return data;
   },
 
@@ -46,6 +52,8 @@ export const playerQRService = {
     gameName: string,
     prizeAmount: number
   ): Promise<string> {
+    console.log('Creating restaurant game QR code:', { userId, gameId, gameName, prizeAmount });
+    
     const { data, error } = await supabase.rpc('create_restaurant_game_qr_code', {
       p_user_id: userId,
       p_game_id: gameId,
@@ -58,6 +66,7 @@ export const playerQRService = {
       throw error;
     }
 
+    console.log('Restaurant game QR code created:', data);
     return data;
   },
 

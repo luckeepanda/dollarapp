@@ -74,6 +74,7 @@ export const tournamentService = {
       // If tournament is completed and user is the winner, create QR code
       if (data && data.tournament_completed && data.winner_id === userId) {
         try {
+          console.log('Creating tournament QR code for winner:', userId);
           const qrCode = await playerQRService.createTournamentQRCode(
             userId,
             tournamentId,
@@ -83,10 +84,11 @@ export const tournamentService = {
           
           // Add QR code to the result
           data.qr_code = qrCode;
-          console.log('Tournament QR code created:', qrCode);
+          console.log('Tournament QR code created successfully:', qrCode);
         } catch (qrError) {
           console.error('Failed to create tournament QR code:', qrError);
           // Don't fail the tournament completion if QR creation fails
+          throw new Error('Tournament completed but QR code creation failed. Please contact support.');
         }
       }
 
