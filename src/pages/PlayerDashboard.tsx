@@ -262,7 +262,7 @@ const PlayerDashboard: React.FC = () => {
               <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-white mb-2">3. Win Real Prizes</h3>
+              <h3 className="font-semibold text-gray-600 mb-2">3. Win Real Prizes</h3>
               <p>Winners receive QR codes that can be redeemed at the restaurant for real food and prizes!</p>
             </div>
           </div>
