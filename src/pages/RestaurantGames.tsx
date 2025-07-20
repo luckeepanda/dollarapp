@@ -171,10 +171,10 @@ const RestaurantGames: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
-                        <DollarSign className="h-4 w-4 text-green-500" />
+                        <DollarSign className="h-4 w-4 text-green-400" />
                         <span className="text-xs text-gray-600">Prize Pool</span>
                       </div>
-                      <p className="text-lg font-bold text-green-500">${game.prize_pool.toFixed(2)}</p>
+                      <p className="text-lg font-bold text-green-400">${game.prize_pool.toFixed(2)}</p>
                     </div>
                     
                     <div className="text-center">
