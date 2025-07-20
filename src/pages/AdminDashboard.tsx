@@ -225,7 +225,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold text-red-600">Test Credits Management</h2>
-                  <p className="text-gray-300 text-sm">Add test credits to user accounts for development and testing</p>
+                  <p className="text-gray-600 text-sm">Add test credits to user accounts for development and testing</p>
                 </div>
               </div>
               <AdminTestCredits />
