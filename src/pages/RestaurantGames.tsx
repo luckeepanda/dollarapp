@@ -107,7 +107,7 @@ const RestaurantGames: React.FC = () => {
           
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/20">
             <div className="text-center">
-              <p className="text-sm text-gray-300">Your Balance</p>
+              <p className="text-sm text-gray-600">Your Balance</p>
               <p className="text-xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
             </div>
           </div>
