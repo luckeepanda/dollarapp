@@ -28,15 +28,6 @@ const Deposit: React.FC = () => {
 
   const paymentMethods = [
     {
-      id: 'dummy_pay',
-      name: 'Dummy Pay',
-      description: 'Instant test payment - adds funds immediately',
-      icon: Zap,
-      color: 'from-purple-500 to-pink-600',
-      available: true,
-      isTest: true
-    },
-    {
       id: 'stripe',
       name: 'Credit Card',
       description: 'Pay securely with any major credit or debit card',
@@ -45,6 +36,19 @@ const Deposit: React.FC = () => {
       available: true
     }
   ];
+
+  // Add dummy pay option only for admin users
+  if (user?.accountType === 'admin') {
+    paymentMethods.unshift({
+      id: 'dummy_pay',
+      name: 'Dummy Pay',
+      description: 'Instant test payment - adds funds immediately',
+      icon: Zap,
+      color: 'from-purple-500 to-pink-600',
+      available: true,
+      isTest: true
+    });
+  }
 
   const quickAmounts = [5, 10, 25, 50, 100];
 
