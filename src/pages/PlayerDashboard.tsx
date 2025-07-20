@@ -119,7 +119,7 @@ const PlayerDashboard: React.FC = () => {
           {/* Games Right Now */}
           <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-orange-300 flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-orange-600 flex items-center space-x-2">
                 <Trophy className="h-6 w-6 text-orange-300" />
                 <span>Games Right Now</span>
               </h2>
