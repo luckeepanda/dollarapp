@@ -257,7 +257,7 @@ const AdminDashboard: React.FC = () => {
                         activity.account_type === 'player' 
                           ? 'bg-blue-500/20 text-blue-600'
                           : activity.account_type === 'restaurant'
-                          ? 'bg-green-500/20 text-green-300'
+                          ? 'bg-green-500/20 text-green-600'
                           : 'bg-red-500/20 text-red-300'
                       }`}>
                         {activity.account_type}
