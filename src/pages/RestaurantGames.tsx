@@ -249,7 +249,7 @@ const RestaurantGames: React.FC = () => {
             <Star className="h-5 w-5 text-gray-600" />
             <span>How Restaurant Games Work</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
             <div>
               <h3 className="font-semibold text-steel-blue-400 mb-2">1. Join & Play</h3>
               <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>
