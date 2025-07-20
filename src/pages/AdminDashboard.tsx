@@ -288,7 +288,7 @@ const AdminDashboard: React.FC = () => {
             
             <div className="p-4 bg-white/5 rounded-xl">
               <Shield className="h-8 w-8 text-red-400 mb-3" />
-              <h3 className="font-semibold text-white mb-2">User Management</h3>
+              <h3 className="font-semibold text-red-400 mb-2">User Management</h3>
               <p className="text-gray-300 text-sm">Manage user accounts and permissions</p>
             </div>
             
