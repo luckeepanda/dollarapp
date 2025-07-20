@@ -124,7 +124,7 @@ const PlayerQRCodes: React.FC = () => {
       <div className="text-center py-8">
         <QrCode className="h-12 w-12 text-gray-600 mx-auto mb-4 opacity-50" />
         <h3 className="text-lg font-semibold text-gray-600 mb-2">No QR Codes Yet</h3>
-        <p className="text-gray-300 mb-4">Win tournaments or restaurant games to earn QR codes!</p>
+        <p className="text-gray-600 mb-4">Win tournaments or restaurant games to earn QR codes!</p>
         <div className="flex justify-center space-x-4">
           <Link
             to="/restaurant-games"
