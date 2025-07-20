@@ -162,7 +162,7 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-300">Total Users</p>
+                  <p className="text-sm text-gray-600">Total Users</p>
                   <p className="text-2xl font-bold text-white">{stats.totalUsers}</p>
                   <p className="text-xs text-gray-400">
                     {stats.totalPlayers} players, {stats.totalRestaurants} restaurants
