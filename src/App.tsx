@@ -27,7 +27,7 @@ import FoodBlasterGame from './pages/FoodBlasterGame';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
