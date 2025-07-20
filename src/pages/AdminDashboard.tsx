@@ -133,7 +133,7 @@ const AdminDashboard: React.FC = () => {
               <h1 className="text-3xl font-bold text-steel-blue-400 mb-2">
                 Admin Dashboard 🛡️
               </h1>
-              <p className="text-gray-300">System overview and administration tools</p>
+              <p className="text-gray-600">System overview and administration tools</p>
             </div>
             <div className="flex items-center space-x-3">
               <button
