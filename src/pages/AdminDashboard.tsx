@@ -282,7 +282,7 @@ const AdminDashboard: React.FC = () => {
               className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group"
             >
               <Trophy className="h-8 w-8 text-orange-400 mb-3" />
-              <h3 className="font-semibold text-white mb-2">View All Games</h3>
+              <h3 className="font-semibold text-gray mb-2">View All Games</h3>
               <p className="text-gray-300 text-sm">Monitor all restaurant games and tournaments</p>
             </Link>
             
