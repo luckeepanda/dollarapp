@@ -100,7 +100,7 @@ const RestaurantGames: React.FC = () => {
               <ArrowLeft className="h-5 w-5 text-steel-blue" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-steel-blue-200">Restaurant Games</h1>
+              <h1 className="text-3xl font-bold text-steel-blue-400">Restaurant Games</h1>
               <p className="text-gray-300">Join games created by restaurants and win prizes!</p>
             </div>
           </div>
