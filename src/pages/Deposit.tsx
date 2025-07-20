@@ -292,7 +292,7 @@ Please check your payment method and try again.`);
               <h2 className="text-xl font-semibold mb-4 text-gray-600">Select Amount</h2>
               
               {/* Quick Amount Buttons */}
-              <div className="grid grid-cols-5 gap-3 mb-4">
+              <div className="grid grid-cols-5 gap-3 mb-4 text-gray-600">
                 {quickAmounts.map((quickAmount) => (
                   <button
                     key={quickAmount}
