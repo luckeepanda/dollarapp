@@ -258,7 +258,7 @@ const PlayerDashboard: React.FC = () => {
               <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-white mb-2">2. Play & Compete</h3>
+              <h3 className="font-semibold text-gray-600 mb-2">2. Play & Compete</h3>
               <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
