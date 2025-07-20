@@ -245,7 +245,7 @@ const RestaurantGames: React.FC = () => {
 
         {/* How It Works */}
         <div className="mt-12 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-white">
+          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-steel-blue-300">
             <Star className="h-5 w-5 text-gray-600" />
             <span>How Restaurant Games Work</span>
           </h2>
