@@ -154,7 +154,7 @@ const PlayerDashboard: React.FC = () => {
                 {restaurantGames.map((game) => (
                   <div key={game.id} className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
                     {/* Game Header */}
-                    <div className="p-6 text-blue-500">
+                    <div className="p-6 text-white">
                       <div className="flex items-center justify-between mb-4">
                         <div className="text-4xl">🏆</div>
                         <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
