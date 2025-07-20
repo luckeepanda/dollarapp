@@ -49,7 +49,7 @@ const PlayerDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-steel-blue mb-2">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-gray-100">Ready to play games and win amazing prizes?</p>
+          <p className="text-gray-400">Ready to play games and win amazing prizes?</p>
         </div>
 
         {/* Balance Warning */}
