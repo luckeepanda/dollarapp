@@ -37,14 +37,14 @@ const PlayerQRCodes: React.FC = () => {
       const tournamentWins = localStorage.getItem(`tournament_wins_${user.id}`);
       if (tournamentWins) {
         const wins = JSON.parse(tournamentWins);
-        wins.forEach((win: any, index: number) => {
+        wins.forEach((win: any) => {
           mockQRCodes.push({
-            id: `tournament_${index}`,
-            code: `WINNER-${user.id}-${win.timestamp}`,
+            id: `tournament_${win.timestamp}`,
+            code: win.qr_code || `TOURNAMENT-${user.id}-${win.timestamp}`,
             source: 'tournament',
-            amount: 5.00, // Tournament prize amount
-            game_name: 'Taco Flyer Tournament',
-            created_at: new Date(win.timestamp).toISOString(),
+            amount: win.amount || 5.00,
+            game_name: win.game_name || 'Taco Flyer Tournament',
+            created_at: win.created_at || new Date(win.timestamp).toISOString(),
             redeemed: false
           });
         });

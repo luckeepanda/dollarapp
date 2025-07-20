@@ -88,28 +88,26 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
   };
 
   const generateQRCodeDataURL = (text: string) => {
-    // Simple QR code generation using a data URL
-    // In production, you'd use a proper QR code library
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return '';
     
-    canvas.width = 200;
-    canvas.height = 200;
+    canvas.width = 150;
+    canvas.height = 150;
     
     // Fill white background
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 200, 200);
+    ctx.fillRect(0, 0, 150, 150);
     
     // Create a simple pattern for the QR code
     ctx.fillStyle = '#000000';
-    const cellSize = 10;
-    const padding = 20;
+    const cellSize = 8;
+    const padding = 15;
     
     // Generate a deterministic pattern based on the text
-    for (let y = 0; y < 16; y++) {
-      for (let x = 0; x < 16; x++) {
-        const hash = text.charCodeAt((x + y * 16) % text.length);
+    for (let y = 0; y < 15; y++) {
+      for (let x = 0; x < 15; x++) {
+        const hash = text.charCodeAt((x + y * 15) % text.length);
         if (hash % 3 === 0) {
           ctx.fillRect(
             padding + x * cellSize,
@@ -122,29 +120,29 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
     }
     
     // Add corner markers
-    const markerSize = 30;
+    const markerSize = 24;
     // Top-left
     ctx.fillRect(padding, padding, markerSize, markerSize);
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(padding + 5, padding + 5, markerSize - 10, markerSize - 10);
+    ctx.fillRect(padding + 4, padding + 4, markerSize - 8, markerSize - 8);
     ctx.fillStyle = '#000000';
-    ctx.fillRect(padding + 10, padding + 10, markerSize - 20, markerSize - 20);
+    ctx.fillRect(padding + 8, padding + 8, markerSize - 16, markerSize - 16);
     
     // Top-right
     ctx.fillStyle = '#000000';
-    ctx.fillRect(200 - padding - markerSize, padding, markerSize, markerSize);
+    ctx.fillRect(150 - padding - markerSize, padding, markerSize, markerSize);
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(200 - padding - markerSize + 5, padding + 5, markerSize - 10, markerSize - 10);
+    ctx.fillRect(150 - padding - markerSize + 4, padding + 4, markerSize - 8, markerSize - 8);
     ctx.fillStyle = '#000000';
-    ctx.fillRect(200 - padding - markerSize + 10, padding + 10, markerSize - 20, markerSize - 20);
+    ctx.fillRect(150 - padding - markerSize + 8, padding + 8, markerSize - 16, markerSize - 16);
     
     // Bottom-left
     ctx.fillStyle = '#000000';
-    ctx.fillRect(padding, 200 - padding - markerSize, markerSize, markerSize);
+    ctx.fillRect(padding, 150 - padding - markerSize, markerSize, markerSize);
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(padding + 5, 200 - padding - markerSize + 5, markerSize - 10, markerSize - 10);
+    ctx.fillRect(padding + 4, 150 - padding - markerSize + 4, markerSize - 8, markerSize - 8);
     ctx.fillStyle = '#000000';
-    ctx.fillRect(padding + 10, 200 - padding - markerSize + 10, markerSize - 20, markerSize - 20);
+    ctx.fillRect(padding + 8, 150 - padding - markerSize + 8, markerSize - 16, markerSize - 16);
     
     return canvas.toDataURL();
   };
@@ -152,7 +150,7 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
   if (!isOpen) return null;
 
   const isWinner = scoreResult?.winner_id && scoreResult.your_score === scoreResult.winning_score;
-  const winnerQRCode = scoreResult?.tournament_completed && isWinner ? `WINNER-${scoreResult.winner_id}-${Date.now()}` : null;
+  const winnerQRCode = scoreResult?.qr_code || (scoreResult?.tournament_completed && isWinner ? `TOURNAMENT-${scoreResult.winner_id}-${Date.now()}` : null);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -197,7 +195,7 @@ const TournamentResultsModal: React.FC<TournamentResultsModalProps> = ({
                   <img 
                     src={generateQRCodeDataURL(winnerQRCode)} 
                     alt="Winner QR Code"
-                    className="w-32 h-32 mx-auto"
+                    className="w-24 h-24 mx-auto"
                   />
                 </div>
                 
