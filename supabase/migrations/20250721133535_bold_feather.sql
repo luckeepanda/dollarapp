@@ -1,4 +1,4 @@
-@@ .. @@
+--@@ .. @@
 CREATE OR REPLACE FUNCTION submit_restaurant_game_score(
   p_game_id uuid,
   p_user_id uuid,
@@ -16,14 +16,14 @@ DECLARE
   v_game_completed boolean := false;
   v_entry_number integer;
   v_game_status text;
-+  v_game_name text;
-+  v_prize_pool decimal;
+  v_game_name text;
+  v_prize_pool decimal;
 BEGIN
   -- Get game details
--  SELECT min_score, current_players, max_players, status
--  INTO v_min_score, v_current_players, v_max_players, v_game_status
-+  SELECT min_score, current_players, max_players, status, name, prize_pool
-+  INTO v_min_score, v_current_players, v_max_players, v_game_status, v_game_name, v_prize_pool
+--  SELECT min_score, current_players, max_players, status
+--  INTO v_min_score, v_current_players, v_max_players, v_game_status
+   SELECT min_score, current_players, max_players, status, name, prize_pool
+   INTO v_min_score, v_current_players, v_max_players, v_game_status, v_game_name, v_prize_pool
    FROM restaurant_games
    WHERE id = p_game_id;
    
@@ -72,11 +72,11 @@ BEGIN
      WHERE id = p_game_id;
      
      v_game_completed := true;
-+    
-+    -- Get updated prize pool after completion
-+    SELECT prize_pool INTO v_prize_pool
-+    FROM restaurant_games
-+    WHERE id = p_game_id;
+    
+     -- Get updated prize pool after completion
+     SELECT prize_pool INTO v_prize_pool
+     FROM restaurant_games
+     WHERE id = p_game_id;
    END IF;
    
    RETURN jsonb_build_object(
@@ -88,10 +88,10 @@ BEGIN
      'qualified', p_score >= v_min_score,
      'entries_count', v_entry_count,
      'max_players', v_max_players,
--    'entry_number', v_entry_number
-+    'entry_number', v_entry_number,
-+    'game_name', v_game_name,
-+    'prize_pool', v_prize_pool
+--    'entry_number', v_entry_number
+     'entry_number', v_entry_number,
+     'game_name', v_game_name,
+     'prize_pool', v_prize_pool
    );
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
