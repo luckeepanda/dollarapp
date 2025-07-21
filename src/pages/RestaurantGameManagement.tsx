@@ -429,7 +429,7 @@ const RestaurantGameManagement: React.FC = () => {
             <p className="text-royal-blue-200 mb-6">Create your first game to start attracting players!</p>
             <button
               onClick={() => setShowCreateForm(true)}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-steel-blue px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"
             >
               <Plus className="h-5 w-5" />
               <span>Create Your First Game</span>
