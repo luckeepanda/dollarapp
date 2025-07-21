@@ -173,7 +173,7 @@ const RestaurantGameManagement: React.FC = () => {
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 text-gray-500 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="e.g., Lunch Challenge"
                       required
                     />
