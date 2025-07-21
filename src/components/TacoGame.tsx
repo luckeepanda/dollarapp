@@ -22,6 +22,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
   const eventListenersAttachedRef = useRef<boolean>(false);
+  const gameEndCalledRef = useRef<boolean>(false);
   
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
@@ -102,6 +103,9 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     // Cleanup first
     cleanupGame();
     
+    // Reset game end flag
+    gameEndCalledRef.current = false;
+    
     // Reset to initial state
     const newState = createInitialGameState();
     console.log('TacoGame: Setting fresh initial state:', newState);
@@ -132,6 +136,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   useEffect(() => {
     if (resetTrigger > 0) {
       console.log('TacoGame: Reset trigger received:', resetTrigger);
+      gameEndCalledRef.current = false;
       resetGame();
     }
   }, [resetTrigger, resetGame]);
@@ -342,8 +347,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
 
       // Check collision
       if (checkCollision(newTacoY, newObstacles)) {
-        console.log('TacoGame: Game over - calling onGameEnd with score:', newScore);
-        onGameEnd(newScore);
+        // Prevent multiple game end calls
+        if (!gameEndCalledRef.current) {
+          gameEndCalledRef.current = true;
+          console.log('TacoGame: Game over - calling onGameEnd with score:', newScore);
+          onGameEnd(newScore);
+        }
         return {
           ...prev,
           gameOver: true

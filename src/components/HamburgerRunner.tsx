@@ -27,6 +27,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
   const eventListenersAttachedRef = useRef<boolean>(false);
+  const gameEndCalledRef = useRef<boolean>(false);
   
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
@@ -111,6 +112,9 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     // Cleanup first
     cleanupGame();
     
+    // Reset game end flag
+    gameEndCalledRef.current = false;
+    
     // Reset to initial state
     const newState = createInitialGameState();
     console.log('HamburgerRunner: Setting fresh initial state:', newState);
@@ -147,6 +151,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   useEffect(() => {
     if (resetTrigger > 0) {
       console.log('HamburgerRunner: Reset trigger received:', resetTrigger);
+      gameEndCalledRef.current = false;
       resetGame();
     }
   }, [resetTrigger, resetGame]);
@@ -494,8 +499,12 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
 
       // Check collision
       if (checkCollision(prev.hamburgerX, newHamburgerY, newObstacles)) {
-        console.log('HamburgerRunner: Game over - calling onGameEnd with score:', newScore);
-        onGameEnd(newScore);
+        // Prevent multiple game end calls
+        if (!gameEndCalledRef.current) {
+          gameEndCalledRef.current = true;
+          console.log('HamburgerRunner: Game over - calling onGameEnd with score:', newScore);
+          onGameEnd(newScore);
+        }
         return {
           ...prev,
           gameOver: true

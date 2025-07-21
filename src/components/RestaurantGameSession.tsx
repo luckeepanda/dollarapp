@@ -29,6 +29,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
   const [isJoiningAgain, setIsJoiningAgain] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [gameEntries, setGameEntries] = useState<RestaurantGameEntry[]>([]);
+  const [hasSubmittedScore, setHasSubmittedScore] = useState(false);
 
   // Load user's previous entries and best score
   React.useEffect(() => {
@@ -64,6 +65,14 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
 
   const handleGameEnd = useCallback(async (score: number) => {
     console.log('RestaurantGameSession: Game ended with score:', score);
+    
+    // Prevent duplicate submissions
+    if (hasSubmittedScore || isSubmittingScore) {
+      console.log('RestaurantGameSession: Score already submitted, ignoring duplicate');
+      return;
+    }
+    
+    setHasSubmittedScore(true);
     setFinalScore(score);
     setGameActive(false);
     setIsSubmittingScore(true);
@@ -84,6 +93,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
       onGameComplete(result);
     } catch (error) {
       console.error('Failed to submit score:', error);
+      setHasSubmittedScore(false); // Reset on error to allow retry
       alert('Failed to submit score. Please try again.');
     } finally {
       setIsSubmittingScore(false);
@@ -93,6 +103,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
   const restartGame = useCallback(() => {
     console.log('RestaurantGameSession: Restarting game');
     
+    setHasSubmittedScore(false);
     setFinalScore(null);
     setGameActive(false);
     setGameResult(null);
@@ -122,6 +133,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
       updateBalance(user.balance - game.entry_fee);
       
       // Reset game state for new attempt
+      setHasSubmittedScore(false);
       setFinalScore(null);
       setGameResult(null);
       setGameActive(false);

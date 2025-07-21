@@ -30,6 +30,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   const touchMoveRef = useRef<{ x: number; y: number } | null>(null);
   const lastShotTimeRef = useRef<number>(0);
   const eventListenersAttachedRef = useRef<boolean>(false);
+  const gameEndCalledRef = useRef<boolean>(false);
   
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
@@ -122,6 +123,9 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     
     cleanupGame();
     
+    // Reset game end flag
+    gameEndCalledRef.current = false;
+    
     const newState = createInitialGameState();
     console.log('FoodBlaster: Setting fresh initial state:', newState);
     setGameState(newState);
@@ -148,6 +152,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   useEffect(() => {
     if (resetTrigger > 0) {
       console.log('FoodBlaster: Reset trigger received:', resetTrigger);
+      gameEndCalledRef.current = false;
       resetGame();
     }
   }, [resetTrigger, resetGame]);
@@ -504,8 +509,12 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       if (playerHit) {
         newLives--;
         if (newLives <= 0) {
-          console.log('FoodBlaster: Game over from bullet hit - calling onGameEnd with score:', newScore);
-          onGameEnd(newScore);
+          // Prevent multiple game end calls
+          if (!gameEndCalledRef.current) {
+            gameEndCalledRef.current = true;
+            console.log('FoodBlaster: Game over from bullet hit - calling onGameEnd with score:', newScore);
+            onGameEnd(newScore);
+          }
           return {
             ...prev,
             gameOver: true
