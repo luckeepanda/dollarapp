@@ -45,6 +45,8 @@ export interface GameResult {
   qualified: boolean;
   entries_count: number;
   max_players: number;
+  game_name?: string;
+  prize_pool?: number;
 }
 
 export const restaurantGameService = {
@@ -156,21 +158,20 @@ export const restaurantGameService = {
     if (data && data.game_completed && data.winner_id === userId) {
       try {
         console.log('Creating restaurant game QR code for winner:', userId);
-        // Get game details for QR code
-        const game = await this.getGame(gameId);
-        if (game) {
+        // Use game details from the RPC response
+        if (data.game_name && data.prize_pool !== undefined) {
           const qrCode = await playerQRService.createRestaurantGameQRCode(
             userId,
             gameId,
-            game.name,
-            game.prize_pool
+            data.game_name,
+            data.prize_pool
           );
           
           // Add QR code to the result
           data.qr_code = qrCode;
           console.log('Restaurant game QR code created successfully:', qrCode);
         } else {
-          console.error('Game not found when creating QR code');
+          console.error('Game details missing from response when creating QR code');
           throw new Error('Game completed but QR code creation failed. Please contact support.');
         }
       } catch (qrError) {
