@@ -200,7 +200,7 @@ const RestaurantGameManagement: React.FC = () => {
                     <select
                       value={formData.gameType}
                       onChange={(e) => setFormData({...formData, gameType: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       required
                     >
                       <option value="taco_flyer">🌮 Taco Flyer</option>
@@ -217,7 +217,7 @@ const RestaurantGameManagement: React.FC = () => {
                       <select
                         value={formData.entryFee}
                         onChange={(e) => setFormData({...formData, entryFee: parseFloat(e.target.value)})}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         required
                       >
                         <option value={1}>$1</option>
