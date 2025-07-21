@@ -424,7 +424,7 @@ const RestaurantGameManagement: React.FC = () => {
 
         {games.length === 0 && (
           <div className="text-center py-12">
-            <Trophy className="h-16 w-16 text-steel-blue/30 mx-auto mb-4" />
+            <Trophy className="h-16 w-16 text-steel-blue mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-steel-blue mb-2">No Games Created Yet</h3>
             <p className="text-royal-blue-200 mb-6">Create your first game to start attracting players!</p>
             <button
