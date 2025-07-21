@@ -234,7 +234,7 @@ const RestaurantGameManagement: React.FC = () => {
                         type="number"
                         value={formData.foodItemAmount}
                         onChange={(e) => setFormData({...formData, foodItemAmount: parseFloat(e.target.value)})}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         min="2"
                         step="0.01"
                         required
