@@ -30,7 +30,7 @@ const RestaurantGameManagement: React.FC = () => {
     gameType: 'taco_flyer',
     entryFee: 1,
     foodItemAmount: 20,
-    minScore: 5
+    // minScore removed - will use default of 1
   });
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const RestaurantGameManagement: React.FC = () => {
         formData.description,
         formData.entryFee,
         maxPlayers,
-        formData.minScore
+        1 // Default minimum score of 1
       );
       
       setShowCreateForm(false);
@@ -82,7 +82,7 @@ const RestaurantGameManagement: React.FC = () => {
         gameType: 'taco_flyer',
         entryFee: 1,
         foodItemAmount: 20,
-        minScore: 5
+        // minScore removed - will use default of 1
       });
       
       await loadGames();
@@ -257,17 +257,6 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Minimum Score Required
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.minScore}
-                      onChange={(e) => setFormData({...formData, minScore: parseInt(e.target.value)})}
-                      className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      min="1"
-                      required
-                    />
-                  </div>
 
                   <div className="flex space-x-3 pt-4">
                     <button

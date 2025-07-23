@@ -264,35 +264,9 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                           </p>
                           
                           <div className="flex space-x-3">
-                            {!gameResult.game_completed && user && user.balance >= game.entry_fee && (
-                              <button
-                                onClick={handlePlayAgain}
-                                disabled={isJoiningAgain}
-                                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl disabled:opacity-50 flex items-center justify-center space-x-2 border border-green-400/30"
-                              >
-                                {isJoiningAgain ? (
-                                  <>
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                    <span>Joining...</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <RotateCcw className="h-4 w-4" />
-                                    <span>Play Again - ${game.entry_fee.toFixed(2)}</span>
-                                  </>
-                                )}
-                              </button>
-                            )}
-                            
-                            {!gameResult.game_completed && user && user.balance < game.entry_fee && (
-                              <div className="flex-1 bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold text-center opacity-50">
-                                Insufficient Balance
-                              </div>
-                            )}
-                            
                             <button
                               onClick={onLeaveGame}
-                              className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2 border border-gray-400/30"
+                              className="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-3 rounded-2xl font-bold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2 border border-gray-400/30"
                             >
                               <Home className="h-4 w-4" />
                               <span>{gameResult.game_completed ? 'Back to Games' : 'Leave Game'}</span>
