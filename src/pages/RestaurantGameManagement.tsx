@@ -29,8 +29,7 @@ const RestaurantGameManagement: React.FC = () => {
     description: '',
     gameType: 'taco_flyer',
     entryFee: 1,
-    foodItemAmount: 20,
-    minScore: 5
+    foodItemAmount: 20
   });
 
   useEffect(() => {
@@ -252,20 +251,6 @@ const RestaurantGameManagement: React.FC = () => {
                     <p className="text-xs text-blue-700 mt-1">
                       Calculated as: Food Item Amount (${formData.foodItemAmount}) ÷ Entry Fee (${formData.entryFee})
                     </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Minimum Score
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.minScore}
-                      onChange={(e) => setFormData({...formData, minScore: parseInt(e.target.value)})}
-                      className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      min="1"
-                      required
-                    />
                   </div>
 
                   <div className="flex space-x-3 pt-4">
