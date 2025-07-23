@@ -81,8 +81,7 @@ const RestaurantGameManagement: React.FC = () => {
         description: '',
         gameType: 'taco_flyer',
         entryFee: 1,
-        foodItemAmount: 20,
-        minScore: 5
+        foodItemAmount: 20
       });
       
       await loadGames();
