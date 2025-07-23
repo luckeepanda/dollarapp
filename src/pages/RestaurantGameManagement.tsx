@@ -82,7 +82,7 @@ const RestaurantGameManagement: React.FC = () => {
         gameType: 'taco_flyer',
         entryFee: 1,
         foodItemAmount: 20,
-        // minScore removed - will use default of 1
+        minScore: 5
       });
       
       await loadGames();
@@ -257,6 +257,8 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                    </label>
+                  </div>
 
                   <div className="flex space-x-3 pt-4">
                     <button
