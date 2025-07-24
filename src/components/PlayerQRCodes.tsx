@@ -223,7 +223,7 @@ const PlayerQRCodes: React.FC = () => {
               <div className="mt-2 p-2 bg-red-500/20 rounded-lg border border-red-400/30">
                 <p className="text-red-100 text-xs">
                   <strong>Rejection Reason:</strong> {qrCode.rejection_reason}
-                </span>
+                </p>
               </div>
             )}
           </div>
