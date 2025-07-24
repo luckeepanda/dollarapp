@@ -351,7 +351,7 @@ const PlayerQRCodes: React.FC = () => {
                 <div className="bg-green-500/20 p-3 rounded-xl border border-green-400/30">
                   <div className="flex items-center space-x-2">
                     <Gift className="h-4 w-4 text-green-400" />
-                    <p className="text-sm text-green-300 font-medium">
+                    <p className="text-sm text-green-600 font-medium">
                       Ready to redeem at participating restaurants!
                     </p>
                   </div>
