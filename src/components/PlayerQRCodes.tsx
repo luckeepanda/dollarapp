@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { playerQRService } from '../services/playerQRService';
+import { supabase } from '../lib/supabase';
 import { QrCode, Copy, CheckCircle, Trophy, Calendar, Gift, Download, AlertCircle, X } from 'lucide-react';
 import QRCode from 'qrcode';
-import type { PlayerQRCode, supabase } from '../lib/supabase';
+import type { PlayerQRCode } from '../lib/supabase';
 
 const PlayerQRCodes: React.FC = () => {
   const { user } = useAuth();
