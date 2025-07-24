@@ -182,6 +182,11 @@ const QRScanner: React.FC = () => {
   const handleRedemptionOld = async (approved: boolean) => {
     if (scannedCode && user) {
       setIsRedeeming(true);
+      
+      try {
+        if (scannedCode.isRestaurantGame) {
+          // Handle restaurant game QR redemption
+          const result = await restaurantGameService.redeemQR(scannedCode.code, user.id);
           
           if (result.success) {
             const newRedemption = {
