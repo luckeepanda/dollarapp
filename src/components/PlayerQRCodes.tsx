@@ -14,6 +14,7 @@ const PlayerQRCodes: React.FC = () => {
   const [qrImages, setQrImages] = useState<{ [key: string]: string }>({});
   const [qrImageErrors, setQrImageErrors] = useState<{ [key: string]: boolean }>({});
   const [removingCodes, setRemovingCodes] = useState<Set<string>>(new Set());
+  const [removingRedeemedCodes, setRemovingRedeemedCodes] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (user) {
@@ -104,6 +105,42 @@ const PlayerQRCodes: React.FC = () => {
       alert('Failed to remove QR code. Please try again.');
     } finally {
       setRemovingCodes(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(qrCode.code);
+        return newSet;
+      });
+    }
+  };
+
+  const removeRedeemedQRCode = async (qrCode: PlayerQRCode) => {
+    if (!user) return;
+    
+    if (!window.confirm(`Are you sure you want to remove this redeemed QR code? This action cannot be undone.`)) {
+      return;
+    }
+    
+    setRemovingRedeemedCodes(prev => new Set(prev).add(qrCode.code));
+    
+    try {
+      const { error } = await supabase
+        .from('player_qr_codes')
+        .delete()
+        .eq('id', qrCode.id)
+        .eq('user_id', user.id)
+        .eq('is_redeemed', true);
+      
+      if (error) {
+        throw error;
+      }
+      
+      // Remove from local state
+      setQrCodes(prev => prev.filter(code => code.id !== qrCode.id));
+      alert('Redeemed QR code has been removed from your list.');
+    } catch (error) {
+      console.error('Failed to remove redeemed QR code:', error);
+      alert('Failed to remove QR code. Please try again.');
+    } finally {
+      setRemovingRedeemedCodes(prev => {
         const newSet = new Set(prev);
         newSet.delete(qrCode.code);
         return newSet;
@@ -315,6 +352,25 @@ const PlayerQRCodes: React.FC = () => {
                     </>
                   )}
                 </button>
+              ) : qrCode.is_redeemed ? (
+                // Show remove button for redeemed codes
+                <button
+                  onClick={() => removeRedeemedQRCode(qrCode)}
+                  disabled={removingRedeemedCodes.has(qrCode.code)}
+                  className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+                >
+                  {removingRedeemedCodes.has(qrCode.code) ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Removing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <X className="h-4 w-4" />
+                      <span>Remove Used Code</span>
+                    </>
+                  )}
+                </button>
               ) : !qrCode.is_redeemed ? (
                 // Show normal action buttons for active codes
                 <div className="flex space-x-2">
@@ -353,6 +409,17 @@ const PlayerQRCodes: React.FC = () => {
                     <Gift className="h-4 w-4 text-green-600" />
                     <p className="text-sm text-green-600 font-medium">
                       Ready to redeem at participating restaurants!
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {qrCode.is_redeemed && (
+                <div className="bg-blue-500/20 p-3 rounded-xl border border-blue-400/30">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-blue-400" />
+                    <p className="text-sm text-blue-300 font-medium">
+                      Successfully redeemed! You can remove this from your list if desired.
                     </p>
                   </div>
                 </div>
