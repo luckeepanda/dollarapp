@@ -195,34 +195,65 @@ const QRScanner: React.FC = () => {
       setIsRedeeming(true);
       
       try {
-        // Handle QR code redemption or rejection
-        const result = await playerQRService.redeemQRCode(
-          scannedCode.code, 
-          user.id, 
-          approved, 
-          approved ? undefined : 'Rejected by restaurant'
-        );
+        if (!scannedCode.isValid) {
+          // Handle invalid QR codes
+          if (!approved) {
+            // User clicked "Try Again" on invalid code
+            setScannedCode(null);
+            return;
+          } else {
+            // This shouldn't happen as approve button is hidden for invalid codes
+            alert(`❌ Cannot process invalid QR code: ${scannedCode.message || 'QR code is not valid'}`);
+            setScannedCode(null);
+            return;
+          }
+        }
         
-        if (approved && result.success) {
-          const newRedemption = {
-            id: Date.now(),
-            code: scannedCode.code,
-            amount: result.amount,
-            customer: result.player_id || scannedCode.customer,
-            date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            status: 'redeemed' as const
-          };
+        if (approved) {
+          // Handle QR code redemption
+          const result = await playerQRService.redeemQRCode(
+            scannedCode.code, 
+            user.id, 
+            true
+          );
           
-          setScanHistory([newRedemption, ...scanHistory]);
-          alert(`✅ Successfully redeemed $${result.amount} from ${result.game_name || scannedCode.gameName}!`);
-        } else if (approved && !result.success) {
-          alert(`❌ ${result.message || 'Failed to redeem QR code'}`);
-        } else if (!approved) {
-          alert(`❌ QR code ${scannedCode.code} has been rejected. The player will be notified.`);
+          if (result.success) {
+            const newRedemption = {
+              id: Date.now(),
+              code: scannedCode.code,
+              amount: result.amount,
+              customer: result.player_id || scannedCode.customer,
+              date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+              status: 'redeemed' as const
+            };
+            
+            setScanHistory([newRedemption, ...scanHistory]);
+            alert(`✅ Successfully redeemed $${result.amount} from ${result.game_name || scannedCode.gameName}!`);
+          } else {
+            alert(`❌ ${result.message || 'Failed to redeem QR code'}`);
+          }
+        } else {
+          // Handle QR code rejection
+          const result = await playerQRService.redeemQRCode(
+            scannedCode.code, 
+            user.id, 
+            false,
+            'Rejected by restaurant'
+          );
+          
+          if (result.rejected) {
+            alert(`❌ QR code ${scannedCode.code} has been rejected. The player will be notified.`);
+          } else {
+            alert(`❌ Failed to reject QR code: ${result.message || 'Unknown error'}`);
+          }
         }
       } catch (error: any) {
         console.error('QR processing failed:', error);
-        alert(error.message || `Failed to ${approved ? 'redeem' : 'reject'} QR code`);
+        if (scannedCode.isValid) {
+          alert(error.message || `Failed to ${approved ? 'redeem' : 'reject'} QR code`);
+        } else {
+          alert(`❌ Invalid QR code: ${scannedCode.message || 'QR code is not valid'}`);
+        }
       } finally {
         setIsRedeeming(false);
       }
@@ -410,9 +441,13 @@ const QRScanner: React.FC = () => {
                       <button
                         onClick={() => handleRedemption(false)}
                         disabled={isRedeeming}
-                        className="flex-1 bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition-colors disabled:opacity-50"
+                        className={`flex-1 py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 ${
+                          scannedCode.isValid 
+                            ? 'bg-red-600 text-white hover:bg-red-700' 
+                            : 'bg-gray-600 text-white hover:bg-gray-700'
+                        }`}
                       >
-                        {scannedCode.isValid ? 'Reject' : 'Try Again'}
+                        {scannedCode.isValid ? 'Reject QR Code' : 'Scan Another Code'}
                       </button>
                     </div>
                   </div>
