@@ -120,7 +120,7 @@ const QRScanner: React.FC = () => {
         if (scannedCode.isRestaurantGame) {
           // Handle restaurant game QR redemption
           if (approved) {
-            const result = await restaurantGameService.redeemQR(scannedCode.code, user.id);
+            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, true);
             
             if (result.success) {
               const newRedemption = {
@@ -139,7 +139,7 @@ const QRScanner: React.FC = () => {
             }
           } else {
             // Handle rejection for restaurant game QR
-            const result = await restaurantGameService.redeemQR(scannedCode.code, user.id, false, 'Rejected by restaurant');
+            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, false, 'Rejected by restaurant');
             alert(`QR code ${scannedCode.code} has been rejected. The player will be notified.`);
           }
         } else {
