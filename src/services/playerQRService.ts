@@ -71,14 +71,31 @@ export const playerQRService = {
   },
 
   // Redeem QR code
-  async redeemQRCode(qrCode: string, restaurantId: string): Promise<any> {
+  async redeemQRCode(qrCode: string, restaurantId: string, approved: boolean = true, rejectionReason?: string): Promise<any> {
     const { data, error } = await supabase.rpc('redeem_player_qr_code', {
       p_qr_code: qrCode,
-      p_restaurant_id: restaurantId
+      p_restaurant_id: restaurantId,
+      p_approved: approved,
+      p_rejection_reason: rejectionReason
     });
 
     if (error) {
       console.error('Error redeeming QR code:', error);
+      throw error;
+    }
+
+    return data;
+  },
+
+  // Remove rejected QR code
+  async removeRejectedQRCode(qrCode: string, userId: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc('remove_rejected_qr_code', {
+      p_qr_code: qrCode,
+      p_user_id: userId
+    });
+
+    if (error) {
+      console.error('Error removing rejected QR code:', error);
       throw error;
     }
 

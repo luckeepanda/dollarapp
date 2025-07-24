@@ -113,19 +113,75 @@ const QRScanner: React.FC = () => {
   };
 
   const handleRedemption = async (approved: boolean) => {
-    if (!approved) {
-      // Handle rejection - just close the modal without processing
-      setScannedCode(null);
-      return;
-    }
-
-    if (approved && scannedCode && user) {
+    if (scannedCode && user) {
       setIsRedeeming(true);
       
       try {
         if (scannedCode.isRestaurantGame) {
           // Handle restaurant game QR redemption
-          const result = await restaurantGameService.redeemQR(scannedCode.code, user.id);
+          if (approved) {
+            const result = await restaurantGameService.redeemQR(scannedCode.code, user.id);
+            
+            if (result.success) {
+              const newRedemption = {
+                id: Date.now(),
+                code: scannedCode.code,
+                amount: result.amount,
+                customer: result.player_id || 'Player',
+                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                status: 'redeemed' as const
+              };
+              
+              setScanHistory([newRedemption, ...scanHistory]);
+              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
+            } else {
+              alert(result.message || 'Failed to redeem QR code');
+            }
+          } else {
+            // Handle rejection for restaurant game QR
+            const result = await restaurantGameService.redeemQR(scannedCode.code, user.id, false, 'Rejected by restaurant');
+            alert(`QR code ${scannedCode.code} has been rejected. The player will be notified.`);
+          }
+        } else {
+          // Handle player QR code redemption/rejection
+          if (approved) {
+            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, true);
+            
+            if (result.success) {
+              const newRedemption = {
+                id: Date.now(),
+                code: scannedCode.code,
+                amount: result.amount,
+                customer: result.player_id || 'Player',
+                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                status: 'redeemed' as const
+              };
+              
+              setScanHistory([newRedemption, ...scanHistory]);
+              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
+            } else {
+              alert(result.message || 'Failed to redeem QR code');
+            }
+          } else {
+            // Handle rejection for player QR
+            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, false, 'Rejected by restaurant');
+            alert(`QR code ${scannedCode.code} has been rejected. The player will be notified.`);
+          }
+        }
+      } catch (error: any) {
+        console.error('QR processing failed:', error);
+        alert(error.message || `Failed to ${approved ? 'redeem' : 'reject'} QR code`);
+      } finally {
+        setIsRedeeming(false);
+      }
+    }
+    
+    setScannedCode(null);
+  };
+
+  const handleRedemptionOld = async (approved: boolean) => {
+    if (scannedCode && user) {
+      setIsRedeeming(true);
           
           if (result.success) {
             const newRedemption = {
@@ -168,24 +224,6 @@ const QRScanner: React.FC = () => {
       } finally {
         setIsRedeeming(false);
       }
-    }
-    
-    setScannedCode(null);
-  };
-
-  const handleRedemptionOld = (approved: boolean) => {
-    if (approved && scannedCode) {
-      const newRedemption = {
-        id: Date.now(),
-        code: scannedCode.code,
-        amount: parseFloat(scannedCode.amount),
-        customer: scannedCode.customer,
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        status: 'redeemed' as const
-      };
-      
-      setScanHistory([newRedemption, ...scanHistory]);
-      alert(`Successfully redeemed $${scannedCode.amount} from ${scannedCode.customer}!`);
     }
     
     setScannedCode(null);

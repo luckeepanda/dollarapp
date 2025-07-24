@@ -139,5 +139,7 @@ export interface PlayerQRCode {
   is_redeemed: boolean
   redeemed_at?: string
   redeemed_by?: string
+  rejected_at?: string
+  rejection_reason?: string
   created_at: string
 }

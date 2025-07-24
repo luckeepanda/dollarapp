@@ -271,10 +271,12 @@ export const restaurantGameService = {
   },
 
   // Redeem QR code
-  async redeemQR(qrCode: string, restaurantId: string): Promise<any> {
+  async redeemQR(qrCode: string, restaurantId: string, approved: boolean = true, rejectionReason?: string): Promise<any> {
     const { data, error } = await supabase.rpc('redeem_restaurant_qr', {
       p_qr_code: qrCode,
-      p_restaurant_id: restaurantId
+      p_restaurant_id: restaurantId,
+      p_approved: approved,
+      p_rejection_reason: rejectionReason
     });
 
     if (error) {
