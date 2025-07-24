@@ -30,7 +30,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       return fetch(url, {
         ...options,
         // Add timeout to prevent hanging requests
-        signal: AbortSignal.timeout(15000), // 15 second timeout
+        signal: AbortSignal.timeout(10000), // 10 second timeout
       }).catch(error => {
         console.error('Supabase fetch error:', error)
         if (error.name === 'AbortError') {

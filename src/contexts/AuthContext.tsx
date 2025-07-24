@@ -292,20 +292,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = async () => {
     try {
+      console.log('Logout initiated...');
+      
+      // Clear local state immediately to prevent UI issues
+      setUser(null);
+      setSupabaseUser(null);
+      
+      // Attempt to sign out from Supabase
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Logout error:', error);
-        throw error;
+        // Don't throw error for logout - just log it and continue with local cleanup
+        console.warn('Supabase logout failed, but continuing with local cleanup:', error.message);
       }
-      // Clear state immediately on successful logout
-      setUser(null);
-      setSupabaseUser(null);
+      
+      console.log('Logout completed successfully');
     } catch (error) {
       console.error('Logout failed:', error);
-      // Even if logout fails, clear local state
+      // Even if logout fails completely, ensure local state is cleared
       setUser(null);
       setSupabaseUser(null);
-      throw error;
+      console.log('Local state cleared despite logout error');
     }
   };
 

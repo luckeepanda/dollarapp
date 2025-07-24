@@ -80,11 +80,13 @@ const RestaurantDashboard: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      const { logout } = useAuth();
       await logout();
-      navigate('/');
+      // Force navigation to home page after logout
+      window.location.href = '/';
     } catch (error) {
       console.error('Logout failed:', error);
+      // Even if logout fails, redirect to home page
+      window.location.href = '/';
     }
   };
 
