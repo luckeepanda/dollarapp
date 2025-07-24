@@ -63,8 +63,7 @@ const QRScanner: React.FC = () => {
   };
 
   const processScannedCode = (qrData: string) => {
-    // Parse the QR code data and create mock data structure
-    // In a real app, you'd validate this against your backend
+    // Parse the QR code data
     let parsedData;
     
     try {
@@ -75,19 +74,42 @@ const QRScanner: React.FC = () => {
       parsedData = { code: qrData };
     }
 
-    // Determine if it's a restaurant game QR code based on format
-    const isRestaurantGame = qrData.startsWith('RG-') || parsedData.type === 'restaurant_game';
+    // For demo purposes, we'll validate the QR code format and show appropriate data
+    let qrCodeData;
     
-    const mockQRData = {
-      code: parsedData.code || qrData,
-      amount: parsedData.amount || (Math.random() * 20 + 5).toFixed(2),
-      customer: parsedData.customer || `Player${Math.floor(Math.random() * 1000)}`,
-      gameId: parsedData.gameId || Math.floor(Math.random() * 100),
-      isValid: parsedData.isValid !== false, // Default to valid unless explicitly false
-      isRestaurantGame: isRestaurantGame
-    };
+    if (qrData.startsWith('RG-')) {
+      // Restaurant game QR code - show actual game prize amount
+      qrCodeData = {
+        code: qrData,
+        amount: '25.00', // This would come from the actual game's prize pool
+        customer: 'GameWinner',
+        gameId: qrData.split('-')[1] || 'Unknown',
+        isValid: true,
+        isRestaurantGame: true
+      };
+    } else if (qrData.startsWith('TRN-')) {
+      // Tournament QR code - show tournament prize amount
+      qrCodeData = {
+        code: qrData,
+        amount: '5.00', // Standard tournament prize
+        customer: 'TournamentWinner',
+        gameId: qrData.split('-')[1] || 'Unknown',
+        isValid: true,
+        isRestaurantGame: false
+      };
+    } else {
+      // Unknown or invalid QR code format
+      qrCodeData = {
+        code: qrData,
+        amount: '0.00',
+        customer: 'Unknown',
+        gameId: 'Unknown',
+        isValid: false,
+        isRestaurantGame: false
+      };
+    }
     
-    setScannedCode(mockQRData);
+    setScannedCode(qrCodeData);
   };
 
   const handleRedemption = async (approved: boolean) => {
