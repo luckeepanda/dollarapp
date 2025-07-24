@@ -236,7 +236,7 @@ const PlayerQRCodes: React.FC = () => {
                 {/* Alphanumeric Code */}
                 <div className="bg-white/10 p-4 rounded-xl mb-4">
                   <p className="text-xs text-gray-600 mb-2">QR Code:</p>
-                  <p className="text-lg font-mono text-gray-600 break-all text-center">{qrCode.code}</p>
+                  <p className="text-lg font-mono text-blue-600 break-all text-center">{qrCode.code}</p>
                 </div>
 
                 {/* Scannable QR Code */}
