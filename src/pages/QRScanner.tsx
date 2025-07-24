@@ -113,6 +113,12 @@ const QRScanner: React.FC = () => {
   };
 
   const handleRedemption = async (approved: boolean) => {
+    if (!approved) {
+      // Handle rejection - just close the modal without processing
+      setScannedCode(null);
+      return;
+    }
+
     if (approved && scannedCode && user) {
       setIsRedeeming(true);
       
@@ -162,19 +168,6 @@ const QRScanner: React.FC = () => {
       } finally {
         setIsRedeeming(false);
       }
-    } else {
-      // Handle regular QR code (existing logic)
-      const newRedemption = {
-        id: Date.now(),
-        code: scannedCode.code,
-        amount: parseFloat(scannedCode.amount),
-        customer: scannedCode.customer,
-        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-        status: 'redeemed' as const
-      };
-      
-      setScanHistory([newRedemption, ...scanHistory]);
-      alert(`Successfully redeemed $${scannedCode.amount} from ${scannedCode.customer}!`);
     }
     
     setScannedCode(null);
