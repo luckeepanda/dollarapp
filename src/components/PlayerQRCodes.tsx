@@ -277,7 +277,7 @@ const PlayerQRCodes: React.FC = () => {
                 <span className="text-gray-600">Created:</span>
                 <div className="flex items-center space-x-1">
                   <Calendar className="h-3 w-3 text-gray-400" />
-                  <span className="text-white">{formatDate(qrCode.created_at)}</span>
+                  <span className="text-gray-600">{formatDate(qrCode.created_at)}</span>
                 </div>
               </div>
 
