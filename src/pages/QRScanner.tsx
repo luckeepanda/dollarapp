@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import QRScannerModal from '../components/QRScannerModal';
 import { useAuth } from '../contexts/AuthContext';
-import { restaurantGameService } from '../services/restaurantGameService';
 import { playerQRService } from '../services/playerQRService';
+import { supabase } from '../lib/supabase';
 import { 
   ArrowLeft, 
   QrCode, 
@@ -62,7 +62,7 @@ const QRScanner: React.FC = () => {
     setShowScannerModal(false);
   };
 
-  const processScannedCode = (qrData: string) => {
+  const processScannedCode = async (qrData: string) => {
     // Parse the QR code data
     let parsedData;
     
@@ -74,7 +74,85 @@ const QRScanner: React.FC = () => {
       parsedData = { code: qrData };
     }
 
-    // For demo purposes, we'll validate the QR code format and show appropriate data
+    // Look up the actual QR code in the database
+    try {
+      const { data: qrCodeRecord, error } = await supabase
+        .from('player_qr_codes')
+        .select(`
+          *,
+          profiles!player_qr_codes_user_id_fkey(username)
+        `)
+        .eq('code', qrData)
+        .single();
+
+      if (error || !qrCodeRecord) {
+        // QR code not found in database
+        setScannedCode({
+          code: qrData,
+          amount: '0.00',
+          customer: 'Unknown',
+          gameId: 'Unknown',
+          isValid: false,
+          isRestaurantGame: false,
+          message: 'QR code not found in system'
+        });
+        return;
+      }
+
+      // Check if already redeemed or rejected
+      if (qrCodeRecord.is_redeemed) {
+        setScannedCode({
+          code: qrData,
+          amount: qrCodeRecord.prize_amount.toString(),
+          customer: qrCodeRecord.profiles?.username || 'Unknown',
+          gameId: qrCodeRecord.source_id || 'Unknown',
+          isValid: false,
+          isRestaurantGame: qrCodeRecord.source_type === 'restaurant_game',
+          message: 'QR code already redeemed'
+        });
+        return;
+      }
+
+      if (qrCodeRecord.rejected_at) {
+        setScannedCode({
+          code: qrData,
+          amount: qrCodeRecord.prize_amount.toString(),
+          customer: qrCodeRecord.profiles?.username || 'Unknown',
+          gameId: qrCodeRecord.source_id || 'Unknown',
+          isValid: false,
+          isRestaurantGame: qrCodeRecord.source_type === 'restaurant_game',
+          message: 'QR code was previously rejected'
+        });
+        return;
+      }
+
+      // Valid QR code - show actual prize amount
+      setScannedCode({
+        code: qrData,
+        amount: qrCodeRecord.prize_amount.toString(),
+        customer: qrCodeRecord.profiles?.username || 'Unknown',
+        gameId: qrCodeRecord.source_id || 'Unknown',
+        gameName: qrCodeRecord.game_name,
+        isValid: true,
+        isRestaurantGame: qrCodeRecord.source_type === 'restaurant_game'
+      });
+
+    } catch (error) {
+      console.error('Error looking up QR code:', error);
+      setScannedCode({
+        code: qrData,
+        amount: '0.00',
+        customer: 'Unknown',
+        gameId: 'Unknown',
+        isValid: false,
+        isRestaurantGame: false,
+        message: 'Error validating QR code'
+      });
+    }
+  };
+
+  // Legacy fallback for demo QR codes (keeping for backward compatibility)
+  const processLegacyQRCode = (qrData: string) => {
     let qrCodeData;
     
     if (qrData.startsWith('RG-')) {
@@ -117,56 +195,30 @@ const QRScanner: React.FC = () => {
       setIsRedeeming(true);
       
       try {
-        if (scannedCode.isRestaurantGame) {
-          // Handle restaurant game QR redemption
-          if (approved) {
-            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, true);
-            
-            if (result.success) {
-              const newRedemption = {
-                id: Date.now(),
-                code: scannedCode.code,
-                amount: result.amount,
-                customer: result.player_id || 'Player',
-                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                status: 'redeemed' as const
-              };
-              
-              setScanHistory([newRedemption, ...scanHistory]);
-              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
-            } else {
-              alert(result.message || 'Failed to redeem QR code');
-            }
-          } else {
-            // Handle rejection for restaurant game QR
-            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, false, 'Rejected by restaurant');
-            alert(`QR code ${scannedCode.code} has been rejected. The player will be notified.`);
-          }
-        } else {
-          // Handle player QR code redemption/rejection
-          if (approved) {
-            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, true);
-            
-            if (result.success) {
-              const newRedemption = {
-                id: Date.now(),
-                code: scannedCode.code,
-                amount: result.amount,
-                customer: result.player_id || 'Player',
-                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                status: 'redeemed' as const
-              };
-              
-              setScanHistory([newRedemption, ...scanHistory]);
-              alert(`Successfully redeemed $${result.amount} from ${result.game_name}!`);
-            } else {
-              alert(result.message || 'Failed to redeem QR code');
-            }
-          } else {
-            // Handle rejection for player QR
-            const result = await playerQRService.redeemQRCode(scannedCode.code, user.id, false, 'Rejected by restaurant');
-            alert(`QR code ${scannedCode.code} has been rejected. The player will be notified.`);
-          }
+        // Handle QR code redemption or rejection
+        const result = await playerQRService.redeemQRCode(
+          scannedCode.code, 
+          user.id, 
+          approved, 
+          approved ? undefined : 'Rejected by restaurant'
+        );
+        
+        if (approved && result.success) {
+          const newRedemption = {
+            id: Date.now(),
+            code: scannedCode.code,
+            amount: result.amount,
+            customer: result.player_id || scannedCode.customer,
+            date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            status: 'redeemed' as const
+          };
+          
+          setScanHistory([newRedemption, ...scanHistory]);
+          alert(`✅ Successfully redeemed $${result.amount} from ${result.game_name || scannedCode.gameName}!`);
+        } else if (approved && !result.success) {
+          alert(`❌ ${result.message || 'Failed to redeem QR code'}`);
+        } else if (!approved) {
+          alert(`❌ QR code ${scannedCode.code} has been rejected. The player will be notified.`);
         }
       } catch (error: any) {
         console.error('QR processing failed:', error);
