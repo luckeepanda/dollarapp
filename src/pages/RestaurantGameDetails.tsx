@@ -127,7 +127,7 @@ const RestaurantGameDetails: React.FC = () => {
             <ArrowLeft className="h-5 w-5 text-white" />
           </Link>
           <div>
-            <h1 className="text-3xl font-bold text-steel-blue-500">{game.name}</h1>
+            <h1 className="text-3xl font-bold text-steel-blue-100">{game.name}</h1>
             <p className="text-royal-blue-200">{game.description}</p>
           </div>
         </div>
