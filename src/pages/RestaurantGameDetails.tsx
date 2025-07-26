@@ -124,7 +124,7 @@ const RestaurantGameDetails: React.FC = () => {
             to="/restaurant/games"
             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-white" />
+            <ArrowLeft className="h-5 w-5 text-steel-blue-100" />
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-steel-blue-100">{game.name}</h1>
