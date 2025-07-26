@@ -137,7 +137,7 @@ const RestaurantGameDetails: React.FC = () => {
           <div className="lg:col-span-1">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-white">Game Status</h2>
+                <h2 className="text-xl font-semibold text-steel-blue-300">Game Status</h2>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(game.status)}`}>
                   {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
                 </span>
@@ -146,7 +146,7 @@ const RestaurantGameDetails: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-royal-blue-200">Entry Fee:</span>
-                  <span className="text-white font-semibold">${game.entry_fee.toFixed(2)}</span>
+                  <span className="text-steel-blue-500 font-semibold">${game.entry_fee.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -156,19 +156,19 @@ const RestaurantGameDetails: React.FC = () => {
                 
                 <div className="flex justify-between">
                   <span className="text-royal-blue-200">Players:</span>
-                  <span className="text-white font-semibold">{game.current_players}/{game.max_players} entries</span>
+                  <span className="text-steel-blue-500 font-semibold">{game.current_players}/{game.max_players} entries</span>
                 </div>
                 
                 <div className="flex justify-between">
                   <span className="text-royal-blue-200">Min Score:</span>
-                  <span className="text-white font-semibold">{game.min_score}</span>
+                  <span className="text-steel-blue-500 font-semibold">{game.min_score}</span>
                 </div>
 
                 {/* Progress Bar */}
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm text-royal-blue-200">Progress</span>
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-steel-blue-500">
                       {Math.round((game.current_players / game.max_players) * 100)}%
                     </span>
                   </div>
@@ -182,13 +182,13 @@ const RestaurantGameDetails: React.FC = () => {
 
                 <div className="flex justify-between">
                   <span className="text-royal-blue-200">Created:</span>
-                  <span className="text-white text-sm">{formatDate(game.created_at)}</span>
+                  <span className="text-steel-blue-500 text-sm">{formatDate(game.created_at)}</span>
                 </div>
 
                 {game.completed_at && (
                   <div className="flex justify-between">
                     <span className="text-royal-blue-200">Completed:</span>
-                    <span className="text-white text-sm">{formatDate(game.completed_at)}</span>
+                    <span className="text-steel-blue-500 text-sm">{formatDate(game.completed_at)}</span>
                   </div>
                 )}
               </div>
@@ -197,7 +197,7 @@ const RestaurantGameDetails: React.FC = () => {
             {/* QR Code Section */}
             {game.status === 'completed' && game.qr_code && (
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
+                <h3 className="text-lg font-semibold text-steel-blue-100 mb-4 flex items-center space-x-2">
                   <QrCode className="h-5 w-5" />
                   <span>Winner QR Code</span>
                 </h3>
@@ -232,7 +232,7 @@ const RestaurantGameDetails: React.FC = () => {
           {/* Leaderboard */}
           <div className="lg:col-span-2">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 p-6">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center space-x-2">
+              <h2 className="text-xl font-semibold text-steel-blue-500 mb-6 flex items-center space-x-2">
                 <Trophy className="h-5 w-5" />
                 <span>Leaderboard</span>
               </h2>
@@ -262,7 +262,7 @@ const RestaurantGameDetails: React.FC = () => {
                             {getRankIcon(rank)}
                             <div>
                               <div className="flex items-center space-x-2">
-                                <span className="font-semibold text-white">
+                                <span className="font-semibold text-steel-blue-500">
                                   {entry.profiles?.username || 'Unknown Player'}
                                 </span>
                                 {isWinner && (
@@ -279,7 +279,7 @@ const RestaurantGameDetails: React.FC = () => {
                           </div>
                           
                           <div className="text-right">
-                            <div className="text-2xl font-bold text-white">
+                            <div className="text-2xl font-bold text-steel-blue-500">
                               {entry.score}
                             </div>
                             <div className="text-sm text-royal-blue-300">points</div>
