@@ -50,7 +50,7 @@ const Deposit: React.FC = () => {
     });
   }
 
-  const quickAmounts = [5, 10, 25, 50, 100];
+  const quickAmounts = [1,3,5];
 
   const handleDeposit = async () => {
     const depositAmount = parseFloat(amount);
