@@ -70,18 +70,37 @@ const Landing: React.FC = () => {
           </Link>
           
           {/* Bolt.new Logo - Top Right (existing) */}
-          <a 
-            href="http://bolt.new/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block hover:scale-105 transition-transform duration-200"
+          {/* Live Games Now Button - Top Right */}
+          <Link
+            to="/restaurant-games"
+            className="group relative web3-card text-white px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-cyber-200 transition-all duration-300 transform hover:scale-105 web3-glow overflow-hidden"
           >
-            <img 
-              src="/white_circle_360x360.png" 
-              alt="Powered by Bolt.new" 
-              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 opacity-90 hover:opacity-100 transition-opacity duration-200"
-            />
-          </a>
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-electric-400/20 via-neon-500/20 to-cyber-400/20 animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
+            
+            {/* Content */}
+            <div className="relative z-10 text-center">
+              <div className="flex items-center space-x-2 mb-1">
+                <div className="relative">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <div className="absolute inset-0 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+                </div>
+                <span className="text-sm sm:text-base font-black web3-text-gradient animate-pulse">
+                  LIVE GAMES NOW
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-bold text-electric-300 animate-pulse delay-150">
+                JUEGOS EN VIVO AHORA
+              </div>
+            </div>
+            
+            {/* Corner accents */}
+            <div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-electric-400 opacity-60"></div>
+            <div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-neon-400 opacity-60"></div>
+            <div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-cyber-400 opacity-60"></div>
+            <div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-electric-400 opacity-60"></div>
+          </Link>
         </div>
 
         <div className="text-center">
@@ -154,18 +173,37 @@ const Landing: React.FC = () => {
             </div>
             
             {/* Bolt.new Logo - Top Right */}
-            <a 
-              href="http://bolt.new/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block hover:scale-105 transition-transform duration-200"
+            {/* Live Games Now Button - Top Right */}
+            <Link
+              to="/restaurant-games"
+              className="group relative web3-card text-white px-3 py-2 sm:px-4 sm:py-3 font-bold font-display hover:text-cyber-200 transition-all duration-300 transform hover:scale-105 web3-glow overflow-hidden"
             >
-              <img 
-                src="/white_circle_360x360.png" 
-                alt="Powered by Bolt.new" 
-                className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 opacity-90 hover:opacity-100 transition-opacity duration-200"
-              />
-            </a>
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-electric-400/20 via-neon-500/20 to-cyber-400/20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
+              
+              {/* Content */}
+              <div className="relative z-10 text-center">
+                <div className="flex items-center space-x-1 sm:space-x-2 mb-1">
+                  <div className="relative">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 w-2 h-2 sm:w-3 sm:h-3 bg-red-400 rounded-full animate-ping"></div>
+                  </div>
+                  <span className="text-xs sm:text-sm font-black web3-text-gradient animate-pulse">
+                    LIVE GAMES NOW
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-electric-300 animate-pulse delay-150">
+                  JUEGOS EN VIVO AHORA
+                </div>
+              </div>
+              
+              {/* Corner accents */}
+              <div className="absolute top-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-t-2 border-electric-400 opacity-60"></div>
+              <div className="absolute top-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-t-2 border-neon-400 opacity-60"></div>
+              <div className="absolute bottom-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-b-2 border-cyber-400 opacity-60"></div>
+              <div className="absolute bottom-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-b-2 border-electric-400 opacity-60"></div>
+            </Link>
           </div>
         </header>
         

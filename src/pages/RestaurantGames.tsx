@@ -39,7 +39,11 @@ const RestaurantGames: React.FC = () => {
   };
 
   const handleJoinGame = async (game: RestaurantGame) => {
-    if (!user) return;
+    // If user is not logged in, redirect to registration
+    if (!user) {
+      navigate('/register');
+      return;
+    }
     
     if (user.balance < game.entry_fee) {
       alert('Insufficient balance. Please add funds to play.');
