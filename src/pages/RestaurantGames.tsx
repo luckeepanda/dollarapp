@@ -17,6 +17,7 @@ import {
 
 const RestaurantGames: React.FC = () => {
   const { user, updateBalance } = useAuth();
+  const navigate = useNavigate();
   const [games, setGames] = useState<RestaurantGame[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentGame, setCurrentGame] = useState<RestaurantGame | null>(null);
