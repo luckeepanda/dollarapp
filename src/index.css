@@ -53,11 +53,15 @@
 
 @layer components {
   .food-button {
-    @apply relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 
+    @apply relative overflow-hidden bg-gradient-to-r from-orange-600 via-orange-500 to-red-500 
            text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 
-           hover:scale-105 active:scale-95;
+           hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
     background-size: 200% 200%;
     animation: gradient 3s ease infinite;
+  }
+  
+  .food-button:hover {
+    @apply from-orange-700 via-orange-600 to-red-600;
   }
   
   .food-button::before {
@@ -76,7 +80,7 @@
   }
   
   .food-text-gradient {
-    @apply bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 bg-clip-text text-transparent;
   }
   
   .food-glow {
@@ -92,7 +96,7 @@
   
   .food-input {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg 
-           focus:ring-2 focus:ring-success-500 focus:border-transparent 
+           focus:ring-2 focus:ring-green-500 focus:border-green-500 
            transition-all duration-300;
   }
   
@@ -101,11 +105,11 @@
   }
   
   .food-badge-success {
-    @apply bg-success-100 text-success-800;
+    @apply bg-green-100 text-green-800;
   }
   
   .food-badge-warning {
-    @apply bg-accent-100 text-accent-800;
+    @apply bg-yellow-100 text-yellow-800;
   }
   
   .food-badge-error {
@@ -113,10 +117,15 @@
   }
   
   .food-badge-primary {
-    @apply bg-primary-100 text-primary-800;
+    @apply bg-orange-100 text-orange-800;
+  }
+  
+  .food-badge-gold {
+    @apply bg-yellow-100 text-yellow-800;
   }
 }
 
+/* Footer styling */
 footer {
   text-align: center;
   color: #6B7280;
@@ -124,30 +133,44 @@ footer {
   border-top: 1px solid #E5E7EB;
 }
 
+/* Keyframe animations */
 @keyframes gradient {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% { 
+    transform: translateX(-100%); 
+  }
+  100% { 
+    transform: translateX(100%); 
+  }
 }
 
 @keyframes glow {
-  '0%': { 
-    boxShadow: '0 0 5px rgba(255, 107, 53, 0.3), 0 0 10px rgba(255, 107, 53, 0.2), 0 0 15px rgba(255, 107, 53, 0.1)'
+  0% { 
+    box-shadow: 0 0 5px rgba(255, 107, 53, 0.3), 0 0 10px rgba(255, 107, 53, 0.2), 0 0 15px rgba(255, 107, 53, 0.1);
   }
-  '100%': { 
-    boxShadow: '0 0 10px rgba(255, 107, 53, 0.5), 0 0 20px rgba(255, 107, 53, 0.3), 0 0 30px rgba(255, 107, 53, 0.2)'
+  100% { 
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.5), 0 0 20px rgba(255, 107, 53, 0.3), 0 0 30px rgba(255, 107, 53, 0.2);
   }
 }
 
 @keyframes float {
-  '0%, 100%': { transform: 'translateY(0px)' },
-  '50%': { transform: 'translateY(-10px)' }
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
 }
 
+/* Animation utility classes */
 .animate-shimmer {
   animation: shimmer 2s ease-in-out infinite;
 }
