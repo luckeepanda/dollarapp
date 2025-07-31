@@ -45,7 +45,7 @@ function App() {
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/free-play" element={<FreePlay />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
-              <Route path="/noodle-tetris" element={<NoodleTetrisGame />} />
+              {/* <Route path="/noodle-tetris" element={<NoodleTetrisGame />} /> */}
               <Route path="/food-blaster" element={<FoodBlasterGame />} />
               <Route path="/restaurant-games" element={<RestaurantGames />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
