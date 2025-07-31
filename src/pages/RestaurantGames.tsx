@@ -235,6 +235,11 @@ const RestaurantGames: React.FC = () => {
                         <Clock className="h-4 w-4" />
                         <span>Game Full</span>
                       </>
+                    ) : !user ? (
+                      <>
+                        <Play className="h-4 w-4" />
+                        <span>Sign Up to Play</span>
+                      </>
                     ) : (
                       <>
                         <Play className="h-4 w-4" />
