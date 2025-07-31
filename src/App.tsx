@@ -22,7 +22,7 @@ import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import FreePlay from './pages/FreePlay';
 import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
-import NoodleTetrisGame from './pages/NoodleTetris';
+import NoodleTetrisGame from './pages/NoodleTetrisGame';
 import FoodBlasterGame from './pages/FoodBlasterGame';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
