@@ -4,35 +4,35 @@ import { ArrowLeft } from 'lucide-react';
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-steel-blue-900 to-royal-blue-900">
+    <div className="min-h-screen bg-neutral-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="flex items-center space-x-4 mb-8">
           <Link 
             to="/"
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-steel-blue" />
+            <ArrowLeft className="h-5 w-5 text-gray-600" />
           </Link>
           <div>
-            <h1 className="text-3xl font-bold text-steel-blue">Privacy Policy</h1>
-            <p className="text-royal-blue-200">How we protect and handle your information</p>
+            <h1 className="text-3xl font-bold text-gray-900 font-display">Privacy Policy</h1>
+            <p className="text-gray-600">How we protect and handle your information</p>
           </div>
         </div>
 
         {/* Content */}
-        <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20">
-          <div className="text-steel-blue-200 space-y-6 leading-relaxed">
+        <div className="food-card p-8">
+          <div className="text-gray-700 space-y-6 leading-relaxed">
             <p className="text-lg font-medium">
               By accessing or using the Platform, you agree to this Privacy Policy.
             </p>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">1. Information We Collect</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">1. Information We Collect</h2>
               
               <div className="ml-4 space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">a. Information You Provide</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">a. Information You Provide</h3>
                   <ul className="ml-4 space-y-2">
                     <li><strong>Account Info:</strong> Name, email, Google/Apple ID, password hash</li>
                     <li><strong>KYC Data (if required):</strong> Legal name, date of birth, address, photo ID, selfie</li>
@@ -42,7 +42,7 @@ const PrivacyPolicy: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">b. Payment & Wallet Info</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">b. Payment & Wallet Info</h3>
                   <ul className="ml-4 space-y-2">
                     <li>Dollar App processes payments via Stripe, Coinbase Commerce, or similar services</li>
                     <li>We do not store full credit card numbers</li>
@@ -52,7 +52,7 @@ const PrivacyPolicy: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-steel-blue-100 mb-2">c. Device & Usage Info</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">c. Device & Usage Info</h3>
                   <ul className="ml-4 space-y-2">
                     <li>IP address, browser type, operating system</li>
                     <li>Pages visited, game sessions, referral source</li>
@@ -63,7 +63,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">2. How We Use Your Information</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">2. How We Use Your Information</h2>
               <p className="mb-2">We use your information to:</p>
               <ul className="ml-4 space-y-2">
                 <li>Create and manage your account</li>
@@ -77,7 +77,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">3. How We Share Your Information</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">3. How We Share Your Information</h2>
               <p className="mb-2">We do not sell your data. We may share information with:</p>
               <ul className="ml-4 space-y-2">
                 <li><strong>Restaurants:</strong> When you redeem a prize, we provide them your redemption details (e.g., QR code ID, item won, time of redemption)</li>
@@ -89,7 +89,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">4. Data Storage & Security</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">4. Data Storage & Security</h2>
               <p className="mb-2">We use AES-256 encryption, AWS KMS, and industry-standard security practices to protect your data.</p>
               <ul className="ml-4 space-y-2">
                 <li>Wallet keys are encrypted and tied to user credentials</li>
@@ -99,7 +99,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">5. Your Rights</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">5. Your Rights</h2>
               <p className="mb-2">You may:</p>
               <ul className="ml-4 space-y-2">
                 <li>Request access to your data</li>
@@ -107,11 +107,11 @@ const PrivacyPolicy: React.FC = () => {
                 <li>Request account deletion</li>
                 <li>Opt out of marketing emails at any time</li>
               </ul>
-              <p className="mt-2">To exercise any of these rights, contact <a href="mailto:support@dollarfood.app" className="text-royal-blue-300 hover:text-royal-blue-200 underline">support@dollarfood.app</a>.</p>
+              <p className="mt-2">To exercise any of these rights, contact <a href="mailto:support@dollarfood.app" className="text-primary-600 hover:text-primary-700 underline">support@dollarfood.app</a>.</p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">6. Cookies & Tracking</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">6. Cookies & Tracking</h2>
               <p className="mb-2">We use cookies and similar technologies to:</p>
               <ul className="ml-4 space-y-2">
                 <li>Keep you signed in</li>
@@ -123,17 +123,17 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">7. Children's Privacy</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">7. Children's Privacy</h2>
               <p>Dollar App is not intended for users under 18 years old. We do not knowingly collect data from minors. If we discover such data has been collected, we will delete it promptly.</p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">8. Data Retention</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">8. Data Retention</h2>
               <p>We retain data as long as your account is active or as needed to comply with legal or tax obligations.</p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-steel-blue mb-4">9. Changes to This Policy</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">9. Changes to This Policy</h2>
               <p>We may update this Privacy Policy from time to time. Changes will be posted here and may be emailed to you. Continued use of the Platform indicates acceptance of the updated policy.</p>
             </div>
           </div>

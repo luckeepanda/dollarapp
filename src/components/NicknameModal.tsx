@@ -62,7 +62,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
         {/* Header */}
-        <div className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white relative">
           <button
             onClick={handleSkip}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -72,18 +72,18 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
           </button>
           
           <div className="flex items-center space-x-3 mb-2">
-            <Trophy className="h-8 w-8 text-yellow-300" />
+            <Trophy className="h-8 w-8 text-accent-300" />
             <h2 className="text-2xl font-bold">Great Score!</h2>
           </div>
-          <p className="text-royal-blue-100">You scored {score} points!</p>
+          <p className="text-primary-100">You scored {score} points!</p>
         </div>
 
         {/* Content */}
         <div className="p-6">
           <div className="text-center mb-6">
-            <div className="bg-gradient-to-r from-royal-blue-800 to-steel-blue-800 p-4 rounded-xl mb-4">
-              <Trophy className="h-12 w-12 text-royal-blue-100 mx-auto mb-2" />
-              <p className="text-royal-blue-100">
+            <div className="bg-gradient-to-r from-primary-100 to-success-100 p-4 rounded-lg mb-4">
+              <Trophy className="h-12 w-12 text-primary-600 mx-auto mb-2" />
+              <p className="text-gray-700">
                 Save your score to the all-time leaderboard!
               </p>
             </div>
@@ -103,7 +103,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                     setNickname(e.target.value);
                     setError('');
                   }}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-gray-900"
+                  className="food-input pl-10"
                   placeholder="Enter your nickname"
                   maxLength={20}
                   disabled={isSubmitting}
@@ -124,7 +124,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting || !nickname.trim()}
-                className="flex-1 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-xl font-semibold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                className="flex-1 food-button py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
               >
                 {isSubmitting ? (
                   <>
@@ -143,7 +143,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({
                 type="button"
                 onClick={handleSkip}
                 disabled={isSubmitting}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
               >
                 Skip
               </button>

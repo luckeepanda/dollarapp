@@ -41,28 +41,28 @@ const PlayerDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-steel-blue-900">
+    <div className="min-h-screen bg-neutral-50">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-steel-blue mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 font-display">
             Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-gray-500">Ready to play games and win amazing prizes?</p>
+          <p className="text-gray-600">Ready to play games and win amazing prizes?</p>
         </div>
 
         {/* Balance Warning */}
         {user && user.balance < 1 && (
-          <div className="bg-orange-900/40 border border-orange-500/50 rounded-xl p-4 mb-6">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-orange-300" />
+              <AlertCircle className="h-5 w-5 text-red-600" />
               <div>
-                <p className="text-sm font-medium text-orange-200">Insufficient Balance</p>
-                <p className="text-xs text-orange-100">
+                <p className="text-sm font-medium text-red-800">Insufficient Balance</p>
+                <p className="text-xs text-red-700">
                   You need at least $1 to join games. 
-                  <Link to="/deposit" className="font-semibold hover:underline ml-1">
+                  <Link to="/deposit" className="font-semibold hover:underline ml-1 text-primary-600">
                     Add funds now
                   </Link>
                 </p>
@@ -73,22 +73,22 @@ const PlayerDashboard: React.FC = () => {
 
         {/* Balance Card with Add Funds Button */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8 max-w-md">
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Current Balance</p>
-                <p className="text-2xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-sm text-gray-600">Current Balance</p>
+                <p className="text-2xl font-bold text-success-600">${user?.balance.toFixed(2)}</p>
+                <p className="text-xs text-gray-500 mt-1">
                   {user ? Math.floor(user.balance) : 0} game entries available
                 </p>
               </div>
               <div className="flex items-center space-x-3">
-                <div className="bg-green-500/20 p-3 rounded-xl">
-                  <DollarSign className="h-6 w-6 text-green-400" />
+                <div className="bg-success-100 p-3 rounded-lg">
+                  <DollarSign className="h-6 w-6 text-success-600" />
                 </div>
                 <Link
                   to="/deposit"
-                  className="bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white px-4 py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+                  className="food-button px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Add Funds</span>
@@ -100,15 +100,15 @@ const PlayerDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
           {/* Player QR Codes Section */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 mb-6">
+          <div className="food-card p-6 mb-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-yellow-400 flex items-center space-x-2">
-                <QrCode className="h-6 w-6 text-yellow-400" />
+              <h2 className="text-xl font-semibold text-accent-600 flex items-center space-x-2 font-display">
+                <QrCode className="h-6 w-6 text-accent-600" />
                 <span>Your Prize QR Codes</span>
               </h2>
               <button
                 onClick={() => window.location.reload()}
-                className="text-yellow-400 hover:text-yellow-600 text-sm underline"
+                className="text-primary-600 hover:text-primary-700 text-sm underline"
               >
                 Refresh QR Codes
               </button>
@@ -117,15 +117,15 @@ const PlayerDashboard: React.FC = () => {
           </div>
 
           {/* Games Right Now */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-orange-600 flex items-center space-x-2">
-                <Trophy className="h-6 w-6 text-orange-600" />
+              <h2 className="text-xl font-semibold text-primary-600 flex items-center space-x-2 font-display">
+                <Trophy className="h-6 w-6 text-primary-600" />
                 <span>Games Right Now</span>
               </h2>
               <Link
                 to="/restaurant-games"
-                className="text-blue-600 hover:text-blue-400 font-medium flex items-center space-x-1"
+                className="text-primary-600 hover:text-primary-700 font-medium flex items-center space-x-1"
               >
                 <span>View All</span>
                 <ArrowRight className="h-4 w-4" />
@@ -134,16 +134,16 @@ const PlayerDashboard: React.FC = () => {
             
             {isLoadingGames ? (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
               </div>
             ) : restaurantGames.length === 0 ? (
               <div className="text-center py-8">
-                <Trophy className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">No Active Games</h3>
+                <Trophy className="h-12 w-12 text-primary-500 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-primary-600 mb-2 font-display">No Active Games</h3>
                 <p className="text-gray-600 mb-4">Check back later for new restaurant games!</p>
                 <Link
                   to="/free-play"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-green-400/30"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-success-600 to-success-700 text-white px-4 py-2 rounded-lg font-bold hover:from-success-700 hover:to-success-800 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
                 >
                   <Play className="h-4 w-4" />
                   <span>Try Free Play</span>
@@ -152,7 +152,7 @@ const PlayerDashboard: React.FC = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {restaurantGames.map((game) => (
-                  <div key={game.id} className="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl overflow-hidden shadow-lg">
+                  <div key={game.id} className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg overflow-hidden shadow-lg">
                     {/* Game Header */}
                     <div className="p-6 text-white">
                       <div className="flex items-center justify-between mb-4">
@@ -162,10 +162,10 @@ const PlayerDashboard: React.FC = () => {
                         </span>
                       </div>
                       <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                      <p className="text-orange-100 text-sm mb-4">{game.description}</p>
+                      <p className="text-primary-100 text-sm mb-4">{game.description}</p>
                       {game.restaurant && (
-                        <p className="text-orange-200 text-xs mb-4">
-                          by <span className="text-orange-100">{game.restaurant.username}</span>
+                        <p className="text-primary-200 text-xs mb-4">
+                          by <span className="text-primary-100">{game.restaurant.username}</span>
                         </p>
                       )}
                       
@@ -173,16 +173,16 @@ const PlayerDashboard: React.FC = () => {
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="text-center">
                           <div className="flex items-center justify-center space-x-1 mb-1">
-                            <DollarSign className="h-4 w-4 text-yellow-300" />
-                            <span className="text-xs text-orange-100">Prize Pool</span>
+                            <DollarSign className="h-4 w-4 text-accent-300" />
+                            <span className="text-xs text-primary-100">Prize Pool</span>
                           </div>
-                          <p className="text-lg font-bold text-yellow-300">${game.prize_pool.toFixed(2)}</p>
+                          <p className="text-lg font-bold text-accent-300">${game.prize_pool.toFixed(2)}</p>
                         </div>
                         
                         <div className="text-center">
                           <div className="flex items-center justify-center space-x-1 mb-1">
-                            <Users className="h-4 w-4 text-orange-100" />
-                            <span className="text-xs text-orange-100">Entries</span>
+                            <Users className="h-4 w-4 text-primary-100" />
+                            <span className="text-xs text-primary-100">Entries</span>
                           </div>
                           <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
                         </div>
@@ -191,14 +191,14 @@ const PlayerDashboard: React.FC = () => {
                       {/* Progress Bar */}
                       <div className="mb-4">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm text-orange-100">Progress</span>
+                          <span className="text-sm text-primary-100">Progress</span>
                           <span className="text-sm font-medium">
                             {Math.round((game.current_players / game.max_players) * 100)}%
                           </span>
                         </div>
                         <div className="w-full bg-white/20 rounded-full h-2">
                           <div 
-                            className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-2 rounded-full transition-all"
+                            className="bg-gradient-to-r from-accent-400 to-accent-500 h-2 rounded-full transition-all"
                             style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
                           ></div>
                         </div>
@@ -207,11 +207,11 @@ const PlayerDashboard: React.FC = () => {
                       {/* Game Details */}
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
-                          <span className="text-orange-100">Entry Fee:</span>
+                          <span className="text-primary-100">Entry Fee:</span>
                           <span className="font-medium">${game.entry_fee.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-orange-100">Min Score:</span>
+                          <span className="text-primary-100">Min Score:</span>
                           <span className="font-medium">{game.min_score}</span>
                         </div>
                       </div>
@@ -219,7 +219,7 @@ const PlayerDashboard: React.FC = () => {
                       {/* Action Button */}
                       <Link
                         to="/restaurant-games"
-                        className="w-full bg-white text-orange-600 py-2 rounded-2xl font-bold hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-orange-200"
+                        className="w-full bg-white text-primary-600 py-2 rounded-lg font-bold hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md border border-primary-200"
                       >
                         <Play className="h-4 w-4" />
                         <span>Join Game</span>
@@ -235,7 +235,7 @@ const PlayerDashboard: React.FC = () => {
               <div className="mt-6 text-center">
                 <Link
                   to="/restaurant-games"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-orange-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border border-orange-400/30"
+                  className="inline-flex items-center space-x-2 food-button px-6 py-3 rounded-lg font-bold"
                 >
                   <Trophy className="h-5 w-5" />
                   <span>View All Restaurant Games</span>
@@ -247,22 +247,22 @@ const PlayerDashboard: React.FC = () => {
         </div>
 
         {/* How Restaurant Games Work */}
-        <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-600">
-            <TrendingUp className="h-5 w-5 text-gray-600" />
+        <div className="mt-8 food-card p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
+            <TrendingUp className="h-5 w-5 text-primary-600" />
             <span>How Restaurant Games Work</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
-              <h3 className="font-semibold text-gray-600 mb-2">1. Join Restaurant Games</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">1. Join Restaurant Games</h3>
               <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-600 mb-2">2. Play & Compete</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">2. Play & Compete</h3>
               <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-600 mb-2">3. Win Real Prizes</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">3. Win Real Prizes</h3>
               <p>Winners receive QR codes that can be redeemed at the restaurant for real food and prizes!</p>
             </div>
           </div>

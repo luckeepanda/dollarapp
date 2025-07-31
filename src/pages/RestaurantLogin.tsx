@@ -40,24 +40,24 @@ const RestaurantLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-steel-blue-900 via-royal-blue-900 to-steel-blue-800">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-50 via-white to-neutral-100">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-steel-blue-400/20 to-royal-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-royal-blue-400/20 to-steel-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-success-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-success-400/20 to-primary-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
             Restaurant Portal
           </h2>
-          <p className="text-steel-blue">Sign in to manage your games and QR redemptions</p><br/>
-          <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
-            <button className="w-full bg-gradient-to-r from-orange-600 to-red-500 text-white py-3 rounded-2xl font-bold hover:from-red-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-red-400/30">
+          <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
+          <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
+            <button className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2">
             <MonitorPlay />&nbsp; View Demo
           </button>
           </Link>
@@ -75,16 +75,16 @@ const RestaurantLogin: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-steel-blue mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Restaurant Email
               </label>
-              <div className="relative text-steel-blue">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-steel-blue-500 focus:border-transparent transition-all"
+                  className="food-input pl-10"
                   placeholder="Enter your restaurant email"
                   required
                   disabled={isLoading}
@@ -93,16 +93,16 @@ const RestaurantLogin: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-steel-blue mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
-              <div className="relative text-steel-blue">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-steel-blue-300" />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-steel-blue-500 focus:border-transparent transition-all"
+                  className="food-input pl-10 pr-12"
                   placeholder="Enter your password"
                   required
                   disabled={isLoading}
@@ -110,7 +110,7 @@ const RestaurantLogin: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-steel-blue-300 hover:text-steel-blue-200 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 transition-colors"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -121,7 +121,7 @@ const RestaurantLogin: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-steel-blue-500 to-royal-blue-500 text-white py-3 rounded-2xl font-bold hover:from-steel-blue-600 hover:to-royal-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-steel-blue-400/30"
+              className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
             >
               {isLoading ? (
                 <>
@@ -135,16 +135,16 @@ const RestaurantLogin: React.FC = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-steel-blue">
+            <p className="text-gray-600">
               Don't have a restaurant account?{' '}
-              <Link to="/restaurant/register" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
+              <Link to="/restaurant/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
                 Register here
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link to="/" className="text-steel-blue-300 hover:text-steel-blue-200 text-sm transition-colors">
+            <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
               ← Back to main site
             </Link>
           </div>

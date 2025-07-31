@@ -68,11 +68,11 @@ const EmailVerification: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-success-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-success-400/20 to-accent-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -81,7 +81,7 @@ const EmailVerification: React.FC = () => {
           <div className="flex items-center">
             <Link 
               to="/register"
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors group"
+              className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors group"
             >
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               <span className="text-sm">Back to registration</span>
@@ -93,11 +93,11 @@ const EmailVerification: React.FC = () => {
             {/* Header with animated icon */}
             <div className="text-center mb-8">
               <div className="relative mx-auto w-20 h-20 mb-6">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl animate-pulse"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-700 p-4 rounded-2xl shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-success-600 rounded-lg animate-pulse"></div>
+                <div className="relative bg-gradient-to-r from-primary-600 to-success-700 p-4 rounded-lg shadow-lg">
                   <Mail className="h-12 w-12 text-white mx-auto" />
                   <div className="absolute -top-1 -right-1">
-                    <Sparkles className="h-6 w-6 text-yellow-400 animate-bounce" />
+                    <Sparkles className="h-6 w-6 text-accent-400 animate-bounce" />
                   </div>
                 </div>
               </div>
@@ -111,10 +111,10 @@ const EmailVerification: React.FC = () => {
             </div>
 
             {/* Email display */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-2xl border border-blue-100 mb-6">
+            <div className="bg-gradient-to-r from-primary-50 to-success-50 p-4 rounded-lg border border-primary-100 mb-6">
               <div className="flex items-center space-x-3">
-                <div className="bg-blue-100 p-2 rounded-xl">
-                  <Mail className="h-5 w-5 text-blue-600" />
+                <div className="bg-primary-100 p-2 rounded-lg">
+                  <Mail className="h-5 w-5 text-primary-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Verification email sent to:</p>
@@ -126,8 +126,8 @@ const EmailVerification: React.FC = () => {
             {/* Instructions */}
             <div className="space-y-4 mb-8">
               <div className="flex items-start space-x-3">
-                <div className="bg-green-100 p-1.5 rounded-full mt-0.5">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
+                <div className="bg-success-100 p-1.5 rounded-full mt-0.5">
+                  <CheckCircle className="h-4 w-4 text-success-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Check your inbox</p>
@@ -136,8 +136,8 @@ const EmailVerification: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
-                  <Shield className="h-4 w-4 text-blue-600" />
+                <div className="bg-primary-100 p-1.5 rounded-full mt-0.5">
+                  <Shield className="h-4 w-4 text-primary-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Click the verification link</p>
@@ -146,8 +146,8 @@ const EmailVerification: React.FC = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <div className="bg-purple-100 p-1.5 rounded-full mt-0.5">
-                  <Clock className="h-4 w-4 text-purple-600" />
+                <div className="bg-accent-100 p-1.5 rounded-full mt-0.5">
+                  <Clock className="h-4 w-4 text-accent-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">Check spam folder</p>
@@ -159,10 +159,10 @@ const EmailVerification: React.FC = () => {
             {/* Resend section */}
             <div className="border-t border-gray-100 pt-6">
               {resendSuccess && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl">
+                <div className="mb-4 p-3 bg-success-50 border border-success-200 rounded-lg">
                   <div className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <p className="text-sm text-green-800 font-medium">
+                    <CheckCircle className="h-4 w-4 text-success-600" />
+                    <p className="text-sm text-success-800 font-medium">
                       Verification email sent successfully!
                     </p>
                   </div>
@@ -177,7 +177,7 @@ const EmailVerification: React.FC = () => {
                 <button
                   onClick={handleResendEmail}
                   disabled={!canResend || isResending}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2"
+                  className="w-full food-button py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
                 >
                   {isResending ? (
                     <>
@@ -203,11 +203,11 @@ const EmailVerification: React.FC = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Still having trouble?{' '}
-                <Link to="/login" className="text-blue-600 font-semibold hover:text-blue-700">
+                <Link to="/login" className="text-primary-600 font-semibold hover:text-primary-700">
                   Try signing in
                 </Link>
                 {' '}or{' '}
-                <a href="mailto:support@dollarapp.com" className="text-blue-600 font-semibold hover:text-blue-700">
+                <a href="mailto:support@dollarapp.com" className="text-primary-600 font-semibold hover:text-primary-700">
                   contact support
                 </a>
               </p>

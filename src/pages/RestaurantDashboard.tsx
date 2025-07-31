@@ -91,7 +91,7 @@ const RestaurantDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-steel-blue-900">
+    <div className="min-h-screen bg-neutral-50">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -99,27 +99,27 @@ const RestaurantDashboard: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-blue-900 mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2 font-display">
                 Restaurant Dashboard 🍽️
               </h1>
-              <p className="text-blue-800">Manage QR redemptions and track your earnings</p>
+              <p className="text-gray-600">Manage QR redemptions and track your earnings</p>
             </div>
             <div className="flex items-center space-x-3">
               <button
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className="bg-white/10 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-white/20 hover:bg-white/20 transition-all disabled:opacity-50"
+                className="food-card p-3 hover:shadow-md transition-all disabled:opacity-50"
                 title="Refresh dashboard data"
               >
-                <RefreshCw className={`h-5 w-5 text-blue-600 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`h-5 w-5 text-primary-600 ${isRefreshing ? 'animate-spin' : ''}`} />
               </button>
               {!user?.isKYCVerified && (
-                <div className="bg-orange-500/20 border border-orange-400/30 rounded-xl p-4">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <div className="flex items-center space-x-2">
-                    <AlertCircle className="h-5 w-5 text-orange-400" />
+                    <AlertCircle className="h-5 w-5 text-red-600" />
                     <div>
-                      <p className="text-sm font-medium text-blue-800">KYC Verification Required</p>
-                      <p className="text-xs text-blue-700">Complete verification to enable withdrawals</p>
+                      <p className="text-sm font-medium text-red-800">KYC Verification Required</p>
+                      <p className="text-xs text-red-700">Complete verification to enable withdrawals</p>
                     </div>
                   </div>
                 </div>
@@ -131,58 +131,58 @@ const RestaurantDashboard: React.FC = () => {
         {/* Loading State */}
         {isLoading && (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mr-3"></div>
-            <span className="text-white">Loading dashboard data...</span>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mr-3"></div>
+            <span className="text-gray-700">Loading dashboard data...</span>
           </div>
         )}
 
         {/* Stats Cards */}
         {!isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-800">Available Balance</p>
-                <p className="text-2xl font-bold text-green-400">${stats.availableBalance.toFixed(2)}</p>
+                <p className="text-sm text-gray-600">Available Balance</p>
+                <p className="text-2xl font-bold text-success-600">${stats.availableBalance.toFixed(2)}</p>
               </div>
-              <div className="bg-green-500/20 p-3 rounded-xl">
-                <DollarSign className="h-6 w-6 text-green-400" />
+              <div className="bg-success-100 p-3 rounded-lg">
+                <DollarSign className="h-6 w-6 text-success-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-800">Today's Redemptions</p>
-                <p className="text-2xl font-bold text-blue-300">{stats.todayRedemptions}</p>
+                <p className="text-sm text-gray-600">Today's Redemptions</p>
+                <p className="text-2xl font-bold text-primary-600">{stats.todayRedemptions}</p>
               </div>
-              <div className="bg-blue-500/20 p-3 rounded-xl">
-                <QrCode className="h-6 w-6 text-blue-300" />
+              <div className="bg-primary-100 p-3 rounded-lg">
+                <QrCode className="h-6 w-6 text-primary-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-800">Monthly Revenue</p>
-                <p className="text-2xl font-bold text-blue-300">${stats.monthlyRevenue.toFixed(0)}</p>
+                <p className="text-sm text-gray-600">Monthly Revenue</p>
+                <p className="text-2xl font-bold text-primary-600">${stats.monthlyRevenue.toFixed(0)}</p>
               </div>
-              <div className="bg-blue-500/20 p-3 rounded-xl">
-                <TrendingUp className="h-6 w-6 text-blue-300" />
+              <div className="bg-primary-100 p-3 rounded-lg">
+                <TrendingUp className="h-6 w-6 text-primary-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
+          <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-800">Total Customers</p>
-                <p className="text-2xl font-bold text-orange-400">{stats.totalCustomers}</p>
+                <p className="text-sm text-gray-600">Total Customers</p>
+                <p className="text-2xl font-bold text-accent-600">${stats.totalCustomers}</p>
               </div>
-              <div className="bg-orange-500/20 p-3 rounded-xl">
-                <Users className="h-6 w-6 text-orange-400" />
+              <div className="bg-accent-100 p-3 rounded-lg">
+                <Users className="h-6 w-6 text-accent-600" />
               </div>
             </div>
           </div>
@@ -191,72 +191,72 @@ const RestaurantDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-            <h2 className="text-xl font-semibold mb-4 text-blue-900">Quick Actions</h2>
+          <div className="food-card p-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">Quick Actions</h2>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-100 to-success-100 rounded-lg">
                 <div className="flex items-center space-x-3">
-                  <Activity className="h-5 w-5 text-blue-400" />
+                  <Activity className="h-5 w-5 text-primary-600" />
                   <div>
-                    <span className="font-medium text-blue-900">Active Games</span>
-                    <p className="text-xs text-blue-700">{activeGamesCount} games running</p>
+                    <span className="font-medium text-gray-900">Active Games</span>
+                    <p className="text-xs text-gray-600">{activeGamesCount} games running</p>
                   </div>
                 </div>
-                <span className="text-lg font-bold text-blue-300">{activeGamesCount}</span>
+                <span className="text-lg font-bold text-primary-600">{activeGamesCount}</span>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-accent-100 to-primary-100 rounded-lg">
                 <div className="flex items-center space-x-3">
-                  <QrCode className="h-5 w-5 text-yellow-400" />
+                  <QrCode className="h-5 w-5 text-accent-600" />
                   <div>
-                    <span className="font-medium text-blue-900">Pending QR Codes</span>
-                    <p className="text-xs text-blue-700">Awaiting redemption</p>
+                    <span className="font-medium text-gray-900">Pending QR Codes</span>
+                    <p className="text-xs text-gray-600">Awaiting redemption</p>
                   </div>
                 </div>
-                <span className="text-lg font-bold text-yellow-400">{pendingQRCount}</span>
+                <span className="text-lg font-bold text-accent-600">{pendingQRCount}</span>
               </div>
 
               <Link
                 to="/restaurant/games"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl hover:from-green-500/30 hover:to-emerald-500/30 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-success-100 to-success-200 rounded-lg hover:from-success-200 hover:to-success-300 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <Trophy className="h-5 w-5 text-green-400" />
-                  <span className="font-medium text-blue-900">Manage Games</span>
+                  <Trophy className="h-5 w-5 text-success-600" />
+                  <span className="font-medium text-gray-900">Manage Games</span>
                 </div>
-                <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
+                <ArrowRight className="h-4 w-4 text-success-600 group-hover:text-success-700" />
               </Link>
 
               <Link
                 to="/scan"
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-royal-blue-500/20 to-steel-blue-500/20 rounded-xl hover:from-royal-blue-500/30 hover:to-steel-blue-500/30 transition-all group"
+                className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-100 to-primary-200 rounded-lg hover:from-primary-200 hover:to-primary-300 transition-all group"
               >
                 <div className="flex items-center space-x-3">
-                  <QrCode className="h-5 w-5 text-royal-blue-300" />
-                  <span className="font-medium text-blue-900">Scan QR Code</span>
+                  <QrCode className="h-5 w-5 text-primary-600" />
+                  <span className="font-medium text-gray-900">Scan QR Code</span>
                 </div>
-                <ArrowRight className="h-4 w-4 text-royal-blue-200 group-hover:text-white" />
+                <ArrowRight className="h-4 w-4 text-primary-600 group-hover:text-primary-700" />
               </Link>
 
               <Link
                 to="/withdraw"
                 className={`flex items-center justify-between p-4 rounded-xl transition-all group ${
                   user?.isKYCVerified 
-                    ? 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30'
-                    : 'bg-white-300/10 cursor-not-allowed opacity-50'
+                    ? 'bg-gradient-to-r from-success-100 to-success-200 hover:from-success-200 hover:to-success-300'
+                    : 'bg-gray-100 cursor-not-allowed opacity-50'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-green-400' : 'text-white-300'}`} />
-                  <span className="font-medium text-blue-900">Withdraw Funds</span>
+                  <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-success-600' : 'text-gray-400'}`} />
+                  <span className="font-medium text-gray-900">Withdraw Funds</span>
                 </div>
-                <ArrowRight className="h-4 w-4 text-green-300 group-hover:text-white" />
+                <ArrowRight className="h-4 w-4 text-success-600 group-hover:text-success-700" />
               </Link>
             </div>
             
             {!user?.isKYCVerified && (
-              <div className="mt-4 p-3 bg-yellow-500/20 rounded-xl">
-                <p className="text-sm text-blue-800">
+              <div className="mt-4 p-3 bg-red-50 rounded-lg">
+                <p className="text-sm text-red-800">
                   Complete KYC verification to enable withdrawals
                 </p>
               </div>
@@ -264,37 +264,37 @@ const RestaurantDashboard: React.FC = () => {
           </div>
 
           {/* Recent Redemptions */}
-          <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20 lg:col-span-2">
+          <div className="food-card p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-blue-900">Recent Redemptions</h2>
-              <Link to="/scan" className="text-royal-blue-300 font-medium hover:text-royal-blue-200">
+              <h2 className="text-xl font-semibold text-gray-900 font-display">Recent Redemptions</h2>
+              <Link to="/scan" className="text-primary-600 font-medium hover:text-primary-700">
                 View All
               </Link>
             </div>
             {recentRedemptions.length === 0 ? (
               <div className="text-center py-8">
-                <QrCode className="h-12 w-12 text-blue-300 mx-auto mb-4 opacity-50" />
-                <p className="text-blue-700">No redemptions yet</p>
-                <p className="text-blue-600 text-sm">QR codes will appear here when customers redeem prizes</p>
+                <QrCode className="h-12 w-12 text-gray-400 mx-auto mb-4 opacity-50" />
+                <p className="text-gray-600">No redemptions yet</p>
+                <p className="text-gray-500 text-sm">QR codes will appear here when customers redeem prizes</p>
               </div>
             ) : (
               <div className="space-y-4">
               {recentRedemptions.map((redemption) => (
-                <div key={redemption.id} className="border border-white/20 rounded-xl p-4 bg-white/5">
+                <div key={redemption.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-semibold text-blue-900">${redemption.amount.toFixed(2)}</span>
-                        <span className="text-sm text-blue-700">from {redemption.customer}</span>
+                        <span className="font-semibold text-success-600">${redemption.amount.toFixed(2)}</span>
+                        <span className="text-sm text-gray-700">from {redemption.customer}</span>
                       </div>
-                      <div className="flex items-center space-x-4 mt-1 text-sm text-blue-700">
+                      <div className="text-sm text-gray-600 space-y-1">
                         <span>{redemption.date}</span>
                         <span>Code: {redemption.code}</span>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <CheckCircle className="h-5 w-5 text-green-400" />
-                      <span className="text-sm text-green-400 font-medium">Completed</span>
+                      <CheckCircle className="h-5 w-5 text-success-600" />
+                      <span className="text-sm text-success-600 font-medium">Completed</span>
                     </div>
                   </div>
                 </div>
@@ -305,45 +305,45 @@ const RestaurantDashboard: React.FC = () => {
         </div>
 
         {/* Withdrawal History */}
-        <div className="mt-8 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h2 className="text-xl font-semibold mb-4 text-blue-900">Withdrawal History</h2>
+        <div className="mt-8 food-card p-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">Withdrawal History</h2>
           {withdrawalHistory.length === 0 ? (
             <div className="text-center py-8">
-              <ArrowUpRight className="h-12 w-12 text-blue-300 mx-auto mb-4 opacity-50" />
-              <p className="text-blue-700">No withdrawals yet</p>
-              <p className="text-blue-600 text-sm">Your withdrawal history will appear here</p>
+              <ArrowUpRight className="h-12 w-12 text-gray-400 mx-auto mb-4 opacity-50" />
+              <p className="text-gray-600">No withdrawals yet</p>
+              <p className="text-gray-500 text-sm">Your withdrawal history will appear here</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/20">
-                  <th className="text-left py-3 px-4 font-medium text-blue-800">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-blue-800">Amount</th>
-                  <th className="text-left py-3 px-4 font-medium text-blue-800">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-blue-800">ETA</th>
+                <tr className="border-b border-gray-200 bg-primary-50">
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Date</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Amount</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">ETA</th>
                 </tr>
               </thead>
               <tbody>
                 {withdrawalHistory.map((withdrawal) => (
-                  <tr key={withdrawal.id} className="border-b border-white/10 hover:bg-white/5">
+                  <tr key={withdrawal.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-2">
-                        <Clock className="h-4 w-4 text-royal-blue-300" />
-                        <span className="text-blue-900">{withdrawal.date}</span>
+                        <Clock className="h-4 w-4 text-gray-500" />
+                        <span className="text-gray-900">{withdrawal.date}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 font-medium text-blue-900">${withdrawal.amount.toFixed(2)}</td>
+                    <td className="py-3 px-4 font-medium text-gray-900">${withdrawal.amount.toFixed(2)}</td>
                     <td className="py-3 px-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      <span className={`food-badge ${
                         withdrawal.status === 'completed'
-                          ? 'bg-green-500/20 text-green-400'
-                          : 'bg-yellow-500/20 text-yellow-400'
+                          ? 'food-badge-success'
+                          : 'food-badge-warning'
                       }`}>
                         {withdrawal.status.charAt(0).toUpperCase() + withdrawal.status.slice(1)}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-sm text-blue-700">
+                    <td className="py-3 px-4 text-sm text-gray-600">
                       {withdrawal.status === 'processing' ? '1-2 business days' : 'Completed'}
                     </td>
                   </tr>

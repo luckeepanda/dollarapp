@@ -117,7 +117,7 @@ const RestaurantGames: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-steel-blue-900">
+    <div className="min-h-screen bg-neutral-50">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -126,34 +126,34 @@ const RestaurantGames: React.FC = () => {
           <div className="flex items-center space-x-4">
             <Link 
               to="/player/dashboard"
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <ArrowLeft className="h-5 w-5 text-steel-blue" />
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-steel-blue-400">Restaurant Games</h1>
+              <h1 className="text-3xl font-bold text-gray-900 font-display">Restaurant Games</h1>
               <p className="text-gray-600">Join games created by restaurants and win prizes!</p>
             </div>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/20">
+          <div className="food-card p-4">
             <div className="text-center">
               <p className="text-sm text-gray-600">Your Balance</p>
-              <p className="text-xl font-bold text-green-400">${user?.balance.toFixed(2)}</p>
+              <p className="text-xl font-bold text-success-600">${user?.balance.toFixed(2)}</p>
             </div>
           </div>
         </div>
 
         {/* Balance Warning */}
         {user && user.balance < 1 && (
-          <div className="bg-orange-900/40 border border-orange-500/50 rounded-xl p-4 mb-6">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-orange-300" />
+              <AlertCircle className="h-5 w-5 text-red-600" />
               <div>
-                <p className="text-sm font-medium text-orange-200">Insufficient Balance</p>
-                <p className="text-xs text-orange-100">
+                <p className="text-sm font-medium text-red-800">Insufficient Balance</p>
+                <p className="text-xs text-red-700">
                   You need funds to join games. 
-                  <Link to="/deposit" className="font-semibold hover:underline ml-1">
+                  <Link to="/deposit" className="font-semibold hover:underline ml-1 text-primary-600">
                     Add funds now
                   </Link>
                 </p>
@@ -165,12 +165,12 @@ const RestaurantGames: React.FC = () => {
         {/* Games Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
           </div>
         ) : games.length === 0 ? (
           <div className="text-center py-12">
-            <Trophy className="h-16 w-16 text-orange-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-orange-400 mb-2">No Active Games</h3>
+            <Trophy className="h-16 w-16 text-primary-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-primary-600 mb-2 font-display">No Active Games</h3>
             <p className="text-gray-600 mb-6">Check back later for new restaurant games!</p>
           </div>
         ) : (
@@ -178,10 +178,10 @@ const RestaurantGames: React.FC = () => {
             {games.map((game) => (
               <div 
                 key={game.id} 
-                className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 overflow-hidden hover:shadow-lg transition-all"
+                className="food-card rounded-lg overflow-hidden hover:shadow-lg transition-all"
               >
                 {/* Game Header */}
-                <div className="bg-gradient-to-r from-orange-500 to-red-600 p-6 text-white">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white">
                   <div className="flex items-center justify-between mb-4">
                     <div className="text-4xl">🏆</div>
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
@@ -189,10 +189,10 @@ const RestaurantGames: React.FC = () => {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                  <p className="text-orange-100 text-sm">{game.description}</p>
+                  <p className="text-primary-100 text-sm">{game.description}</p>
                   {game.restaurant && (
-                    <p className="text-orange-200 text-xs mt-2">
-                      by <span className="text-orange-100">{game.restaurant.username}</span>
+                    <p className="text-primary-200 text-xs mt-2">
+                      by <span className="text-primary-100">{game.restaurant.username}</span>
                     </p>
                   )}
                 </div>
@@ -202,18 +202,18 @@ const RestaurantGames: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
-                        <DollarSign className="h-4 w-4 text-green-400" />
+                        <DollarSign className="h-4 w-4 text-success-600" />
                         <span className="text-xs text-gray-600">Prize Pool</span>
                       </div>
-                      <p className="text-lg font-bold text-green-400">${game.prize_pool.toFixed(2)}</p>
+                      <p className="text-lg font-bold text-success-600">${game.prize_pool.toFixed(2)}</p>
                     </div>
                     
                     <div className="text-center">
                       <div className="flex items-center justify-center space-x-1 mb-1">
-                        <Users className="h-4 w-4 text-blue-500" />
+                        <Users className="h-4 w-4 text-primary-600" />
                         <span className="text-xs text-gray-600">Players</span>
                       </div>
-                      <p className="text-lg font-bold text-blue-600">{game.current_players}/{game.max_players} entries</p>
+                      <p className="text-lg font-bold text-primary-600">{game.current_players}/{game.max_players} entries</p>
                     </div>
                   </div>
 
@@ -221,13 +221,13 @@ const RestaurantGames: React.FC = () => {
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">Entries</span>
-                      <span className="text-sm font-medium text-blue-600">
+                      <span className="text-sm font-medium text-primary-600">
                         {Math.round((game.current_players / game.max_players) * 100)}%
                       </span>
                     </div>
                     <div className="w-full bg-white/20 rounded-full h-2">
                       <div 
-                        className="bg-gradient-to-r from-orange-500 to-red-600 h-2 rounded-full transition-all"
+                        className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all"
                         style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
                       ></div>
                     </div>
@@ -237,11 +237,11 @@ const RestaurantGames: React.FC = () => {
                   <div className="space-y-2 text-sm mb-6">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Entry Fee:</span>
-                      <span className="text-blue-600 font-medium">${game.entry_fee.toFixed(2)}</span>
+                      <span className="text-primary-600 font-medium">${game.entry_fee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Min Score:</span>
-                      <span className="text-blue-600 font-medium">{game.min_score}</span>
+                      <span className="text-primary-600 font-medium">{game.min_score}</span>
                     </div>
                   </div>
 
@@ -249,7 +249,7 @@ const RestaurantGames: React.FC = () => {
                   <button
                     onClick={() => handleJoinGame(game)}
                     disabled={isJoining === game.id || (user && user.balance < game.entry_fee) || game.current_players >= game.max_players}
-                    className="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-2xl font-bold hover:from-orange-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-orange-400/30"
+                    className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
                   >
                     {isJoining === game.id ? (
                       <>
@@ -280,22 +280,22 @@ const RestaurantGames: React.FC = () => {
         )}
 
         {/* How It Works */}
-        <div className="mt-12 bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-white/20">
-          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-steel-blue-400">
-            <Star className="h-5 w-5 text-gray-600" />
+        <div className="mt-12 food-card p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
+            <Star className="h-5 w-5 text-primary-600" />
             <span>How Restaurant Games Work</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-600">
+          <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
-              <h3 className="font-semibold text-steel-blue-400 mb-2">1. Join & Play</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">1. Join & Play</h3>
               <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-400 mb-2">2. Compete for Victory</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">2. Compete for Victory</h3>
               <p>After the maximum number of entries is reached, the highest scorer wins the entire prize pool.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-steel-blue-400 mb-2">3. Redeem Your Prize</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">3. Redeem Your Prize</h3>
               <p>Winners receive a unique QR code that can only be redeemed at the restaurant that created the game.</p>
             </div>
           </div>

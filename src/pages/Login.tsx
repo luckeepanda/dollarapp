@@ -49,22 +49,22 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-royal-blue-900 via-steel-blue-900 to-royal-blue-800">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-50 via-white to-neutral-100">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-royal-blue-400/20 to-steel-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-steel-blue-400/20 to-royal-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-success-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-success-400/20 to-primary-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
             Welcome back
           </h2>
-          <p className="text-steel-blue">Sign in to your Dollar App account</p>
+          <p className="text-gray-600">Sign in to your Dollar App account</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -82,10 +82,10 @@ const Login: React.FC = () => {
             <button
               onClick={handleGoogleLogin}
               disabled={isOAuthLoading !== null || isLoading}
-              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-white-300 text-white-100 py-3 rounded-2xl font-bold hover:border-royal-blue-300 hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-xl hover:shadow-2xl"
+              className="w-full flex items-center justify-center space-x-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:border-primary-300 hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-sm hover:shadow-md"
             >
               {isOAuthLoading === 'google' ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white-200"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400"></div>
               ) : (
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -94,32 +94,32 @@ const Login: React.FC = () => {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
               )}
-              <span className="text-steel-blue">Continue with Google</span>
+              <span>Continue with Google</span>
             </button>
           </div>
 
           {/* Divider */}
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-steel-blue-300"></div>
+              <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-steel-blue-300 rounded-lg">Or continue with email</span>
+              <span className="px-4 bg-white text-gray-500 rounded-lg">Or continue with email</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
               </label>
-              <div className="relative text-steel-blue">
+              <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-gray-900"
+                  className="food-input pl-10"
                   placeholder="Enter your email"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -128,16 +128,16 @@ const Login: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-steel-blue-100 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
-              <div className="relative text-steel-blue">
+              <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-royal-blue-500 focus:border-transparent transition-all text-gray-900"
+                  className="food-input pl-10 pr-12"
                   placeholder="Enter your password"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
@@ -156,7 +156,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || isOAuthLoading !== null}
-              className="w-full bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-3 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+              className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>
@@ -170,16 +170,16 @@ const Login: React.FC = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-steel-blue">
+            <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link to="/register" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
+              <Link to="/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
                 Sign up
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link to="/" className="text-steel-blue-300 hover:text-steel-blue-200 text-sm transition-colors">
+            <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
               ← Back to main site
             </Link>
           </div>

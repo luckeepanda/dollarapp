@@ -93,7 +93,7 @@ const HamburgerRunnerGame: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Simple Header for Hamburger Runner */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,10 +106,10 @@ const HamburgerRunnerGame: React.FC = () => {
                 <ArrowLeft className="h-5 w-5 text-gray-600" />
               </button>
               <div className="flex items-center space-x-2">
-                <div className="bg-gradient-to-r from-green-600 to-yellow-500 p-2 rounded-lg">
+                <div className="bg-gradient-to-r from-success-600 to-accent-500 p-2 rounded-lg">
                   <GamepadIcon className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-yellow-500 bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-success-600 to-accent-500 bg-clip-text text-transparent font-display">
                   Hamburger Runner
                 </span>
               </div>
@@ -117,7 +117,7 @@ const HamburgerRunnerGame: React.FC = () => {
             
             <Link
               to="/"
-              className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors"
+              className="flex items-center space-x-2 text-gray-600 hover:text-success-600 transition-colors"
             >
               <Home className="h-5 w-5" />
               <span>Back to Home</span>
@@ -128,7 +128,7 @@ const HamburgerRunnerGame: React.FC = () => {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Game Container */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
+        <div className="food-card p-8 mb-8 relative">
           {/* Force component remount with key prop */}
           <HamburgerRunner 
             key={gameKey}
@@ -140,24 +140,24 @@ const HamburgerRunnerGame: React.FC = () => {
           {/* Floating Play Again Button - positioned over the canvas */}
           {finalScore !== null && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-green-200 pointer-events-auto">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl border-2 border-success-200 pointer-events-auto">
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold text-green-800 mb-2">
+                  <h3 className="text-2xl font-bold text-success-800 mb-2 font-display">
                     🎉 Amazing Run! 🎉
                   </h3>
-                  <p className="text-lg text-green-700 mb-4">
+                  <p className="text-lg text-gray-700 mb-4">
                     You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                   </p>
                   <div className="flex space-x-3">
                     <button
                       onClick={restartGame}
-                      className="bg-gradient-to-r from-green-600 to-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-success-600 to-accent-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-accent-700 transition-all transform hover:scale-105 shadow-sm"
                     >
                       Play Again
                     </button>
                     <button
                       onClick={goBackToFreePlay}
-                      className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-sm"
                     >
                       Back to Games
                     </button>
@@ -165,7 +165,7 @@ const HamburgerRunnerGame: React.FC = () => {
                   {/* Leaderboard Button */}
                   <button
                     onClick={() => setShowLeaderboard(true)}
-                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 mt-4"
+                    className="w-full bg-gradient-to-r from-accent-500 to-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-accent-600 hover:to-primary-600 transition-all transform hover:scale-105 shadow-sm flex items-center justify-center space-x-2 mt-4"
                   >
                     <Trophy className="h-5 w-5" />
                     <span>View Leaderboard</span>
