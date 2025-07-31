@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import RestaurantGameSession from '../components/RestaurantGameSession';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
   Trophy, 
@@ -30,10 +31,35 @@ const RestaurantGames: React.FC = () => {
 
   const loadGames = async () => {
     try {
+      console.log('Loading restaurant games...');
       const gamesData = await restaurantGameService.getActiveGames();
+      console.log('Loaded games:', gamesData.length);
       setGames(gamesData);
     } catch (error) {
       console.error('Failed to load games:', error);
+      // For unauthenticated users, try to load games without auth
+      if (!user) {
+        try {
+          console.log('Retrying games load for unauthenticated user...');
+          const { data, error } = await supabase
+            .from('restaurant_games')
+            .select(`
+              *,
+              restaurant:profiles!restaurant_games_restaurant_id_fkey(username)
+            `)
+            .eq('status', 'active')
+            .order('created_at', { ascending: false });
+          
+          if (error) {
+            console.error('Direct query error:', error);
+          } else {
+            console.log('Direct query success:', data?.length || 0);
+            setGames(data || []);
+          }
+        } catch (directError) {
+          console.error('Direct query failed:', directError);
+        }
+      }
     } finally {
       setIsLoading(false);
     }
