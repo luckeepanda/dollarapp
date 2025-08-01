@@ -156,7 +156,7 @@ const PaidGameSession: React.FC<PaidGameSessionProps> = ({
           <h3 className="text-steel-blue font-semibold mb-3">How to Win:</h3>
           <ul className="text-royal-blue-200 text-sm space-y-1">
             <li>• Guide the taco through obstacles by clicking or pressing SPACE</li>
-            <li>• Score at least {session.min_score} points to qualify for the prize</li>
+            <li>• Any score qualifies for the prize pool</li>
             <li>• Qualified players split the ${session.prize_pool.toFixed(2)} prize pool equally</li>
             <li>• The more players qualify, the smaller each prize share</li>
           </ul>

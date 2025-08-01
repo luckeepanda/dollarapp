@@ -71,7 +71,7 @@ const RestaurantGameManagement: React.FC = () => {
         formData.description,
         formData.entryFee,
         maxPlayers,
-        1 // Default minimum score of 1
+        0 // Default minimum score of 0
       );
       
       setShowCreateForm(false);

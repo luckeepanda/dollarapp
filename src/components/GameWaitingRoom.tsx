@@ -164,7 +164,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({
             <div className="bg-white/5 p-4 rounded-xl mb-6">
               <h4 className="text-white font-semibold mb-2">Game Rules:</h4>
               <ul className="text-sm text-royal-blue-200 space-y-1">
-                <li>• Score at least {session.min_score} points to qualify</li>
+                <li>• Any score qualifies for the prize pool</li>
                 <li>• Qualified players split the ${session.prize_pool.toFixed(2)} prize pool</li>
                 <li>• Game starts automatically when full</li>
               </ul>

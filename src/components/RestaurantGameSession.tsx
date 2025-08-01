@@ -302,7 +302,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
           <h3 className="text-steel-blue font-semibold mb-3">How to Win:</h3>
           <ul className="text-royal-blue-200 text-sm space-y-1">
             <li>• Guide the taco through obstacles by clicking or pressing SPACE</li>
-            <li>• Score at least {game.min_score} points to qualify</li>
+            <li>• Any score qualifies - highest score wins!</li>
             <li>• You can play multiple times (${game.entry_fee.toFixed(2)} per attempt)</li>
             <li>• After {game.max_players} total entries, the highest scorer wins</li>
             <li>• Winner receives ${game.prize_pool.toFixed(2)} and a QR code for restaurant redemption</li>

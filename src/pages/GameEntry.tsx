@@ -34,7 +34,7 @@ const GameEntry: React.FC = () => {
       difficulty: 'Easy',
       category: 'Lunch',
       image: '🌮',
-      minScore: 5
+      minScore: 0
     },
     {
       id: 2,
@@ -47,7 +47,7 @@ const GameEntry: React.FC = () => {
       difficulty: 'Medium',
       category: 'Dinner',
       image: '🌮',
-      minScore: 10
+      minScore: 0
     },
     {
       id: 3,
@@ -60,7 +60,7 @@ const GameEntry: React.FC = () => {
       difficulty: 'Hard',
       category: 'Special',
       image: '🌮',
-      minScore: 20
+      minScore: 0
     },
     {
       id: 4,
@@ -73,7 +73,7 @@ const GameEntry: React.FC = () => {
       difficulty: 'Easy',
       category: 'Breakfast',
       image: '🌮',
-      minScore: 3
+      minScore: 0
     }
   ];
 
