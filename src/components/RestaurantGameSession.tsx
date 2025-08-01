@@ -210,15 +210,9 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                             Final Score: <span className="font-bold text-2xl">{finalScore}</span> points
                           </p>
                           
-                          {gameResult.qualified ? (
-                            <p className="text-sm text-green-600 mb-4">
-                              ✅ You qualified! (Min: {game.min_score} points)
-                            </p>
-                          ) : (
-                            <p className="text-sm text-red-600 mb-4">
-                              ❌ Need {game.min_score} points to qualify
-                            </p>
-                          )}
+                          <p className="text-sm text-green-600 mb-4">
+                            ✅ You qualified! Any score counts!
+                          </p>
 
                           {gameResult.game_completed && (
                             <div className="mb-4 p-4 bg-yellow-50 rounded-xl border border-yellow-200">

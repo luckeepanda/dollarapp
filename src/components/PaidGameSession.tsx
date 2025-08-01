@@ -122,6 +122,9 @@ const PaidGameSession: React.FC<PaidGameSessionProps> = ({
                       <p className="text-lg text-royal-blue-600">
                         You scored <span className="font-bold text-2xl">{finalScore}</span> points!
                       </p>
+                      <p className="text-sm text-green-600 mt-2">
+                        ✅ You qualified! Any score counts!
+                      </p>
                     </>
                   ) : (
                     <>
@@ -131,11 +134,8 @@ const PaidGameSession: React.FC<PaidGameSessionProps> = ({
                       <p className="text-lg text-royal-blue-600 mb-4">
                         Final Score: <span className="font-bold text-2xl">{finalScore}</span> points
                       </p>
-                      <p className="text-sm text-royal-blue-500 mb-4">
-                        {finalScore >= session.min_score 
-                          ? '✅ Qualified for prize draw!' 
-                          : `❌ Need ${session.min_score} points to qualify`
-                        }
+                      <p className="text-sm text-green-600 mb-4">
+                        ✅ You qualified! Any score counts!
                       </p>
                       <button
                         onClick={onLeaveSession}
