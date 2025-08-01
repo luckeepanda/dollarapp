@@ -14,6 +14,12 @@ const FoodBlasterGame: React.FC = () => {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
+  const isTouchDeviceRef = useRef<boolean>(false);
+
+  // Detect touch device
+  useEffect(() => {
+    isTouchDeviceRef.current = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }, []);
 
   console.log('FoodBlasterGame: Component rendered', { 
     gameActive, 
@@ -146,9 +152,9 @@ const FoodBlasterGame: React.FC = () => {
         <div className="bg-black/30 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-sm border border-purple-500/30">
           <h3 className="text-purple-300 font-semibold mb-3">🎮 How to Play:</h3>
           <ul className="text-purple-200 text-sm space-y-1">
-            <li>• <strong>{isTouchDeviceRef.current ? 'Tap' : 'Click or Space'}</strong> to shoot at the food invaders</li>
-            <li>• <strong>{isTouchDeviceRef.current ? 'Touch and drag' : 'Arrow keys'}</strong> to move your spaceship left and right</li>
-            <li>• <strong>{isTouchDeviceRef.current ? 'Hold and swipe' : 'Hold arrow keys'}</strong> for continuous movement</li>
+            <li>• <strong>Tap/Click or Space</strong> to shoot at the food invaders</li>
+            <li>• <strong>Touch and drag or Arrow keys</strong> to move your spaceship left and right</li>
+            <li>• <strong>Hold and swipe or Hold arrow keys</strong> for continuous movement</li>
             <li>• Destroy all food items to advance to the next wave</li>
             <li>• Don't let the food invaders or their attacks hit your spaceship!</li>
             <li>• Each wave gets faster and more challenging</li>

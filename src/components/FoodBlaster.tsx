@@ -24,25 +24,20 @@ interface FoodBlasterProps {
 
 const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
-  const lastResizeRef = useRef<number>(0);
   const gameEndCalledRef = useRef<boolean>(false);
-  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
   const isMovingRef = useRef<{ left: boolean; right: boolean }>({ left: false, right: false });
   const isTouchDeviceRef = useRef<boolean>(false);
   
-  // Game constants - responsive sizing
-  const BASE_WIDTH = 400;
-  const BASE_HEIGHT = 600;
-  const [canvasSize, setCanvasSize] = useState({ width: BASE_WIDTH, height: BASE_HEIGHT });
-  const [scale, setScale] = useState(1);
+  // Game constants
+  const CANVAS_WIDTH = 400;
+  const CANVAS_HEIGHT = 600;
   
   // Game state
   const [gameState, setGameState] = useState<GameState>({
-    playerX: BASE_WIDTH / 2,
-    playerY: BASE_HEIGHT - 60,
+    playerX: CANVAS_WIDTH / 2,
+    playerY: CANVAS_HEIGHT - 60,
     enemies: [],
     playerBullets: [],
     enemyBullets: [],
@@ -61,57 +56,10 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     isTouchDeviceRef.current = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   }, []);
 
-  // Responsive canvas sizing with debounced resize
-  const updateCanvasSize = useCallback(() => {
-    const now = Date.now();
-    if (now - lastResizeRef.current < 100) return; // Debounce resize
-    lastResizeRef.current = now;
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const containerRect = container.getBoundingClientRect();
-    const maxWidth = Math.min(containerRect.width - 32, window.innerWidth - 32);
-    const maxHeight = Math.min(window.innerHeight * 0.7, 600);
-    
-    const scaleX = maxWidth / BASE_WIDTH;
-    const scaleY = maxHeight / BASE_HEIGHT;
-    const newScale = Math.min(scaleX, scaleY, 1.5); // Cap scale for performance
-    
-    const newWidth = BASE_WIDTH * newScale;
-    const newHeight = BASE_HEIGHT * newScale;
-    
-    setCanvasSize({ width: newWidth, height: newHeight });
-    setScale(newScale);
-  }, []);
-
-  // Setup canvas with proper pixel ratio
-  const setupCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    
-    // Set actual canvas size
-    canvas.width = canvasSize.width * devicePixelRatio;
-    canvas.height = canvasSize.height * devicePixelRatio;
-    
-    // Set display size
-    canvas.style.width = `${canvasSize.width}px`;
-    canvas.style.height = `${canvasSize.height}px`;
-    
-    // Scale context for crisp rendering
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    ctx.imageSmoothingEnabled = false; // Pixel-perfect rendering
-  }, [canvasSize]);
-
   // Initialize game state
   const createInitialGameState = useCallback((): GameState => ({
-    playerX: BASE_WIDTH / 2,
-    playerY: BASE_HEIGHT - 60,
+    playerX: CANVAS_WIDTH / 2,
+    playerY: CANVAS_HEIGHT - 60,
     enemies: [],
     playerBullets: [],
     enemyBullets: [],
@@ -163,10 +111,9 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     }));
   }, []);
 
-  // Touch event handlers with proper preventDefault
+  // Touch event handlers
   const handleTouchStart = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     
     if (!gameState.gameStarted && !gameState.gameOver) {
       startGame();
@@ -175,17 +122,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     if (gameState.gameOver || gameState.isPaused) return;
 
-    const touch = e.touches[0];
-    const canvas = canvasRef.current;
-    if (!canvas || !touch) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = (touch.clientX - rect.left) / scale;
-    const y = (touch.clientY - rect.top) / scale;
-
-    touchStartRef.current = { x, y, time: Date.now() };
-
-    // Immediate shoot on tap
+    // Shoot bullet on touch
     setGameState(prev => {
       if (prev.playerBullets.length < 3) {
         return {
@@ -195,43 +132,32 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       }
       return prev;
     });
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, scale, startGame]);
+  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
 
     if (!gameState.gameStarted || gameState.gameOver || gameState.isPaused) return;
 
     const touch = e.touches[0];
     const canvas = canvasRef.current;
-    if (!canvas || !touch || !touchStartRef.current) return;
+    if (!canvas || !touch) return;
 
     const rect = canvas.getBoundingClientRect();
-    const currentX = (touch.clientX - rect.left) / scale;
-    const deltaX = currentX - touchStartRef.current.x;
+    const currentX = touch.clientX - rect.left;
 
-    // Update movement based on swipe direction
-    if (Math.abs(deltaX) > 10) {
-      isMovingRef.current.left = deltaX < 0;
-      isMovingRef.current.right = deltaX > 0;
-    }
-
-    // Move player to touch position (clamped to canvas bounds)
-    const newPlayerX = Math.max(15, Math.min(BASE_WIDTH - 15, currentX));
+    // Move player to touch position (scaled to canvas coordinates)
+    const newPlayerX = Math.max(15, Math.min(CANVAS_WIDTH - 15, (currentX / rect.width) * CANVAS_WIDTH));
     setGameState(prev => ({
       ...prev,
       playerX: newPlayerX
     }));
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, scale]);
+  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused]);
 
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
-    
     isMovingRef.current.left = false;
     isMovingRef.current.right = false;
-    touchStartRef.current = null;
   }, []);
 
   // Mouse/click handlers for desktop
@@ -302,7 +228,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     }
   }, []);
 
-  // Game loop with FPS cap and optimizations
+  // Game loop
   const gameLoop = useCallback((currentTime: number) => {
     if (!gameActive || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) {
       return;
@@ -324,7 +250,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       if (isMovingRef.current.left && newState.playerX > 15) {
         newState.playerX -= moveSpeed;
       }
-      if (isMovingRef.current.right && newState.playerX < BASE_WIDTH - 15) {
+      if (isMovingRef.current.right && newState.playerX < CANVAS_WIDTH - 15) {
         newState.playerX += moveSpeed;
       }
 
@@ -336,7 +262,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       // Move enemy bullets
       newState.enemyBullets = newState.enemyBullets
         .map(bullet => ({ ...bullet, y: bullet.y + 6 }))
-        .filter(bullet => bullet.y < BASE_HEIGHT);
+        .filter(bullet => bullet.y < CANVAS_HEIGHT);
 
       // Move enemies
       let shouldMoveDown = false;
@@ -346,7 +272,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
         const leftmost = Math.min(...aliveEnemies.map(e => e.x));
         const rightmost = Math.max(...aliveEnemies.map(e => e.x));
         
-        if (rightmost >= BASE_WIDTH - 30 || leftmost <= 10) {
+        if (rightmost >= CANVAS_WIDTH - 30 || leftmost <= 10) {
           shouldMoveDown = true;
           newState.enemyDirection *= -1;
           newState.enemySpeed = Math.min(newState.enemySpeed + 0.2, 3);
@@ -395,7 +321,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
         return true;
       });
 
-      // Enemy shooting (reduced frequency for mobile performance)
+      // Enemy shooting
       if (Math.random() < 0.008) {
         const shooters = aliveEnemies.filter(enemy => enemy.y > 100);
         if (shooters.length > 0) {
@@ -429,7 +355,7 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
       }
 
       // Check game over - enemies reached player
-      if (aliveEnemies.some(enemy => enemy.y > BASE_HEIGHT - 100)) {
+      if (aliveEnemies.some(enemy => enemy.y > CANVAS_HEIGHT - 100)) {
         if (!gameEndCalledRef.current) {
           gameEndCalledRef.current = true;
           onGameEnd(newState.score);
@@ -453,41 +379,35 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
 
     // Clear canvas
     ctx.fillStyle = '#000011';
-    ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
-
-    // Scale context for responsive rendering
-    ctx.save();
-    ctx.scale(scale, scale);
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (!gameState.gameStarted) {
       // Start screen
       ctx.fillStyle = 'rgba(0, 0, 50, 0.9)';
-      ctx.fillRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       ctx.fillStyle = '#00FF00';
       ctx.font = 'bold 24px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('FOOD BLASTER', BASE_WIDTH / 2, BASE_HEIGHT / 2 - 60);
+      ctx.fillText('FOOD BLASTER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 60);
       
       ctx.font = 'bold 16px monospace';
-      ctx.fillText(isTouchDeviceRef.current ? 'TAP TO SHOOT' : 'SPACE TO SHOOT', BASE_WIDTH / 2, BASE_HEIGHT / 2 - 20);
-      ctx.fillText(isTouchDeviceRef.current ? 'HOLD & DRAG TO MOVE' : 'ARROW KEYS TO MOVE', BASE_WIDTH / 2, BASE_HEIGHT / 2);
-      ctx.fillText(isTouchDeviceRef.current ? 'TAP TO START!' : 'CLICK OR SPACE TO START!', BASE_WIDTH / 2, BASE_HEIGHT / 2 + 40);
+      ctx.fillText(isTouchDeviceRef.current ? 'TAP TO SHOOT' : 'SPACE TO SHOOT', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
+      ctx.fillText(isTouchDeviceRef.current ? 'HOLD & DRAG TO MOVE' : 'ARROW KEYS TO MOVE', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText(isTouchDeviceRef.current ? 'TAP TO START!' : 'CLICK OR SPACE TO START!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 40);
       
-      ctx.restore();
       return;
     }
 
     if (gameState.isPaused) {
       ctx.fillStyle = 'rgba(0, 0, 50, 0.8)';
-      ctx.fillRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       ctx.fillStyle = '#FFFFFF';
       ctx.font = 'bold 28px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('PAUSED', BASE_WIDTH / 2, BASE_HEIGHT / 2);
+      ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.restore();
       return;
     }
 
@@ -504,10 +424,11 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     const foodEmojis = ['🍔', '🌮', '🍕'];
     ctx.font = '24px Arial';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     
     gameState.enemies.forEach(enemy => {
       if (enemy.alive) {
-        ctx.fillText(foodEmojis[enemy.type], enemy.x, enemy.y + 8);
+        ctx.fillText(foodEmojis[enemy.type], enemy.x, enemy.y);
       }
     });
 
@@ -528,28 +449,8 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     ctx.textAlign = 'left';
     ctx.fillText(`Score: ${gameState.score}`, 10, 25);
     ctx.fillText(`Lives: ${gameState.lives}`, 10, 45);
-    ctx.fillText(`Wave: ${gameState.wave}`, BASE_WIDTH - 80, 25);
-
-    ctx.restore();
-  }, [gameState, canvasSize, scale]);
-
-  // Setup resize listener
-  useEffect(() => {
-    updateCanvasSize();
-    
-    const debouncedResize = () => {
-      clearTimeout(lastResizeRef.current);
-      setTimeout(updateCanvasSize, 100);
-    };
-    
-    window.addEventListener('resize', debouncedResize, { passive: true });
-    return () => window.removeEventListener('resize', debouncedResize);
-  }, [updateCanvasSize]);
-
-  // Setup canvas when size changes
-  useEffect(() => {
-    setupCanvas();
-  }, [setupCanvas]);
+    ctx.fillText(`Wave: ${gameState.wave}`, CANVAS_WIDTH - 80, 25);
+  }, [gameState]);
 
   // Event listeners setup
   useEffect(() => {
@@ -607,20 +508,16 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
   }, []);
 
   return (
-    <div 
-      ref={containerRef}
-      className="flex flex-col items-center space-y-4 w-full"
-      style={{ touchAction: 'none', userSelect: 'none' }}
-    >
+    <div className="flex flex-col items-center space-y-4">
       <canvas
         ref={canvasRef}
+        width={CANVAS_WIDTH}
+        height={CANVAS_HEIGHT}
         className="border-4 border-purple-400 rounded-xl shadow-lg bg-black"
         style={{ 
           imageRendering: 'pixelated',
           touchAction: 'none',
-          userSelect: 'none',
-          maxWidth: '100%',
-          height: 'auto'
+          userSelect: 'none'
         }}
       />
       

@@ -27,26 +27,21 @@ interface PizzaHunterProps {
 
 const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const gameLoopRef = useRef<number>();
   const spawnTimerRef = useRef<NodeJS.Timeout>();
   const lastTimeRef = useRef<number>(0);
-  const lastResizeRef = useRef<number>(0);
   const gameEndCalledRef = useRef<boolean>(false);
   const isTouchDeviceRef = useRef<boolean>(false);
   
-  // Game constants - responsive sizing
-  const BASE_WIDTH = 400;
-  const BASE_HEIGHT = 500;
-  const [canvasSize, setCanvasSize] = useState({ width: BASE_WIDTH, height: BASE_HEIGHT });
-  const [scale, setScale] = useState(1);
-  
+  // Game constants
+  const CANVAS_WIDTH = 400;
+  const CANVAS_HEIGHT = 500;
   const PIZZA_SIZE = 40;
-  const INITIAL_SPAWN_RATE = 600; // Faster initial spawn
-  const MIN_SPAWN_RATE = 150; // Even faster minimum
-  const SPAWN_RATE_DECREASE = 30; // Aggressive difficulty increase
-  const PIZZA_SPEED_MIN = 5; // Faster minimum speed
-  const PIZZA_SPEED_MAX = 15; // Much faster maximum speed
+  const INITIAL_SPAWN_RATE = 800; // Slower initial spawn
+  const MIN_SPAWN_RATE = 300; // Slower minimum
+  const SPAWN_RATE_DECREASE = 20; // Gentler difficulty increase
+  const PIZZA_SPEED_MIN = 2; // Slower minimum speed
+  const PIZZA_SPEED_MAX = 6; // Slower maximum speed
   const MAX_MISSES = 5;
 
   // Detect touch device
@@ -68,53 +63,6 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
   }), []);
 
   const [gameState, setGameState] = useState<GameState>(createInitialGameState);
-
-  // Responsive canvas sizing with debounced resize
-  const updateCanvasSize = useCallback(() => {
-    const now = Date.now();
-    if (now - lastResizeRef.current < 100) return; // Debounce resize
-    lastResizeRef.current = now;
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const containerRect = container.getBoundingClientRect();
-    const maxWidth = Math.min(containerRect.width - 32, window.innerWidth - 32);
-    const maxHeight = Math.min(window.innerHeight * 0.7, 600);
-    
-    const scaleX = maxWidth / BASE_WIDTH;
-    const scaleY = maxHeight / BASE_HEIGHT;
-    const newScale = Math.min(scaleX, scaleY, 1.5); // Cap scale for performance
-    
-    const newWidth = BASE_WIDTH * newScale;
-    const newHeight = BASE_HEIGHT * newScale;
-    
-    setCanvasSize({ width: newWidth, height: newHeight });
-    setScale(newScale);
-  }, []);
-
-  // Setup canvas with proper pixel ratio
-  const setupCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    
-    // Set actual canvas size
-    canvas.width = canvasSize.width * devicePixelRatio;
-    canvas.height = canvasSize.height * devicePixelRatio;
-    
-    // Set display size
-    canvas.style.width = `${canvasSize.width}px`;
-    canvas.style.height = `${canvasSize.height}px`;
-    
-    // Scale context for crisp rendering
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    ctx.imageSmoothingEnabled = false; // Pixel-perfect rendering
-  }, [canvasSize]);
 
   // Reset game
   const resetGame = useCallback(() => {
@@ -143,42 +91,31 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     }));
   }, []);
 
-  // Spawn pizza function - more aggressive spawning
+  // Spawn pizza function
   const spawnPizza = useCallback(() => {
     setGameState(prev => {
       if (prev.gameOver || prev.isPaused) return prev;
       
-      // Spawn 1-3 pizzas at once for overwhelming effect
-      const numPizzas = Math.random() > 0.5 ? (Math.random() > 0.7 ? 3 : 2) : 1;
-      const newPizzas = [];
-      
-      for (let i = 0; i < numPizzas; i++) {
-        const newPizza = {
-          x: -PIZZA_SIZE - (i * 80), // Offset multiple pizzas
-          y: Math.random() * (BASE_HEIGHT - 100) + 50,
-          speed: Math.random() * (PIZZA_SPEED_MAX - PIZZA_SPEED_MIN) + PIZZA_SPEED_MIN,
-          size: PIZZA_SIZE,
-          caught: false,
-          id: prev.nextPizzaId + i
-        };
-        newPizzas.push(newPizza);
-      }
+      const newPizza = {
+        x: -PIZZA_SIZE,
+        y: Math.random() * (CANVAS_HEIGHT - 100) + 50,
+        speed: Math.random() * (PIZZA_SPEED_MAX - PIZZA_SPEED_MIN) + PIZZA_SPEED_MIN,
+        size: PIZZA_SIZE,
+        caught: false,
+        id: prev.nextPizzaId
+      };
       
       return {
         ...prev,
-        pizzas: [...prev.pizzas, ...newPizzas],
-        nextPizzaId: prev.nextPizzaId + numPizzas
+        pizzas: [...prev.pizzas, newPizza],
+        nextPizzaId: prev.nextPizzaId + 1
       };
     });
   }, []);
 
-  // Handle pizza tap/click with improved hit detection
+  // Handle pizza tap/click
   const handlePizzaClick = useCallback((x: number, y: number) => {
     if (!gameState.gameStarted || gameState.gameOver || gameState.isPaused) return;
-    
-    // Convert screen coordinates to game coordinates
-    const gameX = x / scale;
-    const gameY = y / scale;
     
     setGameState(prev => {
       let newScore = prev.score;
@@ -186,8 +123,8 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       
       const newPizzas = prev.pizzas.map(pizza => {
         if (!pizza.caught && !hitDetected &&
-            gameX >= pizza.x && gameX <= pizza.x + pizza.size &&
-            gameY >= pizza.y && gameY <= pizza.y + pizza.size) {
+            x >= pizza.x && x <= pizza.x + pizza.size &&
+            y >= pizza.y && y <= pizza.y + pizza.size) {
           newScore += 10;
           hitDetected = true;
           return { ...pizza, caught: true };
@@ -201,12 +138,11 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
         score: newScore
       };
     });
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, scale]);
+  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused]);
 
   // Touch event handlers
   const handleTouchStart = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
     
     if (!gameState.gameStarted && !gameState.gameOver) {
       startGame();
@@ -218,20 +154,18 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     
     const rect = canvas.getBoundingClientRect();
     const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
+    const x = (touch.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+    const y = (touch.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
     
     handlePizzaClick(x, y);
   }, [gameState.gameStarted, gameState.gameOver, startGame, handlePizzaClick]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
   }, []);
 
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     e.preventDefault();
-    e.stopPropagation();
   }, []);
 
   // Mouse/click handlers for desktop
@@ -247,13 +181,13 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     if (!canvas) return;
     
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = (e.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+    const y = (e.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
     
     handlePizzaClick(x, y);
   }, [gameState.gameStarted, gameState.gameOver, startGame, handlePizzaClick]);
 
-  // Game loop with FPS cap and optimizations
+  // Game loop
   const gameLoop = useCallback((currentTime: number) => {
     if (!gameActive || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) {
       return;
@@ -278,12 +212,12 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       }));
 
       // Check for missed pizzas
-      const missedPizzas = newPizzas.filter(pizza => !pizza.caught && pizza.x > BASE_WIDTH);
+      const missedPizzas = newPizzas.filter(pizza => !pizza.caught && pizza.x > CANVAS_WIDTH);
       newMisses += missedPizzas.length;
 
-      // Remove off-screen and caught pizzas immediately for performance
+      // Remove off-screen and caught pizzas
       newPizzas = newPizzas.filter(pizza => 
-        pizza.x <= BASE_WIDTH && !pizza.caught && pizza.x > -PIZZA_SIZE
+        pizza.x <= CANVAS_WIDTH && !pizza.caught && pizza.x > -PIZZA_SIZE
       );
 
       // Check game over condition
@@ -318,75 +252,67 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     if (!ctx) return;
 
     // Clear canvas with orange gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvasSize.height);
+    const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
     gradient.addColorStop(0, '#FF8C42');
     gradient.addColorStop(0.7, '#FF6B35');
     gradient.addColorStop(1, '#E55A2B');
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
-
-    // Scale context for responsive rendering
-    ctx.save();
-    ctx.scale(scale, scale);
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (!gameState.gameStarted) {
       // Start screen
       ctx.fillStyle = 'rgba(229, 90, 43, 0.9)';
-      ctx.fillRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       ctx.fillStyle = '#FFFFFF';
       ctx.strokeStyle = '#8B4513';
       ctx.lineWidth = 5;
       ctx.font = 'bold 28px monospace';
       ctx.textAlign = 'center';
-      ctx.strokeText('Pizza Hunter', BASE_WIDTH / 2, BASE_HEIGHT / 2 - 50);
-      ctx.fillText('Pizza Hunter', BASE_WIDTH / 2, BASE_HEIGHT / 2 - 50);
+      ctx.strokeText('Pizza Hunter', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+      ctx.fillText('Pizza Hunter', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       ctx.font = 'bold 18px monospace';
       ctx.lineWidth = 4;
       const startText = isTouchDeviceRef.current ? 'TAP TO START!' : 'CLICK TO START!';
-      ctx.strokeText(startText, BASE_WIDTH / 2, BASE_HEIGHT / 2);
-      ctx.fillText(startText, BASE_WIDTH / 2, BASE_HEIGHT / 2);
+      ctx.strokeText(startText, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText(startText, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
       ctx.font = 'bold 16px monospace';
       const instructText = isTouchDeviceRef.current ? 'TAP PIZZAS TO CATCH!' : 'CLICK PIZZAS TO CATCH!';
-      ctx.strokeText(instructText, BASE_WIDTH / 2, BASE_HEIGHT / 2 + 30);
-      ctx.fillText(instructText, BASE_WIDTH / 2, BASE_HEIGHT / 2 + 30);
+      ctx.strokeText(instructText, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      ctx.fillText(instructText, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
-      ctx.strokeText('They move SUPER FAST!', BASE_WIDTH / 2, BASE_HEIGHT / 2 + 60);
-      ctx.fillText('They move SUPER FAST!', BASE_WIDTH / 2, BASE_HEIGHT / 2 + 60);
-      
-      // Draw pizza
+      // Draw pizza emoji properly
       ctx.font = '60px Arial';
-      ctx.fillText('🍕', BASE_WIDTH / 2, BASE_HEIGHT / 2 + 100);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🍕', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 100);
       
-      ctx.restore();
       return;
     }
 
     if (gameState.gameOver) {
-      ctx.restore();
       return;
     }
 
     if (gameState.isPaused) {
       ctx.fillStyle = 'rgba(229, 90, 43, 0.8)';
-      ctx.fillRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       ctx.fillStyle = '#FFFFFF';
       ctx.strokeStyle = '#8B4513';
       ctx.lineWidth = 5;
       ctx.font = 'bold 28px monospace';
       ctx.textAlign = 'center';
-      ctx.strokeText('PAUSED', BASE_WIDTH / 2, BASE_HEIGHT / 2);
-      ctx.fillText('PAUSED', BASE_WIDTH / 2, BASE_HEIGHT / 2);
+      ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
-      ctx.restore();
       return;
     }
 
-    // Draw pizzas with rotation
-    ctx.font = `${PIZZA_SIZE}px Arial`;
+    // Draw pizzas with proper emoji rendering
+    ctx.font = '32px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
@@ -397,7 +323,7 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       const centerX = pizza.x + pizza.size / 2;
       const centerY = pizza.y + pizza.size / 2;
       ctx.translate(centerX, centerY);
-      ctx.rotate(Date.now() * 0.003 + pizza.id * 0.5); // Unique rotation per pizza
+      ctx.rotate(Date.now() * 0.003 + pizza.id * 0.5);
       ctx.fillText('🍕', 0, 0);
       ctx.restore();
     });
@@ -417,35 +343,15 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     // Draw border
     ctx.strokeStyle = '#8B4513';
     ctx.lineWidth = 2;
-    ctx.strokeRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
-
-    ctx.restore();
-  }, [gameState, canvasSize, scale]);
-
-  // Setup resize listener
-  useEffect(() => {
-    updateCanvasSize();
-    
-    const debouncedResize = () => {
-      clearTimeout(lastResizeRef.current);
-      setTimeout(updateCanvasSize, 100);
-    };
-    
-    window.addEventListener('resize', debouncedResize, { passive: true });
-    return () => window.removeEventListener('resize', debouncedResize);
-  }, [updateCanvasSize]);
-
-  // Setup canvas when size changes
-  useEffect(() => {
-    setupCanvas();
-  }, [setupCanvas]);
+    ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  }, [gameState]);
 
   // Event listeners setup
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Touch events (mobile) - prevent all default behaviors
+    // Touch events (mobile)
     canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
     canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
@@ -461,13 +367,13 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     };
   }, [handleTouchStart, handleTouchMove, handleTouchEnd, handleClick]);
 
-  // Pizza spawning with aggressive timing
+  // Pizza spawning
   useEffect(() => {
     if (gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
       spawnTimerRef.current = setInterval(() => {
         spawnPizza();
         
-        // Aggressively increase difficulty
+        // Increase difficulty gradually
         setGameState(prev => ({
           ...prev,
           spawnRate: Math.max(MIN_SPAWN_RATE, prev.spawnRate - SPAWN_RATE_DECREASE)
@@ -515,20 +421,16 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
   }, []);
 
   return (
-    <div 
-      ref={containerRef}
-      className="flex flex-col items-center space-y-4 w-full"
-      style={{ touchAction: 'none', userSelect: 'none' }}
-    >
+    <div className="flex flex-col items-center space-y-4">
       <canvas
         ref={canvasRef}
+        width={CANVAS_WIDTH}
+        height={CANVAS_HEIGHT}
         className="border-4 border-orange-300 rounded-xl shadow-lg bg-black"
         style={{ 
-          imageRendering: 'pixelated',
+          imageRendering: 'auto',
           touchAction: 'none',
-          userSelect: 'none',
-          maxWidth: '100%',
-          height: 'auto'
+          userSelect: 'none'
         }}
       />
       
