@@ -203,7 +203,8 @@ const RestaurantGameManagement: React.FC = () => {
                     >
                       <option value="taco_flyer">🌮 Taco Flyer</option>
                       <option value="hamburger_runner">🍔 Hamburger Runner</option>
-                      <option value="noodle_tetris">🍜 Noodle Tetris</option>
+                      <option value="food_blaster">🚀 Food Blaster</option>
+                      <option value="pizza_hunter">🍕 Pizza Hunter</option>
                     </select>
                   </div>
 
