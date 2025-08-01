@@ -404,7 +404,7 @@ const Landing: React.FC = () => {
                   <p className="text-accent-100 text-sm mb-4">Shoot the food invaders!</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Coming Soon</span>
+                    <span>Play Now</span>
                   </div>
                 </div>
               </Link>
