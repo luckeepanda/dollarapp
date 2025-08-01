@@ -309,9 +309,9 @@ const Landing: React.FC = () => {
             <div className="flex justify-center mb-4">
               <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-success-500 to-accent-400 rounded-full food-glow"></div>
             </div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-medium">
+            {/* <p className="text-xl text-gray-600 max-w-2xl mx-auto font-medium">
               Experience our exciting collection of food-themed games. Play instantly and compete for high scores!
-            </p>
+            </p>  */}
           </div>
 
           {/* Game Container */}
