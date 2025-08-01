@@ -422,29 +422,6 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     ctx.restore();
   }, [gameState, canvasSize, scale]);
 
-  // Setup canvas when size changes
-  const setupCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    
-    // Set actual canvas size
-    canvas.width = canvasSize.width * devicePixelRatio;
-    canvas.height = canvasSize.height * devicePixelRatio;
-    
-    // Set display size
-    canvas.style.width = `${canvasSize.width}px`;
-    canvas.style.height = `${canvasSize.height}px`;
-    
-    // Scale context for crisp rendering
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    ctx.imageSmoothingEnabled = false;
-  }, [canvasSize]);
-
   // Setup resize listener
   useEffect(() => {
     updateCanvasSize();
