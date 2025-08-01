@@ -133,6 +133,8 @@ const HamburgerRunnerGame: React.FC = () => {
             </div>
           )}
         </div>
+          )
+          }
       </div>
     </div>
   );
