@@ -169,8 +169,10 @@ const RestaurantGameDetails: React.FC = () => {
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm text-royal-blue-200">Progress</span>
                     <span className="text-sm font-medium text-steel-blue-500">
-                       game.game_type === 'food_blaster' ? '🚀 Food Blaster' : 
-                       game.game_type === 'pizza_hunter' ? '🍕 Pizza Hunter' : 'Game'}
+                      {
+                        game.game_type === 'food_blaster' ? '🚀 Food Blaster' : 
+                        game.game_type === 'pizza_hunter' ? '🍕 Pizza Hunter' : 'Game'
+                      }
                     </span>
                   </div>
                   <div className="w-full bg-white/20 rounded-full h-3">
