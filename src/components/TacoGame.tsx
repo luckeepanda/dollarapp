@@ -210,33 +210,15 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   // Drawing functions
   const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
     ctx.save();
-    // Center the taco for rotation
-    const centerX = x + TACO_SIZE / 2;
-    const centerY = y + TACO_SIZE / 2;
-    ctx.translate(centerX, centerY);
+    // Use taco emoji 🌮
+    ctx.translate(x + TACO_SIZE / 2, y + TACO_SIZE / 2);
     ctx.rotate(rotation);
     
-    // More pixelated retro style taco
-    // Taco shell (rectangular for pixel art style)
-    ctx.fillStyle = '#D4A574'; // Golden brown
-    ctx.fillRect(-12, -6, 24, 12);
-    ctx.fillRect(-10, -10, 20, 4);
-    
-    // Taco filling (pixelated)
-    ctx.fillStyle = '#FF0000'; // Bright red for retro tomato
-    ctx.fillRect(-8, -4, 16, 2);
-    
-    ctx.fillStyle = '#00FF00'; // Bright green for retro lettuce
-    ctx.fillRect(-10, -2, 20, 2);
-    
-    ctx.fillStyle = '#FFFF00'; // Bright yellow for retro cheese
-    ctx.fillRect(-6, 0, 12, 2);
-    
-    // Pixelated taco outline
-    ctx.strokeStyle = '#000000'; // Black outline for retro look
-    ctx.lineWidth = 1;
-    ctx.strokeRect(-12, -6, 24, 12);
-    ctx.strokeRect(-10, -10, 20, 4);
+    // Draw taco emoji
+    ctx.font = `${TACO_SIZE}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🌮', 0, 0);
     
     ctx.restore();
   };
@@ -381,21 +363,21 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
 
     // Clear canvas with sky gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    // More vibrant retro colors
-    gradient.addColorStop(0, '#1E90FF'); // Bright blue
-    gradient.addColorStop(0.7, '#00FF7F'); // Spring green
-    gradient.addColorStop(1, '#32CD32'); // Lime green
+    // Orange-themed background to match food palette
+    gradient.addColorStop(0, '#FF8C42'); // Light orange
+    gradient.addColorStop(0.7, '#FF6B35'); // Primary orange
+    gradient.addColorStop(1, '#E55A2B'); // Darker orange
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     if (!gameState.gameStarted) {
       // Draw start screen
-      ctx.fillStyle = 'rgba(0, 0, 139, 0.9)'; // Darker blue for retro feel
+      ctx.fillStyle = 'rgba(229, 90, 43, 0.9)'; // Dark orange overlay
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Title text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#000000'; // Black outline for retro look
+      ctx.strokeStyle = '#8B4513'; // Brown outline for food theme
       ctx.lineWidth = 5; // Thicker outline
       ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
@@ -404,7 +386,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       
       // Instructions with better contrast
       ctx.font = 'bold 18px monospace'; // Pixelated font
-      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.strokeStyle = '#8B4513'; // Brown outline
       ctx.lineWidth = 4;
       ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
@@ -427,12 +409,12 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
 
     if (gameState.isPaused) {
       // Draw pause overlay
-      ctx.fillStyle = 'rgba(0, 0, 139, 0.8)'; // Darker blue for retro feel
+      ctx.fillStyle = 'rgba(229, 90, 43, 0.8)'; // Dark orange overlay
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
       // Pause text with better contrast
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#000000'; // Black outline
+      ctx.strokeStyle = '#8B4513'; // Brown outline
       ctx.lineWidth = 5; // Thicker outline
       ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
@@ -455,14 +437,14 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     
     // Score with retro pixelated style
     ctx.font = 'bold 22px monospace'; // Pixelated font
-    ctx.strokeStyle = '#000000'; // Black outline
+    ctx.strokeStyle = '#8B4513'; // Brown outline
     ctx.lineWidth = 3; // Thicker outline
     ctx.fillStyle = '#FFFFFF'; // White text
     ctx.strokeText(`Score: ${gameState.score}`, 20, 35);
     ctx.fillText(`Score: ${gameState.score}`, 20, 35);
     
     // Draw pixelated border for retro feel
-    ctx.strokeStyle = '#000000'; // Black
+    ctx.strokeStyle = '#8B4513'; // Brown border
     ctx.lineWidth = 2;
     ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -551,7 +533,7 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       </div>
 
       {gameState.score > 0 && (
-        <div className="flex items-center justify-center space-x-2 text-royal-blue-600 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
+        <div className="flex items-center justify-center space-x-2 text-primary-600 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
           <Trophy className="h-5 w-5" />
           <span className="font-bold text-lg">Current Score: {gameState.score}</span>
         </div>
