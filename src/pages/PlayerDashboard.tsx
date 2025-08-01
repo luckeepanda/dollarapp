@@ -169,7 +169,6 @@ const PlayerDashboard: React.FC = () => {
                             🍽️ {game.restaurant.username}
                           </p>
                         </div>
-                        
                       )}
                       
                       {/* Game Stats */}
@@ -217,6 +216,10 @@ const PlayerDashboard: React.FC = () => {
                           <span className="text-primary-100">Min Score:</span>
                           <span className="font-medium">{game.min_score}</span>
                         </div>
+                        <div className="flex justify-between">
+                          <span className="text-primary-100">Qualification:</span>
+                          <span className="font-medium text-green-300">Any Score</span>
+                        </div>
                       </div>
 
                       {/* Action Button */}
@@ -224,9 +227,9 @@ const PlayerDashboard: React.FC = () => {
                         to="/restaurant-games"
                         className="w-full bg-white text-primary-600 py-2 rounded-lg font-bold hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md border border-primary-200"
                       >
-                    <div className="flex justify-between">
-                      <span className="text-primary-100">Qualification:</span>
-                      <span className="font-medium text-green-300">Any Score</span>
+                        <Play className="h-4 w-4" />
+                        <span>Join Game</span>
+                      </Link>
                     </div>
                   </div>
                 ))}
