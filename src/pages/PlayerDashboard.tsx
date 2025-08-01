@@ -169,7 +169,7 @@ const PlayerDashboard: React.FC = () => {
                             🍽️ {game.restaurant.username}
                           </p>
                         </div>
-                        </p>
+                        
                       )}
                       
                       {/* Game Stats */}
