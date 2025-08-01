@@ -1,11 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import PizzaHunter from '../components/PizzaHunter';
-import NicknameModal from '../components/NicknameModal';
-import LeaderboardModal from '../components/LeaderboardModal';
-import { leaderboardService } from '../services/leaderboardService';
 import { 
-  Trophy,
   GamepadIcon,
   Home,
   ArrowLeft,
@@ -17,9 +13,6 @@ const PizzaHunterGame: React.FC = () => {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
-  const [showNicknameModal, setShowNicknameModal] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
   console.log('PizzaHunterGame: Component rendered', { 
     gameActive, 
@@ -32,39 +25,10 @@ const PizzaHunterGame: React.FC = () => {
     console.log('PizzaHunterGame: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
-    
-    // Show nickname modal for score submission
-    setShowNicknameModal(true);
   }, []);
-
-  const handleNicknameSubmit = async (nickname: string) => {
-    if (finalScore === null) return;
-    
-    setIsSubmittingScore(true);
-    try {
-      await leaderboardService.addScore(nickname, finalScore);
-      console.log('Score saved to leaderboard:', { nickname, score: finalScore });
-      setShowNicknameModal(false);
-      setShowLeaderboard(true);
-    } catch (error) {
-      console.error('Failed to save score:', error);
-      alert('Failed to save score to leaderboard. Please try again.');
-    } finally {
-      setIsSubmittingScore(false);
-    }
-  };
-
-  const handleNicknameSkip = () => {
-    setShowNicknameModal(false);
-    setShowLeaderboard(true);
-  };
 
   const restartGame = useCallback(() => {
     console.log('PizzaHunterGame: Restarting game - forcing component remount');
-    
-    // Close any open modals
-    setShowNicknameModal(false);
-    setShowLeaderboard(false);
     
     // Reset all game-related state
     setFinalScore(null);
@@ -141,7 +105,7 @@ const PizzaHunterGame: React.FC = () => {
           />
           
           {/* Floating Play Again Button - positioned over the canvas */}
-          {finalScore !== null && !showNicknameModal && (
+          {finalScore !== null && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl border-2 border-orange-300 pointer-events-auto">
                 <div className="text-center">
@@ -166,15 +130,6 @@ const PizzaHunterGame: React.FC = () => {
                       Back to Games
                     </button>
                   </div>
-                  
-                  {/* Leaderboard Button */}
-                  <button
-                    onClick={() => setShowLeaderboard(true)}
-                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
-                  >
-                    <Trophy className="h-5 w-5" />
-                    <span>View Leaderboard</span>
-                  </button>
                 </div>
               </div>
             </div>
@@ -194,21 +149,6 @@ const PizzaHunterGame: React.FC = () => {
         </div>
       </div>
 
-      {/* Nickname Modal */}
-      <NicknameModal
-        isOpen={showNicknameModal}
-        score={finalScore || 0}
-        onSubmit={handleNicknameSubmit}
-        onSkip={handleNicknameSkip}
-        isSubmitting={isSubmittingScore}
-      />
-
-      {/* Leaderboard Modal */}
-      <LeaderboardModal
-        isOpen={showLeaderboard}
-        onClose={() => setShowLeaderboard(false)}
-        currentScore={finalScore || undefined}
-      />
     </div>
   );
 };
