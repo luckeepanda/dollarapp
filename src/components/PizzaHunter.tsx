@@ -29,11 +29,11 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
   const PIZZA_SIZE = 40;
-  const INITIAL_SPAWN_RATE = 2000; // ms between spawns
-  const MIN_SPAWN_RATE = 800;
-  const SPAWN_RATE_DECREASE = 50;
-  const PIZZA_SPEED_MIN = 2;
-  const PIZZA_SPEED_MAX = 5;
+  const INITIAL_SPAWN_RATE = 800; // ms between spawns - much faster
+  const MIN_SPAWN_RATE = 200; // extremely fast spawning
+  const SPAWN_RATE_DECREASE = 25; // faster difficulty increase
+  const PIZZA_SPEED_MIN = 4; // faster minimum speed
+  const PIZZA_SPEED_MAX = 12; // much faster maximum speed
   const MAX_MISSES = 5;
 
   console.log('PizzaHunter: Component rendered/remounted with props:', {
@@ -163,17 +163,24 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
     if (gameState.gameOver || gameState.isPaused) return;
     
     setGameState(prev => {
-      const newPizza = {
-        x: -PIZZA_SIZE,
-        y: Math.random() * (CANVAS_HEIGHT - 100) + 50,
-        speed: Math.random() * (PIZZA_SPEED_MAX - PIZZA_SPEED_MIN) + PIZZA_SPEED_MIN,
-        size: PIZZA_SIZE,
-        caught: false
-      };
+      // Spawn multiple pizzas at once for overwhelming effect
+      const numPizzas = Math.random() > 0.7 ? 2 : 1; // 30% chance for double spawn
+      const newPizzas = [];
+      
+      for (let i = 0; i < numPizzas; i++) {
+        const newPizza = {
+          x: -PIZZA_SIZE - (i * 60), // offset multiple pizzas
+          y: Math.random() * (CANVAS_HEIGHT - 100) + 50,
+          speed: Math.random() * (PIZZA_SPEED_MAX - PIZZA_SPEED_MIN) + PIZZA_SPEED_MIN,
+          size: PIZZA_SIZE,
+          caught: false
+        };
+        newPizzas.push(newPizza);
+      }
       
       return {
         ...prev,
-        pizzas: [...prev.pizzas, newPizza]
+        pizzas: [...prev.pizzas, ...newPizzas]
       };
     });
   }, [gameState.gameOver, gameState.isPaused]);
@@ -289,8 +296,17 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       const missedPizzas = newPizzas.filter(pizza => !pizza.caught && pizza.x > CANVAS_WIDTH);
       newMisses += missedPizzas.length;
 
-      // Remove off-screen pizzas
+      // Remove off-screen pizzas and caught pizzas (faster cleanup)
       newPizzas = newPizzas.filter(pizza => pizza.x <= CANVAS_WIDTH && !pizza.caught);
+      
+      // Also remove caught pizzas after a short delay for visual feedback
+      newPizzas = newPizzas.filter(pizza => {
+        if (pizza.caught) {
+          // Remove caught pizzas immediately for faster gameplay
+          return false;
+        }
+        return true;
+      });
 
       // Check game over condition
       if (newMisses >= prev.maxMisses) {
@@ -323,7 +339,7 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       spawnTimerRef.current = setInterval(() => {
         spawnPizza();
         
-        // Increase difficulty by decreasing spawn rate
+        // Rapidly increase difficulty by decreasing spawn rate
         setGameState(prev => ({
           ...prev,
           spawnRate: Math.max(MIN_SPAWN_RATE, prev.spawnRate - SPAWN_RATE_DECREASE)
@@ -377,6 +393,9 @@ const PizzaHunter: React.FC<PizzaHunterProps> = ({ onGameEnd, gameActive, resetT
       ctx.font = 'bold 16px monospace';
       ctx.strokeText('Catch the flying pizzas!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       ctx.fillText('Catch the flying pizzas!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      
+      ctx.strokeText('They move FAST - be ready!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
+      ctx.fillText('They move FAST - be ready!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
       
       // Draw pizza in center
       ctx.font = '60px Arial';
