@@ -393,8 +393,8 @@ const Landing: React.FC = () => {
               {/* Food Blaster Game */}
               
               <Link
-                // to="/food-blaster"
-                to="#"
+                to="/food-blaster"
+                // to="#"
                 className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-lg p-6 text-white hover:from-accent-600 hover:to-accent-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
