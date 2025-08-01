@@ -1,13 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import NicknameModal from '../components/NicknameModal';
-import LeaderboardModal from '../components/LeaderboardModal';
-import { leaderboardService } from '../services/leaderboardService';
 import HamburgerRunner from '../components/HamburgerRunner';
 import { 
-  Trophy,
-  Star,
   GamepadIcon,
   Home,
   ArrowLeft
@@ -18,9 +13,6 @@ const HamburgerRunnerGame: React.FC = () => {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
-  const [showNicknameModal, setShowNicknameModal] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
   console.log('HamburgerRunnerGame: Component rendered', { 
     gameActive, 
@@ -33,32 +25,7 @@ const HamburgerRunnerGame: React.FC = () => {
     console.log('HamburgerRunnerGame: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
-    
-    // Show nickname modal for score submission
-    setShowNicknameModal(true);
   }, []);
-
-  const handleNicknameSubmit = async (nickname: string) => {
-    if (finalScore === null) return;
-    
-    setIsSubmittingScore(true);
-    try {
-      await leaderboardService.addScore(nickname, finalScore);
-      console.log('Score saved to leaderboard:', { nickname, score: finalScore });
-      setShowNicknameModal(false);
-      setShowLeaderboard(true);
-    } catch (error) {
-      console.error('Failed to save score:', error);
-      alert('Failed to save score to leaderboard. Please try again.');
-    } finally {
-      setIsSubmittingScore(false);
-    }
-  };
-
-  const handleNicknameSkip = () => {
-    setShowNicknameModal(false);
-    setShowLeaderboard(true);
-  };
 
   const restartGame = useCallback(() => {
     console.log('HamburgerRunnerGame: Restarting game - forcing component remount');
@@ -161,37 +128,12 @@ const HamburgerRunnerGame: React.FC = () => {
                     >
                       Back to Games
                     </button>
-                  </div>
-                  {/* Leaderboard Button */}
-                  <button
-                    onClick={() => setShowLeaderboard(true)}
-                    className="w-full bg-gradient-to-r from-accent-500 to-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-accent-600 hover:to-primary-600 transition-all transform hover:scale-105 shadow-sm flex items-center justify-center space-x-2 mt-4"
-                  >
-                    <Trophy className="h-5 w-5" />
-                    <span>View Leaderboard</span>
-                  </button>
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
-      
-      {/* Nickname Modal */}
-      <NicknameModal
-        isOpen={showNicknameModal}
-        score={finalScore || 0}
-        onSubmit={handleNicknameSubmit}
-        onSkip={handleNicknameSkip}
-        isSubmitting={isSubmittingScore}
-      />
-
-      {/* Leaderboard Modal */}
-      <LeaderboardModal
-        isOpen={showLeaderboard}
-        onClose={() => setShowLeaderboard(false)}
-        currentScore={finalScore || undefined}
-      />
     </div>
   );
 };

@@ -32,6 +32,8 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
   const HAMBURGER_SIZE = 40;
+  const PLAYER_WIDTH = 30;
+  const PLAYER_HEIGHT = 30;
   const GROUND_HEIGHT = 80;
   const GRAVITY = 0.6;
   const JUMP_FORCE = -12;
@@ -223,6 +225,35 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   }, [gameState.gameOver, gameState.gameStarted, startGame, jump]);
 
   // Drawing functions
+  const drawPlayer = (ctx: CanvasRenderingContext2D, x: number) => {
+    // Draw hamburger emoji
+    ctx.save();
+    ctx.font = `${PLAYER_WIDTH}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Draw the hamburger emoji
+    const hamburgerCenterX = x + PLAYER_WIDTH / 2;
+    const hamburgerCenterY = CANVAS_HEIGHT - 40 + PLAYER_HEIGHT / 2;
+    ctx.fillText('🍔', hamburgerCenterX, hamburgerCenterY);
+    
+    // Draw animated running legs
+    const legOffset = Math.sin(Date.now() * 0.02) * 3;
+    ctx.fillStyle = '#8B4513'; // Brown legs
+    
+    // Left leg
+    ctx.fillRect(x + 8 + legOffset, CANVAS_HEIGHT - 15, 4, 12);
+    // Right leg  
+    ctx.fillRect(x + 18 - legOffset, CANVAS_HEIGHT - 15, 4, 12);
+    
+    // Leg joints (knees)
+    ctx.fillStyle = '#654321'; // Darker brown
+    ctx.fillRect(x + 9 + legOffset, CANVAS_HEIGHT - 9, 2, 2);
+    ctx.fillRect(x + 19 - legOffset, CANVAS_HEIGHT - 9, 2, 2);
+    
+    ctx.restore();
+  };
+
   const drawHamburger = (ctx: CanvasRenderingContext2D, x: number, y: number, isRunning: boolean) => {
     ctx.save();
     // Center the hamburger for rotation
