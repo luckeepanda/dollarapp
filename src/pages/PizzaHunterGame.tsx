@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PizzaHunter from '../components/PizzaHunter';
 import { 
@@ -20,6 +20,14 @@ const PizzaHunterGame: React.FC = () => {
     gameKey, 
     resetTrigger 
   });
+
+  // Prevent zoom on mobile
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const handleGameEnd = useCallback((score: number) => {
     console.log('PizzaHunterGame: Game ended with score:', score);
@@ -60,7 +68,7 @@ const PizzaHunterGame: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50" style={{ touchAction: 'none', userSelect: 'none' }}>
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +103,7 @@ const PizzaHunterGame: React.FC = () => {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Game Container */}
-        <div className="food-card p-8 mb-8 relative">
+        <div className="food-card p-4 sm:p-8 mb-8 relative overflow-hidden">
           {/* Force component remount with key prop */}
           <PizzaHunter 
             key={gameKey}
@@ -106,7 +114,7 @@ const PizzaHunterGame: React.FC = () => {
           
           {/* Floating Play Again Button - positioned over the canvas */}
           {finalScore !== null && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <div className="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl border-2 border-orange-300 pointer-events-auto">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-orange-700 mb-2 font-display">
@@ -137,14 +145,15 @@ const PizzaHunterGame: React.FC = () => {
         </div>
 
         {/* Instructions */}
-        <div className="food-card p-6">
+        <div className="food-card p-4 sm:p-6">
           <h3 className="text-orange-700 font-semibold mb-3">🎮 How to Play:</h3>
           <ul className="text-orange-600 text-sm space-y-1">
-            <li>• <strong>Tap or Click</strong> on the flying pizzas to catch them</li>
+            <li>• <strong>Tap</strong> on the flying pizzas to catch them (mobile) or <strong>Click</strong> (desktop)</li>
             <li>• Each pizza caught gives you 10 points</li>
             <li>• Don't let too many pizzas escape or the game ends</li>
             <li>• Pizzas move faster as the game progresses</li>
             <li>• Try to catch as many as possible for a high score!</li>
+            <li>• <strong>Warning:</strong> Pizzas spawn very fast - be ready!</li>
           </ul>
         </div>
       </div>

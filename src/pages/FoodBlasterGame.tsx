@@ -1,9 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FoodBlaster from '../components/FoodBlaster';
-import NicknameModal from '../components/NicknameModal';
-import LeaderboardModal from '../components/LeaderboardModal';
-import { leaderboardService } from '../services/leaderboardService';
 import { 
   Trophy,
   GamepadIcon,
@@ -17,9 +14,6 @@ const FoodBlasterGame: React.FC = () => {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
-  const [showNicknameModal, setShowNicknameModal] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [isSubmittingScore, setIsSubmittingScore] = useState(false);
 
   console.log('FoodBlasterGame: Component rendered', { 
     gameActive, 
@@ -28,36 +22,19 @@ const FoodBlasterGame: React.FC = () => {
     resetTrigger 
   });
 
+  // Prevent zoom on mobile
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   const handleGameEnd = useCallback((score: number) => {
     console.log('FoodBlasterGame: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
-    
-    // Show nickname modal for score submission
-    setShowNicknameModal(true);
   }, []);
-
-  const handleNicknameSubmit = async (nickname: string) => {
-    if (finalScore === null) return;
-    
-    setIsSubmittingScore(true);
-    try {
-      await leaderboardService.addScore(nickname, finalScore);
-      console.log('Score saved to leaderboard:', { nickname, score: finalScore });
-      setShowNicknameModal(false);
-      setShowLeaderboard(true);
-    } catch (error) {
-      console.error('Failed to save score:', error);
-      alert('Failed to save score to leaderboard. Please try again.');
-    } finally {
-      setIsSubmittingScore(false);
-    }
-  };
-
-  const handleNicknameSkip = () => {
-    setShowNicknameModal(false);
-    setShowLeaderboard(true);
-  };
 
   const restartGame = useCallback(() => {
     console.log('FoodBlasterGame: Restarting game - forcing component remount');
@@ -88,7 +65,7 @@ const FoodBlasterGame: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black" style={{ touchAction: 'none', userSelect: 'none' }}>
       {/* Header */}
       <div className="bg-black/50 shadow-sm border-b border-purple-500/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,7 +100,7 @@ const FoodBlasterGame: React.FC = () => {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Game Container */}
-        <div className="bg-black/30 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-500/30 mb-8 relative">
+        <div className="bg-black/30 backdrop-blur-sm p-4 sm:p-8 rounded-2xl shadow-lg border border-purple-500/30 mb-8 relative overflow-hidden">
           <>
           <FoodBlaster 
             key={gameKey}
@@ -134,7 +111,7 @@ const FoodBlasterGame: React.FC = () => {
           
           {/* Game Over Overlay */}
           {finalScore !== null && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <div className="bg-black/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-400 pointer-events-auto">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-purple-300 mb-2">
@@ -158,15 +135,6 @@ const FoodBlasterGame: React.FC = () => {
                       Back to Games
                     </button>
                   </div>
-                  
-                  {/* Leaderboard Button */}
-                  <button
-                    onClick={() => setShowLeaderboard(true)}
-                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2 mt-4"
-                  >
-                    <Trophy className="h-5 w-5" />
-                    <span>View Leaderboard</span>
-                  </button>
                   </div>
                 </div>
               </div>
@@ -175,12 +143,12 @@ const FoodBlasterGame: React.FC = () => {
         </div>
 
         {/* Instructions */}
-        <div className="bg-black/30 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-purple-500/30">
+        <div className="bg-black/30 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-sm border border-purple-500/30">
           <h3 className="text-purple-300 font-semibold mb-3">🎮 How to Play:</h3>
           <ul className="text-purple-200 text-sm space-y-1">
-            <li>• <strong>Tap</strong> anywhere to shoot at the food invaders</li>
-            <li>• <strong>Touch and drag</strong> to move your spaceship left and right</li>
-            <li>• <strong>Hold</strong> to continuously fire while moving</li>
+            <li>• <strong>{isTouchDeviceRef.current ? 'Tap' : 'Click or Space'}</strong> to shoot at the food invaders</li>
+            <li>• <strong>{isTouchDeviceRef.current ? 'Touch and drag' : 'Arrow keys'}</strong> to move your spaceship left and right</li>
+            <li>• <strong>{isTouchDeviceRef.current ? 'Hold and swipe' : 'Hold arrow keys'}</strong> for continuous movement</li>
             <li>• Destroy all food items to advance to the next wave</li>
             <li>• Don't let the food invaders or their attacks hit your spaceship!</li>
             <li>• Each wave gets faster and more challenging</li>
@@ -189,21 +157,6 @@ const FoodBlasterGame: React.FC = () => {
         </div>
       </div>
       
-      {/* Nickname Modal */}
-      <NicknameModal
-        isOpen={showNicknameModal}
-        score={finalScore || 0}
-        onSubmit={handleNicknameSubmit}
-        onSkip={handleNicknameSkip}
-        isSubmitting={isSubmittingScore}
-      />
-
-      {/* Leaderboard Modal */}
-      <LeaderboardModal
-        isOpen={showLeaderboard}
-        onClose={() => setShowLeaderboard(false)}
-        currentScore={finalScore || undefined}
-      />
     </div>
   );
 };
