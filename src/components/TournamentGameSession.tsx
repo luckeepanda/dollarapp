@@ -210,7 +210,7 @@ const TournamentGameSession: React.FC<TournamentGameSessionProps> = ({
             <li>• $1 entry fee per game attempt</li>
             <li>• Play as many times as you want (balance permitting)</li>
             <li>• Each score is added to the tournament leaderboard</li>
-            <li>• Compete for the highest scores across all players</li>
+            <li>• Any score qualifies - compete for the highest scores!</li>
             <li>• Multiple entries allowed - improve your ranking!</li>
           </ul>
         </div>

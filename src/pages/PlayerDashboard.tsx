@@ -224,9 +224,9 @@ const PlayerDashboard: React.FC = () => {
                         to="/restaurant-games"
                         className="w-full bg-white text-primary-600 py-2 rounded-lg font-bold hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md border border-primary-200"
                       >
-                        <Play className="h-4 w-4" />
-                        <span>Join Game</span>
-                      </Link>
+                    <div className="flex justify-between">
+                      <span className="text-primary-100">Qualification:</span>
+                      <span className="font-medium text-green-300">Any Score</span>
                     </div>
                   </div>
                 ))}
@@ -258,7 +258,7 @@ const PlayerDashboard: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">1. Join Restaurant Games</h3>
-              <p>Browse games created by local restaurants. You can play each game multiple times to improve your score!</p>
+              <p>Browse games created by local restaurants. Any score qualifies - highest score wins the prize!</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">2. Play & Compete</h3>

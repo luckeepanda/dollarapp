@@ -240,8 +240,8 @@ const RestaurantGames: React.FC = () => {
                       <span className="text-primary-600 font-medium">${game.entry_fee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Min Score:</span>
-                      <span className="text-primary-600 font-medium">{game.min_score}</span>
+                      <span className="text-gray-600">Qualification:</span>
+                      <span className="text-green-600 font-medium">Any Score</span>
                     </div>
                   </div>
 
@@ -288,7 +288,7 @@ const RestaurantGames: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">1. Join & Play</h3>
-              <p>Pay the entry fee to join a restaurant's game. You can play multiple times to improve your score!</p>
+              <p>Pay the entry fee to join a restaurant's game. Any score qualifies - highest score wins!</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">2. Compete for Victory</h3>
