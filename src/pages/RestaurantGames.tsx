@@ -191,8 +191,8 @@ const RestaurantGames: React.FC = () => {
                   <h3 className="text-xl font-bold mb-2">{game.name}</h3>
                   <p className="text-primary-100 text-sm">{game.description}</p>
                   {game.restaurant && (
-                    <p className="text-primary-200 text-xs mt-2">
-                      by <span className="text-primary-100">{game.restaurant.username}</span>
+                    <p className="text-primary-100 text-lg font-bold mt-3 mb-2 bg-white/20 px-3 py-1 rounded-full text-center">
+                      🍽️ {game.restaurant.username}
                     </p>
                   )}
                 </div>

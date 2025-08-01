@@ -164,8 +164,11 @@ const PlayerDashboard: React.FC = () => {
                       <h3 className="text-xl font-bold mb-2">{game.name}</h3>
                       <p className="text-primary-100 text-sm mb-4">{game.description}</p>
                       {game.restaurant && (
-                        <p className="text-primary-200 text-xs mb-4">
-                          by <span className="text-primary-100">{game.restaurant.username}</span>
+                        <div className="mb-4">
+                          <p className="text-white text-lg font-bold bg-white/30 px-4 py-2 rounded-full text-center border-2 border-white/40">
+                            🍽️ {game.restaurant.username}
+                          </p>
+                        </div>
                         </p>
                       )}
                       
