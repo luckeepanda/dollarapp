@@ -1,546 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Trophy, Play, Pause } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Home } from 'lucide-react';
 
-interface GameState {
-  playerX: number;
-  bullets: Array<{ x: number; y: number; id: number }>;
-  enemies: Array<{ x: number; y: number; type: number; id: number }>;
-  score: number;
-  lives: number;
-  gameStarted: boolean;
-  gameOver: boolean;
-  isPaused: boolean;
-  wave: number;
-  enemyDirection: number;
-  enemySpeed: number;
-  lastShot: number;
-}
-
-interface FoodBlasterProps {
-  onGameEnd: (score: number) => void;
-  gameActive: boolean;
-  resetTrigger: number;
-}
-
-const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
+const FoodBlaster: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gameLoopRef = useRef<number>();
-  const lastTimeRef = useRef<number>(0);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const touchMoveRef = useRef<{ x: number; y: number } | null>(null);
-  const lastShotTimeRef = useRef<number>(0);
-  const eventListenersAttachedRef = useRef<boolean>(false);
-  const gameEndCalledRef = useRef<boolean>(false);
-  
-  const CANVAS_WIDTH = 400;
-  const CANVAS_HEIGHT = 500;
-  const PLAYER_WIDTH = 30;
-  const PLAYER_HEIGHT = 20;
-  const BULLET_WIDTH = 3;
-  const BULLET_HEIGHT = 8;
-  const ENEMY_WIDTH = 25;
-  const ENEMY_HEIGHT = 25;
-  const BULLET_SPEED = 8;
-  const ENEMY_BULLET_SPEED = 3;
-  const PLAYER_SPEED = 5;
-  const SHOT_COOLDOWN = 200; // milliseconds
+  const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [gameOver, setGameOver] = useState(false);
 
-  // Food emojis for enemies
-  const FOOD_TYPES = ['🍕', '🍔', '🌮', '🍟', '🍗', '🥪', '🌭', '🍝', '🍜', '🍱'];
-
-  console.log('FoodBlaster: Component rendered/remounted with props:', {
-    gameActive,
-    resetTrigger,
-    timestamp: Date.now()
-  });
-
-  const createInitialGameState = useCallback((): GameState => {
-    const initialState = {
-      playerX: CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2,
-      bullets: [],
-      enemies: [],
-      enemyBullets: [],
-      enemyBullets: [],
-      score: 0,
-      lives: 5,
-      gameStarted: false,
-      gameOver: false,
-      isPaused: false,
-      wave: 1,
-      enemyDirection: 1,
-      enemySpeed: 0.5,
-      lastShot: 0
-    };
-    console.log('FoodBlaster: Created fresh initial game state:', initialState);
-    return initialState;
-  }, []);
-
-  const [gameState, setGameState] = useState<GameState>(createInitialGameState);
-
-  // Debug logging for state changes
-  useEffect(() => {
-    console.log('FoodBlaster: Game state changed:', {
-      gameStarted: gameState.gameStarted,
-      gameOver: gameState.gameOver,
-      isPaused: gameState.isPaused,
-      score: gameState.score,
-      lives: gameState.lives,
-      wave: gameState.wave,
-      enemyCount: gameState.enemies.length
-    });
-  }, [gameState]);
-
-  // Comprehensive cleanup function
-  const cleanupGame = useCallback(() => {
-    console.log('FoodBlaster: Performing comprehensive cleanup');
-    
-    if (gameLoopRef.current) {
-      console.log('FoodBlaster: Cancelling animation frame:', gameLoopRef.current);
-      cancelAnimationFrame(gameLoopRef.current);
-      gameLoopRef.current = undefined;
-    }
-    
-    lastTimeRef.current = 0;
-    touchStartRef.current = null;
-    touchMoveRef.current = null;
-    
-    if (eventListenersAttachedRef.current) {
-      console.log('FoodBlaster: Removing event listeners');
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.removeEventListener('click', handleCanvasClick);
-        canvas.removeEventListener('touchstart', handleTouchStart);
-        canvas.removeEventListener('touchmove', handleTouchMove);
-        canvas.removeEventListener('touchend', handleTouchEnd);
-      }
-      eventListenersAttachedRef.current = false;
-    }
-  }, []);
-
-  // Reset game function
-  const resetGame = useCallback(() => {
-    console.log('FoodBlaster: resetGame called - performing full reset');
-    
-    cleanupGame();
-    
-    // Reset game end flag
-    gameEndCalledRef.current = false;
-    
-    const newState = createInitialGameState();
-    console.log('FoodBlaster: Setting fresh initial state:', newState);
-    setGameState(newState);
-  }, [cleanupGame, createInitialGameState]);
-
-  // Start game function
-  const startGame = useCallback(() => {
-    console.log('FoodBlaster: startGame called - initializing fresh game');
-    
-    const enemies = createEnemyWave(1);
-    const newState = {
-      ...createInitialGameState(),
-      gameStarted: true,
-      gameOver: false,
-      isPaused: false,
-      enemies
-    };
-    
-    console.log('FoodBlaster: Starting game with fresh state:', newState);
-    setGameState(newState);
-  }, [createInitialGameState]);
-
-  // Handle reset trigger from parent component
-  useEffect(() => {
-    if (resetTrigger > 0) {
-      console.log('FoodBlaster: Reset trigger received:', resetTrigger);
-      gameEndCalledRef.current = false;
-      resetGame();
-    }
-  }, [resetTrigger, resetGame]);
-
-  // Create enemy wave
-  const createEnemyWave = useCallback((wave: number) => {
-    const enemies = [];
-    const rows = Math.min(3 + Math.floor(wave / 3), 6);
-    const cols = 8;
-    
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        enemies.push({
-          x: col * (ENEMY_WIDTH + 10) + 40,
-          y: row * (ENEMY_HEIGHT + 10) + 50,
-          type: Math.floor(Math.random() * FOOD_TYPES.length),
-          id: Date.now() + Math.random()
-        });
-      }
-    }
-    
-    return enemies;
-  }, []);
-
-  // Toggle pause function
-  const togglePause = useCallback(() => {
-    console.log('FoodBlaster: Toggling pause state');
-    setGameState(prev => {
-      const newPauseState = !prev.isPaused;
-      console.log('FoodBlaster: Pause state changed to:', newPauseState);
-      return {
-        ...prev,
-        isPaused: newPauseState
-      };
-    });
-  }, []);
-
-  // Event handler functions
-  const handleCanvasClick = useCallback(() => {
-    console.log('FoodBlaster: Canvas clicked');
-    
-    if (!gameState.gameStarted && !gameState.gameOver) {
-      console.log('FoodBlaster: Game not started - starting from canvas click');
-      startGame();
-    }
-  }, [gameState.gameStarted, gameState.gameOver, startGame]);
-
-  // Touch event handlers
-  const handleTouchStart = useCallback((e: TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      
-      touchStartRef.current = { x, y };
-      touchMoveRef.current = { x, y };
-    }
-    
-    // Start game if not started
-    if (!gameState.gameStarted && !gameState.gameOver) {
-      startGame();
-    }
-    
-    // Fire bullet if game is active
-    if (gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
-      const currentTime = Date.now();
-      if (currentTime - lastShotTimeRef.current > SHOT_COOLDOWN) {
-        setGameState(prev => ({
-          ...prev,
-          bullets: [...prev.bullets, {
-            x: prev.playerX + PLAYER_WIDTH / 2 - BULLET_WIDTH / 2,
-            y: CANVAS_HEIGHT - 50,
-            id: Date.now() + Math.random()
-          }]
-        }));
-        lastShotTimeRef.current = currentTime;
-      }
-    }
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
-  
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    e.preventDefault();
-    if (!touchStartRef.current || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) return;
-
-    const touch = e.touches[0];
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      
-      touchMoveRef.current = { x, y };
-    }
-
-    // Move player based on touch position
-    setGameState(prev => {
-      const newX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, touchMoveRef.current.x - PLAYER_WIDTH / 2));
-      return {
-        ...prev,
-        playerX: newX
-      };
-    });
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, CANVAS_WIDTH, PLAYER_WIDTH]);
-  
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
-    e.preventDefault();
-    touchStartRef.current = null;
-    touchMoveRef.current = null;
-  }, []);
-
-  // Check if enemy should fire
-  const shouldEnemyFire = useCallback((enemy: any) => {
-    // Random chance based on game progress and enemy position
-    const baseChance = 0.005; // 0.5% chance per frame
-    const positionFactor = 1 + (CANVAS_HEIGHT - enemy.y) / CANVAS_HEIGHT; // More likely to fire when closer to player
-    
-    // Random check with adjusted probability
-    return Math.random() < baseChance * positionFactor;
-  }, [CANVAS_HEIGHT]);
-
-  // Drawing functions
-  const drawPlayer = (ctx: CanvasRenderingContext2D, x: number) => {
-    // Draw spaceship
-    // Retro pixel art style spaceship
-    ctx.fillStyle = '#39ff14'; // Bright retro green
-    ctx.fillRect(x + 8, CANVAS_HEIGHT - 40, 14, 5);
-    ctx.fillRect(x + 10, CANVAS_HEIGHT - 45, 10, 10);
-    ctx.fillRect(x + 12, CANVAS_HEIGHT - 48, 6, 3);
-    
-    // Ship body
-    ctx.fillStyle = '#0088ff'; // Retro blue
-    ctx.fillRect(x + 5, CANVAS_HEIGHT - 35, 20, 15);
-    
-    // Cockpit
-    ctx.fillStyle = '#ffffff'; // White
-    ctx.fillRect(x + 12, CANVAS_HEIGHT - 32, 6, 6);
-    
-    // Engine glow
-    ctx.fillStyle = '#ff4400'; // Retro orange
-    ctx.fillRect(x + 12, CANVAS_HEIGHT - 20, 6, 5);
-    
-    // Animated engine flame (pixelated)
-    const flicker = Math.random() > 0.5;
-    ctx.fillStyle = flicker ? '#ffff00' : '#ff8800'; // Yellow/orange flicker
-    ctx.fillRect(x + 13, CANVAS_HEIGHT - 15, 4, flicker ? 4 : 6);
-  };
-
-  const drawBullet = (ctx: CanvasRenderingContext2D, bullet: any) => {
-    // Retro pixel bullet
-    ctx.fillStyle = '#ffff00'; // Bright yellow
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    
-    // Add glow effect
-    ctx.shadowColor = '#ffff00';
-    ctx.shadowBlur = 3; // Reduced blur for more pixelated look
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    ctx.shadowBlur = 0;
-  };
-
-  const drawEnemyBullet = (ctx: CanvasRenderingContext2D, bullet: any) => {
-    ctx.fillStyle = '#ff6600';
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    
-    ctx.shadowColor = '#ff6600';
-    ctx.shadowBlur = 5;
-    ctx.fillRect(bullet.x, bullet.y, BULLET_WIDTH, BULLET_HEIGHT);
-    ctx.shadowBlur = 0;
-  };
-
-  const drawEnemy = (ctx: CanvasRenderingContext2D, enemy: any) => {
-    const foodEmoji = FOOD_TYPES[enemy.type];
-    // Use pixelated font for retro look
-    ctx.font = 'bold 20px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText(foodEmoji, enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT);
-    
-    // Add pixelated border for retro look
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(enemy.x, enemy.y, ENEMY_WIDTH, ENEMY_HEIGHT);
-  };
-
-  const drawExplosion = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
-    // More pixelated explosion for retro feel
-    ctx.fillStyle = '#ff6600'; // Orange
-    ctx.beginPath();
-    ctx.arc(x, y, 15, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.fillStyle = '#ffaa00'; // Yellow-orange
-    ctx.beginPath();
-    ctx.arc(x, y, 10, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.fillStyle = '#ffff00'; // Yellow
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Add pixelated particles for retro effect
-    for (let i = 0; i < 8; i++) {
-      const angle = (i / 8) * Math.PI * 2;
-      const px = x + Math.cos(angle) * 12;
-      const py = y + Math.sin(angle) * 12;
-      ctx.fillRect(px, py, 2, 2);
-    }
-  };
-
-  // Collision detection
-  const checkCollision = (rect1: any, rect2: any, w1: number, h1: number, w2: number, h2: number) => {
-    return rect1.x < rect2.x + w2 &&
-           rect1.x + w1 > rect2.x &&
-           rect1.y < rect2.y + h2 &&
-           rect1.y + h1 > rect2.y;
-  };
-
-  // Main game loop
-  const gameLoop = useCallback((currentTime: number) => {
-    if (!gameActive || !gameState.gameStarted || gameState.gameOver || gameState.isPaused) {
-      return;
-    }
-
-    // Capture touch reference at the beginning to avoid null access later
-    const currentTouchMove = touchMoveRef.current;
-
-    const deltaTime = currentTime - lastTimeRef.current;
-    if (deltaTime < 16) { // Cap at ~60 FPS
-      gameLoopRef.current = requestAnimationFrame(gameLoop);
-      return;
-    }
-    lastTimeRef.current = currentTime;
-
-    setGameState(prev => {
-      // Use touch position for player movement if available
-      let newPlayerX = prev.playerX;
-      if (currentTouchMove) {
-        newPlayerX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, currentTouchMove.x - PLAYER_WIDTH / 2));
-      }
-        
-      let newBullets = [...prev.bullets];
-      let newEnemyBullets = [...prev.enemyBullets];
-      let newEnemies = [...prev.enemies];
-      let newScore = prev.score;
-      let newLives = prev.lives;
-      let newWave = prev.wave;
-      let newEnemyDirection = prev.enemyDirection;
-      let newEnemySpeed = prev.enemySpeed;
-
-      // Move bullets
-      newBullets = newBullets.map(bullet => ({
-        ...bullet,
-        y: bullet.y - BULLET_SPEED
-      })).filter(bullet => bullet.y > -BULLET_HEIGHT);
-
-      // Move enemy bullets
-      newEnemyBullets = (newEnemyBullets || []).map(bullet => ({
-        ...bullet,
-        y: bullet.y + ENEMY_BULLET_SPEED
-      })).filter(bullet => bullet.y < CANVAS_HEIGHT + BULLET_HEIGHT);
-
-      // Move enemies
-      let shouldMoveDown = false;
-      for (const enemy of newEnemies) {
-        if ((enemy.x <= 0 && newEnemyDirection === -1) || 
-            (enemy.x >= CANVAS_WIDTH - ENEMY_WIDTH && newEnemyDirection === 1)) {
-          shouldMoveDown = true;
-          break;
-        }
-      }
-
-      if (shouldMoveDown) {
-        newEnemyDirection *= -1;
-        newEnemies = newEnemies.map(enemy => ({
-          ...enemy,
-          y: enemy.y + 20
-        }));
-      } else {
-        newEnemies = newEnemies.map(enemy => ({
-          ...enemy,
-          x: enemy.x + newEnemyDirection * newEnemySpeed
-        }));
-        
-        // Enemies randomly fire bullets
-        newEnemies.forEach(enemy => {
-          if (shouldEnemyFire(enemy)) {
-            newEnemyBullets = [...newEnemyBullets, {
-              x: enemy.x + ENEMY_WIDTH / 2,
-              y: enemy.y + ENEMY_HEIGHT,
-              id: Date.now() + Math.random()
-            }];
-          }
-        });
-      }
-
-      // Check bullet-enemy collisions
-      const bulletsToRemove = new Set();
-      const enemiesToRemove = new Set();
-
-      newBullets.forEach(bullet => {
-        newEnemies.forEach(enemy => {
-          if (checkCollision(bullet, enemy, BULLET_WIDTH, BULLET_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT)) {
-            bulletsToRemove.add(bullet.id);
-            enemiesToRemove.add(enemy.id);
-            newScore += 10;
-          }
-        });
-      });
-
-      newBullets = newBullets.filter(bullet => !bulletsToRemove.has(bullet.id));
-      newEnemies = newEnemies.filter(enemy => !enemiesToRemove.has(enemy.id));
-
-      // Check enemy bullet-player collisions
-      const playerHit = (newEnemyBullets || []).some(bullet => 
-        checkCollision(
-          { x: newPlayerX, y: CANVAS_HEIGHT - 40 },
-          bullet,
-          PLAYER_WIDTH,
-          PLAYER_HEIGHT,
-          BULLET_WIDTH,
-          BULLET_HEIGHT
-        )
-      );
-      
-      if (playerHit) {
-        newEnemyBullets = newEnemyBullets.filter(bullet => !playerHit);
-      }
-
-      // Check if wave is complete
-      if (newEnemies.length === 0) {
-        newWave++;
-        newEnemies = createEnemyWave(newWave);
-        newEnemySpeed = Math.min(3, 0.5 + (newWave - 1) * 0.3);
-        newScore += newWave * 50; // Bonus for completing wave
-      }
-
-      // Check if enemies reached player or player was hit by bullet
-      const enemyReachedPlayer = newEnemies.some(enemy => enemy.y + ENEMY_HEIGHT >= CANVAS_HEIGHT - 50);
-      if (enemyReachedPlayer) {
-        newLives--;
-        if (newLives <= 0) {
-          console.log('FoodBlaster: Game over - calling onGameEnd with score:', newScore);
-          onGameEnd(newScore);
-          return {
-            ...prev,
-            gameOver: true
-          };
-        }
-        // Reset enemy positions
-        newEnemies = createEnemyWave(newWave);
-      }
-
-      // Handle player hit by enemy bullet
-      if (playerHit) {
-        newLives--;
-        if (newLives <= 0) {
-          // Prevent multiple game end calls
-          if (!gameEndCalledRef.current) {
-            gameEndCalledRef.current = true;
-            console.log('FoodBlaster: Game over from bullet hit - calling onGameEnd with score:', newScore);
-            onGameEnd(newScore);
-          }
-          return {
-            ...prev,
-            gameOver: true
-          };
-        }
-      }
-
-      return {
-        ...prev,
-        playerX: newPlayerX,
-        bullets: newBullets,
-        enemyBullets: newEnemyBullets,
-        enemyBullets: newEnemyBullets,
-        enemies: newEnemies,
-        score: newScore,
-        lives: newLives,
-        wave: newWave,
-        enemyDirection: newEnemyDirection,
-        enemySpeed: newEnemySpeed
-      };
-    });
-
-    gameLoopRef.current = requestAnimationFrame(gameLoop);
-  }, [gameActive, gameState.gameStarted, gameState.gameOver, gameState.isPaused, onGameEnd, createEnemyWave]);
-
-  // Render function
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -548,205 +15,425 @@ const FoodBlaster: React.FC<FoodBlasterProps> = ({ onGameEnd, gameActive, resetT
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas with retro space background (darker, more pixelated)
-    ctx.fillStyle = '#000022'; // Dark blue base
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // Responsive canvas sizing
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth * 0.9; // 90% of viewport width
+      canvas.height = Math.min(window.innerHeight * 0.8, 600); // Cap height
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    // Draw pixelated stars (more retro)
-    ctx.fillStyle = '#ffffff';
-    for (let i = 0; i < 40; i++) {
-      const x = Math.floor((i * 37) % CANVAS_WIDTH / 4) * 4; // Pixelated grid
-      const y = Math.floor((i * 73) % CANVAS_HEIGHT / 4) * 4;
-      const size = i % 3 === 0 ? 2 : 1; // Varied star sizes
-      ctx.fillRect(x, y, size, size);
-    }
+    let width = canvas.width;
+    let height = canvas.height;
 
-    if (!gameState.gameStarted) {
-      // Draw start screen
-      ctx.fillStyle = 'rgba(0, 0, 40, 0.9)'; // Darker blue for retro feel
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      
-      // Retro title text
-      ctx.fillStyle = '#FFFFFF'; // White
-      ctx.strokeStyle = '#00ff00'; // Green outline
-      ctx.lineWidth = 4; // Thicker outline for retro feel
-      ctx.font = 'bold 24px monospace'; // Pixelated font
-      ctx.textAlign = 'center';
-      ctx.strokeText('FOOD BLASTER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
-      ctx.fillText('FOOD BLASTER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
-      
-      ctx.font = 'bold 16px monospace'; // Pixelated font
-      ctx.strokeStyle = '#0088ff'; // Blue outline
-      ctx.lineWidth = 2;
-      ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      
-      ctx.font = 'bold 14px monospace'; // Pixelated font
-      ctx.strokeText('Arrow keys to move, SPACE to shoot', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-      ctx.fillText('Arrow keys to move, SPACE to shoot', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-      
-      ctx.strokeText('Destroy all the food invaders!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 50);
-      ctx.fillText('Destroy all the food invaders!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 50);
-      return;
-    }
+    // Player spaceship
+    let playerX = width / 2;
+    const playerY = height - 50;
+    const playerWidth = 50;
+    const playerHeight = 30;
+    const playerSpeed = 5;
 
-    if (gameState.gameOver) {
-      return;
-    }
+    // Projectiles
+    const playerProjectiles: { x: number; y: number }[] = [];
+    const enemyProjectiles: { x: number; y: number }[] = [];
+    const projectileSpeed = 7;
 
-    if (gameState.isPaused) {
-      ctx.fillStyle = 'rgba(0, 0, 40, 0.8)'; // Darker blue for retro feel
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      
-      ctx.fillStyle = '#FFFFFF'; // White
-      ctx.strokeStyle = '#00ff00'; // Green outline
-      ctx.lineWidth = 5; // Thicker outline for retro feel
-      ctx.font = 'bold 28px monospace'; // Pixelated font
-      ctx.textAlign = 'center';
-      ctx.strokeText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      ctx.fillText('PAUSED', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      return;
-    }
+    // Enemies (food items)
+    const enemyRows = 4;
+    const enemyCols = 10;
+    const enemyWidth = 40;
+    const enemyHeight = 30;
+    const enemyPadding = 10;
+    let enemyDirection = 1;
+    let enemyX = 0;
+    let enemyY = 50;
+    const enemySpeed = 1;
+    const enemies: boolean[][] = Array.from({ length: enemyRows }, () => Array(enemyCols).fill(true));
 
-    // Draw game objects
-    drawPlayer(ctx, gameState.playerX);
+    // Food types for variety
+    const foodTypes = ['🍔', '🌮', '🍕', '🍟', '🍦'];
 
-    gameState.bullets.forEach(bullet => {
-      drawBullet(ctx, bullet);
-    });
+    // Touch controls state
+    let isMovingLeft = false;
+    let isMovingRight = false;
+    let touchStartX = 0;
 
-    // Draw enemy bullets
-    gameState.enemyBullets?.forEach(bullet => {
-      drawEnemyBullet(ctx, bullet);
-    });
+    let animationFrameId: number;
 
-    // Draw enemy bullets
-    gameState.enemyBullets?.forEach(bullet => {
-      drawEnemyBullet(ctx, bullet);
-    });
+    const drawPlayer = () => {
+      ctx.fillStyle = '#00FF00'; // Green spaceship
+      ctx.beginPath();
+      ctx.moveTo(playerX - playerWidth / 2, playerY);
+      ctx.lineTo(playerX + playerWidth / 2, playerY);
+      ctx.lineTo(playerX, playerY - playerHeight);
+      ctx.closePath();
+      ctx.fill();
+    };
 
-    // Draw enemies
-    gameState.enemies.forEach(enemy => {
-      drawEnemy(ctx, enemy);
-    });
-
-    // Draw UI
-    ctx.textAlign = 'left';
-    ctx.font = 'bold 16px monospace'; // Pixelated font
-    ctx.strokeStyle = '#0088ff'; // Blue outline
-    ctx.lineWidth = 3; // Thicker outline for retro feel
-    ctx.fillStyle = '#FFFFFF'; // White
-    
-    ctx.strokeText(`Score: ${gameState.score}`, 10, 25);
-    ctx.fillText(`Score: ${gameState.score}`, 10, 25);
-    
-    // Draw lives with heart emojis
-    ctx.fillText(`Lives: ${"❤️".repeat(gameState.lives)}`, 10, 45);
-    
-    ctx.strokeText(`Wave: ${gameState.wave}`, 10, 65);
-    ctx.fillText(`Wave: ${gameState.wave}`, 10, 65);
-
-    // Draw pixelated border for retro feel
-    ctx.strokeStyle = '#0088ff';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  }, [gameState]);
-
-  // Start game loop
-  useEffect(() => {
-    if (gameActive && gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
-      console.log('FoodBlaster: Starting game loop');
-      lastTimeRef.current = performance.now();
-      lastShotTimeRef.current = performance.now();
-      gameLoopRef.current = requestAnimationFrame(gameLoop);
-    }
-    
-    return () => {
-      if (gameLoopRef.current) {
-        console.log('FoodBlaster: Cleaning up game loop in useEffect');
-        cancelAnimationFrame(gameLoopRef.current);
+    const drawEnemies = () => {
+      for (let row = 0; row < enemyRows; row++) {
+        for (let col = 0; col < enemyCols; col++) {
+          if (enemies[row][col]) {
+            const x = enemyX + col * (enemyWidth + enemyPadding);
+            const y = enemyY + row * (enemyHeight + enemyPadding);
+            ctx.font = '30px Arial';
+            ctx.fillText(foodTypes[row % foodTypes.length], x, y + enemyHeight / 2);
+          }
+        }
       }
     };
-  }, [gameActive, gameLoop, gameState.gameStarted, gameState.gameOver, gameState.isPaused]);
 
-  // Touch event listeners management
+    const drawProjectiles = () => {
+      ctx.fillStyle = '#FFFF00'; // Yellow for player shots
+      playerProjectiles.forEach(p => {
+        ctx.fillRect(p.x - 2, p.y, 4, 10);
+      });
+
+      ctx.fillStyle = '#FF0000'; // Red for enemy shots
+      enemyProjectiles.forEach(p => {
+        ctx.fillRect(p.x - 2, p.y, 4, 10);
+      });
+    };
+
+    const updateProjectiles = () => {
+      playerProjectiles.forEach((p, i) => {
+        p.y -= projectileSpeed;
+... (226 lines left)
+Collapse
+message.txt
+12 KB
+analystbruh — 9:51 PM
+import React, { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import HamburgerRunner from '../components/HamburgerRunner';
+import { 
+  GamepadIcon,
+Expand
+message.txt
+6 KB
+﻿
+import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Home } from 'lucide-react';
+
+const FoodBlasterGame: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [gameOver, setGameOver] = useState(false);
+
   useEffect(() => {
-    if (!eventListenersAttachedRef.current) {
-      console.log('FoodBlaster: Attaching event listeners');
-      
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.addEventListener('click', handleCanvasClick);
-        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-        canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Responsive canvas sizing
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth * 0.9; // 90% of viewport width
+      canvas.height = Math.min(window.innerHeight * 0.8, 600); // Cap height
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let width = canvas.width;
+    let height = canvas.height;
+
+    // Player spaceship
+    let playerX = width / 2;
+    const playerY = height - 50;
+    const playerWidth = 50;
+    const playerHeight = 30;
+    const playerSpeed = 5;
+
+    // Projectiles
+    const playerProjectiles: { x: number; y: number }[] = [];
+    const enemyProjectiles: { x: number; y: number }[] = [];
+    const projectileSpeed = 7;
+
+    // Enemies (food items)
+    const enemyRows = 4;
+    const enemyCols = 10;
+    const enemyWidth = 40;
+    const enemyHeight = 30;
+    const enemyPadding = 10;
+    let enemyDirection = 1;
+    let enemyX = 0;
+    let enemyY = 50;
+    const enemySpeed = 1;
+    const enemies: boolean[][] = Array.from({ length: enemyRows }, () => Array(enemyCols).fill(true));
+
+    // Food types for variety
+    const foodTypes = ['🍔', '🌮', '🍕', '🍟', '🍦'];
+
+    // Touch controls state
+    let isMovingLeft = false;
+    let isMovingRight = false;
+    let touchStartX = 0;
+
+    let animationFrameId: number;
+
+    const drawPlayer = () => {
+      ctx.fillStyle = '#00FF00'; // Green spaceship
+      ctx.beginPath();
+      ctx.moveTo(playerX - playerWidth / 2, playerY);
+      ctx.lineTo(playerX + playerWidth / 2, playerY);
+      ctx.lineTo(playerX, playerY - playerHeight);
+      ctx.closePath();
+      ctx.fill();
+    };
+
+    const drawEnemies = () => {
+      for (let row = 0; row < enemyRows; row++) {
+        for (let col = 0; col < enemyCols; col++) {
+          if (enemies[row][col]) {
+            const x = enemyX + col * (enemyWidth + enemyPadding);
+            const y = enemyY + row * (enemyHeight + enemyPadding);
+            ctx.font = '30px Arial';
+            ctx.fillText(foodTypes[row % foodTypes.length], x, y + enemyHeight / 2);
+          }
+        }
       }
-      
-      eventListenersAttachedRef.current = true;
-    }
+    };
+
+    const drawProjectiles = () => {
+      ctx.fillStyle = '#FFFF00'; // Yellow for player shots
+      playerProjectiles.forEach(p => {
+        ctx.fillRect(p.x - 2, p.y, 4, 10);
+      });
+
+      ctx.fillStyle = '#FF0000'; // Red for enemy shots
+      enemyProjectiles.forEach(p => {
+        ctx.fillRect(p.x - 2, p.y, 4, 10);
+      });
+    };
+
+    const updateProjectiles = () => {
+      playerProjectiles.forEach((p, i) => {
+        p.y -= projectileSpeed;
+        if (p.y < 0) playerProjectiles.splice(i, 1);
+      });
+
+      enemyProjectiles.forEach((p, i) => {
+        p.y += projectileSpeed;
+        if (p.y > height) enemyProjectiles.splice(i, 1);
+      });
+    };
+
+    const detectCollisions = () => {
+      playerProjectiles.forEach((pp, pi) => {
+        for (let row = 0; row < enemyRows; row++) {
+          for (let col = 0; col < enemyCols; col++) {
+            if (enemies[row][col]) {
+              const ex = enemyX + col * (enemyWidth + enemyPadding);
+              const ey = enemyY + row * (enemyHeight + enemyPadding);
+              if (pp.x > ex && pp.x < ex + enemyWidth && pp.y > ey && pp.y < ey + enemyHeight) {
+                enemies[row][col] = false;
+                playerProjectiles.splice(pi, 1);
+                setScore(prev => prev + 10);
+                return;
+              }
+            }
+          }
+        }
+      });
+
+      enemyProjectiles.forEach((ep, ei) => {
+        if (ep.x > playerX - playerWidth / 2 && ep.x < playerX + playerWidth / 2 && ep.y > playerY - playerHeight && ep.y < playerY) {
+          enemyProjectiles.splice(ei, 1);
+          setLives(prev => prev - 1);
+          if (lives - 1 <= 0) setGameOver(true);
+        }
+      });
+    };
+
+    const updateEnemies = () => {
+      enemyX += enemySpeed * enemyDirection;
+
+      const rightmost = enemyX + (enemyCols - 1) * (enemyWidth + enemyPadding) + enemyWidth;
+      if (rightmost > width || enemyX < 0) {
+        enemyDirection *= -1;
+        enemyY += enemyHeight / 2;
+      }
+
+      if (Math.random() < 0.01) {
+        const activeEnemies = [];
+        for (let row = 0; row < enemyRows; row++) {
+          for (let col = 0; col < enemyCols; col++) {
+            if (enemies[row][col]) activeEnemies.push({ row, col });
+          }
+        }
+        if (activeEnemies.length > 0) {
+          const randomEnemy = activeEnemies[Math.floor(Math.random() * activeEnemies.length)];
+          const ex = enemyX + randomEnemy.col * (enemyWidth + enemyPadding) + enemyWidth / 2;
+          const ey = enemyY + randomEnemy.row * (enemyHeight + enemyPadding) + enemyHeight;
+          enemyProjectiles.push({ x: ex, y: ey });
+        }
+      }
+
+      if (enemyY + enemyRows * (enemyHeight + enemyPadding) > playerY) {
+        setGameOver(true);
+      }
+    };
+
+    const updatePlayerMovement = () => {
+      if (isMovingLeft && playerX - playerWidth / 2 > 0) playerX -= playerSpeed;
+      if (isMovingRight && playerX + playerWidth / 2 < width) playerX += playerSpeed;
+    };
+
+    const gameLoop = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      drawPlayer();
+      drawEnemies();
+      drawProjectiles();
+
+      updateProjectiles();
+      updateEnemies();
+      detectCollisions();
+      updatePlayerMovement();
+
+      const remainingEnemies = enemies.flat().filter(e => e).length;
+      if (remainingEnemies === 0) {
+        setGameOver(true);
+      }
+
+      if (!gameOver) {
+        animationFrameId = requestAnimationFrame(gameLoop);
+      }
+    };
+
+    gameLoop();
+
+    // Keyboard controls (for desktop)
+    const keys = new Set<string>();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      keys.add(e.key);
+      if (e.key === ' ' && playerProjectiles.length < 3) {
+        playerProjectiles.push({ x: playerX, y: playerY - playerHeight });
+      }
+    };
+    const handleKeyUp = (e: KeyboardEvent) => keys.delete(e.key);
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    const keyboardInterval = setInterval(() => {
+      isMovingLeft = keys.has('ArrowLeft');
+      isMovingRight = keys.has('ArrowRight');
+    }, 16);
+
+    // Touch controls (for mobile)
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      touchStartX = e.touches[0].clientX;
+      // Tap to shoot (if not too much movement)
+      if (playerProjectiles.length < 3) {
+        playerProjectiles.push({ x: playerX, y: playerY - playerHeight });
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      if (e.touches.length === 0) return;
+      const touchX = e.touches[0].clientX;
+      const deltaX = touchX - touchStartX;
+
+      // Hold and move direction
+      if (Math.abs(deltaX) > 10) { // Threshold to detect swipe/hold direction
+        isMovingLeft = deltaX < 0;
+        isMovingRight = deltaX > 0;
+      } else {
+        isMovingLeft = false;
+        isMovingRight = false;
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      isMovingLeft = false;
+      isMovingRight = false;
+    };
+
+    canvas.addEventListener('touchstart', handleTouchStart);
+    canvas.addEventListener('touchmove', handleTouchMove);
+    canvas.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      console.log('FoodBlaster: Cleaning up event listeners');
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.removeEventListener('click', handleCanvasClick);
-        canvas.removeEventListener('touchstart', handleTouchStart);
-        canvas.removeEventListener('touchmove', handleTouchMove);
-        canvas.removeEventListener('touchend', handleTouchEnd);
-      }
-      eventListenersAttachedRef.current = false;
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      clearInterval(keyboardInterval);
+      window.removeEventListener('resize', resizeCanvas);
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleTouchStart, handleTouchMove, handleTouchEnd, handleCanvasClick]);
+  }, [gameOver, lives]);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    console.log('FoodBlaster: Component mounted, setting up cleanup');
-    
-    return () => {
-      console.log('FoodBlaster: Component unmounting - performing final cleanup');
-      cleanupGame();
-    };
-  }, [cleanupGame]);
+  const restartGame = () => {
+    setScore(0);
+    setLives(3);
+    setGameOver(false);
+  };
+
+  const goBack = () => {
+    window.history.back();
+  };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="relative">
-        <canvas
-          ref={canvasRef}
-          width={CANVAS_WIDTH}
-          height={CANVAS_HEIGHT}
-          className="border-4 border-purple-300 rounded-xl shadow-lg cursor-pointer bg-black touch-none"
-          style={{ 
-            imageRendering: 'pixelated',
-            boxShadow: '0 0 10px #8b5cf6, inset 0 0 5px #8b5cf6'
-          }}
-        />
-        
-        {/* Game controls overlay - pause button */}
-        <div className="absolute top-4 right-4 flex space-x-2">
-          {gameState.gameStarted && !gameState.gameOver && (
-            <button
-              onClick={togglePause}
-              className="bg-white/90 hover:bg-white p-2 rounded-lg shadow-md transition-all border border-purple-200"
-            >
-              {gameState.isPaused ? (
-                <Play className="h-4 w-4 text-purple-700" />
-              ) : (
-                <Pause className="h-4 w-4 text-purple-700" />
-              )}
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <button onClick={goBack} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <ArrowLeft className="h-5 w-5 text-gray-600" />
+              </button>
+              <div className="flex items-center space-x-2">
+                <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                  Food Blaster
+                </span>
+              </div>
+            </div>
+            <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors">
+              <Home className="h-5 w-5" />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mb-8 relative">
+          <canvas ref={canvasRef} className="w-full bg-black"></canvas>
+          
+          {gameOver && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-orange-200 pointer-events-auto">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-orange-800 mb-2">
+                    {lives <= 0 ? 'Game Over!' : 'You Win!'}
+                  </h3>
+                  <p className="text-lg text-orange-700 mb-4">
+                    Score: <span className="font-bold text-2xl">{score}</span>
+                  </p>
+                  <div className="flex space-x-3">
+                    <button onClick={restartGame} className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 shadow-lg">
+                      Play Again
+                    </button>
+                    <button onClick={goBack} className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105 shadow-lg">
+                      Back to Games
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>
-
-      {gameState.score > 0 && (
-        <div className="flex items-center justify-center space-x-2 text-purple-700 mt-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md">
-          <Trophy className="h-5 w-5" />
-          <span className="font-bold text-lg text-center">
-            Score: {gameState.score} | Wave: {gameState.wave} | Lives: {gameState.lives}
-          </span>
-        </div>
-      )}
     </div>
   );
 };
