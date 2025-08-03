@@ -199,7 +199,6 @@ const RestaurantGames: React.FC = () => {
                   )}
                   
                   <div className="flex items-center justify-between mb-4 pt-4">
-                    <div className="text-4xl">🏆</div>
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
                       Restaurant Game
                     </span>
