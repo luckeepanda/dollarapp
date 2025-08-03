@@ -30,8 +30,10 @@ const RestaurantGameManagement: React.FC = () => {
     description: '',
     gameType: 'taco_flyer',
     entryFee: 1,
-    foodItemAmount: 20
+    foodItemAmount: 20,
+    imageFile: null as File | null
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -72,7 +74,9 @@ const RestaurantGameManagement: React.FC = () => {
         formData.description,
         formData.entryFee,
         maxPlayers,
-        0 // Default minimum score of 0
+        0, // Default minimum score of 0
+        formData.gameType,
+        formData.imageFile
       );
       
       setShowCreateForm(false);
@@ -81,8 +85,10 @@ const RestaurantGameManagement: React.FC = () => {
         description: '',
         gameType: 'taco_flyer',
         entryFee: 1,
-        foodItemAmount: 20
+        foodItemAmount: 20,
+        imageFile: null
       });
+      setImagePreview(null);
       
       await loadGames();
     } catch (error: any) {
@@ -91,6 +97,37 @@ const RestaurantGameManagement: React.FC = () => {
     } finally {
       setIsCreating(false);
     }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image must be smaller than 5MB');
+        return;
+      }
+      
+      setFormData({...formData, imageFile: file});
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData({...formData, imageFile: null});
+    setImagePreview(null);
   };
 
   const handleDeleteGame = async (gameId: string) => {
@@ -242,6 +279,52 @@ const RestaurantGameManagement: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* Image Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Game Image (Optional)
+                    </label>
+                    
+                    {!imagePreview ? (
+                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-gray-400 transition-colors">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                          id="image-upload"
+                        />
+                        <label
+                          htmlFor="image-upload"
+                          className="cursor-pointer flex flex-col items-center space-y-2"
+                        >
+                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <span className="text-2xl">📷</span>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-900">Upload Image</span>
+                            <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                          </div>
+                        </label>
+                      </div>
+                    ) : (
+                      <div className="relative">
+                        <img
+                          src={imagePreview}
+                          alt="Game preview"
+                          className="w-full h-32 object-cover rounded-xl border border-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={removeImage}
+                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                   {/* Auto-calculated Number of Players */}
                   <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
                     <label className="block text-sm font-medium text-blue-800 mb-2">
@@ -276,9 +359,20 @@ const RestaurantGameManagement: React.FC = () => {
                     
                     <button
                       type="button"
-                      onClick={() => setShowCreateForm(false)}
                       disabled={isCreating}
                       className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-xl"
+                      onClick={() => {
+                        setShowCreateForm(false);
+                        setImagePreview(null);
+                        setFormData({
+                          name: '',
+                          description: '',
+                          gameType: 'taco_flyer',
+                          entryFee: 1,
+                          foodItemAmount: 20,
+                          imageFile: null
+                        });
+                      }}
                     >
                       Cancel
                     </button>
