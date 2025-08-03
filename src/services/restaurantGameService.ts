@@ -70,17 +70,30 @@ export const restaurantGameService = {
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
       
+      console.log('Uploading image:', {
+        fileName,
+        fileType: imageFile.type,
+        fileSize: imageFile.size
+      });
+      
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('game-images')
         .upload(fileName, imageFile, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: imageFile.type
         });
       
       if (uploadError) {
-        console.error('Error uploading image:', uploadError);
+        console.error('Error uploading image:', uploadError, {
+          fileName,
+          fileType: imageFile.type,
+          fileSize: imageFile.size
+        });
         throw new Error('Failed to upload image');
       }
+      
+      console.log('Image uploaded successfully:', uploadData);
       
       // Get public URL
       const { data: urlData } = supabase.storage
@@ -88,6 +101,7 @@ export const restaurantGameService = {
         .getPublicUrl(fileName);
       
       imageUrl = urlData.publicUrl;
+      console.log('Generated public URL:', imageUrl);
     }
 
     const { data, error } = await supabase.rpc('create_restaurant_game', {
@@ -114,23 +128,37 @@ export const restaurantGameService = {
     const fileExt = file.name.split('.').pop();
     const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
     
+    console.log('Direct image upload:', {
+      fileName,
+      fileType: file.type,
+      fileSize: file.size
+    });
+    
     const { data, error } = await supabase.storage
       .from('game-images')
       .upload(fileName, file, {
         cacheControl: '3600',
-        upsert: false
+        upsert: false,
+        contentType: file.type
       });
     
     if (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading direct image:', error, {
+        fileName,
+        fileType: file.type,
+        fileSize: file.size
+      });
       throw error;
     }
+    
+    console.log('Direct image uploaded successfully:', data);
     
     // Get public URL
     const { data: urlData } = supabase.storage
       .from('game-images')
       .getPublicUrl(fileName);
     
+    console.log('Generated direct public URL:', urlData.publicUrl);
     return urlData.publicUrl;
   },
 
