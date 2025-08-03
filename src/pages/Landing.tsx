@@ -118,7 +118,7 @@ const Landing: React.FC = () => {
           </div>
           
           {/* Right side - For Restaurant Button */}
-          <Link
+          {/* <Link
             to="/restaurant/login"
             className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
           >
@@ -126,7 +126,7 @@ const Landing: React.FC = () => {
               <span className="text-white text-sm font-bold">🍽️</span>
             </div>
             <span>For Restaurants</span>
-          </Link>
+          </Link> */}
         </div>
 
         <div className="text-center">
