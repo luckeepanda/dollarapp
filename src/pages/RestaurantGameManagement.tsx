@@ -15,7 +15,8 @@ import {
   Eye,
   Star,
   Trash2,
-  Gamepad2
+  Gamepad2,
+  X
 } from 'lucide-react';
 
 const RestaurantGameManagement: React.FC = () => {

@@ -178,11 +178,27 @@ const RestaurantGames: React.FC = () => {
             {games.map((game) => (
               <div 
                 key={game.id} 
-                className="food-card rounded-lg overflow-hidden hover:shadow-lg transition-all"
+                className="food-card rounded-lg overflow-hidden hover:shadow-lg transition-all relative"
               >
                 {/* Game Header */}
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white relative">
+                  {/* Entry Fee Display - Top Left */}
+                  <div className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 rounded-xl shadow-lg border-2 border-white/30">
+                    <span className="font-bold text-2xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
+                  </div>
+                  
+                  {/* Game Image - Top Right */}
+                  {game.image_url && (
+                    <div className="absolute top-2 right-2">
+                      <img 
+                        src={game.image_url} 
+                        alt={game.name}
+                        className="w-16 h-16 rounded-xl object-cover border-2 border-green-500 shadow-lg"
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center justify-between mb-4 pt-4">
                     <div className="text-4xl">🏆</div>
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
                       Restaurant Game
