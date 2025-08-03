@@ -411,7 +411,7 @@ const Landing: React.FC = () => {
               
               {/* Pizza Hunter - Coming Soon */}
               <Link
-                to="/pizza-hunter"
+                // to="/pizza-hunter"
                 className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg p-6 text-white hover:from-primary-600 hover:to-accent-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
