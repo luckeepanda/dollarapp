@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 import { playerQRService } from './playerQRService';
 
 export interface RestaurantGame {
@@ -17,6 +18,7 @@ export interface RestaurantGame {
   winning_score?: number;
   qr_code?: string;
   qr_redeemed: boolean;
+  image_url?: string;
   created_at: string;
   completed_at?: string;
   restaurant?: {
@@ -58,8 +60,36 @@ export const restaurantGameService = {
     entryFee: number,
     maxPlayers: number,
     minScore: number,
-    gameType: string = 'taco_flyer'
+    gameType: string = 'taco_flyer',
+    imageFile?: File
   ): Promise<string> {
+    let imageUrl: string | null = null;
+    
+    // Upload image if provided
+    if (imageFile) {
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('game-images')
+        .upload(fileName, imageFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+      
+      if (uploadError) {
+        console.error('Error uploading image:', uploadError);
+        throw new Error('Failed to upload image');
+      }
+      
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('game-images')
+        .getPublicUrl(fileName);
+      
+      imageUrl = urlData.publicUrl;
+    }
+
     const { data, error } = await supabase.rpc('create_restaurant_game', {
       p_restaurant_id: restaurantId,
       p_name: name,
@@ -67,7 +97,8 @@ export const restaurantGameService = {
       p_entry_fee: entryFee,
       p_max_players: maxPlayers,
       p_min_score: minScore,
-      p_game_type: gameType
+      p_game_type: gameType,
+      p_image_url: imageUrl
     });
 
     if (error) {
@@ -76,6 +107,31 @@ export const restaurantGameService = {
     }
 
     return data;
+  },
+
+  // Upload game image
+  async uploadGameImage(file: File, restaurantId: string): Promise<string> {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
+    
+    const { data, error } = await supabase.storage
+      .from('game-images')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+    
+    if (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+    
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('game-images')
+      .getPublicUrl(fileName);
+    
+    return urlData.publicUrl;
   },
 
   // Get all active restaurant games
