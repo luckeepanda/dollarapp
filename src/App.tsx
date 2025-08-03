@@ -39,7 +39,7 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/restaurant/login" element={<RestaurantLogin />} />
+              <Route path="/restaurant" element={<RestaurantLogin />} />
               <Route path="/restaurant/register" element={<RestaurantRegister />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
