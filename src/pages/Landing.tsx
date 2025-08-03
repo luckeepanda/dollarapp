@@ -410,10 +410,10 @@ const Landing: React.FC = () => {
               </Link>
               
               {/* Pizza Hunter - Coming Soon */}
-              {/* <Link
-                to="/pizza-hunter"
+              <div // change to link later
+                // to="/pizza-hunter"
                 className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg p-6 text-white hover:from-primary-600 hover:to-accent-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
-              >*/}
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍕</div>
@@ -424,7 +424,8 @@ const Landing: React.FC = () => {
                     <span>Play Now</span>
                   </div>
                 </div>
-              {/* </Link> */}
+              </div // Link>
+                >
             </div>
           </div>
         </div>
