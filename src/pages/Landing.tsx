@@ -421,7 +421,7 @@ const Landing: React.FC = () => {
                   <p className="text-primary-100 text-sm mb-4">Hunt for the perfect slice!</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Play Now</span>
+                    <span>Coming Soon</span>
                   </div>
                 </div>
               </div // Link>
