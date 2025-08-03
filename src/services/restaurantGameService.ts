@@ -67,13 +67,24 @@ export const restaurantGameService = {
     
     // Upload image if provided
     if (imageFile) {
+      // Validate file type before upload
+      if (!imageFile.type.startsWith('image/')) {
+        throw new Error('Invalid file type. Please select an image file.');
+      }
+      
+      // Validate file size (max 5MB)
+      if (imageFile.size > 5 * 1024 * 1024) {
+        throw new Error('File too large. Please select an image smaller than 5MB.');
+      }
+      
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
       
       console.log('Uploading image:', {
         fileName,
         fileType: imageFile.type,
-        fileSize: imageFile.size
+        fileSize: imageFile.size,
+        fileSizeFormatted: `${(imageFile.size / 1024 / 1024).toFixed(2)}MB`
       });
       
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -81,16 +92,19 @@ export const restaurantGameService = {
         .upload(fileName, imageFile, {
           cacheControl: '3600',
           upsert: false,
-          contentType: imageFile.type
+          contentType: imageFile.type,
+          duplex: 'half'
         });
       
       if (uploadError) {
         console.error('Error uploading image:', uploadError, {
           fileName,
           fileType: imageFile.type,
-          fileSize: imageFile.size
+          fileSize: imageFile.size,
+          errorCode: uploadError.statusCode,
+          errorMessage: uploadError.message
         });
-        throw new Error('Failed to upload image');
+        throw new Error(`Failed to upload image: ${uploadError.message}`);
       }
       
       console.log('Image uploaded successfully:', uploadData);
@@ -125,13 +139,24 @@ export const restaurantGameService = {
 
   // Upload game image
   async uploadGameImage(file: File, restaurantId: string): Promise<string> {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      throw new Error('Invalid file type. Please select an image file.');
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error('File too large. Please select an image smaller than 5MB.');
+    }
+    
     const fileExt = file.name.split('.').pop();
     const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
     
     console.log('Direct image upload:', {
       fileName,
       fileType: file.type,
-      fileSize: file.size
+      fileSize: file.size,
+      fileSizeFormatted: `${(file.size / 1024 / 1024).toFixed(2)}MB`
     });
     
     const { data, error } = await supabase.storage
@@ -139,16 +164,19 @@ export const restaurantGameService = {
       .upload(fileName, file, {
         cacheControl: '3600',
         upsert: false,
-        contentType: file.type
+        contentType: file.type,
+        duplex: 'half'
       });
     
     if (error) {
       console.error('Error uploading direct image:', error, {
         fileName,
         fileType: file.type,
-        fileSize: file.size
+        fileSize: file.size,
+        errorCode: error.statusCode,
+        errorMessage: error.message
       });
-      throw error;
+      throw new Error(`Failed to upload image: ${error.message}`);
     }
     
     console.log('Direct image uploaded successfully:', data);
