@@ -392,7 +392,7 @@ const Landing: React.FC = () => {
               
               {/* Food Blaster Game */}
               
-              <Link
+              <div //Link
                 to="/food-blaster"
                 // to="#"
                 className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-lg p-6 text-white hover:from-accent-600 hover:to-accent-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full"
@@ -404,10 +404,11 @@ const Landing: React.FC = () => {
                   <p className="text-accent-100 text-sm mb-4">Shoot the food invaders!</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Play Now</span>
+                    <span>Coming Soon</span>
                   </div>
                 </div>
-              </Link>
+              </div //Link
+                >
               
               {/* Pizza Hunter - Coming Soon */}
               <div // change to link later
