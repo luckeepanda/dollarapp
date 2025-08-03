@@ -204,22 +204,12 @@ const RestaurantGames: React.FC = () => {
 
                 {/* Game Stats */}
                 <div className="p-6">
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center space-x-1 mb-1">
-                        <DollarSign className="h-4 w-4 text-success-600" />
-                        <span className="text-xs text-gray-600">Prize Pool</span>
-                      </div>
-                      <p className="text-lg font-bold text-success-600">${game.prize_pool.toFixed(2)}</p>
+                  <div className="text-center mb-6">
+                    <div className="flex items-center justify-center space-x-1 mb-1">
+                      <Users className="h-4 w-4 text-primary-600" />
+                      <span className="text-xs text-gray-600">Players</span>
                     </div>
-                    
-                    <div className="text-center">
-                      <div className="flex items-center justify-center space-x-1 mb-1">
-                        <Users className="h-4 w-4 text-primary-600" />
-                        <span className="text-xs text-gray-600">Players</span>
-                      </div>
-                      <p className="text-lg font-bold text-primary-600">{game.current_players}/{game.max_players} entries</p>
-                    </div>
+                    <p className="text-lg font-bold text-primary-600">{game.current_players}/{game.max_players} entries</p>
                   </div>
 
                   {/* Progress Bar */}
@@ -243,6 +233,10 @@ const RestaurantGames: React.FC = () => {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Entry Fee:</span>
                       <span className="text-primary-600 font-medium">${game.entry_fee.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Prize Pool:</span>
+                      <span className="text-success-600 font-medium">${game.prize_pool.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Qualification:</span>

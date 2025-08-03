@@ -184,22 +184,12 @@ const PlayerDashboard: React.FC = () => {
                       )}
                       
                       {/* Game Stats */}
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="text-center">
-                          <div className="flex items-center justify-center space-x-1 mb-1">
-                            <DollarSign className="h-4 w-4 text-accent-300" />
-                            <span className="text-xs text-primary-100">Prize Pool</span>
-                          </div>
-                          <p className="text-lg font-bold text-accent-300">${game.prize_pool.toFixed(2)}</p>
+                      <div className="text-center mb-4">
+                        <div className="flex items-center justify-center space-x-1 mb-1">
+                          <Users className="h-4 w-4 text-primary-100" />
+                          <span className="text-xs text-primary-100">Entries</span>
                         </div>
-                        
-                        <div className="text-center">
-                          <div className="flex items-center justify-center space-x-1 mb-1">
-                            <Users className="h-4 w-4 text-primary-100" />
-                            <span className="text-xs text-primary-100">Entries</span>
-                          </div>
-                          <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
-                        </div>
+                        <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
                       </div>
 
                       {/* Progress Bar */}
@@ -220,6 +210,10 @@ const PlayerDashboard: React.FC = () => {
 
                       {/* Game Details */}
                       <div className="space-y-2 text-sm mb-4">
+                        <div className="flex justify-between">
+                          <span className="text-primary-100">Prize Pool:</span>
+                          <span className="text-accent-300 font-medium">${game.prize_pool.toFixed(2)}</span>
+                        </div>
                         <div className="flex justify-between">
                           <span className="text-primary-100">Entry Fee:</span>
                           <span className="font-medium">${game.entry_fee.toFixed(2)}</span>
