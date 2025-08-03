@@ -175,8 +175,7 @@ const Landing: React.FC = () => {
             {/* Bolt.new Logo - Top Right */}
             {/* Live Games Now Button - Top Right */}
             <Link
-              to="/restaurant-games"
-              className="group relative food-card text-gray-900 px-3 py-2 sm:px-4 sm:py-3 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow overflow-hidden"
+              to="#"
             >
               {/* Animated background */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 via-success-500/20 to-primary-400/20 animate-pulse"></div>
@@ -190,7 +189,7 @@ const Landing: React.FC = () => {
                     <div className="absolute inset-0 w-2 h-2 sm:w-3 sm:h-3 bg-primary-400 rounded-full animate-ping"></div>
                   </div>
                   <span className="text-xs sm:text-sm font-black food-text-gradient animate-pulse">
-                    LIVE GAMES NOW
+              to="#"
                   </span>
                 </div>
                 <div className="text-xs font-bold text-success-600 animate-pulse delay-150">
@@ -200,7 +199,7 @@ const Landing: React.FC = () => {
               
               {/* Corner accents */}
               <div className="absolute top-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-t-2 border-primary-400 opacity-60"></div>
-              <div className="absolute top-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-t-2 border-success-400 opacity-60"></div>
+                  <span>Coming Soon</span>
               <div className="absolute bottom-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-b-2 border-accent-400 opacity-60"></div>
               <div className="absolute bottom-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-b-2 border-primary-400 opacity-60"></div>
             </Link>

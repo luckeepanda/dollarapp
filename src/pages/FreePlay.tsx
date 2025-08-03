@@ -247,7 +247,6 @@ const FreePlay: React.FC = () => {
             
             {/* Noodle Tetris Game */}
             <Link
-              // to="/food-blaster"
               to="#"
               className="bg-gradient-to-r from-accent-500 to-primary-600 rounded-lg p-6 text-white hover:from-accent-600 hover:to-primary-700 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
             >
@@ -265,7 +264,7 @@ const FreePlay: React.FC = () => {
             
             {/* Pizza Hunter - Coming Soon */}
             <Link
-              to="/pizza-hunter"
+              to="#"
               className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg p-6 text-white hover:from-primary-600 hover:to-accent-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
@@ -275,7 +274,7 @@ const FreePlay: React.FC = () => {
                 <p className="text-primary-100 text-sm mb-4">Hunt for the perfect slice!</p>
                 <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
                   <Play className="h-4 w-4" />
-                  <span>Play Now</span>
+                  <span>Coming Soon</span>
                 </div>
               </div>
             </Link>
