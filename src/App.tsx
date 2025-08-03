@@ -26,6 +26,7 @@ import FoodBlasterGame from './pages/FoodBlasterGame';
 import PizzaHunterGame from './pages/PizzaHunterGame';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -95,6 +96,8 @@ function App() {
                   <Withdraw />
                 </ProtectedRoute>
               } />
+              {/* 404 Catch-all route - must be last */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
           </div>
