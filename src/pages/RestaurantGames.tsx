@@ -135,13 +135,6 @@ const RestaurantGames: React.FC = () => {
               <p className="text-gray-600">Join games created by restaurants and win prizes!</p>
             </div>
           </div>
-          
-          <div className="food-card p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Your Balance</p>
-              <p className="text-xl font-bold text-success-600">${user?.balance.toFixed(2)}</p>
-            </div>
-          </div>
         </div>
 
         {/* Balance Warning */}
@@ -183,8 +176,8 @@ const RestaurantGames: React.FC = () => {
                 {/* Game Header */}
                 <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white relative">
                   {/* Entry Fee Display - Top Left */}
-                  <div className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 rounded-xl shadow-lg border-2 border-white/30">
-                    <span className="font-bold text-2xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
+                  <div className="absolute top-2 left-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3 rounded-xl shadow-lg border-2 border-white/30">
+                    <span className="font-bold text-3xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
                   </div>
                   
                   {/* Game Image - Top Right */}
@@ -198,12 +191,8 @@ const RestaurantGames: React.FC = () => {
                     </div>
                   )}
                   
-                  <div className="flex items-center justify-between mb-4 pt-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/20">
-                      Restaurant Game
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{game.name}</h3>
+                  <div className="pt-4 mb-4"></div>
+                  <h3 className="text-xl font-bold mb-2 mt-4">{game.name}</h3>
                   <p className="text-primary-100 text-sm">{game.description}</p>
                   {game.restaurant && (
                     <p className="text-primary-100 text-lg font-bold mt-3 mb-2 bg-white/20 px-3 py-1 rounded-full text-center">
