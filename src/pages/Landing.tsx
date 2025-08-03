@@ -213,11 +213,11 @@ const Landing: React.FC = () => {
             </div>
             
             {/* Right side - For Restaurant Button */}
-            <Link
+            {/* <Link
               to="/restaurant/login"
               className="group relative inline-flex items-center justify-center food-card text-gray-900 px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow"
             >
-              {/* For Restaurant button */}
+              {/* For Restaurant button 
               <div className="flex items-center space-x-3">
                 <div className="relative">
                   <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-500 animate-pulse" />
@@ -228,7 +228,7 @@ const Landing: React.FC = () => {
                 </span>
                 <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
               </div>
-            </Link>
+            </Link> */}
           </div>
         </header>
         
