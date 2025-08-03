@@ -171,8 +171,9 @@ const PlayerDashboard: React.FC = () => {
                         </div>
                       )}
                       
-                      <div className="pt-4 mb-4"></div>
-                      <h3 className="text-xl font-bold mb-2 mt-4">{game.name}</h3>
+                      {/* Add spacing to clear the dollar amount box */}
+                      <div className="pt-16 mb-4"></div>
+                      <h3 className="text-xl font-bold mb-2">{game.name}</h3>
                       <p className="text-primary-100 text-sm mb-4">{game.description}</p>
                       {game.restaurant && (
                         <div className="mb-4">
