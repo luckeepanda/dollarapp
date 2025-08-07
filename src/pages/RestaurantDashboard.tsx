@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import Header from '../components/Header';
 import { restaurantDashboardService, type DashboardStats, type RecentRedemption, type WithdrawalHistory } from '../services/restaurantDashboardService';
 import { 
@@ -21,6 +22,7 @@ import {
 
 const RestaurantDashboard: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({
     availableBalance: 0,
@@ -100,9 +102,9 @@ const RestaurantDashboard: React.FC = () => {
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-                Restaurant Dashboard 🍽️
+                {t('restaurant.dashboard')} 🍽️
               </h1>
-              <p className="text-gray-600">Manage QR redemptions and track your earnings</p>
+              <p className="text-gray-600">{t('restaurant.manageQRTrackEarnings')}</p>
             </div>
             <div className="flex items-center space-x-3">
               <button
@@ -118,8 +120,8 @@ const RestaurantDashboard: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <AlertCircle className="h-5 w-5 text-red-600" />
                     <div>
-                      <p className="text-sm font-medium text-red-800">KYC Verification Required</p>
-                      <p className="text-xs text-red-700">Complete verification to enable withdrawals</p>
+                      <p className="text-sm font-medium text-red-800">{t('restaurant.kycRequired')}</p>
+                      <p className="text-xs text-red-700">{t('restaurant.completeVerificationWithdrawals')}</p>
                     </div>
                   </div>
                 </div>
@@ -132,7 +134,7 @@ const RestaurantDashboard: React.FC = () => {
         {isLoading && (
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mr-3"></div>
-            <span className="text-gray-700">Loading dashboard data...</span>
+            <span className="text-gray-700">{t('restaurant.loadingDashboard')}</span>
           </div>
         )}
 
@@ -142,7 +144,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Available Balance</p>
+                <p className="text-sm text-gray-600">{t('restaurant.availableBalance')}</p>
                 <p className="text-2xl font-bold text-success-600">${stats.availableBalance.toFixed(2)}</p>
               </div>
               <div className="bg-success-100 p-3 rounded-lg">
@@ -154,7 +156,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Today's Redemptions</p>
+                <p className="text-sm text-gray-600">{t('restaurant.todayRedemptions')}</p>
                 <p className="text-2xl font-bold text-primary-600">{stats.todayRedemptions}</p>
               </div>
               <div className="bg-primary-100 p-3 rounded-lg">
@@ -166,7 +168,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Monthly Revenue</p>
+                <p className="text-sm text-gray-600">{t('restaurant.monthlyRevenue')}</p>
                 <p className="text-2xl font-bold text-primary-600">${stats.monthlyRevenue.toFixed(0)}</p>
               </div>
               <div className="bg-primary-100 p-3 rounded-lg">
@@ -178,7 +180,7 @@ const RestaurantDashboard: React.FC = () => {
           <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Customers</p>
+                <p className="text-sm text-gray-600">{t('restaurant.totalCustomers')}</p>
                 <p className="text-2xl font-bold text-accent-600">${stats.totalCustomers}</p>
               </div>
               <div className="bg-accent-100 p-3 rounded-lg">
@@ -192,14 +194,14 @@ const RestaurantDashboard: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
           <div className="food-card p-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">Quick Actions</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">{t('restaurant.quickActions')}</h2>
             <div className="space-y-3">
               <div className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-100 to-success-100 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <Activity className="h-5 w-5 text-primary-600" />
                   <div>
-                    <span className="font-medium text-gray-900">Active Games</span>
-                    <p className="text-xs text-gray-600">{activeGamesCount} games running</p>
+                    <span className="font-medium text-gray-900">{t('restaurant.activeGames')}</span>
+                    <p className="text-xs text-gray-600">{activeGamesCount} {t('restaurant.gamesRunning')}</p>
                   </div>
                 </div>
                 <span className="text-lg font-bold text-primary-600">{activeGamesCount}</span>
@@ -209,8 +211,8 @@ const RestaurantDashboard: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <QrCode className="h-5 w-5 text-accent-600" />
                   <div>
-                    <span className="font-medium text-gray-900">Pending QR Codes</span>
-                    <p className="text-xs text-gray-600">Awaiting redemption</p>
+                    <span className="font-medium text-gray-900">{t('restaurant.pendingQRCodes')}</span>
+                    <p className="text-xs text-gray-600">{t('restaurant.awaitingRedemption')}</p>
                   </div>
                 </div>
                 <span className="text-lg font-bold text-accent-600">{pendingQRCount}</span>
@@ -222,7 +224,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <Trophy className="h-5 w-5 text-success-600" />
-                  <span className="font-medium text-gray-900">Manage Games</span>
+                  <span className="font-medium text-gray-900">{t('restaurant.manageGames')}</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-success-600 group-hover:text-success-700" />
               </Link>
@@ -233,7 +235,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <QrCode className="h-5 w-5 text-primary-600" />
-                  <span className="font-medium text-gray-900">Scan QR Code</span>
+                  <span className="font-medium text-gray-900">{t('restaurant.scanQRCode')}</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-primary-600 group-hover:text-primary-700" />
               </Link>
@@ -248,7 +250,7 @@ const RestaurantDashboard: React.FC = () => {
               >
                 <div className="flex items-center space-x-3">
                   <ArrowUpRight className={`h-5 w-5 ${user?.isKYCVerified ? 'text-success-600' : 'text-gray-400'}`} />
-                  <span className="font-medium text-gray-900">Withdraw Funds</span>
+                  <span className="font-medium text-gray-900">{t('restaurant.withdrawFunds')}</span>
                 </div>
                 <ArrowRight className="h-4 w-4 text-success-600 group-hover:text-success-700" />
               </Link>
@@ -257,7 +259,7 @@ const RestaurantDashboard: React.FC = () => {
             {!user?.isKYCVerified && (
               <div className="mt-4 p-3 bg-red-50 rounded-lg">
                 <p className="text-sm text-red-800">
-                  Complete KYC verification to enable withdrawals
+                  {t('restaurant.completeKYC')}
                 </p>
               </div>
             )}
@@ -266,16 +268,16 @@ const RestaurantDashboard: React.FC = () => {
           {/* Recent Redemptions */}
           <div className="food-card p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 font-display">Recent Redemptions</h2>
+              <h2 className="text-xl font-semibold text-gray-900 font-display">{t('restaurant.recentRedemptions')}</h2>
               <Link to="/scan" className="text-primary-600 font-medium hover:text-primary-700">
-                View All
+                {t('dashboard.viewAll')}
               </Link>
             </div>
             {recentRedemptions.length === 0 ? (
               <div className="text-center py-8">
                 <QrCode className="h-12 w-12 text-gray-400 mx-auto mb-4 opacity-50" />
-                <p className="text-gray-600">No redemptions yet</p>
-                <p className="text-gray-500 text-sm">QR codes will appear here when customers redeem prizes</p>
+                <p className="text-gray-600">{t('restaurant.noRedemptions')}</p>
+                <p className="text-gray-500 text-sm">{t('restaurant.qrCodesAppearHere')}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -294,7 +296,7 @@ const RestaurantDashboard: React.FC = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="h-5 w-5 text-success-600" />
-                      <span className="text-sm text-success-600 font-medium">Completed</span>
+                      <span className="text-sm text-success-600 font-medium">{t('common.completed')}</span>
                     </div>
                   </div>
                 </div>
@@ -306,12 +308,12 @@ const RestaurantDashboard: React.FC = () => {
 
         {/* Withdrawal History */}
         <div className="mt-8 food-card p-6">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">Withdrawal History</h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-900 font-display">{t('restaurant.withdrawalHistory')}</h2>
           {withdrawalHistory.length === 0 ? (
             <div className="text-center py-8">
               <ArrowUpRight className="h-12 w-12 text-gray-400 mx-auto mb-4 opacity-50" />
-              <p className="text-gray-600">No withdrawals yet</p>
-              <p className="text-gray-500 text-sm">Your withdrawal history will appear here</p>
+              <p className="text-gray-600">{t('restaurant.noWithdrawals')}</p>
+              <p className="text-gray-500 text-sm">{t('restaurant.withdrawalHistoryAppear')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
