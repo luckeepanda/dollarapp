@@ -52,7 +52,7 @@ export interface RestaurantGameEntry {
     if (error) {
 
   // Get all active restaurant games
-  async getActiveGames => Promise<RestaurantGame> {
+  async getActiveGames: Promise<RestaurantGame> {
     const { data, error } = await supabase
       .from('restaurant_games')
       .select(`
