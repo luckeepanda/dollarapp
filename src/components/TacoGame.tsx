@@ -29,8 +29,8 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   const TACO_SIZE = 30;
   const OBSTACLE_WIDTH = 60;
   const OBSTACLE_GAP = 150;
-  const GRAVITY = 0.4;
-  const JUMP_FORCE = -8;
+  const GRAVITY = 0.5;
+  const JUMP_FORCE = -6.5;
   const OBSTACLE_SPEED = 2;
   const OBSTACLE_SPAWN_DISTANCE = 200;
 
@@ -172,7 +172,9 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       console.log('TacoGame: Applying jump force');
       setGameState(prev => ({
         ...prev,
-        tacoVelocity: JUMP_FORCE
+        tacoVelocity: JUMP_FORCE,
+        // Add slight upward boost for immediate responsiveness
+        tacoY: Math.max(0, prev.tacoY - 2)
       }));
     }
   }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, startGame]);
@@ -295,6 +297,18 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
     setGameState(prev => {
       let newTacoY = prev.tacoY + prev.tacoVelocity;
       let newTacoVelocity = prev.tacoVelocity + GRAVITY;
+      
+      // Apply velocity damping for smoother control
+      if (newTacoVelocity > 0) {
+        // Falling - apply full gravity
+        newTacoVelocity = prev.tacoVelocity + GRAVITY;
+      } else {
+        // Rising - apply slightly reduced gravity for better arc control
+        newTacoVelocity = prev.tacoVelocity + (GRAVITY * 0.9);
+      }
+      
+      // Cap maximum fall speed for better control
+      newTacoVelocity = Math.min(newTacoVelocity, 8);
       let newObstacles = [...prev.obstacles];
       let newScore = prev.score;
 
