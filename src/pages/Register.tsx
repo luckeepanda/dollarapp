@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Mail, Lock, User, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Register: React.FC = () => {
@@ -17,6 +18,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const { register, loginWithGoogle } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -123,13 +125,37 @@ const Register: React.FC = () => {
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
+          {/* Language Toggle */}
+          <div className="flex food-card overflow-hidden mb-6 max-w-32 mx-auto">
+            <button
+              onClick={() => setLanguage('en')}
+              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
+                language === 'en'
+                  ? 'bg-primary-100 text-primary-800 shadow-sm'
+                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+            >
+              {t('language.english')}
+            </button>
+            <button
+              onClick={() => setLanguage('es')}
+              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
+                language === 'es'
+                  ? 'bg-primary-100 text-primary-800 shadow-sm'
+                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+            >
+              {t('language.spanish')}
+            </button>
+          </div>
+          
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            Create Account
+            {t('auth.createAccount')}
           </h2>
-          <p className="text-gray-600">Join the Dollar App community</p>
+          <p className="text-gray-600">{t('auth.joinCommunity')}</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -178,14 +204,14 @@ const Register: React.FC = () => {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 rounded-lg">Or create account with email</span>
+              <span className="px-4 bg-white text-gray-500 rounded-lg">{t('auth.orCreateWithEmail')}</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -194,7 +220,7 @@ const Register: React.FC = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className="food-input pl-10"
-                  placeholder="Enter your email"
+                  placeholder={t('auth.enterEmail')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -203,7 +229,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Username
+                {t('common.username')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -212,7 +238,7 @@ const Register: React.FC = () => {
                   value={formData.username}
                   onChange={(e) => setFormData({...formData, username: e.target.value})}
                   className="food-input pl-10"
-                  placeholder="Choose a username"
+                  placeholder={t('auth.chooseUsername')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                   minLength={3}
@@ -222,7 +248,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('common.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -231,7 +257,7 @@ const Register: React.FC = () => {
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   className="food-input pl-10 pr-12"
-                  placeholder="Create a password"
+                  placeholder={t('auth.createPassword')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                   minLength={6}
@@ -249,7 +275,7 @@ const Register: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+                {t('auth.confirmPassword')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -258,7 +284,7 @@ const Register: React.FC = () => {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                   className="food-input pl-10"
-                  placeholder="Confirm your password"
+                  placeholder={t('auth.confirmPassword')}
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -276,29 +302,29 @@ const Register: React.FC = () => {
                   <span>Creating Account...</span>
                 </>
               ) : (
-                <span>Create Account</span>
+                <span>{t('auth.createAccount')}</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link to="/login" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-                Sign in
+                {t('auth.signIn')}
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
-              ← Back to main site
+              {t('auth.backToMainSite')}
             </Link>
           </div>
 
           <div className="mt-4 p-4 bg-primary-50 rounded-lg">
             <p className="text-sm text-primary-800 text-center">
-              <strong>Note:</strong> OAuth accounts are created instantly. Email accounts require verification.
+              <strong>{t('common.info')}:</strong> {t('auth.oauthNote')}
             </p>
           </div>
         </div>

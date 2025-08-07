@@ -329,7 +329,7 @@ const Landing: React.FC = () => {
           {/* Section Title */}
           <div className="text-center mb-12">
             <h2 className="text-5xl md:text-6xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse">
-              Try Our Games
+              {t('landing.tryOurGames')}
             </h2>
             <div className="flex justify-center mb-4">
               <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-success-500 to-accent-400 rounded-full food-glow"></div>
@@ -382,7 +382,7 @@ const Landing: React.FC = () => {
 
           {/* Game Options Section */}
           <div className="text-center max-w-4xl mx-auto flex flex-col items-center">
-            <h2 className="text-3xl font-bold font-display food-text-gradient mb-8">Choose Your Game</h2>
+            <h2 className="text-3xl font-bold font-display food-text-gradient mb-8">{t('landing.chooseYourGame')}</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
               {/* Taco Flyer - Currently Playing */}
@@ -390,10 +390,10 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🌮</div>
-                  <h3 className="text-xl font-bold font-display mb-2">Taco Flyer</h3>
-                  <p className="text-primary-100 text-sm mb-4">Guide the taco through obstacles!</p>
+                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.tacoFlyer')}</h3>
+                  <p className="text-primary-100 text-sm mb-4">{t('landing.tacoFlyerDesc')}</p>
                   <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
-                    Currently Playing
+                    {t('landing.currentlyPlaying')}
                   </div>
                 </div>
               </div>
@@ -406,11 +406,11 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍔</div>
-                  <h3 className="text-xl font-bold font-display mb-2">Hamburger Runner</h3>
-                  <p className="text-success-100 text-sm mb-4">Run and jump through obstacles!</p>
+                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.hamburgerRunner')}</h3>
+                  <p className="text-success-100 text-sm mb-4">{t('landing.hamburgerRunnerDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Play Now</span>
+                    <span>{t('landing.playNow')}</span>
                   </div>
                 </div>
               </Link>
@@ -423,11 +423,11 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🚀</div>
-                  <h3 className="text-xl font-bold font-display mb-2">Food Blaster</h3>
-                  <p className="text-accent-100 text-sm mb-4">Shoot the food invaders!</p>
+                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.foodBlaster')}</h3>
+                  <p className="text-accent-100 text-sm mb-4">{t('landing.foodBlasterDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Coming Soon</span>
+                    <span>{t('landing.comingSoon')}</span>
                   </div>
                 </div>
               </div>
@@ -439,11 +439,11 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">🍕</div>
-                  <h3 className="text-xl font-bold font-display mb-2">Pizza Hunter</h3>
-                  <p className="text-primary-100 text-sm mb-4">Hunt for the perfect slice!</p>
+                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.pizzaHunter')}</h3>
+                  <p className="text-primary-100 text-sm mb-4">{t('landing.pizzaHunterDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
-                    <span>Coming Soon</span>
+                    <span>{t('landing.comingSoon')}</span>
                   </div>
                 </div>
               </div>
