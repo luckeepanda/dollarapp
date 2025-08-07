@@ -160,17 +160,6 @@ export const restaurantGameService = {
      throw new Error(`Unsupported file type: ${file.type}. Please use PNG, JPG, JPEG, or WebP.`);
    }
    
-   // Ensure we have a valid file object
-   if (!(imageFile instanceof File)) {
-     throw new Error('Invalid file object. Please select a valid image file.');
-   }
-   
-   // Validate MIME type explicitly
-   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-   if (!allowedTypes.includes(imageFile.type)) {
-     throw new Error(`Unsupported file type: ${imageFile.type}. Please use PNG, JPG, JPEG, or WebP.`);
-   }
-   
     const fileExt = file.name.split('.').pop();
     const fileName = `${restaurantId}/${Date.now()}.${fileExt}`;
     
@@ -181,8 +170,6 @@ export const restaurantGameService = {
      fileSizeFormatted: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
      isFileInstance: file instanceof File,
      hasType: !!file.type
-     isFileInstance: imageFile instanceof File,
-     hasType: !!imageFile.type
     });
     
     const { data, error } = await supabase.storage
@@ -197,11 +184,6 @@ export const restaurantGameService = {
          originalName: file.name,
          uploadedAt: new Date().toISOString()
        }
-       // Ensure the file is treated as binary data
-       metadata: {
-         originalName: imageFile.name,
-         uploadedAt: new Date().toISOString()
-       }
       });
     
     if (error) {
@@ -212,7 +194,6 @@ export const restaurantGameService = {
         errorCode: error.statusCode,
        errorMessage: error.message,
        errorDetails: error
-       errorDetails: uploadError
       });
      
      // Provide more specific error messages
@@ -222,14 +203,6 @@ export const restaurantGameService = {
        throw new Error('File too large. Please select an image smaller than 5MB.');
      } else {
        throw new Error(`Failed to upload image: ${error.message || 'Unknown upload error'}`);
-     }
-     // Provide more specific error messages
-     if (uploadError.message?.includes('mime')) {
-       throw new Error(`File type not supported: ${imageFile.type}. Please use PNG, JPG, JPEG, or WebP.`);
-     } else if (uploadError.message?.includes('size')) {
-       throw new Error('File too large. Please select an image smaller than 5MB.');
-     } else {
-       throw new Error(`Failed to upload image: ${uploadError.message || 'Unknown upload error'}`);
      }
     }
     
