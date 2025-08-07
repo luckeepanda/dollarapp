@@ -102,6 +102,14 @@ const RestaurantGameManagement: React.FC = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+     console.log('File selected:', {
+       name: file.name,
+       type: file.type,
+       size: file.size,
+       isFileInstance: file instanceof File,
+       constructor: file.constructor.name
+     });
+     
       // Validate file type
       if (!file.type.startsWith('image/')) {
         alert('Please select an image file');
@@ -109,6 +117,14 @@ const RestaurantGameManagement: React.FC = () => {
         return;
       }
       
+     // Validate specific MIME types
+     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+     if (!allowedTypes.includes(file.type)) {
+       alert(`Unsupported file type: ${file.type}. Please use PNG, JPG, JPEG, or WebP.`);
+       e.target.value = ''; // Clear the input
+       return;
+     }
+     
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert('Image must be smaller than 5MB');
@@ -116,11 +132,19 @@ const RestaurantGameManagement: React.FC = () => {
         return;
       }
       
+     // Ensure we have a valid File object
+     if (!(file instanceof File)) {
+       alert('Invalid file object. Please select a valid image file.');
+       e.target.value = ''; // Clear the input
+       return;
+     }
+     
       console.log('Image file selected:', {
         name: file.name,
         type: file.type,
         size: file.size,
-        sizeFormatted: `${(file.size / 1024 / 1024).toFixed(2)}MB`
+       sizeFormatted: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+       isValid: true
       });
       
       setFormData({...formData, imageFile: file});
@@ -128,8 +152,18 @@ const RestaurantGameManagement: React.FC = () => {
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
+       const result = e.target?.result;
+       if (typeof result === 'string') {
+         setImagePreview(result);
+       } else {
+         console.error('Failed to create image preview');
+         alert('Failed to create image preview. Please try a different image.');
+       }
       };
+     reader.onerror = () => {
+       console.error('FileReader error');
+       alert('Failed to read image file. Please try a different image.');
+     };
       reader.readAsDataURL(file);
     } else {
       // No file selected, clear preview
