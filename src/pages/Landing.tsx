@@ -300,7 +300,7 @@ const Landing: React.FC = () => {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-display food-text-gradient mb-6 drop-shadow-lg animate-pulse">
               {t('landing.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-green-700 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-green-500 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
               <strong>{t('landing.subtitle')}</strong>
             </p>
             
