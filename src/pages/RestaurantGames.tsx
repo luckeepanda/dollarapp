@@ -185,12 +185,17 @@ const RestaurantGames: React.FC = () => {
                     {game.emoji || '🍔'}
                   </span>
                 </div>
+                  
+                  {/* Add spacing to clear both dollar amount box and emoji */}
+                  <div className="pt-16 mb-4"></div>
                   <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                  <p className="text-primary-100 text-sm">{game.description}</p>
+                  <p className="text-primary-100 text-sm mb-4">{game.description}</p>
                   {game.restaurant && (
-                    <p className="text-primary-100 text-lg font-bold mt-3 mb-2 bg-white/20 px-3 py-1 rounded-full text-center">
-                      🍽️ {game.restaurant.username}
-                    </p>
+                    <div className="mb-4">
+                      <p className="text-white text-lg font-bold bg-white/30 px-4 py-2 rounded-full text-center border-2 border-white/40">
+                        🍽️ {game.restaurant.username}
+                      </p>
+                    </div>
                   )}
                 </div>
 
