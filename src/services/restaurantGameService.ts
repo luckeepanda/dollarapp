@@ -1,5 +1,4 @@
 import { supabase } from '../lib/supabase';
-import { supabase } from '../lib/supabase';
 import { playerQRService } from './playerQRService';
 
 export interface RestaurantGame {
@@ -19,6 +18,7 @@ export interface RestaurantGame {
   qr_code?: string;
   qr_redeemed: boolean;
   image_url?: string;
+  emoji?: string;
   created_at: string;
   completed_at?: string;
   restaurant?: {
@@ -38,6 +38,32 @@ export interface RestaurantGameEntry {
   };
 }
 
+export interface GameResult {
+  game_completed: boolean;
+  winner_id?: string;
+  winning_score?: number;
+  qr_code?: string;
+  your_score: number;
+  qualified: boolean;
+  entries_count: number;
+  max_players: number;
+  entry_number?: number;
+  game_name?: string;
+  prize_pool?: number;
+}
+
+export const restaurantGameService = {
+  // Create a new restaurant game
+  async createGame(
+    restaurantId: string,
+    name: string,
+    description: string,
+    entryFee: number,
+    maxPlayers: number,
+    minScore: number = 0,
+    gameType: string = 'flappy_bird',
+    emoji: string = '🍔'
+  ): Promise<string> {
     const { data, error } = await supabase.rpc('create_restaurant_game', {
       p_restaurant_id: restaurantId,
       p_name: name,
@@ -50,6 +76,12 @@ export interface RestaurantGameEntry {
     });
 
     if (error) {
+      console.error('Error creating restaurant game:', error);
+      throw error;
+    }
+
+    return data;
+  },
 
   // Get all active restaurant games
   async getActiveGames(): Promise<RestaurantGame[]> {
