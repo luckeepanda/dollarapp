@@ -179,20 +179,12 @@ const RestaurantGames: React.FC = () => {
                   <div className="absolute top-2 left-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3 rounded-xl shadow-lg border-2 border-white/30">
                     <span className="font-bold text-3xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
                   </div>
-                  
-                  {/* Game Image - Top Right */}
-                  {game.image_url && (
-                    <div className="absolute top-2 right-2">
-                      <img 
-                        src={game.image_url} 
-                        alt={game.name}
-                        className="w-16 h-16 rounded-xl object-cover border-2 border-green-500 shadow-lg"
-                      />
-                    </div>
-                  )}
-                  
-                  {/* Add spacing to clear both dollar amount box and image */}
-                  <div className="pt-20 mb-4"></div>
+                {/* Food Emoji - Top Right */}
+                <div className="absolute top-2 right-2">
+                  <span className="text-4xl drop-shadow-lg">
+                    {game.emoji || '🍔'}
+                  </span>
+                </div>
                   <h3 className="text-xl font-bold mb-2">{game.name}</h3>
                   <p className="text-primary-100 text-sm">{game.description}</p>
                   {game.restaurant && (

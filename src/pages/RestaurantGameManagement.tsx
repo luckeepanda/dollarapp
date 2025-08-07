@@ -28,12 +28,25 @@ const RestaurantGameManagement: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    gameType: 'taco_flyer',
+    gameType: 'flappy_bird',
     entryFee: 1,
     foodItemAmount: 20,
-    imageFile: null as File | null
+    emoji: '🍔'
   });
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  // Food emoji options
+  const foodEmojis = [
+    { emoji: '🍔', name: 'Burger' },
+    { emoji: '🌮', name: 'Taco' },
+    { emoji: '🍕', name: 'Pizza' },
+    { emoji: '🍟', name: 'Fries' },
+    { emoji: '🍦', name: 'Ice Cream' },
+    { emoji: '🌭', name: 'Hot Dog' },
+    { emoji: '🥪', name: 'Sandwich' },
+    { emoji: '🍩', name: 'Donut' },
+    { emoji: '🧁', name: 'Cupcake' },
+    { emoji: '🥤', name: 'Drink' }
+  ];
 
   useEffect(() => {
     if (user) {
@@ -75,20 +88,19 @@ const RestaurantGameManagement: React.FC = () => {
         formData.entryFee,
         maxPlayers,
         0, // Default minimum score of 0
-        formData.gameType,
-        formData.imageFile
+        'flappy_bird', // Hardcoded game type
+        formData.emoji
       );
       
       setShowCreateForm(false);
       setFormData({
         name: '',
         description: '',
-        gameType: 'taco_flyer',
+        gameType: 'flappy_bird',
         entryFee: 1,
         foodItemAmount: 20,
-        imageFile: null
+        emoji: '🍔'
       });
-      setImagePreview(null);
       
       await loadGames();
     } catch (error: any) {
@@ -97,84 +109,6 @@ const RestaurantGameManagement: React.FC = () => {
     } finally {
       setIsCreating(false);
     }
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-     console.log('File selected:', {
-       name: file.name,
-       type: file.type,
-       size: file.size,
-       isFileInstance: file instanceof File,
-       constructor: file.constructor.name
-     });
-     
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
-        e.target.value = ''; // Clear the input
-        return;
-      }
-      
-     // Validate specific MIME types
-     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-     if (!allowedTypes.includes(file.type)) {
-       alert(`Unsupported file type: ${file.type}. Please use PNG, JPG, JPEG, or WebP.`);
-       e.target.value = ''; // Clear the input
-       return;
-     }
-     
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image must be smaller than 5MB');
-        e.target.value = ''; // Clear the input
-        return;
-      }
-      
-     // Ensure we have a valid File object
-     if (!(file instanceof File)) {
-       alert('Invalid file object. Please select a valid image file.');
-       e.target.value = ''; // Clear the input
-       return;
-     }
-     
-      console.log('Image file selected:', {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-       sizeFormatted: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
-       isValid: true
-      });
-      
-      setFormData({...formData, imageFile: file});
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-       const result = e.target?.result;
-       if (typeof result === 'string') {
-         setImagePreview(result);
-       } else {
-         console.error('Failed to create image preview');
-         alert('Failed to create image preview. Please try a different image.');
-       }
-      };
-     reader.onerror = () => {
-       console.error('FileReader error');
-       alert('Failed to read image file. Please try a different image.');
-     };
-      reader.readAsDataURL(file);
-    } else {
-      // No file selected, clear preview
-      setFormData({...formData, imageFile: null});
-      setImagePreview(null);
-    }
-  };
-
-  const removeImage = () => {
-    setFormData({...formData, imageFile: null});
-    setImagePreview(null);
   };
 
   const handleDeleteGame = async (gameId: string) => {
@@ -278,18 +212,19 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Game Selection
+                      Food Emoji
                     </label>
                     <select
-                      value={formData.gameType}
-                      onChange={(e) => setFormData({...formData, gameType: e.target.value})}
+                      value={formData.emoji}
+                      onChange={(e) => setFormData({...formData, emoji: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       required
                     >
-                      <option value="taco_flyer">🌮 Taco Flyer</option>
-                      <option value="hamburger_runner">🍔 Hamburger Runner</option>
-                      <option value="food_blaster">🚀 Food Blaster</option>
-                      <option value="pizza_hunter">🍕 Pizza Hunter</option>
+                      {foodEmojis.map((item) => (
+                        <option key={item.emoji} value={item.emoji}>
+                          {item.emoji} {item.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -326,50 +261,17 @@ const RestaurantGameManagement: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Image Upload */}
+                  {/* Emoji Preview */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Game Image (Optional)
+                      Preview
                     </label>
-                    
-                    {!imagePreview ? (
-                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-gray-400 transition-colors">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          className="hidden"
-                          id="image-upload"
-                        />
-                        <label
-                          htmlFor="image-upload"
-                          className="cursor-pointer flex flex-col items-center space-y-2"
-                        >
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                            <span className="text-2xl">📷</span>
-                          </div>
-                          <div>
-                            <span className="text-sm font-medium text-gray-900">Upload Image</span>
-                            <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
-                          </div>
-                        </label>
-                      </div>
-                    ) : (
-                      <div className="relative">
-                        <img
-                          src={imagePreview}
-                          alt="Game preview"
-                          className="w-full h-32 object-cover rounded-xl border border-gray-300"
-                        />
-                        <button
-                          type="button"
-                          onClick={removeImage}
-                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    )}
+                    <div className="border border-gray-300 rounded-xl p-6 text-center bg-gray-50">
+                      <div className="text-6xl mb-2">{formData.emoji}</div>
+                      <p className="text-sm text-gray-600">
+                        This emoji will appear on your game card
+                      </p>
+                    </div>
                   </div>
 
                   {/* Auto-calculated Number of Players */}
@@ -410,14 +312,13 @@ const RestaurantGameManagement: React.FC = () => {
                       className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-xl"
                       onClick={() => {
                         setShowCreateForm(false);
-                        setImagePreview(null);
                         setFormData({
                           name: '',
                           description: '',
-                          gameType: 'taco_flyer',
+                          gameType: 'flappy_bird',
                           entryFee: 1,
                           foodItemAmount: 20,
-                          imageFile: null
+                          emoji: '🍔'
                         });
                       }}
                     >
@@ -448,9 +349,7 @@ const RestaurantGameManagement: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <Gamepad2 className="h-4 w-4 text-steel-blue/80" />
                     <span className="text-sm text-steel-blue/80">
-                      {game.game_type === 'taco_flyer' ? '🌮 Taco Flyer' : 
-                       game.game_type === 'hamburger_runner' ? '🍔 Hamburger Runner' : 
-                       game.game_type === 'noodle_tetris' ? '🍜 Noodle Tetris' : 'Game'}
+                      Flappy Bird Game
                     </span>
                   </div>
                 </div>

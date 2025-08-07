@@ -96,6 +96,7 @@ export interface Game {
   ends_at: string
   created_at: string
   is_active: boolean
+  emoji?: string
 }
 
 export interface GameEntry {
