@@ -15,7 +15,6 @@
     "@supabase/supabase-js": "^2.39.0",
     "@types/qrcode": "^1.5.5",
     "axios": "^1.6.0",
-    "caniuse-lite": "^1.0.30001734",
     "lucide-react": "^0.344.0",
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.4",
