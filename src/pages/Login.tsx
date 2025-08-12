@@ -61,7 +61,7 @@ const Login: React.FC = () => {
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
           {/* Language Toggle */}
-          <div className="flex food-card overflow-hidden mb-6 max-w-32 mx-auto">
+          <div className="flex food-card overflow-hidden mb-6 max-w-40 mx-auto">
             <button
               onClick={() => setLanguage('en')}
               className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
