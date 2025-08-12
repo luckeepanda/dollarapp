@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage - Highest Priority -->
+  <url>
+    <loc>https://dollarfood.app/</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/" />
+  </url>
+  
+  <!-- Player Registration - High Priority -->
+  <url>
+    <loc>https://dollarfood.app/register</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/register" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/register" />
+  </url>
+  
+  <!-- Player Login -->
+  <url>
+    <loc>https://dollarfood.app/login</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/login" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/login" />
+  </url>
+  
+  <!-- Restaurant Games - High Priority -->
+  <url>
+    <loc>https://dollarfood.app/restaurant-games</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/restaurant-games" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/restaurant-games" />
+  </url>
+  
+  <!-- Free Play Games -->
+  <url>
+    <loc>https://dollarfood.app/free-play</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/free-play" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/free-play" />
+  </url>
+  
+  <!-- Individual Games -->
+  <url>
+    <loc>https://dollarfood.app/hamburger-runner</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/hamburger-runner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/hamburger-runner" />
+  </url>
+  
+  <url>
+    <loc>https://dollarfood.app/food-blaster</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/food-blaster" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/food-blaster" />
+  </url>
+  
+  <url>
+    <loc>https://dollarfood.app/pizza-hunter</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/pizza-hunter" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/pizza-hunter" />
+  </url>
+  
+  <!-- Restaurant Portal -->
+  <url>
+    <loc>https://dollarfood.app/restaurant</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/restaurant" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/restaurant" />
+  </url>
+  
+  <url>
+    <loc>https://dollarfood.app/restaurant/register</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/restaurant/register" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/restaurant/register" />
+  </url>
+  
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://dollarfood.app/privacy-policy</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/privacy-policy" />
+  </url>
+  
+  <url>
+    <loc>https://dollarfood.app/terms-of-use</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dollarfood.app/terms-of-use" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://dollarfood.app/terms-of-use" />
+  </url>
+  
+</urlset>

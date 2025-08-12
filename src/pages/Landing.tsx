@@ -243,7 +243,7 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-2 bg-gradient-to-r from-success-400 via-accent-500 to-primary-400 rounded-full blur-xl opacity-40 group-hover:opacity-80 animate-pulse delay-300"></div>
                 
                 {/* Main logo container with Web3 styling */}
-                <div className="relative bg-gradient-to-br from-white/90 to-neutral-100/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-primary-200 transform group-hover:scale-105 transition-all duration-500 rotate-12 group-hover:rotate-6 food-glow">
+                <div className="relative bg-gradient-to-br from-white/90 to-neutral-100/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-primary-200 transform group-hover:scale-105 transition-all duration-500 rotate-12 group-hover:rotate-6 food-glow" itemScope itemType="https://schema.org/ImageObject">
                   {/* Animated inner background */}
                   <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-primary-400/20 via-success-500/20 to-accent-400/20 rounded-2xl animate-pulse"></div>
                   
@@ -263,10 +263,10 @@ const Landing: React.FC = () => {
                   <div className="relative z-10 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                     <div className="relative">
                       {/* Animated Taco Shell */}
-                      <div className="text-4xl sm:text-6xl animate-float">🌮</div>
+                      <div className="text-4xl sm:text-6xl animate-float" role="img" aria-label="Taco emoji representing Dollar App gaming platform">🌮</div>
                       {/* Enhanced $1 Text overlay with Web3 styling */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-8xl sm:text-9xl font-black font-display food-text-gradient drop-shadow-2xl animate-pulse">
+                        <span className="text-8xl sm:text-9xl font-black font-display food-text-gradient drop-shadow-2xl animate-pulse" itemProp="name">
                           $1
                         </span>
                         {/* Glowing outline effect */}
@@ -297,10 +297,10 @@ const Landing: React.FC = () => {
               </div>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-display food-text-gradient mb-6 drop-shadow-lg animate-pulse">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-display food-text-gradient mb-6 drop-shadow-lg animate-pulse" itemProp="headline">
               {t('landing.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-green-500 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-green-500 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4" itemProp="description">
               <strong>{t('landing.subtitle')}</strong>
             </p>
             
@@ -328,7 +328,7 @@ const Landing: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Title */}
           <div className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse">
+            <h2 className="text-5xl md:text-6xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse" itemProp="name">
               {t('landing.tryOurGames')}
             </h2>
             <div className="flex justify-center mb-4">
@@ -382,69 +382,77 @@ const Landing: React.FC = () => {
 
           {/* Game Options Section */}
           <div className="text-center max-w-4xl mx-auto flex flex-col items-center">
-            <h2 className="text-3xl font-bold font-display food-text-gradient mb-8">{t('landing.chooseYourGame')}</h2>
+            <h2 className="text-3xl font-bold font-display food-text-gradient mb-8" itemProp="name">{t('landing.chooseYourGame')}</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center" itemScope itemType="https://schema.org/ItemList">
               {/* Taco Flyer - Currently Playing */}
-              <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg p-6 text-white relative overflow-hidden food-glow w-full">
+              <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg p-6 text-white relative overflow-hidden food-glow w-full" itemScope itemType="https://schema.org/Game">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
                 <div className="relative z-10">
-                  <div className="text-4xl mb-4">🌮</div>
-                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.tacoFlyer')}</h3>
-                  <p className="text-primary-100 text-sm mb-4">{t('landing.tacoFlyerDesc')}</p>
+                  <div className="text-4xl mb-4" role="img" aria-label="Taco game icon">🌮</div>
+                  <h3 className="text-xl font-bold font-display mb-2" itemProp="name">{t('landing.tacoFlyer')}</h3>
+                  <p className="text-primary-100 text-sm mb-4" itemProp="description">{t('landing.tacoFlyerDesc')}</p>
                   <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     {t('landing.currentlyPlaying')}
                   </div>
+                  <meta itemProp="genre" content="Arcade" />
+                  <meta itemProp="gamePlatform" content="Web Browser" />
                 </div>
               </div>
               
               {/* Hamburger Runner */}
               <Link
                 to="/hamburger-runner"
-                className="bg-gradient-to-r from-success-500 to-success-600 rounded-lg p-6 text-white hover:from-success-600 hover:to-success-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full"
+                className="bg-gradient-to-r from-success-500 to-success-600 rounded-lg p-6 text-white hover:from-success-600 hover:to-success-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full" itemScope itemType="https://schema.org/Game"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
-                  <div className="text-4xl mb-4">🍔</div>
-                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.hamburgerRunner')}</h3>
-                  <p className="text-success-100 text-sm mb-4">{t('landing.hamburgerRunnerDesc')}</p>
+                  <div className="text-4xl mb-4" role="img" aria-label="Hamburger game icon">🍔</div>
+                  <h3 className="text-xl font-bold font-display mb-2" itemProp="name">{t('landing.hamburgerRunner')}</h3>
+                  <p className="text-success-100 text-sm mb-4" itemProp="description">{t('landing.hamburgerRunnerDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
                     <span>{t('landing.playNow')}</span>
                   </div>
+                  <meta itemProp="genre" content="Endless Runner" />
+                  <meta itemProp="gamePlatform" content="Web Browser" />
                 </div>
               </Link>
               
               {/* Food Blaster Game */}
               
               <div 
-                className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-lg p-6 text-white hover:from-accent-600 hover:to-accent-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full"
+                className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-lg p-6 text-white hover:from-accent-600 hover:to-accent-700 transition-all transform hover:scale-105 relative overflow-hidden group food-glow w-full" itemScope itemType="https://schema.org/Game"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
-                  <div className="text-4xl mb-4">🚀</div>
-                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.foodBlaster')}</h3>
-                  <p className="text-accent-100 text-sm mb-4">{t('landing.foodBlasterDesc')}</p>
+                  <div className="text-4xl mb-4" role="img" aria-label="Rocket game icon">🚀</div>
+                  <h3 className="text-xl font-bold font-display mb-2" itemProp="name">{t('landing.foodBlaster')}</h3>
+                  <p className="text-accent-100 text-sm mb-4" itemProp="description">{t('landing.foodBlasterDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
                     <span>{t('landing.comingSoon')}</span>
                   </div>
+                  <meta itemProp="genre" content="Shooter" />
+                  <meta itemProp="gamePlatform" content="Web Browser" />
                 </div>
               </div>
               
               {/* Pizza Hunter - Coming Soon */}
               <div 
-                className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg p-6 text-white hover:from-primary-600 hover:to-accent-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full"
+                className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg p-6 text-white hover:from-primary-600 hover:to-accent-600 transition-all transform hover:scale-105 relative overflow-hidden group w-full" itemScope itemType="https://schema.org/Game"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity"></div>
                 <div className="relative z-10">
-                  <div className="text-4xl mb-4">🍕</div>
-                  <h3 className="text-xl font-bold font-display mb-2">{t('landing.pizzaHunter')}</h3>
-                  <p className="text-primary-100 text-sm mb-4">{t('landing.pizzaHunterDesc')}</p>
+                  <div className="text-4xl mb-4" role="img" aria-label="Pizza game icon">🍕</div>
+                  <h3 className="text-xl font-bold font-display mb-2" itemProp="name">{t('landing.pizzaHunter')}</h3>
+                  <p className="text-primary-100 text-sm mb-4" itemProp="description">{t('landing.pizzaHunterDesc')}</p>
                   <div className="flex items-center justify-center space-x-2 bg-white/20 px-3 py-1 rounded-full text-sm font-medium font-display">
                     <Play className="h-4 w-4" />
                     <span>{t('landing.comingSoon')}</span>
                   </div>
+                  <meta itemProp="genre" content="Arcade" />
+                  <meta itemProp="gamePlatform" content="Web Browser" />
                 </div>
               </div>
             </div>
@@ -458,39 +466,39 @@ const Landing: React.FC = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold font-display food-text-gradient mb-4">{t('landing.howItWorks')}</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-4xl font-bold font-display food-text-gradient mb-4" itemProp="name">{t('landing.howItWorks')}</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto" itemProp="description">
               {t('landing.howItWorksSubtitle')}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8" itemScope itemType="https://schema.org/HowTo">
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-primary-500 to-success-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow">
+              <div className="bg-gradient-to-br from-primary-500 to-success-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4">1. Deposit & Play</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">1. {t('landing.step1.title')}</h3>
+              <p className="text-gray-600" itemProp="text">
                 {t('landing.step1.description')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-success-500 to-accent-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow">
+              <div className="bg-gradient-to-br from-success-500 to-accent-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4">2. Win Prizes</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">2. {t('landing.step2.title')}</h3>
+              <p className="text-gray-600" itemProp="text">
                 {t('landing.step2.description')}
               </p>
             </div>
 
             <div className="text-center group">
-              <div className="bg-gradient-to-br from-accent-500 to-primary-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow">
+              <div className="bg-gradient-to-br from-accent-500 to-primary-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4">3. Redeem & Enjoy</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">3. {t('landing.step3.title')}</h3>
+              <p className="text-gray-600" itemProp="text">
                 {t('landing.step3.description')}
               </p>
             </div>

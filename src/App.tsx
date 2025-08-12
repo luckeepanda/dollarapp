@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SEOHead from './components/SEOHead';
 import GameLeaderboard from './components/GameLeaderboard';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';

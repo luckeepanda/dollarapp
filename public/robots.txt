@@ -1,0 +1,42 @@
+# Robots.txt for Dollar App - Mobile Gaming Platform
+# https://dollarfood.app
+
+User-agent: *
+Allow: /
+
+# High-priority pages for crawling
+Allow: /
+Allow: /register
+Allow: /login
+Allow: /restaurant-games
+Allow: /free-play
+Allow: /restaurant/login
+Allow: /restaurant/register
+
+# Block admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/callback
+Disallow: /verify-email
+Disallow: /deposit
+Disallow: /withdraw
+Disallow: /scan
+
+# Block development and testing paths
+Disallow: /*?*
+Disallow: /test/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important static assets
+Allow: /favicon.ico
+Allow: /logo.png
+Allow: /og-image.jpg
+Allow: /apple-touch-icon.png
+Allow: /site.webmanifest
+
+# Sitemap location
+Sitemap: https://dollarfood.app/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
