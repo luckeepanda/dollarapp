@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import Header from '../components/Header';
 import StripePaymentForm from '../components/StripePaymentForm';
+import StripeCryptoForm from '../components/StripeCryptoForm';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { stripePromise, STRIPE_CONFIG } from '../lib/stripe';
+import { stripePromise, STRIPE_CONFIG, CRYPTO_CONFIG } from '../lib/stripe';
 import { 
   ArrowLeft, 
   CreditCard, 
@@ -15,7 +16,8 @@ import {
   Check,
   Apple,
   DollarSign,
-  Zap
+  Zap,
+  Coins
 } from 'lucide-react';
 
 const Deposit: React.FC = () => {
@@ -24,6 +26,7 @@ const Deposit: React.FC = () => {
   const [amount, setAmount] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showStripeForm, setShowStripeForm] = useState(false);
+  const [showCryptoForm, setShowCryptoForm] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState<string>('');
 
   const paymentMethods = [
@@ -34,6 +37,15 @@ const Deposit: React.FC = () => {
       icon: CreditCard,
       color: 'from-gray-700 to-black',
       available: true
+    },
+    {
+      id: 'crypto',
+      name: 'USDC (Crypto)',
+      description: 'Pay with USDC on Solana network - settles as USD',
+      icon: Coins,
+      color: 'from-purple-600 to-indigo-700',
+      available: true,
+      badge: '1.5% fee'
     }
   ];
 
@@ -71,6 +83,12 @@ const Deposit: React.FC = () => {
       if (selectedMethod === 'stripe') {
         // Handle Stripe payment (Apple Pay, Google Pay, Cards)
         setShowStripeForm(true);
+        return;
+      }
+      
+      if (selectedMethod === 'crypto') {
+        // Handle USDC crypto payment
+        setShowCryptoForm(true);
         return;
       }
       
@@ -164,6 +182,101 @@ Funds are now available for games!`);
 Please check your payment method and try again.`);
     setShowStripeForm(false);
   };
+
+  const handleCryptoSuccess = async (paymentIntent: any) => {
+    console.log('Crypto payment successful:', paymentIntent.id);
+    
+    // Payment was successful, update UI and balance
+    const depositAmount = parseFloat(amount);
+    
+    // Update local balance immediately for better UX
+    // The webhook will ensure database consistency
+    updateBalance(user!.balance + depositAmount);
+    
+    // Show success message
+    alert(`✅ Successfully deposited $${amount} via USDC! 
+
+Payment ID: ${paymentIntent.id}
+Network: Solana
+Your new balance: $${(user!.balance + depositAmount).toFixed(2)}
+
+Funds are now available for games!`);
+    
+    // Reset form
+    setAmount('');
+    setSelectedMethod('');
+    setShowCryptoForm(false);
+  };
+
+  const handleCryptoError = (error: string) => {
+    console.error('Crypto payment failed:', error);
+    alert(`❌ Crypto payment failed: ${error}
+
+Please check your wallet connection and try again.`);
+    setShowCryptoForm(false);
+  };
+
+  // Show Crypto payment form
+  if (showCryptoForm && selectedMethod === 'crypto') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <div className="flex items-center space-x-4 mb-8">
+            <button 
+              onClick={() => setShowCryptoForm(false)}
+              className="p-2 hover:bg-white rounded-lg transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Pay with USDC</h1>
+              <p className="text-gray-600">Secure crypto payment on Solana network</p>
+            </div>
+          </div>
+
+          {/* Payment Form */}
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-lg font-semibold text-gray-900">Deposit Amount</span>
+                <span className="text-2xl font-bold text-green-600">${amount}</span>
+              </div>
+              <div className="text-sm text-gray-600 mb-4">
+                Adding USDC funds to your Dollar App account (settles as USD)
+              </div>
+              <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
+                <div className="flex items-center space-x-2">
+                  <Coins className="h-4 w-4 text-purple-600" />
+                  <span className="text-sm text-purple-800 font-medium">
+                    USDC on Solana • 1.5% fee • Settles as USD
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <Elements 
+              stripe={stripePromise} 
+              options={{
+                ...CRYPTO_CONFIG,
+                mode: 'payment',
+                amount: Math.round(parseFloat(amount) * 100),
+                currency: 'usdc',
+              }}
+            >
+              <StripeCryptoForm
+                amount={parseFloat(amount)}
+                onSuccess={handleCryptoSuccess}
+                onError={handleCryptoError}
+              />
+            </Elements>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Show Stripe payment form
   if (showStripeForm && selectedMethod === 'stripe') {
@@ -271,6 +384,11 @@ Please check your payment method and try again.`);
                         {method.isTest && (
                           <p className="text-xs text-purple-600 font-medium mt-1">
                             ⚡ Instantly adds funds to your account
+                          </p>
+                        )}
+                        {method.badge && (
+                          <p className="text-xs text-purple-600 font-medium mt-1">
+                            💎 {method.badge}
                           </p>
                         )}
                         {method.id === 'stripe' && (
@@ -415,8 +533,23 @@ Please check your payment method and try again.`);
                 </div>
               )}
 
+              {/* Crypto Payment Method Info */}
+              {selectedMethod === 'crypto' && (
+                <div className="mt-4 p-3 bg-purple-50 rounded-xl border border-purple-200">
+                  <div className="flex items-center space-x-2">
+                    <Coins className="h-4 w-4 text-purple-600" />
+                    <span className="text-sm text-purple-800 font-medium">
+                      USDC on Solana Network
+                    </span>
+                  </div>
+                  <p className="text-xs text-purple-700 mt-1">
+                    Pay with USDC cryptocurrency. Settles as USD in your account. 1.5% processing fee.
+                  </p>
+                </div>
+              )}
+
               {/* Security Notice */}
-              {selectedMethod && selectedMethod !== 'dummy_pay' && selectedMethod !== 'stripe' && (
+              {selectedMethod && selectedMethod !== 'dummy_pay' && selectedMethod !== 'stripe' && selectedMethod !== 'crypto' && (
                 <div className="mt-4 p-3 bg-green-50 rounded-xl">
                   <div className="flex items-center space-x-2">
                     <Shield className="h-4 w-4 text-green-600" />

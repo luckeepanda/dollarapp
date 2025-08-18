@@ -13,6 +13,20 @@ export const STRIPE_CONFIG = {
     requestPayerName: true,
     requestPayerEmail: true,
   },
+  // Crypto configuration for USDC on Solana
+  crypto: {
+    currency: 'usdc',
+    network: 'solana',
+    settlementCurrency: 'usd', // Settle as fiat USD
+    supportedNetworks: ['solana', 'ethereum', 'polygon', 'base'],
+    limits: {
+      maxPerTransaction: 10000, // $10k per transaction
+      maxPerMonth: 100000, // $100k per month
+    },
+    fees: {
+      percentage: 1.5, // 1.5% fee for crypto payments
+    },
+  },
   // General payment configuration
   appearance: {
     theme: 'stripe' as const,
@@ -23,6 +37,26 @@ export const STRIPE_CONFIG = {
       colorDanger: '#ef4444',
       fontFamily: 'system-ui, sans-serif',
       spacingUnit: '4px',
+      borderRadius: '8px',
+    },
+  },
+};
+
+// Crypto payment configuration
+export const CRYPTO_CONFIG = {
+  mode: 'payment' as const,
+  currency: 'usdc',
+  payment_method_types: ['crypto'],
+  crypto: {
+    network: 'solana',
+  },
+  appearance: {
+    theme: 'stripe' as const,
+    variables: {
+      colorPrimary: '#FF6B35', // Dollar App orange
+      colorBackground: '#ffffff',
+      colorText: '#1f2937',
+      fontFamily: 'Poppins, system-ui, sans-serif',
       borderRadius: '8px',
     },
   },

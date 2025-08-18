@@ -51,12 +51,18 @@ serve(async (req) => {
         const userId = paymentIntent.metadata.userId
         const amount = paymentIntent.amount / 100 // Convert from cents to dollars
         const paymentMethod = paymentIntent.metadata.paymentMethod || 'Card'
+        const paymentType = paymentIntent.metadata.type || 'deposit'
+        const network = paymentIntent.metadata.network
+        const settlementCurrency = paymentIntent.metadata.settlementCurrency || 'usd'
 
         console.log('Processing successful payment:', {
           paymentIntentId: paymentIntent.id,
           userId,
           amount,
-          paymentMethod
+          paymentMethod,
+          paymentType,
+          network,
+          settlementCurrency
         })
 
         if (!userId) {
@@ -101,6 +107,11 @@ serve(async (req) => {
             metadata: {
               stripe_payment_intent_id: paymentIntent.id,
               payment_method_type: paymentIntent.metadata.paymentMethod,
+              payment_type: paymentType,
+              network: network,
+              payment_type: paymentType,
+              network: network,
+              settlement_currency: settlementCurrency,
               stripe_charge_id: paymentIntent.latest_charge,
               completed_at: new Date().toISOString()
             }
@@ -145,6 +156,11 @@ serve(async (req) => {
         }
 
         console.log(`Successfully processed deposit of $${amount} for user ${userId} (${user.username})`)
+        
+        // Log crypto-specific details if applicable
+        if (paymentType === 'crypto_deposit' && network) {
+          console.log(`Crypto payment details: ${paymentMethod} on ${network}, settled as ${settlementCurrency}`)
+        }
         break
       }
 
@@ -153,12 +169,16 @@ serve(async (req) => {
         const userId = paymentIntent.metadata.userId
         const amount = paymentIntent.amount / 100
         const paymentMethod = paymentIntent.metadata.paymentMethod || 'Card'
+        const paymentType = paymentIntent.metadata.type || 'deposit'
+        const network = paymentIntent.metadata.network
 
         console.log('Processing failed payment:', {
           paymentIntentId: paymentIntent.id,
           userId,
           amount,
-          paymentMethod
+          paymentMethod,
+          paymentType,
+          network
         })
 
         if (!userId) {
@@ -183,6 +203,9 @@ serve(async (req) => {
               metadata: {
                 stripe_payment_intent_id: paymentIntent.id,
                 payment_method_type: paymentIntent.metadata.paymentMethod,
+                payment_type: paymentType,
+                network: network,
+                settlement_currency: settlementCurrency,
                 failure_reason: paymentIntent.last_payment_error?.message || 'Payment failed',
                 failed_at: new Date().toISOString()
               }
@@ -206,6 +229,8 @@ serve(async (req) => {
                 metadata: {
                   stripe_payment_intent_id: paymentIntent.id,
                   payment_method_type: paymentIntent.metadata.paymentMethod,
+                  payment_type: paymentType,
+                  network: network,
                   failure_reason: paymentIntent.last_payment_error?.message || 'Payment failed',
                   failed_at: new Date().toISOString()
                 }
