@@ -54,6 +54,7 @@ serve(async (req) => {
         const paymentType = paymentIntent.metadata.type || 'deposit'
         const network = paymentIntent.metadata.network
         const settlementCurrency = paymentIntent.metadata.settlementCurrency || 'usd'
+        const sessionId = paymentIntent.metadata.stripe_session_id
 
         console.log('Processing successful payment:', {
           paymentIntentId: paymentIntent.id,
@@ -62,7 +63,8 @@ serve(async (req) => {
           paymentMethod,
           paymentType,
           network,
-          settlementCurrency
+          settlementCurrency,
+          sessionId
         })
 
         if (!userId) {
@@ -106,18 +108,18 @@ serve(async (req) => {
             status: 'completed',
             metadata: {
               stripe_payment_intent_id: paymentIntent.id,
+              stripe_session_id: sessionId,
+              stripe_session_id: sessionId,
               payment_method_type: paymentIntent.metadata.paymentMethod,
               payment_type: paymentType,
               network: network,
-              payment_type: paymentType,
-              network: network,
-              settlement_currency: settlementCurrency,
+              settlement_currency: paymentIntent.metadata.settlementCurrency || 'usd',
               stripe_charge_id: paymentIntent.latest_charge,
               completed_at: new Date().toISOString()
             }
           })
           .eq('user_id', userId)
-          .eq('metadata->stripe_payment_intent_id', paymentIntent.id)
+          .or(`metadata->stripe_payment_intent_id.eq.${paymentIntent.id},metadata->stripe_session_id.eq.${sessionId}`)
 
         if (transactionUpdateError) {
           console.error('Error updating transaction record:', transactionUpdateError)
@@ -128,7 +130,7 @@ serve(async (req) => {
           .from('transactions')
           .select('id')
           .eq('user_id', userId)
-          .eq('metadata->stripe_payment_intent_id', paymentIntent.id)
+          .or(`metadata->stripe_payment_intent_id.eq.${paymentIntent.id},metadata->stripe_session_id.eq.${sessionId}`)
           .single()
 
         if (!existingTransaction) {
@@ -144,6 +146,9 @@ serve(async (req) => {
                 metadata: {
                   stripe_payment_intent_id: paymentIntent.id,
                   payment_method_type: paymentIntent.metadata.paymentMethod,
+                  payment_type: paymentType,
+                  network: network,
+                  settlement_currency: settlementCurrency,
                   stripe_charge_id: paymentIntent.latest_charge,
                   completed_at: new Date().toISOString()
                 }
@@ -171,6 +176,7 @@ serve(async (req) => {
         const paymentMethod = paymentIntent.metadata.paymentMethod || 'Card'
         const paymentType = paymentIntent.metadata.type || 'deposit'
         const network = paymentIntent.metadata.network
+        const sessionId = paymentIntent.metadata.stripe_session_id
 
         console.log('Processing failed payment:', {
           paymentIntentId: paymentIntent.id,
@@ -178,7 +184,8 @@ serve(async (req) => {
           amount,
           paymentMethod,
           paymentType,
-          network
+          network,
+          sessionId
         })
 
         if (!userId) {
@@ -191,7 +198,7 @@ serve(async (req) => {
           .from('transactions')
           .select('id')
           .eq('user_id', userId)
-          .eq('metadata->stripe_payment_intent_id', paymentIntent.id)
+          .or(`metadata->stripe_payment_intent_id.eq.${paymentIntent.id},metadata->stripe_session_id.eq.${sessionId}`)
           .single()
 
         if (existingTransaction) {
@@ -228,6 +235,7 @@ serve(async (req) => {
                 payment_method: paymentMethod,
                 metadata: {
                   stripe_payment_intent_id: paymentIntent.id,
+                  stripe_session_id: sessionId,
                   payment_method_type: paymentIntent.metadata.paymentMethod,
                   payment_type: paymentType,
                   network: network,

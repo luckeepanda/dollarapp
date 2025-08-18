@@ -18,6 +18,14 @@ This guide will help you set up Stripe payments with Apple Pay support in your D
    - Enable "Apple Pay" under Digital Wallets
    - Add your domain for Apple Pay verification
 
+4. **Enable Crypto Payments (Optional)**
+   - Go to [Settings > Payment Methods](https://dashboard.stripe.com/settings/payment_methods)
+   - Find "Crypto" under Digital Wallets
+   - Click "Request Access" (US businesses only)
+   - Complete crypto onboarding form
+   - Wait for approval (1-3 business days)
+   - Once approved, enable USDC on Solana network
+
 ## 2. Environment Variables
 
 Add these to your `.env` file:

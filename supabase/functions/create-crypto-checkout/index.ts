@@ -8,12 +8,13 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 }
 
-interface CryptoPaymentIntentRequest {
+interface CryptoCheckoutRequest {
   amount: number
   currency: string
   network: string
   userId: string
-  settlementCurrency: string
+  successUrl: string
+  cancelUrl: string
 }
 
 serve(async (req) => {
@@ -32,12 +33,12 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const { amount, currency, network, userId, settlementCurrency }: CryptoPaymentIntentRequest = await req.json()
+    const { amount, currency, network, userId, successUrl, cancelUrl }: CryptoCheckoutRequest = await req.json()
 
     // Validate the request
-    if (!amount || !currency || !network || !userId) {
+    if (!amount || !currency || !network || !userId || !successUrl || !cancelUrl) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: amount, currency, network, userId' }),
+        JSON.stringify({ error: 'Missing required fields' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -94,23 +95,35 @@ serve(async (req) => {
       )
     }
 
-    console.log('Creating crypto payment intent:', {
+    console.log('Creating crypto checkout session:', {
       amount,
       currency,
       network,
       userId,
-      settlementCurrency,
       userEmail: user.email
     })
 
-    // Create crypto payment intent
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
+    // Create Stripe Checkout session for crypto payments
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['crypto'],
-      crypto: {
-        network: network,
-      },
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd', // Settlement currency
+            product_data: {
+              name: 'Dollar App Deposit',
+              description: `Add $${(amount / 100).toFixed(2)} to your Dollar App balance`,
+              images: ['https://dollarfood.app/logo.png'],
+            },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      customer_email: user.email,
       metadata: {
         userId,
         userEmail: user.email,
@@ -118,17 +131,30 @@ serve(async (req) => {
         type: 'crypto_deposit',
         paymentMethod: 'USDC',
         network: network,
-        settlementCurrency: settlementCurrency || 'usd',
+        settlementCurrency: 'usd',
       },
-      receipt_email: user.email,
-      description: `Dollar App USDC deposit for ${user.username}`,
-      // Settlement configuration
-      transfer_data: {
-        destination: 'self', // Settle to your own account as USD
+      // Crypto-specific configuration
+      payment_intent_data: {
+        metadata: {
+          userId,
+          userEmail: user.email,
+          username: user.username,
+          type: 'crypto_deposit',
+          paymentMethod: 'USDC',
+          network: network,
+          settlementCurrency: 'usd',
+        },
+        receipt_email: user.email,
+        description: `Dollar App USDC deposit for ${user.username}`,
+      },
+      // Enable crypto payments
+      crypto: {
+        enabled: true,
+        networks: [network],
       },
     })
 
-    // Log the crypto payment intent creation
+    // Log the crypto checkout session creation
     const { error: logError } = await supabase
       .from('transactions')
       .insert([
@@ -139,11 +165,11 @@ serve(async (req) => {
           status: 'pending',
           payment_method: `USDC (${network})`,
           metadata: {
-            stripe_payment_intent_id: paymentIntent.id,
+            stripe_session_id: session.id,
             payment_method_type: 'crypto',
             currency: currency,
             network: network,
-            settlement_currency: settlementCurrency
+            settlement_currency: 'usd'
           }
         }
       ])
@@ -154,9 +180,8 @@ serve(async (req) => {
 
     return new Response(
       JSON.stringify({
-        client_secret: paymentIntent.client_secret,
-        id: paymentIntent.id,
-        status: paymentIntent.status,
+        url: session.url,
+        id: session.id,
         network: network,
         currency: currency,
       }),
@@ -165,25 +190,25 @@ serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Error creating crypto payment intent:', error)
+    console.error('Error creating crypto checkout session:', error)
     
     // Handle specific Stripe crypto errors
-    let errorMessage = 'Failed to create crypto payment intent'
+    let errorMessage = 'Failed to create crypto checkout session'
     
     if (error.message?.includes('crypto payments are not enabled')) {
-      errorMessage = 'Crypto payments are not enabled for this account. Please contact support.'
+      errorMessage = 'Crypto payments are not enabled for this account. Please use card payment instead.'
     } else if (error.message?.includes('unsupported currency')) {
-      errorMessage = 'USDC is not supported. Please use a different payment method.'
+      errorMessage = 'USDC is not supported. Please use card payment instead.'
     } else if (error.message?.includes('unsupported network')) {
-      errorMessage = 'Solana network is not supported. Please try a different network.'
+      errorMessage = `${network} network is not supported. Please try a different payment method.`
     } else if (error.message?.includes('business verification')) {
-      errorMessage = 'Business verification required for crypto payments. Please contact support.'
+      errorMessage = 'Business verification required for crypto payments. Please use card payment instead.'
     }
     
     return new Response(
       JSON.stringify({ 
         error: errorMessage,
-        details: error.message || 'Please try a different payment method'
+        details: error.message || 'Please try card payment instead'
       }),
       {
         status: 500,

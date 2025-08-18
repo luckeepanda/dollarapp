@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import Header from '../components/Header';
 import StripePaymentForm from '../components/StripePaymentForm';
-import StripeCryptoForm from '../components/StripeCryptoForm';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { stripePromise, STRIPE_CONFIG, CRYPTO_CONFIG } from '../lib/stripe';
@@ -26,8 +25,8 @@ const Deposit: React.FC = () => {
   const [amount, setAmount] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showStripeForm, setShowStripeForm] = useState(false);
-  const [showCryptoForm, setShowCryptoForm] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState<string>('');
+  const [cryptoAvailable, setCryptoAvailable] = useState(true); // Check crypto availability
 
   const paymentMethods = [
     {
@@ -41,10 +40,10 @@ const Deposit: React.FC = () => {
     {
       id: 'crypto',
       name: 'USDC (Crypto)',
-      description: 'Pay with USDC on Solana network - settles as USD',
+      description: 'Pay with USDC cryptocurrency - settles as USD',
       icon: Coins,
       color: 'from-purple-600 to-indigo-700',
-      available: true,
+      available: cryptoAvailable,
       badge: '1.5% fee'
     }
   ];
@@ -87,8 +86,8 @@ const Deposit: React.FC = () => {
       }
       
       if (selectedMethod === 'crypto') {
-        // Handle USDC crypto payment
-        setShowCryptoForm(true);
+        // Handle USDC crypto payment via Checkout redirect
+        await handleCryptoCheckout(depositAmount);
         return;
       }
       
@@ -151,6 +150,51 @@ const Deposit: React.FC = () => {
     }
   };
 
+  const handleCryptoCheckout = async (depositAmount: number) => {
+    if (!user) {
+      alert('User not found. Please log in again.');
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      console.log('Creating crypto checkout session...');
+
+      // Create crypto checkout session using Supabase Edge Function
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-crypto-checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          amount: Math.round(depositAmount * 100), // Convert to cents
+          currency: 'usdc',
+          network: 'solana',
+          userId: user.id,
+          successUrl: `${window.location.origin}/deposit?success=true`,
+          cancelUrl: `${window.location.origin}/deposit?canceled=true`,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create crypto checkout session');
+      }
+
+      const { url } = await response.json();
+      
+      // Redirect to Stripe Crypto Checkout
+      window.location.href = url;
+      
+    } catch (error: any) {
+      console.error('Crypto checkout failed:', error);
+      alert(`❌ Crypto payment setup failed: ${error.message}`);
+      setIsProcessing(false);
+    }
+  };
+
   const handleStripeSuccess = async (paymentIntent: any) => {
     console.log('Payment successful:', paymentIntent.id);
     
@@ -183,100 +227,22 @@ Please check your payment method and try again.`);
     setShowStripeForm(false);
   };
 
-  const handleCryptoSuccess = async (paymentIntent: any) => {
-    console.log('Crypto payment successful:', paymentIntent.id);
+  // Check for crypto payment success/cancel in URL params
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const canceled = urlParams.get('canceled');
     
-    // Payment was successful, update UI and balance
-    const depositAmount = parseFloat(amount);
-    
-    // Update local balance immediately for better UX
-    // The webhook will ensure database consistency
-    updateBalance(user!.balance + depositAmount);
-    
-    // Show success message
-    alert(`✅ Successfully deposited $${amount} via USDC! 
-
-Payment ID: ${paymentIntent.id}
-Network: Solana
-Your new balance: $${(user!.balance + depositAmount).toFixed(2)}
-
-Funds are now available for games!`);
-    
-    // Reset form
-    setAmount('');
-    setSelectedMethod('');
-    setShowCryptoForm(false);
-  };
-
-  const handleCryptoError = (error: string) => {
-    console.error('Crypto payment failed:', error);
-    alert(`❌ Crypto payment failed: ${error}
-
-Please check your wallet connection and try again.`);
-    setShowCryptoForm(false);
-  };
-
-  // Show Crypto payment form
-  if (showCryptoForm && selectedMethod === 'crypto') {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
-          <div className="flex items-center space-x-4 mb-8">
-            <button 
-              onClick={() => setShowCryptoForm(false)}
-              className="p-2 hover:bg-white rounded-lg transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5 text-gray-600" />
-            </button>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Pay with USDC</h1>
-              <p className="text-gray-600">Secure crypto payment on Solana network</p>
-            </div>
-          </div>
-
-          {/* Payment Form */}
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-semibold text-gray-900">Deposit Amount</span>
-                <span className="text-2xl font-bold text-green-600">${amount}</span>
-              </div>
-              <div className="text-sm text-gray-600 mb-4">
-                Adding USDC funds to your Dollar App account (settles as USD)
-              </div>
-              <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
-                <div className="flex items-center space-x-2">
-                  <Coins className="h-4 w-4 text-purple-600" />
-                  <span className="text-sm text-purple-800 font-medium">
-                    USDC on Solana • 1.5% fee • Settles as USD
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <Elements 
-              stripe={stripePromise} 
-              options={{
-                ...CRYPTO_CONFIG,
-                mode: 'payment',
-                amount: Math.round(parseFloat(amount) * 100),
-                currency: 'usdc',
-              }}
-            >
-              <StripeCryptoForm
-                amount={parseFloat(amount)}
-                onSuccess={handleCryptoSuccess}
-                onError={handleCryptoError}
-              />
-            </Elements>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    if (success === 'true') {
+      alert('✅ Crypto payment successful! Your balance has been updated.');
+      // Clear URL params
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (canceled === 'true') {
+      alert('❌ Crypto payment was canceled. Please try again.');
+      // Clear URL params
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   // Show Stripe payment form
   if (showStripeForm && selectedMethod === 'stripe') {
@@ -314,10 +280,10 @@ Please check your wallet connection and try again.`);
             <Elements 
               stripe={stripePromise} 
               options={{
-                ...STRIPE_CONFIG,
                 mode: 'payment',
                 amount: Math.round(parseFloat(amount) * 100),
                 currency: 'usd',
+                appearance: STRIPE_CONFIG.appearance,
               }}
             >
               <StripePaymentForm
@@ -490,6 +456,11 @@ Please check your wallet connection and try again.`);
                     <CreditCard className="h-4 w-4" />
                     <span>Pay with Card</span>
                   </>
+                ) : selectedMethod === 'crypto' ? (
+                  <>
+                    <Coins className="h-4 w-4" />
+                    <span>Pay with USDC</span>
+                  </>
                 ) : selectedMethod === 'dummy_pay' ? (
                   <>
                     <Zap className="h-4 w-4" />
@@ -539,11 +510,11 @@ Please check your wallet connection and try again.`);
                   <div className="flex items-center space-x-2">
                     <Coins className="h-4 w-4 text-purple-600" />
                     <span className="text-sm text-purple-800 font-medium">
-                      USDC on Solana Network
+                      USDC Cryptocurrency Payment
                     </span>
                   </div>
                   <p className="text-xs text-purple-700 mt-1">
-                    Pay with USDC cryptocurrency. Settles as USD in your account. 1.5% processing fee.
+                    Pay with USDC on Solana, Ethereum, Polygon, or Base. Settles as USD. 1.5% fee. US businesses only.
                   </p>
                 </div>
               )}

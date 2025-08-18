@@ -94,6 +94,12 @@ serve(async (req) => {
         enabled: true,
         allow_redirects: 'never'
       }
+    } else if (paymentMethodType === 'crypto') {
+      paymentIntentData.payment_method_types = ['crypto']
+      paymentIntentData.currency = 'usdc'
+      paymentIntentData.crypto = {
+        network: 'solana'
+      }
     } else {
       paymentIntentData.automatic_payment_methods = {
         enabled: true,

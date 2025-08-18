@@ -6,6 +6,13 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
 export { stripePromise };
 
 export const STRIPE_CONFIG = {
+  // Payment Intent configuration for fiat payments
+  paymentIntent: {
+    automatic_payment_methods: {
+      enabled: true,
+      allow_redirects: 'never'
+    },
+  },
   // Apple Pay configuration
   applePay: {
     country: 'US',
@@ -16,9 +23,9 @@ export const STRIPE_CONFIG = {
   // Crypto configuration for USDC on Solana
   crypto: {
     currency: 'usdc',
-    network: 'solana',
+    networks: ['solana', 'ethereum', 'polygon', 'base'],
+    preferredNetwork: 'solana',
     settlementCurrency: 'usd', // Settle as fiat USD
-    supportedNetworks: ['solana', 'ethereum', 'polygon', 'base'],
     limits: {
       maxPerTransaction: 10000, // $10k per transaction
       maxPerMonth: 100000, // $100k per month
@@ -29,35 +36,34 @@ export const STRIPE_CONFIG = {
   },
   // General payment configuration
   appearance: {
-    theme: 'stripe' as const,
+    theme: 'flat' as const,
     variables: {
-      colorPrimary: '#2B69E5',
+      colorPrimary: '#FF6B35', // Dollar App orange
       colorBackground: '#ffffff',
       colorText: '#1f2937',
       colorDanger: '#ef4444',
-      fontFamily: 'system-ui, sans-serif',
+      fontFamily: 'Poppins, system-ui, sans-serif',
       spacingUnit: '4px',
       borderRadius: '8px',
     },
   },
 };
 
-// Crypto payment configuration
+// Crypto payment configuration for Elements
 export const CRYPTO_CONFIG = {
-  mode: 'payment' as const,
-  currency: 'usdc',
-  payment_method_types: ['crypto'],
-  crypto: {
-    network: 'solana',
-  },
   appearance: {
-    theme: 'stripe' as const,
+    theme: 'flat' as const,
     variables: {
       colorPrimary: '#FF6B35', // Dollar App orange
       colorBackground: '#ffffff',
       colorText: '#1f2937',
+      colorDanger: '#ef4444',
       fontFamily: 'Poppins, system-ui, sans-serif',
+      spacingUnit: '4px',
       borderRadius: '8px',
     },
   },
+  // Crypto-specific configuration
+  paymentMethodCreation: 'manual',
+  paymentMethodTypes: ['crypto'],
 };
