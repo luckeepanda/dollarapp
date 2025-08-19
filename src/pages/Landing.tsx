@@ -477,7 +477,7 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-primary-500 to-success-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">1. {t('landing.step1.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step1.title')}</h3>
               <p className="text-gray-600" itemProp="text">
                 {t('landing.step1.description')}
               </p>
