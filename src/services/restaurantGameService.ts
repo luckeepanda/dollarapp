@@ -59,7 +59,7 @@ export const restaurantGameService = {
     name: string,
     description: string,
     entryFee: number,
-    maxPlayers: number,
+    maxPlayers: number = 1,
     minScore: number = 0,
     gameType: string = 'flappy_bird',
     emoji: string = '🍔'
@@ -69,7 +69,7 @@ export const restaurantGameService = {
       p_name: name,
       p_description: description,
       p_entry_fee: entryFee,
-      p_max_players: maxPlayers,
+      p_max_players: 1, // Always single player
       p_min_score: minScore,
       p_game_type: gameType,
       p_emoji: emoji

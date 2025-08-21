@@ -205,26 +205,17 @@ const RestaurantGames: React.FC = () => {
                 <div className="p-6">
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Users className="h-4 w-4 text-primary-600" />
-                      <span className="text-xs text-gray-600">{t('common.players')}</span>
+                      <Star className="h-4 w-4 text-yellow-600" />
+                      <span className="text-xs text-gray-600">Minimum Score</span>
                     </div>
-                    <p className="text-lg font-bold text-primary-600">{game.current_players}/{game.max_players} {t('games.entries')}</p>
+                    <p className="text-lg font-bold text-yellow-600">{game.min_score} points</p>
                   </div>
 
-                  {/* Progress Bar */}
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-600">{t('games.entries')}</span>
-                      <span className="text-sm font-medium text-primary-600">
-                        {Math.round((game.current_players / game.max_players) * 100)}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-white/20 rounded-full h-2">
-                      <div 
-                        className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all"
-                        style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
-                      ></div>
-                    </div>
+                  {/* Game Type Display */}
+                  <div className="mb-4 text-center">
+                    <span className="px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
+                      Single Player Challenge
+                    </span>
                   </div>
 
                   {/* Game Details */}
@@ -234,30 +225,21 @@ const RestaurantGames: React.FC = () => {
                       <span className="text-primary-600 font-medium">${game.entry_fee.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">{t('games.prizePool')}:</span>
-                      <span className="text-success-600 font-medium">${game.prize_pool.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">{t('games.qualification')}:</span>
-                      <span className="text-green-600 font-medium">{t('games.anyScore')}</span>
+                      <span className="text-gray-600">Minimum Score:</span>
+                      <span className="text-yellow-600 font-medium">{game.min_score} points</span>
                     </div>
                   </div>
 
                   {/* Join Button */}
                   <button
                     onClick={() => handleJoinGame(game)}
-                    disabled={isJoining === game.id || (user && user.balance < game.entry_fee) || game.current_players >= game.max_players}
+                    disabled={isJoining === game.id || (user && user.balance < game.entry_fee)}
                     className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
                   >
                     {isJoining === game.id ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         <span>{t('games.joining')}</span>
-                      </>
-                    ) : game.current_players >= game.max_players ? (
-                      <>
-                        <Clock className="h-4 w-4" />
-                        <span>{t('games.gameFull')}</span>
                       </>
                     ) : !user ? (
                       <>

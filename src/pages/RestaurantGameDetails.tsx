@@ -150,37 +150,13 @@ const RestaurantGameDetails: React.FC = () => {
                 </div>
                 
                 <div className="flex justify-between">
-                  <span className="text-royal-blue-200">Prize Pool:</span>
-                  <span className="text-green-400 font-semibold">${game.prize_pool.toFixed(2)}</span>
-                </div>
-                
-                <div className="flex justify-between">
-                  <span className="text-royal-blue-200">Players:</span>
-                  <span className="text-steel-blue-500 font-semibold">{game.current_players}/{game.max_players} entries</span>
-                </div>
-                
-                <div className="flex justify-between">
                   <span className="text-royal-blue-200">Min Score:</span>
-                  <span className="text-steel-blue-500 font-semibold">{game.min_score}</span>
+                  <span className="text-yellow-400 font-semibold">{game.min_score} points</span>
                 </div>
 
-                {/* Progress Bar */}
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-royal-blue-200">Progress</span>
-                    <span className="text-sm font-medium text-steel-blue-500">
-                      {
-                        game.game_type === 'food_blaster' ? '🚀 Food Blaster' : 
-                        game.game_type === 'pizza_hunter' ? '🍕 Pizza Hunter' : 'Game'
-                      }
-                    </span>
-                  </div>
-                  <div className="w-full bg-white/20 rounded-full h-3">
-                    <div 
-                      className="bg-gradient-to-r from-green-400 to-green-500 h-3 rounded-full transition-all"
-                      style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
-                    ></div>
-                  </div>
+                <div className="flex justify-between">
+                  <span className="text-royal-blue-200">Game Type:</span>
+                  <span className="text-steel-blue-500 font-semibold">Single Player</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -198,11 +174,11 @@ const RestaurantGameDetails: React.FC = () => {
             </div>
 
             {/* QR Code Section */}
-            {game.status === 'completed' && game.qr_code && (
+            {game.status === 'completed' && game.qr_code && game.winning_score && game.winning_score >= game.min_score && (
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-sm border border-white/20 p-6">
                 <h3 className="text-lg font-semibold text-steel-blue-100 mb-4 flex items-center space-x-2">
                   <QrCode className="h-5 w-5" />
-                  <span>Winner QR Code</span>
+                  <span>Qualifying Score QR Code</span>
                 </h3>
                 
                 <div className="bg-white/5 p-4 rounded-xl">
@@ -211,7 +187,7 @@ const RestaurantGameDetails: React.FC = () => {
                       <div className="text-2xl font-mono text-black">{game.qr_code}</div>
                     </div>
                     <p className="text-sm text-royal-blue-200 mb-2">
-                      Winner can present this code for redemption
+                      Player achieved minimum score and can redeem this code
                     </p>
                     <div className="flex items-center justify-center space-x-2">
                       {game.qr_redeemed ? (

@@ -30,7 +30,7 @@ const RestaurantGameManagement: React.FC = () => {
     description: '',
     gameType: 'flappy_bird',
     entryFee: 1,
-    foodItemAmount: 20,
+    minScore: 10,
     emoji: '🍔'
   });
 
@@ -71,14 +71,6 @@ const RestaurantGameManagement: React.FC = () => {
     e.preventDefault();
     if (!user) return;
 
-    // Calculate max players: Food Item Amount / Entry Fee
-    const maxPlayers = Math.floor(formData.foodItemAmount / formData.entryFee);
-    
-    if (maxPlayers < 2) {
-      alert('Food Item Amount must be at least twice the Entry Fee to allow minimum 2 players.');
-      return;
-    }
-
     setIsCreating(true);
     try {
       await restaurantGameService.createGame(
@@ -86,8 +78,8 @@ const RestaurantGameManagement: React.FC = () => {
         formData.name,
         formData.description,
         formData.entryFee,
-        maxPlayers,
-        0, // Default minimum score of 0
+        1, // Single player games
+        formData.minScore,
         'flappy_bird', // Hardcoded game type
         formData.emoji
       );
@@ -98,7 +90,7 @@ const RestaurantGameManagement: React.FC = () => {
         description: '',
         gameType: 'flappy_bird',
         entryFee: 1,
-        foodItemAmount: 20,
+        minScore: 10,
         emoji: '🍔'
       });
       
@@ -240,22 +232,20 @@ const RestaurantGameManagement: React.FC = () => {
                         required
                       >
                         <option value={1}>$1</option>
-                        <option value={3}>$3</option>
-                        <option value={5}>$5</option>
                       </select>
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Food Item $ Amount
+                        Minimum Score
                       </label>
                       <input
                         type="number"
-                        value={formData.foodItemAmount}
-                        onChange={(e) => setFormData({...formData, foodItemAmount: parseFloat(e.target.value)})}
+                        value={formData.minScore}
+                        onChange={(e) => setFormData({...formData, minScore: parseInt(e.target.value)})}
                         className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="2"
-                        step="0.01"
+                        min="0"
+                        step="1"
                         required
                       />
                     </div>
@@ -274,17 +264,25 @@ const RestaurantGameManagement: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Auto-calculated Number of Players */}
+                  {/* Game Info */}
                   <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
                     <label className="block text-sm font-medium text-blue-800 mb-2">
-                      Number of Players (Auto-calculated)
+                      Game Configuration
                     </label>
-                    <div className="text-2xl font-bold text-blue-900">
-                      {Math.floor(formData.foodItemAmount / formData.entryFee)} players
+                    <div className="space-y-2 text-sm text-blue-800">
+                      <div className="flex justify-between">
+                        <span>Game Type:</span>
+                        <span className="font-medium">Single Player</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Entry Fee:</span>
+                        <span className="font-medium">${formData.entryFee}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Minimum Score:</span>
+                        <span className="font-medium">{formData.minScore} points</span>
+                      </div>
                     </div>
-                    <p className="text-xs text-blue-700 mt-1">
-                      Calculated as: Food Item Amount (${formData.foodItemAmount}) ÷ Entry Fee (${formData.entryFee})
-                    </p>
                   </div>
 
                   <div className="flex space-x-3 pt-4">
@@ -317,7 +315,7 @@ const RestaurantGameManagement: React.FC = () => {
                           description: '',
                           gameType: 'flappy_bird',
                           entryFee: 1,
-                          foodItemAmount: 20,
+                          minScore: 10,
                           emoji: '🍔'
                         });
                       }}
@@ -360,35 +358,23 @@ const RestaurantGameManagement: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <DollarSign className="h-4 w-4 text-green-400" />
-                      <span className="text-xs text-royal-blue-200">Prize Pool</span>
+                      <Star className="h-4 w-4 text-yellow-400" />
+                      <span className="text-xs text-royal-blue-200">Min Score</span>
                     </div>
-                    <p className="text-lg font-bold text-green-400">${game.prize_pool.toFixed(2)}</p>
+                    <p className="text-lg font-bold text-yellow-400">{game.min_score}</p>
                   </div>
                   
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Users className="h-4 w-4 text-royal-blue-300" />
-                      <span className="text-xs text-royal-blue-200">Players</span>
+                      <DollarSign className="h-4 w-4 text-green-400" />
+                      <span className="text-xs text-royal-blue-200">Entry Fee</span>
                     </div>
-                    <p className="text-lg font-bold text-royal-blue-300">{game.current_players}/{game.max_players}</p>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-royal-blue-200">Progress</span>
-                    <span className="text-sm font-medium text-steel-blue">
-                      {Math.round((game.current_players / game.max_players) * 100)}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-white/20 rounded-full h-2">
-                    <div 
-                      className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full transition-all"
-                      style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
-                    ></div>
-                  </div>
+                    <p className="text-lg font-bold text-green-400">${game.entry_fee}</p>
+                {/* Game Type Display */}
+                <div className="mb-4 text-center">
+                  <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium text-steel-blue">
+                    Single Player Challenge
+                  </span>
                 </div>
 
                 {/* Game Details */}

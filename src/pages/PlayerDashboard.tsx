@@ -186,34 +186,21 @@ const PlayerDashboard: React.FC = () => {
                       {/* Game Stats */}
                       <div className="text-center mb-4">
                         <div className="flex items-center justify-center space-x-1 mb-1">
-                          <Users className="h-4 w-4 text-primary-100" />
-                          <span className="text-xs text-primary-100">Entries</span>
+                          <Star className="h-4 w-4 text-yellow-300" />
+                          <span className="text-xs text-primary-100">Min Score</span>
                         </div>
-                        <p className="text-lg font-bold">{game.current_players}/{game.max_players}</p>
+                        <p className="text-lg font-bold">{game.min_score} pts</p>
                       </div>
 
-                      {/* Progress Bar */}
-                      <div className="mb-4">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm text-primary-100">Progress</span>
-                          <span className="text-sm font-medium">
-                            {Math.round((game.current_players / game.max_players) * 100)}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-white/20 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-accent-400 to-accent-500 h-2 rounded-full transition-all"
-                            style={{ width: `${(game.current_players / game.max_players) * 100}%` }}
-                          ></div>
-                        </div>
+                      {/* Game Type Display */}
+                      <div className="mb-4 text-center">
+                        <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
+                          Single Player
+                        </span>
                       </div>
 
                       {/* Game Details */}
                       <div className="space-y-2 text-sm mb-4">
-                        <div className="flex justify-between">
-                          <span className="text-primary-100">Prize Pool:</span>
-                          <span className="text-accent-300 font-medium">${game.prize_pool.toFixed(2)}</span>
-                        </div>
                         <div className="flex justify-between">
                           <span className="text-primary-100">Entry Fee:</span>
                           <span className="font-medium">${game.entry_fee.toFixed(2)}</span>
@@ -221,10 +208,6 @@ const PlayerDashboard: React.FC = () => {
                         <div className="flex justify-between">
                           <span className="text-primary-100">Min Score:</span>
                           <span className="font-medium">{game.min_score}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-primary-100">Qualification:</span>
-                          <span className="font-medium text-green-300">Any Score</span>
                         </div>
                       </div>
 
