@@ -140,11 +140,11 @@ const HamburgerRunnerGame: React.FC = () => {
           <h3 className="text-success-700 font-semibold mb-3">🎮 How to Play:</h3>
           <ul className="text-success-600 text-sm space-y-1">
             <li>• <strong>Tap</strong> on screen (mobile) or <strong>Click/Space</strong> (desktop) to jump</li>
-            <li>• Jump over moving enemies and collect coins for points</li>
+            <li>• Jump over tall obstacles and collect coins for points</li>
             <li>• Each coin gives you 10 points</li>
             <li>• Distance traveled also adds to your score</li>
-            <li>• Don't hit the moving enemies or fall off the ground</li>
-            <li>• Enemies move at the same height - time your jumps!</li>
+            <li>• Don't hit the tall obstacles or fall off the ground</li>
+            <li>• Obstacles get taller as you progress - jump high!</li>
             <li>• The game gets faster as you progress</li>
           </ul>
         </div>
