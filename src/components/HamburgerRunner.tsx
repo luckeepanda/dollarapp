@@ -6,7 +6,7 @@ interface GameState {
   hamburgerY: number;
   hamburgerVelocityY: number;
   isJumping: boolean;
-  obstacles: Array<{ x: number; type: 'low' | 'high'; width: number; height: number }>;
+  enemies: Array<{ x: number; y: number; speed: number; type: string; width: number; height: number }>;
   coins: Array<{ x: number; y: number; collected: boolean }>;
   score: number;
   distance: number;
@@ -14,6 +14,7 @@ interface GameState {
   gameOver: boolean;
   isPaused: boolean;
   speed: number;
+  lastTapTime: number;
 }
 
 interface HamburgerRunnerProps {
@@ -28,6 +29,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   const lastTimeRef = useRef<number>(0);
   const eventListenersAttachedRef = useRef<boolean>(false);
   const gameEndCalledRef = useRef<boolean>(false);
+  const lastInputTimeRef = useRef<number>(0);
   
   const CANVAS_WIDTH = 400;
   const CANVAS_HEIGHT = 500;
@@ -35,10 +37,14 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   const PLAYER_WIDTH = 30;
   const PLAYER_HEIGHT = 30;
   const GROUND_HEIGHT = 80;
-  const GRAVITY = 0.6;
-  const JUMP_FORCE = -12;
+  const GRAVITY = 0.4; // Reduced gravity for faster ascent
+  const JUMP_FORCE = -15; // Increased jump force for higher jumps
   const INITIAL_SPEED = 3;
   const SPEED_INCREASE = 0.001;
+  const ENEMY_SPEED = 4; // Speed of moving enemies
+  const ENEMY_SPAWN_DISTANCE = 300; // Distance between enemy spawns
+  const MAX_ENEMIES = 2; // Maximum enemies on screen
+  const INPUT_DEBOUNCE = 100; // Debounce time in ms for responsive input
 
   console.log('HamburgerRunner: Component rendered/remounted with props:', {
     gameActive,
@@ -53,14 +59,15 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       hamburgerY: CANVAS_HEIGHT - GROUND_HEIGHT - HAMBURGER_SIZE,
       hamburgerVelocityY: 0,
       isJumping: false,
-      obstacles: [],
+      enemies: [],
       coins: [],
       score: 0,
       distance: 0,
       gameStarted: false,
       gameOver: false,
       isPaused: false,
-      speed: INITIAL_SPEED
+      speed: INITIAL_SPEED,
+      lastTapTime: 0
     };
     console.log('HamburgerRunner: Created fresh initial game state:', initialState);
     return initialState;
@@ -132,11 +139,13 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       gameStarted: true,
       gameOver: false,
       isPaused: false,
-      obstacles: [{
+      enemies: [{
         x: CANVAS_WIDTH + 100,
-        type: Math.random() > 0.5 ? 'low' : 'high' as 'low' | 'high',
-        width: 40,
-        height: Math.random() > 0.5 ? 60 : 40
+        y: CANVAS_HEIGHT - GROUND_HEIGHT - HAMBURGER_SIZE, // Same height as player
+        speed: ENEMY_SPEED,
+        type: 'enemy',
+        width: 35,
+        height: HAMBURGER_SIZE
       }],
       coins: [{
         x: CANVAS_WIDTH + 200,
@@ -173,6 +182,14 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
 
   // Jump function with state validation
   const jump = useCallback(() => {
+    const currentTime = Date.now();
+    
+    // Debounce input for responsiveness without spam
+    if (currentTime - lastInputTimeRef.current < INPUT_DEBOUNCE) {
+      return;
+    }
+    lastInputTimeRef.current = currentTime;
+    
     console.log('HamburgerRunner: Jump called', {
       gameStarted: gameState.gameStarted,
       gameOver: gameState.gameOver,
@@ -186,15 +203,15 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       return;
     }
     
-    if (gameState.gameStarted && !gameState.gameOver && !gameState.isPaused && !gameState.isJumping) {
+    if (gameState.gameStarted && !gameState.gameOver && !gameState.isPaused) {
       console.log('HamburgerRunner: Applying jump force');
       setGameState(prev => ({
         ...prev,
         hamburgerVelocityY: JUMP_FORCE,
-        isJumping: true
+        isJumping: true,
+        lastTapTime: currentTime
       }));
     }
-  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, gameState.isJumping, startGame]);
 
   // Event handler functions
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
@@ -225,35 +242,6 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   }, [gameState.gameOver, gameState.gameStarted, startGame, jump]);
 
   // Drawing functions
-  const drawPlayer = (ctx: CanvasRenderingContext2D, x: number) => {
-    // Draw hamburger emoji
-    ctx.save();
-    ctx.font = `${PLAYER_WIDTH}px Arial`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    // Draw the hamburger emoji
-    const hamburgerCenterX = x + PLAYER_WIDTH / 2;
-    const hamburgerCenterY = CANVAS_HEIGHT - 40 + PLAYER_HEIGHT / 2;
-    ctx.fillText('🍔', hamburgerCenterX, hamburgerCenterY);
-    
-    // Draw animated running legs
-    const legOffset = Math.sin(Date.now() * 0.02) * 3;
-    ctx.fillStyle = '#8B4513'; // Brown legs
-    
-    // Left leg
-    ctx.fillRect(x + 8 + legOffset, CANVAS_HEIGHT - 15, 4, 12);
-    // Right leg  
-    ctx.fillRect(x + 18 - legOffset, CANVAS_HEIGHT - 15, 4, 12);
-    
-    // Leg joints (knees)
-    ctx.fillStyle = '#654321'; // Darker brown
-    ctx.fillRect(x + 9 + legOffset, CANVAS_HEIGHT - 9, 2, 2);
-    ctx.fillRect(x + 19 - legOffset, CANVAS_HEIGHT - 9, 2, 2);
-    
-    ctx.restore();
-  };
-
   const drawHamburger = (ctx: CanvasRenderingContext2D, x: number, y: number, isRunning: boolean) => {
     ctx.save();
     // Center the hamburger for rotation
@@ -313,44 +301,42 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     ctx.restore();
   };
 
-  const drawObstacle = (ctx: CanvasRenderingContext2D, obstacle: any) => {
-    // More pixelated retro style obstacles
-    ctx.fillStyle = '#8B4513'; // Solid brown for retro look
+  const drawEnemy = (ctx: CanvasRenderingContext2D, enemy: any) => {
+    // Draw moving enemy at same height as player (jumpable)
+    ctx.save();
+    const centerX = enemy.x + enemy.width / 2;
+    const centerY = enemy.y + enemy.height / 2;
+    ctx.translate(centerX, centerY);
     
-    if (obstacle.type === 'low') {
-      // Ground obstacle (rock/log)
-      const x = Math.floor(obstacle.x);
-      const y = Math.floor(CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height);
-      ctx.fillRect(x, y, obstacle.width, obstacle.height);
-      
-      // Add pixelated details
-      ctx.fillStyle = '#654321'; // Darker brown
-      for (let i = 0; i < obstacle.width; i += 4) {
-        ctx.fillRect(x + i, y + 2, 2, 2);
-      }
-    } else {
-      // High obstacle (hanging branch)
-      const x = Math.floor(obstacle.x);
-      const y = Math.floor(CANVAS_HEIGHT - GROUND_HEIGHT - 150);
-      ctx.fillRect(x, y, obstacle.width, obstacle.height);
-      
-      // Add pixelated details
-      ctx.fillStyle = '#654321'; // Darker brown
-      for (let i = 0; i < obstacle.height; i += 4) {
-        ctx.fillRect(x + 2, y + i, obstacle.width - 4, 2);
-      }
+    // Add movement animation
+    ctx.rotate(Math.sin(Date.now() * 0.015) * 0.05);
+    
+    // Draw enemy as a pixelated food item (pizza slice)
+    ctx.fillStyle = '#FF6B35'; // Orange base
+    ctx.fillRect(-15, -15, 30, 30);
+    
+    // Pizza details
+    ctx.fillStyle = '#FFD700'; // Yellow cheese
+    ctx.fillRect(-12, -12, 24, 6);
+    
+    ctx.fillStyle = '#FF4500'; // Red sauce
+    ctx.fillRect(-10, -6, 20, 4);
+    
+    ctx.fillStyle = '#228B22'; // Green peppers
+    for (let i = 0; i < 3; i++) {
+      ctx.fillRect(-8 + i * 6, -2, 3, 3);
     }
     
-    // Add texture
-    // Pixelated border for retro look
+    // Pixelated border
     ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(
-      Math.floor(obstacle.x), 
-      Math.floor(obstacle.type === 'low' ? CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height : CANVAS_HEIGHT - GROUND_HEIGHT - 150), 
-      obstacle.width, 
-      obstacle.height
-    );
+    ctx.lineWidth = 2;
+    ctx.strokeRect(-15, -15, 30, 30);
+    
+    // Movement indicator (simple trail effect)
+    ctx.fillStyle = 'rgba(255, 107, 53, 0.3)';
+    ctx.fillRect(5, -10, 8, 20);
+    
+    ctx.restore();
   };
 
   const drawCoin = (ctx: CanvasRenderingContext2D, coin: any) => {
@@ -401,7 +387,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
   };
 
   // Collision detection
-  const checkCollision = (hamburgerX: number, hamburgerY: number, obstacles: any[]) => {
+  const checkCollision = (hamburgerX: number, hamburgerY: number, enemies: any[]) => {
     const hamburgerBottom = hamburgerY + HAMBURGER_SIZE;
     const hamburgerRight = hamburgerX + HAMBURGER_SIZE;
     const hamburgerLeft = hamburgerX;
@@ -412,20 +398,18 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       return true;
     }
     
-    // Check obstacle collision
-    for (const obstacle of obstacles) {
-      const obstacleLeft = obstacle.x;
-      const obstacleRight = obstacle.x + obstacle.width;
-      const obstacleTop = obstacle.type === 'low' 
-        ? CANVAS_HEIGHT - GROUND_HEIGHT - obstacle.height 
-        : CANVAS_HEIGHT - GROUND_HEIGHT - 150;
-      const obstacleBottom = obstacleTop + obstacle.height;
+    // Check enemy collision (same height as player, jumpable)
+    for (const enemy of enemies) {
+      const enemyLeft = enemy.x;
+      const enemyRight = enemy.x + enemy.width;
+      const enemyTop = enemy.y;
+      const enemyBottom = enemy.y + enemy.height;
       
-      if (hamburgerRight > obstacleLeft && 
-          hamburgerLeft < obstacleRight && 
-          hamburgerBottom > obstacleTop && 
-          hamburgerTop < obstacleBottom) {
-        console.log('HamburgerRunner: Collision detected with obstacle');
+      if (hamburgerRight > enemyLeft && 
+          hamburgerLeft < enemyRight && 
+          hamburgerBottom > enemyTop && 
+          hamburgerTop < enemyBottom) {
+        console.log('HamburgerRunner: Collision detected with enemy');
         return true;
       }
     }
@@ -473,7 +457,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       let newHamburgerY = prev.hamburgerY + prev.hamburgerVelocityY;
       let newHamburgerVelocityY = prev.hamburgerVelocityY + GRAVITY;
       let newIsJumping = prev.isJumping;
-      let newObstacles = [...prev.obstacles];
+      let newEnemies = [...prev.enemies];
       let newCoins = [...prev.coins];
       let newScore = prev.score;
       let newDistance = prev.distance + prev.speed;
@@ -486,10 +470,10 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
         newIsJumping = false;
       }
 
-      // Move obstacles
-      newObstacles = newObstacles.map(obstacle => ({
-        ...obstacle,
-        x: obstacle.x - newSpeed
+      // Move enemies (they move at their own speed)
+      newEnemies = newEnemies.map(enemy => ({
+        ...enemy,
+        x: enemy.x - enemy.speed
       }));
 
       // Move coins
@@ -503,18 +487,20 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       const coinsCollected = newCoins.filter(coin => coin.collected).length - prev.coins.filter(coin => coin.collected).length;
       newScore += coinsCollected * 10;
 
-      // Remove off-screen obstacles and coins
-      newObstacles = newObstacles.filter(obstacle => obstacle.x + obstacle.width > -50);
+      // Remove off-screen enemies and coins
+      newEnemies = newEnemies.filter(enemy => enemy.x + enemy.width > -50);
       newCoins = newCoins.filter(coin => coin.x > -50);
 
-      // Add new obstacles
-      const lastObstacle = newObstacles[newObstacles.length - 1];
-      if (!lastObstacle || lastObstacle.x < CANVAS_WIDTH - 200) {
-        newObstacles.push({
+      // Add new enemies (limit to MAX_ENEMIES on screen)
+      const lastEnemy = newEnemies[newEnemies.length - 1];
+      if (newEnemies.length < MAX_ENEMIES && (!lastEnemy || lastEnemy.x < CANVAS_WIDTH - ENEMY_SPAWN_DISTANCE)) {
+        newEnemies.push({
           x: CANVAS_WIDTH,
-          type: Math.random() > 0.6 ? 'high' : 'low',
-          width: 30 + Math.random() * 20,
-          height: 40 + Math.random() * 40
+          y: CANVAS_HEIGHT - GROUND_HEIGHT - HAMBURGER_SIZE, // Same height as player
+          speed: ENEMY_SPEED + Math.random() * 2, // Slight speed variation
+          type: 'enemy',
+          width: 35,
+          height: HAMBURGER_SIZE
         });
       }
 
@@ -529,7 +515,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
       }
 
       // Check collision
-      if (checkCollision(prev.hamburgerX, newHamburgerY, newObstacles)) {
+      if (checkCollision(prev.hamburgerX, newHamburgerY, newEnemies)) {
         // Prevent multiple game end calls
         if (!gameEndCalledRef.current) {
           gameEndCalledRef.current = true;
@@ -550,11 +536,12 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
         hamburgerY: newHamburgerY,
         hamburgerVelocityY: newHamburgerVelocityY,
         isJumping: newIsJumping,
-        obstacles: newObstacles,
+        enemies: newEnemies,
         coins: newCoins,
         score: newScore,
         distance: newDistance,
-        speed: newSpeed
+        speed: newSpeed,
+        lastTapTime: prev.lastTapTime
       };
     });
 
@@ -634,9 +621,9 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     // Draw ground
     drawGround(ctx);
 
-    // Draw obstacles
-    gameState.obstacles.forEach(obstacle => {
-      drawObstacle(ctx, obstacle);
+    // Draw enemies
+    gameState.enemies.forEach(enemy => {
+      drawEnemy(ctx, enemy);
     });
 
     // Draw coins
@@ -661,6 +648,10 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     // Distance with retro pixelated style
     ctx.strokeText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
     ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
+    
+    // Enemy count for debugging (remove in production)
+    ctx.strokeText(`Enemies: ${gameState.enemies.length}`, 20, 95);
+    ctx.fillText(`Enemies: ${gameState.enemies.length}`, 20, 95);
     
     // Draw pixelated border for retro feel
     ctx.strokeStyle = '#000000'; // Black
