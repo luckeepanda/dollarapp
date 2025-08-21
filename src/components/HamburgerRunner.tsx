@@ -212,6 +212,7 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
         lastTapTime: currentTime
       }));
     }
+  }, [gameState.gameStarted, gameState.gameOver, gameState.isPaused, gameState.isJumping, startGame]);
 
   // Event handler functions
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
@@ -648,10 +649,6 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     // Distance with retro pixelated style
     ctx.strokeText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
     ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
-    
-    // Enemy count for debugging (remove in production)
-    ctx.strokeText(`Enemies: ${gameState.enemies.length}`, 20, 95);
-    ctx.fillText(`Enemies: ${gameState.enemies.length}`, 20, 95);
     
     // Draw pixelated border for retro feel
     ctx.strokeStyle = '#000000'; // Black
