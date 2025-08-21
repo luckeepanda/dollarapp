@@ -650,6 +650,10 @@ const HamburgerRunner: React.FC<HamburgerRunnerProps> = ({ onGameEnd, gameActive
     ctx.strokeText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
     ctx.fillText(`Distance: ${Math.floor(gameState.distance)}m`, 20, 65);
     
+    // Enemy count for debugging (remove in production)
+    ctx.strokeText(`Enemies: ${gameState.enemies.length}`, 20, 95);
+    ctx.fillText(`Enemies: ${gameState.enemies.length}`, 20, 95);
+    
     // Draw pixelated border for retro feel
     ctx.strokeStyle = '#000000'; // Black
     ctx.lineWidth = 2;
