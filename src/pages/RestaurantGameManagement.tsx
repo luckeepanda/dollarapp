@@ -370,6 +370,9 @@ const RestaurantGameManagement: React.FC = () => {
                       <span className="text-xs text-royal-blue-200">Entry Fee</span>
                     </div>
                     <p className="text-lg font-bold text-green-400">${game.entry_fee}</p>
+                  </div>
+                </div>
+
                 {/* Game Type Display */}
                 <div className="mb-4 text-center">
                   <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium text-steel-blue">
@@ -413,20 +416,20 @@ const RestaurantGameManagement: React.FC = () => {
                 {/* Action Button */}
                 <div className="mt-4">
                   <div className="flex space-x-2">
-                  <Link
-                    to={`/restaurant/games/${game.id}`}
-                    className="flex-1 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
-                  >
-                    <Eye className="h-4 w-4" />
-                    <span>View Details</span>
-                  </Link>
-                  
-                  <button
-                    onClick={() => handleDeleteGame(game.id)}
-                    className="bg-red-500 text-white p-2 rounded-2xl font-bold hover:bg-red-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:shadow-2xl"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                    <Link
+                      to={`/restaurant/games/${game.id}`}
+                      className="flex-1 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500 text-white py-2 rounded-2xl font-bold hover:from-royal-blue-600 hover:to-steel-blue-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-xl hover:shadow-2xl border border-royal-blue-400/30"
+                    >
+                      <Eye className="h-4 w-4" />
+                      <span>View Details</span>
+                    </Link>
+                    
+                    <button
+                      onClick={() => handleDeleteGame(game.id)}
+                      className="bg-red-500 text-white p-2 rounded-2xl font-bold hover:bg-red-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:shadow-2xl"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
               </div>
