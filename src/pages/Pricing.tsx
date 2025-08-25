@@ -25,7 +25,7 @@ const Pricing: React.FC = () => {
       id: 1,
       name: 'Starter',
       price: '$9.99',
-      period: '/month',
+      period: '/one time',
       description: 'Perfect for casual players',
       features: ['$1 Games'],
       cta: 'Get Started',
@@ -36,7 +36,7 @@ const Pricing: React.FC = () => {
       id: 2,
       name: 'Pro',
       price: '$19.99',
-      period: '/month',
+      period: '/one time',
       description: 'Most popular choice',
       features: ['$1 Games', 'Crypto Payment'],
       cta: 'Choose Plan',
@@ -47,7 +47,7 @@ const Pricing: React.FC = () => {
       id: 3,
       name: 'Premium',
       price: '$49.99',
-      period: '/month',
+      period: '/one time',
       description: 'For serious gamers',
       features: ['$1 Games', 'Crypto Payment', 'SEO'],
       cta: 'Scale Up',
@@ -122,22 +122,126 @@ const Pricing: React.FC = () => {
 
           {/* Interactive 3D Claw Machine */}
           <div className="relative mx-auto max-w-2xl mb-8">
-            <ClawMachine3D className="transform hover:scale-105 transition-transform duration-500" />
-            
-            {/* Web3-inspired floating elements */}
-            <div className="absolute -top-4 -left-4 bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 rounded-full shadow-lg animate-bounce">
-              <span className="text-white font-bold text-sm">3D</span>
-            </div>
-            <div className="absolute -top-4 -right-4 bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-full shadow-lg animate-bounce delay-500">
-              <span className="text-white font-bold text-sm">WEB3</span>
+            {/* Arcade-Style Claw Machine Illustration */}
+            <div className="food-card p-8 relative overflow-hidden">
+              <svg 
+                viewBox="0 0 400 350" 
+                className="w-full h-80 mx-auto"
+                role="img"
+                aria-label="Colorful Japanese anime-inspired claw machine with food plushies"
+              >
+                {/* Machine Base with Gradient */}
+                <defs>
+                  <linearGradient id="baseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFC107"/>
+                    <stop offset="50%" stopColor="#FFD54F"/>
+                    <stop offset="100%" stopColor="#FF8F00"/>
+                  </linearGradient>
+                  <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(76,175,80,0.1)"/>
+                    <stop offset="50%" stopColor="rgba(255,193,7,0.05)"/>
+                    <stop offset="100%" stopColor="rgba(76,175,80,0.1)"/>
+                  </linearGradient>
+                  <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#4CAF50"/>
+                    <stop offset="50%" stopColor="#8BC34A"/>
+                    <stop offset="100%" stopColor="#CDDC39"/>
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Machine Base */}
+                <rect x="20" y="80" width="360" height="250" rx="25" fill="url(#baseGrad)" stroke="#FF8F00" strokeWidth="3"/>
+                
+                {/* Glass Cabinet */}
+                <rect x="35" y="95" width="330" height="200" rx="20" fill="url(#glassGrad)" stroke="#4CAF50" strokeWidth="2" opacity="0.8"/>
+                
+                {/* Machine Top with Neon Effect */}
+                <rect x="10" y="20" width="380" height="70" rx="35" fill="url(#topGrad)" filter="url(#glow)"/>
+                <text x="200" y="60" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">🎮 DOLLAR ARCADE 🎮</text>
+                
+                {/* Claw Rail */}
+                <rect x="50" y="30" width="300" height="8" rx="4" fill="#FF6B35"/>
+                
+                {/* Animated Claw */}
+                <g className="animate-float">
+                  {/* Claw Cable */}
+                  <rect x="198" y="38" width="4" height="80" fill="#666"/>
+                  
+                  {/* Claw Head */}
+                  <circle cx="200" cy="125" r="12" fill="#FF6B35" stroke="#FF8F00" strokeWidth="2"/>
+                  
+                  {/* Claw Arms */}
+                  <path d="M 190 130 L 185 145 L 190 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M 200 130 L 200 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <path d="M 210 130 L 215 145 L 210 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                </g>
+                
+                {/* Cute Food Plushies */}
+                <g className="animate-pulse">
+                  {/* Pizza Plushie */}
+                  <circle cx="120" cy="220" r="25" fill="#FF5722"/>
+                  <circle cx="120" cy="220" r="20" fill="#FFD54F"/>
+                  <circle cx="115" cy="215" r="3" fill="#FF1744"/>
+                  <circle cx="125" cy="225" r="3" fill="#4CAF50"/>
+                  <text x="120" y="228" textAnchor="middle" fontSize="16">🍕</text>
+                  
+                  {/* Taco Plushie */}
+                  <ellipse cx="200" cy="240" rx="22" ry="18" fill="#8BC34A"/>
+                  <ellipse cx="200" cy="240" rx="18" ry="14" fill="#CDDC39"/>
+                  <text x="200" y="248" textAnchor="middle" fontSize="16">🌮</text>
+                  
+                  {/* Hamburger Plushie */}
+                  <circle cx="280" cy="210" r="24" fill="#FF8F00"/>
+                  <circle cx="280" cy="210" r="20" fill="#FFD54F"/>
+                  <circle cx="275" cy="205" r="2" fill="#FF1744"/>
+                  <circle cx="285" cy="215" r="2" fill="#4CAF50"/>
+                  <text x="280" y="218" textAnchor="middle" fontSize="16">🍔</text>
+                </g>
+                
+                {/* Control Panel */}
+                <rect x="320" y="120" width="50" height="80" rx="10" fill="#E91E63"/>
+                <circle cx="345" cy="140" r="8" fill="#FFC107"/>
+                <rect x="335" y="160" width="20" height="15" rx="3" fill="#4CAF50"/>
+                <rect x="335" y="180" width="20" height="8" rx="2" fill="#FF6B35"/>
+                
+                {/* Coin Slot */}
+                <rect x="340" y="100" width="20" height="4" rx="2" fill="#000"/>
+                <text x="350" y="115" textAnchor="middle" fontSize="8" fill="#666">💰</text>
+                
+                {/* Neon Highlights */}
+                <rect x="20" y="80" width="360" height="4" rx="2" fill="#4CAF50" opacity="0.8" filter="url(#glow)"/>
+                <rect x="20" y="326" width="360" height="4" rx="2" fill="#FFC107" opacity="0.8" filter="url(#glow)"/>
+                
+                {/* Sparkle Effects */}
+                <g className="animate-pulse">
+                  <text x="80" y="120" fontSize="12" fill="#FFC107">✨</text>
+                  <text x="320" y="160" fontSize="12" fill="#4CAF50">⭐</text>
+                  <text x="150" y="140" fontSize="12" fill="#E91E63">💫</text>
+                </g>
+              </svg>
+              
+              {/* Floating UI Elements */}
+              <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-400 to-pink-500 p-2 rounded-xl shadow-lg animate-bounce">
+                <Sparkles className="h-4 w-4 text-white" />
+              </div>
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-400 to-purple-500 p-2 rounded-xl shadow-lg animate-bounce delay-500">
+                <Zap className="h-4 w-4 text-white" />
+              </div>
             </div>
           </div>
           
-          {/* Interactive instructions */}
+          {/* Interaction hint */}
           <div className="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-2xl border border-yellow-200 max-w-md mx-auto">
             <div className="flex items-center justify-center space-x-2 text-gray-700">
               <Sparkles className="h-4 w-4 text-yellow-600" />
-              <span className="text-sm font-medium">Click & drag to spin the machine!</span>
+              <span className="text-sm font-medium">Arcade-style gaming platform for restaurants!</span>
               <Zap className="h-4 w-4 text-green-600" />
             </div>
           </div>
@@ -155,7 +259,7 @@ const Pricing: React.FC = () => {
                 key={plan.id}
                 className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 ${
                   plan.highlight 
-                    ? 'ring-4 ring-primary-200 shadow-2xl' 
+                    ? 'ring-4 ring-primary-200 shadow-2xl pt-8' 
                     : 'hover:shadow-xl'
                 } ${
                   hoveredPlan === plan.id ? 'shadow-2xl' : ''
@@ -165,7 +269,7 @@ const Pricing: React.FC = () => {
               >
                 {/* Highlight Badge */}
                 {plan.highlight && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
                     <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
                       <Star className="h-4 w-4 inline mr-1" />
                       Most Popular
@@ -189,9 +293,9 @@ const Pricing: React.FC = () => {
                 </div>
 
                 {/* Plan Content */}
-                <div className="p-6">
+                <div className="p-6 h-full flex flex-col">
                   {/* Features */}
-                  <div className="space-y-3 mb-8">
+                  <div className="space-y-3 mb-8 flex-grow">
                     {plan.features.map((feature, index) => (
                       <div key={index} className="group relative">
                         <div className={`inline-flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ${getFeatureColor(feature)} group-hover:scale-105`}>
@@ -211,7 +315,7 @@ const Pricing: React.FC = () => {
 
                   {/* CTA Button */}
                   <button
-                    className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                    className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mt-auto ${
                       plan.highlight
                         ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800'
                         : 'bg-gradient-to-r from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800'
@@ -221,7 +325,7 @@ const Pricing: React.FC = () => {
                   </button>
 
                   {/* Additional Info */}
-                  <div className="mt-4 text-center">
+                  <div className="mt-4 text-center flex-shrink-0">
                     <p className="text-xs text-gray-500 flex items-center justify-center space-x-1">
                       <Info className="h-3 w-3" />
                       <span>Cancel anytime • No hidden fees</span>
