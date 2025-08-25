@@ -27,6 +27,7 @@ import FoodBlasterGame from './pages/FoodBlasterGame';
 import PizzaHunterGame from './pages/PizzaHunterGame';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
+import Pricing from './pages/Pricing';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
@@ -52,6 +53,7 @@ function App() {
               <Route path="/restaurant-games" element={<RestaurantGames />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-use" element={<TermsOfUse />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="/player/dashboard" element={
                 <ProtectedRoute userType="player">
                   <PlayerDashboard />

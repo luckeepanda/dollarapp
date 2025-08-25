@@ -29,6 +29,13 @@ const Footer: React.FC = () => {
             >
               Terms of Use
             </Link>
+            <span>|</span>
+            <Link 
+              to="/pricing" 
+              className="hover:text-primary-600 transition-colors"
+            >
+              Pricing
+            </Link>
           </div>
         </div>
       </div>
