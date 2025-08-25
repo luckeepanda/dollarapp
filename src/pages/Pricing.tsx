@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Check, Zap, CreditCard, TrendingUp, Star, Info, Sparkles } from 'lucide-react';
-import ClawMachine3D from '../components/ClawMachine3D';
 
 const Pricing: React.FC = () => {
   const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -109,8 +113,8 @@ const Pricing: React.FC = () => {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Web3-inspired title with enhanced styling */}
-          <h2 className="text-4xl sm:text-5xl font-bold font-display bg-gradient-to-r from-yellow-500 via-green-500 to-yellow-500 bg-clip-text text-transparent animate-gradient mb-6">
-            What is Dollar App?
+          <h2 className="text-4xl sm:text-5xl font-bold font-display mb-6">
+            What is <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Dollar App</span>?
           </h2>
           
           <div className="relative mb-8">
@@ -121,12 +125,12 @@ const Pricing: React.FC = () => {
           </div>
 
           {/* Interactive 3D Claw Machine */}
-          <div className="relative mx-auto max-w-2xl mb-8">
+          <div className="relative mx-auto max-w-3xl mb-8">
             {/* Arcade-Style Claw Machine Illustration */}
             <div className="food-card p-8 relative overflow-hidden">
               <svg 
-                viewBox="0 0 400 350" 
-                className="w-full h-80 mx-auto"
+                viewBox="0 0 500 400" 
+                className="w-full h-96 mx-auto"
                 role="img"
                 aria-label="Colorful Japanese anime-inspired claw machine with food plushies"
               >
@@ -157,81 +161,90 @@ const Pricing: React.FC = () => {
                 </defs>
                 
                 {/* Machine Base */}
-                <rect x="20" y="80" width="360" height="250" rx="25" fill="url(#baseGrad)" stroke="#FF8F00" strokeWidth="3"/>
+                <rect x="25" y="80" width="450" height="300" rx="25" fill="url(#baseGrad)" stroke="#FF8F00" strokeWidth="3"/>
                 
                 {/* Glass Cabinet */}
-                <rect x="35" y="95" width="330" height="200" rx="20" fill="url(#glassGrad)" stroke="#4CAF50" strokeWidth="2" opacity="0.8"/>
+                <rect x="45" y="100" width="410" height="240" rx="20" fill="url(#glassGrad)" stroke="#4CAF50" strokeWidth="2" opacity="0.8"/>
                 
                 {/* Machine Top with Neon Effect */}
-                <rect x="10" y="20" width="380" height="70" rx="35" fill="url(#topGrad)" filter="url(#glow)"/>
-                <text x="200" y="60" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">🎮 DOLLAR ARCADE 🎮</text>
+                <rect x="15" y="20" width="470" height="70" rx="35" fill="url(#topGrad)" filter="url(#glow)"/>
+                <text x="250" y="60" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">🎮 DOLLAR ARCADE 🎮</text>
                 
                 {/* Claw Rail */}
-                <rect x="50" y="30" width="300" height="8" rx="4" fill="#FF6B35"/>
+                <rect x="60" y="30" width="380" height="8" rx="4" fill="#FF6B35"/>
                 
-                {/* Animated Claw */}
+                {/* Animated Claw - More Aggressive Movement */}
                 <g className="animate-float">
                   {/* Claw Cable */}
-                  <rect x="198" y="38" width="4" height="80" fill="#666"/>
+                  <rect x="248" y="38" width="4" height="120" fill="#666"/>
                   
                   {/* Claw Head */}
-                  <circle cx="200" cy="125" r="12" fill="#FF6B35" stroke="#FF8F00" strokeWidth="2"/>
+                  <circle cx="250" cy="165" r="15" fill="#FF6B35" stroke="#FF8F00" strokeWidth="2"/>
                   
-                  {/* Claw Arms */}
-                  <path d="M 190 130 L 185 145 L 190 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M 200 130 L 200 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <path d="M 210 130 L 215 145 L 210 150" stroke="#FF6B35" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  {/* Claw Arms - More Extended */}
+                  <path d="M 235 170 L 225 190 L 235 200" stroke="#FF6B35" strokeWidth="4" fill="none" strokeLinecap="round"/>
+                  <path d="M 250 170 L 250 200" stroke="#FF6B35" strokeWidth="4" fill="none" strokeLinecap="round"/>
+                  <path d="M 265 170 L 275 190 L 265 200" stroke="#FF6B35" strokeWidth="4" fill="none" strokeLinecap="round"/>
                 </g>
                 
-                {/* Cute Food Plushies */}
+                {/* Cute Food Plushies with $1 Labels */}
                 <g className="animate-pulse">
                   {/* Pizza Plushie */}
-                  <circle cx="120" cy="220" r="25" fill="#FF5722"/>
-                  <circle cx="120" cy="220" r="20" fill="#FFD54F"/>
-                  <circle cx="115" cy="215" r="3" fill="#FF1744"/>
-                  <circle cx="125" cy="225" r="3" fill="#4CAF50"/>
-                  <text x="120" y="228" textAnchor="middle" fontSize="16">🍕</text>
+                  <circle cx="120" cy="250" r="30" fill="#FF5722"/>
+                  <circle cx="120" cy="250" r="25" fill="#FFD54F"/>
+                  <circle cx="115" cy="245" r="3" fill="#FF1744"/>
+                  <circle cx="125" cy="255" r="3" fill="#4CAF50"/>
+                  <text x="120" y="260" textAnchor="middle" fontSize="24">🍕</text>
+                  <text x="120" y="220" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
                   
                   {/* Taco Plushie */}
-                  <ellipse cx="200" cy="240" rx="22" ry="18" fill="#8BC34A"/>
-                  <ellipse cx="200" cy="240" rx="18" ry="14" fill="#CDDC39"/>
-                  <text x="200" y="248" textAnchor="middle" fontSize="16">🌮</text>
+                  <ellipse cx="250" cy="270" rx="28" ry="22" fill="#8BC34A"/>
+                  <ellipse cx="250" cy="270" rx="23" ry="18" fill="#CDDC39"/>
+                  <text x="250" y="280" textAnchor="middle" fontSize="24">🌮</text>
+                  <text x="250" y="240" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
                   
                   {/* Hamburger Plushie */}
-                  <circle cx="280" cy="210" r="24" fill="#FF8F00"/>
-                  <circle cx="280" cy="210" r="20" fill="#FFD54F"/>
-                  <circle cx="275" cy="205" r="2" fill="#FF1744"/>
-                  <circle cx="285" cy="215" r="2" fill="#4CAF50"/>
-                  <text x="280" y="218" textAnchor="middle" fontSize="16">🍔</text>
+                  <circle cx="380" cy="240" r="30" fill="#FF8F00"/>
+                  <circle cx="380" cy="240" r="25" fill="#FFD54F"/>
+                  <circle cx="375" cy="235" r="2" fill="#FF1744"/>
+                  <circle cx="385" cy="245" r="2" fill="#4CAF50"/>
+                  <text x="380" y="250" textAnchor="middle" fontSize="24">🍔</text>
+                  <text x="380" y="210" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
+                  
+                  {/* French Fries Plushie */}
+                  <rect x="140" y="300" width="40" height="30" rx="15" fill="#FFD54F"/>
+                  <text x="160" y="325" textAnchor="middle" fontSize="24">🍟</text>
+                  <text x="160" y="295" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
+                  
+                  {/* Ice Cream Plushie */}
+                  <circle cx="320" cy="310" r="25" fill="#E1BEE7"/>
+                  <text x="320" y="320" textAnchor="middle" fontSize="24">🍦</text>
+                  <text x="320" y="285" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
+                  
+                  {/* Donut Plushie */}
+                  <circle cx="180" cy="180" r="25" fill="#D2691E"/>
+                  <circle cx="180" cy="180" r="15" fill="#8B4513"/>
+                  <text x="180" y="190" textAnchor="middle" fontSize="24">🍩</text>
+                  <text x="180" y="155" textAnchor="middle" fontSize="20" fill="#FFD700" fontWeight="bold">$1</text>
                 </g>
                 
                 {/* Control Panel */}
-                <rect x="320" y="120" width="50" height="80" rx="10" fill="#E91E63"/>
-                <circle cx="345" cy="140" r="8" fill="#FFC107"/>
-                <rect x="335" y="160" width="20" height="15" rx="3" fill="#4CAF50"/>
-                <rect x="335" y="180" width="20" height="8" rx="2" fill="#FF6B35"/>
+                <rect x="400" y="140" width="60" height="100" rx="10" fill="#E91E63"/>
+                <circle cx="430" cy="160" r="10" fill="#FFC107"/>
+                <rect x="420" y="180" width="20" height="15" rx="3" fill="#4CAF50"/>
+                <rect x="420" y="200" width="20" height="8" rx="2" fill="#FF6B35"/>
                 
                 {/* Coin Slot */}
-                <rect x="340" y="100" width="20" height="4" rx="2" fill="#000"/>
-                <text x="350" y="115" textAnchor="middle" fontSize="8" fill="#666">💰</text>
+                <rect x="425" y="120" width="20" height="4" rx="2" fill="#000"/>
+                <text x="435" y="135" textAnchor="middle" fontSize="8" fill="#666">💰</text>
                 
                 {/* Neon Highlights */}
-                <rect x="20" y="80" width="360" height="4" rx="2" fill="#4CAF50" opacity="0.8" filter="url(#glow)"/>
-                <rect x="20" y="326" width="360" height="4" rx="2" fill="#FFC107" opacity="0.8" filter="url(#glow)"/>
-                
-                {/* Sparkle Effects */}
-                <g className="animate-pulse">
-                  <text x="80" y="120" fontSize="12" fill="#FFC107">✨</text>
-                  <text x="320" y="160" fontSize="12" fill="#4CAF50">⭐</text>
-                  <text x="150" y="140" fontSize="12" fill="#E91E63">💫</text>
-                </g>
+                <rect x="25" y="80" width="450" height="4" rx="2" fill="#4CAF50" opacity="0.8" filter="url(#glow)"/>
+                <rect x="25" y="376" width="450" height="4" rx="2" fill="#FFC107" opacity="0.8" filter="url(#glow)"/>
               </svg>
               
-              {/* Floating UI Elements */}
-              <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-400 to-pink-500 p-2 rounded-xl shadow-lg animate-bounce">
-                <Sparkles className="h-4 w-4 text-white" />
-              </div>
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-400 to-purple-500 p-2 rounded-xl shadow-lg animate-bounce delay-500">
+              {/* Floating UI Elements - Removed pink star and purple thunder */}
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-xl shadow-lg animate-bounce delay-500">
                 <Zap className="h-4 w-4 text-white" />
               </div>
             </div>
@@ -257,7 +270,7 @@ const Pricing: React.FC = () => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 ${
+                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 h-full flex flex-col ${
                   plan.highlight 
                     ? 'ring-4 ring-primary-200 shadow-2xl pt-8' 
                     : 'hover:shadow-xl'
@@ -287,13 +300,13 @@ const Pricing: React.FC = () => {
                     <p className="text-sm opacity-90 mb-4">{plan.description}</p>
                     <div className="flex items-baseline">
                       <span className="text-4xl font-black">{plan.price}</span>
-                      <span className="text-lg opacity-75 ml-1">{plan.period}</span>
+                      <span className="text-lg opacity-75 ml-1">/one time</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Plan Content */}
-                <div className="p-6 h-full flex flex-col">
+                <div className="p-6 flex-1 flex flex-col">
                   {/* Features */}
                   <div className="space-y-3 mb-8 flex-grow">
                     {plan.features.map((feature, index) => (
