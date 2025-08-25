@@ -109,22 +109,14 @@ const Pricing: React.FC = () => {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Web3-inspired title with enhanced styling */}
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-3 rounded-2xl shadow-lg animate-pulse">
-              <Sparkles className="h-8 w-8 text-white" />
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold font-display bg-gradient-to-r from-yellow-500 via-green-500 to-yellow-500 bg-clip-text text-transparent animate-gradient">
-              Choose Your Gaming Plan
-            </h2>
-            <div className="bg-gradient-to-r from-green-400 to-green-500 p-3 rounded-2xl shadow-lg animate-pulse delay-300">
-              <Zap className="h-8 w-8 text-white" />
-            </div>
-          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold font-display bg-gradient-to-r from-yellow-500 via-green-500 to-yellow-500 bg-clip-text text-transparent animate-gradient mb-6">
+            What is Dollar App?
+          </h2>
           
           <div className="relative mb-8">
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-transparent to-green-400/20 blur-xl"></div>
             <p className="relative text-xl text-gray-700 max-w-2xl mx-auto font-medium">
-              Start playing skill-based games and winning real food prizes today!
+              Digital Arcade Machine for your business
             </p>
           </div>
 

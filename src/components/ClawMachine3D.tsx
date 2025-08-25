@@ -96,11 +96,13 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
     const machineGroup = new THREE.Group();
     machineRef.current = machineGroup;
 
-    // Machine base (Web3-inspired with neon accents)
-    const baseGeometry = new THREE.BoxGeometry(4, 0.3, 3);
+    // Japanese anime-inspired colorful base with rounded edges
+    const baseGeometry = new THREE.BoxGeometry(4.5, 0.4, 3.5);
     const baseMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x000000,
-      shininess: 100
+      color: 0xFFC107, // Bold yellow base
+      shininess: 80,
+      emissive: 0xFFC107,
+      emissiveIntensity: 0.1
     });
     const base = new THREE.Mesh(baseGeometry, baseMaterial);
     base.position.y = -1.5;
@@ -108,88 +110,96 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
     base.receiveShadow = true;
     machineGroup.add(base);
 
-    // Glass case with Web3 glow
-    const glassGeometry = new THREE.BoxGeometry(3.8, 3, 2.8);
+    // Colorful glass case with anime-inspired transparency
+    const glassGeometry = new THREE.BoxGeometry(4.2, 3.5, 3.2);
     const glassMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0xffffff,
+      color: 0x4CAF50, // Fresh green tint
       transparent: true,
-      opacity: 0.1,
-      shininess: 100
+      opacity: 0.15,
+      shininess: 120,
+      emissive: 0x4CAF50,
+      emissiveIntensity: 0.05
     });
     const glassCase = new THREE.Mesh(glassGeometry, glassMaterial);
     glassCase.position.y = 0.3;
     machineGroup.add(glassCase);
 
-    // Neon frame edges (Web3 accent)
-    const edgeGeometry = new THREE.BoxGeometry(4, 0.1, 3);
+    // Colorful anime-inspired frame edges
+    const edgeGeometry = new THREE.BoxGeometry(4.5, 0.15, 3.5);
     const edgeMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0xFFC107, // Bold yellow
+      color: 0xFF6B35, // Orange accent
       emissive: 0xFFC107,
-      emissiveIntensity: 0.2
+      emissiveIntensity: 0.3
     });
     const topEdge = new THREE.Mesh(edgeGeometry, edgeMaterial);
-    topEdge.position.y = 1.8;
+    topEdge.position.y = 2.1;
     machineGroup.add(topEdge);
 
-    // Control panel with Web3 styling
-    const panelGeometry = new THREE.BoxGeometry(1, 0.8, 0.3);
+    // Anime-inspired colorful control panel
+    const panelGeometry = new THREE.BoxGeometry(1.2, 1, 0.4);
     const panelMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x4CAF50, // Fresh green
+      color: 0xFF1744, // Bright red for anime feel
       emissive: 0x4CAF50,
-      emissiveIntensity: 0.1
+      emissiveIntensity: 0.2
     });
     const controlPanel = new THREE.Mesh(panelGeometry, panelMaterial);
-    controlPanel.position.set(2.5, 0, 1.8);
+    controlPanel.position.set(2.8, 0.2, 2);
     machineGroup.add(controlPanel);
 
-    // Create claw mechanism
+    // Anime-inspired colorful claw mechanism
     const clawGroup = new THREE.Group();
     clawRef.current = clawGroup;
 
-    // Claw rail (futuristic design)
-    const railGeometry = new THREE.CylinderGeometry(0.05, 0.05, 3.5);
+    // Colorful claw rail with anime styling
+    const railGeometry = new THREE.CylinderGeometry(0.08, 0.08, 4);
     const railMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x666666,
-      metalness: 0.8,
-      roughness: 0.2
+      color: 0x9C27B0, // Purple rail for anime feel
+      emissive: 0x9C27B0,
+      emissiveIntensity: 0.1,
+      shininess: 100
     });
     const rail = new THREE.Mesh(railGeometry, railMaterial);
     rail.rotation.z = Math.PI / 2;
-    rail.position.y = 1.5;
+    rail.position.y = 1.8;
     clawGroup.add(rail);
 
-    // Claw arm with Web3 glow
-    const armGeometry = new THREE.CylinderGeometry(0.08, 0.08, 1.5);
+    // Bright anime-inspired claw arm
+    const armGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1.8);
     const armMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0xFFC107,
+      color: 0x00BCD4, // Cyan for anime contrast
       emissive: 0xFFC107,
-      emissiveIntensity: 0.1
+      emissiveIntensity: 0.2
     });
     const arm = new THREE.Mesh(armGeometry, armMaterial);
-    arm.position.y = 0.8;
+    arm.position.y = 1;
     clawGroup.add(arm);
 
-    // Claw head (3D design)
-    const clawHeadGeometry = new THREE.SphereGeometry(0.15, 8, 6);
+    // Anime-style colorful claw head
+    const clawHeadGeometry = new THREE.SphereGeometry(0.18, 12, 8);
     const clawHeadMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x333333,
-      metalness: 0.7,
-      roughness: 0.3
+      color: 0xE91E63, // Pink for anime aesthetic
+      emissive: 0xE91E63,
+      emissiveIntensity: 0.15,
+      shininess: 90
     });
     const clawHead = new THREE.Mesh(clawHeadGeometry, clawHeadMaterial);
-    clawHead.position.y = 0.1;
+    clawHead.position.y = 0.2;
     clawGroup.add(clawHead);
 
-    // Claw fingers (3D prongs)
-    for (let i = 0; i < 3; i++) {
-      const fingerGeometry = new THREE.BoxGeometry(0.03, 0.3, 0.03);
-      const fingerMaterial = new THREE.MeshPhongMaterial({ color: 0x444444 });
+    // Anime-style colorful claw fingers
+    for (let i = 0; i < 4; i++) {
+      const fingerGeometry = new THREE.BoxGeometry(0.04, 0.35, 0.04);
+      const fingerMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xFFEB3B, // Bright yellow fingers
+        emissive: 0xFFEB3B,
+        emissiveIntensity: 0.1
+      });
       const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
-      const angle = (i / 3) * Math.PI * 2;
+      const angle = (i / 4) * Math.PI * 2;
       finger.position.set(
-        Math.cos(angle) * 0.1,
-        -0.05,
-        Math.sin(angle) * 0.1
+        Math.cos(angle) * 0.12,
+        -0.08,
+        Math.sin(angle) * 0.12
       );
       finger.rotation.z = Math.cos(angle) * 0.3;
       finger.rotation.x = Math.sin(angle) * 0.3;
@@ -198,29 +208,33 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
 
     machineGroup.add(clawGroup);
 
-    // Create 3D food plushies
+    // Create anime-inspired 3D food plushies
     createFoodPlushies(machineGroup);
 
-    // Add Web3-inspired particle effects
+    // Add colorful anime-inspired particle effects
     createParticleEffects(scene);
 
     scene.add(machineGroup);
   };
 
-  // Create 3D food plushies
+  // Create anime-inspired 3D food plushies with vibrant colors
   const createFoodPlushies = (parent: THREE.Group) => {
     const plushies = [
-      { emoji: '🍕', color: 0xFF6B35, position: [-1, -0.8, 0.5] },
-      { emoji: '🌮', color: 0x4CAF50, position: [0.5, -0.8, -0.5] },
-      { emoji: '🍔', color: 0xFFC107, position: [1, -0.8, 0.8] }
+      { emoji: '🍕', color: 0xFF5722, position: [-1.2, -0.6, 0.8], emissive: 0xFF5722 },
+      { emoji: '🌮', color: 0x8BC34A, position: [0.3, -0.6, -0.8], emissive: 0x8BC34A },
+      { emoji: '🍔', color: 0xFFD54F, position: [1.1, -0.6, 0.5], emissive: 0xFFD54F },
+      { emoji: '🍟', color: 0xFFC107, position: [-0.5, -0.6, 0.2], emissive: 0xFFC107 },
+      { emoji: '🍦', color: 0xE1BEE7, position: [0.8, -0.6, -0.3], emissive: 0xE1BEE7 }
     ];
 
     plushies.forEach((plushie, index) => {
-      // Create plushie base
-      const plushieGeometry = new THREE.SphereGeometry(0.3, 12, 8);
+      // Create anime-style plushie base with more vibrant colors
+      const plushieGeometry = new THREE.SphereGeometry(0.25, 16, 12);
       const plushieMaterial = new THREE.MeshPhongMaterial({ 
         color: plushie.color,
-        shininess: 30
+        emissive: plushie.emissive,
+        emissiveIntensity: 0.2,
+        shininess: 60
       });
       const plushieMesh = new THREE.Mesh(plushieGeometry, plushieMaterial);
       plushieMesh.position.set(...plushie.position as [number, number, number]);
@@ -230,33 +244,52 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
       // Add gentle floating animation
       plushieMesh.userData = { 
         originalY: plushie.position[1],
-        floatOffset: index * Math.PI * 0.7,
-        floatSpeed: 0.02
+        floatOffset: index * Math.PI * 0.5,
+        floatSpeed: 0.015 + index * 0.005 // Varied speeds for anime feel
       };
       
       parent.add(plushieMesh);
     });
   };
 
-  // Create Web3-inspired particle effects
+  // Create anime-inspired colorful particle effects
   const createParticleEffects = (scene: THREE.Scene) => {
-    const particleCount = 50;
+    const particleCount = 80;
     const particles = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    
+    // Anime color palette
+    const animeColors = [
+      new THREE.Color(0xFFC107), // Yellow
+      new THREE.Color(0x4CAF50), // Green
+      new THREE.Color(0xFF6B35), // Orange
+      new THREE.Color(0xE91E63), // Pink
+      new THREE.Color(0x9C27B0), // Purple
+      new THREE.Color(0x00BCD4)  // Cyan
+    ];
 
     for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 10;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      positions[i * 3] = (Math.random() - 0.5) * 12;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      
+      // Assign random anime colors
+      const color = animeColors[Math.floor(Math.random() * animeColors.length)];
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
     }
 
     particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0xFFC107,
-      size: 0.02,
+      size: 0.03,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.7,
+      vertexColors: true,
+      sizeAttenuation: true
     });
 
     const particleSystem = new THREE.Points(particles, particleMaterial);
@@ -273,26 +306,27 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
 
     // Animate claw movement
     if (clawRef.current && !isInteracting) {
-      clawRef.current.position.x = Math.sin(time * 0.5) * 1.2;
-      clawRef.current.position.z = Math.cos(time * 0.3) * 0.8;
+      clawRef.current.position.x = Math.sin(time * 0.4) * 1.5;
+      clawRef.current.position.z = Math.cos(time * 0.25) * 1;
       
-      // Occasional drop animation
-      const dropCycle = Math.sin(time * 0.2);
-      if (dropCycle > 0.8) {
-        clawRef.current.position.y = 0.3 - (dropCycle - 0.8) * 2;
+      // More dramatic anime-style drop animation
+      const dropCycle = Math.sin(time * 0.15);
+      if (dropCycle > 0.85) {
+        clawRef.current.position.y = 0.4 - (dropCycle - 0.85) * 3;
       } else {
-        clawRef.current.position.y = 0.3;
+        clawRef.current.position.y = 0.4;
       }
     }
 
-    // Animate food plushies floating
+    // Animate food plushies with anime-style floating
     if (machineRef.current) {
       machineRef.current.children.forEach((child) => {
         if (child.userData.originalY !== undefined) {
           const floatY = child.userData.originalY + 
-            Math.sin(time * child.userData.floatSpeed + child.userData.floatOffset) * 0.1;
+            Math.sin(time * child.userData.floatSpeed + child.userData.floatOffset) * 0.15;
           child.position.y = floatY;
-          child.rotation.y = time * 0.5 + child.userData.floatOffset;
+          child.rotation.y = time * 0.3 + child.userData.floatOffset;
+          child.rotation.x = Math.sin(time * 0.4 + child.userData.floatOffset) * 0.1;
         }
       });
     }
@@ -415,55 +449,80 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
     return (
       <div className={`relative ${className}`}>
         <div className="food-card p-8 relative overflow-hidden">
-          {/* Static SVG fallback */}
+          {/* Japanese anime-inspired static SVG fallback */}
           <svg 
             viewBox="0 0 400 300" 
             className="w-full h-64 mx-auto"
             role="img"
-            aria-label="Static claw machine with food plushies"
+            aria-label="Colorful Japanese anime-inspired claw machine with food plushies"
           >
-            {/* Machine Frame */}
-            <rect x="20" y="40" width="360" height="220" rx="20" fill="#000000" stroke="#FFC107" strokeWidth="3"/>
-            <rect x="30" y="50" width="340" height="200" rx="15" fill="rgba(255,255,255,0.1)"/>
+            {/* Colorful anime-inspired machine frame */}
+            <rect x="15" y="35" width="370" height="230" rx="25" fill="#FFC107" stroke="#FF6B35" strokeWidth="4"/>
+            <rect x="25" y="45" width="350" height="210" rx="20" fill="rgba(76,175,80,0.2)"/>
             
-            {/* Glass Front */}
-            <rect x="35" y="55" width="330" height="190" rx="10" fill="rgba(255,255,255,0.2)" stroke="#4CAF50" strokeWidth="2"/>
+            {/* Anime-style glass front with gradient */}
+            <defs>
+              <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgba(76,175,80,0.3)"/>
+                <stop offset="50%" stopColor="rgba(255,193,7,0.2)"/>
+                <stop offset="100%" stopColor="rgba(255,107,53,0.3)"/>
+              </linearGradient>
+            </defs>
+            <rect x="30" y="50" width="340" height="200" rx="15" fill="url(#glassGrad)" stroke="#4CAF50" strokeWidth="3"/>
             
-            {/* Food Plushies */}
+            {/* Colorful anime-style food plushies */}
             <g>
-              <circle cx="100" cy="200" r="25" fill="#FF6B35"/>
-              <text x="100" y="208" textAnchor="middle" fontSize="24">🍕</text>
+              <circle cx="80" cy="190" r="22" fill="#FF5722"/>
+              <text x="80" y="198" textAnchor="middle" fontSize="20">🍕</text>
               
-              <circle cx="200" cy="180" r="25" fill="#4CAF50"/>
-              <text x="200" y="188" textAnchor="middle" fontSize="24">🌮</text>
+              <circle cx="160" cy="210" r="22" fill="#8BC34A"/>
+              <text x="160" y="218" textAnchor="middle" fontSize="20">🌮</text>
               
-              <circle cx="300" cy="210" r="25" fill="#FFC107"/>
-              <text x="300" y="218" textAnchor="middle" fontSize="24">🍔</text>
+              <circle cx="240" cy="185" r="22" fill="#FFD54F"/>
+              <text x="240" y="193" textAnchor="middle" fontSize="20">🍔</text>
+              
+              <circle cx="320" cy="205" r="22" fill="#FFC107"/>
+              <text x="320" y="213" textAnchor="middle" fontSize="20">🍟</text>
             </g>
             
-            {/* Claw */}
+            {/* Anime-style colorful claw */}
             <g>
-              <rect x="50" y="20" width="300" height="8" rx="4" fill="#666666"/>
-              <rect x="195" y="28" width="10" height="80" fill="#FFC107"/>
-              <circle cx="200" cy="120" r="12" fill="#333333"/>
+              <rect x="40" y="15" width="320" height="10" rx="5" fill="#9C27B0"/>
+              <rect x="190" y="25" width="12" height="90" fill="#00BCD4"/>
+              <circle cx="196" cy="125" r="15" fill="#E91E63"/>
+              
+              {/* Claw fingers */}
+              <rect x="185" y="135" width="4" height="20" rx="2" fill="#FFEB3B"/>
+              <rect x="195" y="135" width="4" height="20" rx="2" fill="#FFEB3B"/>
+              <rect x="205" y="135" width="4" height="20" rx="2" fill="#FFEB3B"/>
             </g>
             
-            {/* Machine Top */}
-            <rect x="10" y="10" width="380" height="40" rx="20" fill="#000000"/>
-            <text x="200" y="35" textAnchor="middle" fontSize="18" fill="#FFC107" fontWeight="bold">DOLLAR ARCADE</text>
+            {/* Anime-inspired machine top with gradient */}
+            <defs>
+              <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF6B35"/>
+                <stop offset="50%" stopColor="#FFC107"/>
+                <stop offset="100%" stopColor="#4CAF50"/>
+              </linearGradient>
+            </defs>
+            <rect x="5" y="5" width="390" height="45" rx="25" fill="url(#topGrad)"/>
+            <text x="200" y="35" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">🎮 DOLLAR ARCADE 🎮</text>
             
-            {/* Web3 Accents */}
-            <circle cx="350" cy="30" r="8" fill="#4CAF50" opacity="0.8"/>
-            <text x="350" y="35" textAnchor="middle" fontSize="10" fill="white">$</text>
+            {/* Anime-style decorative elements */}
+            <circle cx="340" cy="28" r="10" fill="#E91E63" opacity="0.9"/>
+            <text x="340" y="33" textAnchor="middle" fontSize="12" fill="white">💰</text>
+            
+            <circle cx="60" cy="28" r="10" fill="#00BCD4" opacity="0.9"/>
+            <text x="60" y="33" textAnchor="middle" fontSize="12" fill="white">⭐</text>
           </svg>
           
-          {/* Web3 UI Elements */}
-          <div className="absolute top-4 right-4 flex space-x-2">
-            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 rounded-lg shadow-lg">
-              <Coins className="h-5 w-5 text-white" />
+          {/* Anime-inspired UI elements */}
+          <div className="absolute top-4 right-4 flex space-x-3">
+            <div className="bg-gradient-to-r from-pink-400 to-pink-500 p-2 rounded-xl shadow-lg animate-pulse">
+              <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <div className="bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-lg shadow-lg">
-              <Zap className="h-5 w-5 text-white" />
+            <div className="bg-gradient-to-r from-purple-400 to-purple-500 p-2 rounded-xl shadow-lg animate-pulse delay-300">
+              <Coins className="h-5 w-5 text-white" />
             </div>
           </div>
         </div>
@@ -502,12 +561,12 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
         )}
         
         {/* Web3 UI Overlay */}
-        <div className="absolute top-4 left-4 flex space-x-2">
-          <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 rounded-lg shadow-lg animate-pulse">
-            <Coins className="h-5 w-5 text-white" />
-          </div>
-          <div className="bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-lg shadow-lg animate-pulse delay-300">
+        <div className="absolute top-4 left-4 flex space-x-3">
+          <div className="bg-gradient-to-r from-pink-400 to-pink-500 p-2 rounded-xl shadow-lg animate-pulse">
             <Sparkles className="h-5 w-5 text-white" />
+          </div>
+          <div className="bg-gradient-to-r from-purple-400 to-purple-500 p-2 rounded-xl shadow-lg animate-pulse delay-300">
+            <Coins className="h-5 w-5 text-white" />
           </div>
         </div>
         
@@ -516,8 +575,8 @@ const ClawMachine3D: React.FC<ClawMachine3DProps> = ({ className = '' }) => {
           {isInteracting ? 'Spinning...' : 'Click & drag to spin'}
         </div>
         
-        {/* Web3 Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-transparent to-green-400/10 rounded-2xl pointer-events-none"></div>
+        {/* Anime-inspired glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-400/10 via-yellow-400/10 to-purple-400/10 rounded-2xl pointer-events-none"></div>
       </div>
     </div>
   );
