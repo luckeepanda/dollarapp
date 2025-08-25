@@ -91,6 +91,16 @@ export default {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
+        'web3-glow': {
+          '0%, 100%': { 
+            boxShadow: '0 0 20px rgba(255, 193, 7, 0.3), 0 0 40px rgba(76, 175, 80, 0.2)',
+            transform: 'scale(1)'
+          },
+          '50%': { 
+            boxShadow: '0 0 30px rgba(255, 193, 7, 0.5), 0 0 60px rgba(76, 175, 80, 0.3)',
+            transform: 'scale(1.02)'
+          }
+        },
       },
       boxShadow: {
         'food': '0 4px 14px 0 rgba(255, 107, 53, 0.15)',

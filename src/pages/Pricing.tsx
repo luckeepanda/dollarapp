@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Check, Zap, CreditCard, TrendingUp, Star, Info } from 'lucide-react';
+import { ArrowLeft, Check, Zap, CreditCard, TrendingUp, Star, Info, Sparkles } from 'lucide-react';
+import ClawMachine3D from '../components/ClawMachine3D';
 
 const Pricing: React.FC = () => {
   const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
@@ -98,76 +99,54 @@ const Pricing: React.FC = () => {
       </div>
 
       {/* Claw Machine Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-neutral-100 py-16">
+      <div className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-neutral-100 py-16 food-grid">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-success-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-success-400/20 to-accent-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-yellow-400/20 to-green-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-400/20 to-yellow-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-yellow-500/10 to-green-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold font-display food-text-gradient mb-6">
-            Choose Your Gaming Plan
-          </h2>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Start playing skill-based games and winning real food prizes today!
-          </p>
+          {/* Web3-inspired title with enhanced styling */}
+          <div className="flex items-center justify-center space-x-3 mb-6">
+            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-3 rounded-2xl shadow-lg animate-pulse">
+              <Sparkles className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold font-display bg-gradient-to-r from-yellow-500 via-green-500 to-yellow-500 bg-clip-text text-transparent animate-gradient">
+              Choose Your Gaming Plan
+            </h2>
+            <div className="bg-gradient-to-r from-green-400 to-green-500 p-3 rounded-2xl shadow-lg animate-pulse delay-300">
+              <Zap className="h-8 w-8 text-white" />
+            </div>
+          </div>
+          
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-transparent to-green-400/20 blur-xl"></div>
+            <p className="relative text-xl text-gray-700 max-w-2xl mx-auto font-medium">
+              Start playing skill-based games and winning real food prizes today!
+            </p>
+          </div>
 
-          {/* Claw Machine Animation */}
-          <div className="relative mx-auto max-w-lg mb-8">
-            <div className="food-card p-8 relative overflow-hidden">
-              {/* Claw Machine SVG Animation */}
-              <svg 
-                viewBox="0 0 400 300" 
-                className="w-full h-64 mx-auto"
-                role="img"
-                aria-label="Animated claw machine trying to grab food plushies"
-              >
-                {/* Machine Frame */}
-                <rect x="20" y="40" width="360" height="220" rx="20" fill="#4B5563" stroke="#374151" strokeWidth="3"/>
-                <rect x="30" y="50" width="340" height="200" rx="15" fill="#F3F4F6"/>
-                
-                {/* Glass Front */}
-                <rect x="35" y="55" width="330" height="190" rx="10" fill="rgba(255,255,255,0.3)" stroke="#E5E7EB" strokeWidth="2"/>
-                
-                {/* Food Plushies */}
-                <g className={prefersReducedMotion ? '' : 'animate-pulse'}>
-                  {/* Pizza Plushie */}
-                  <circle cx="100" cy="200" r="25" fill="#FF6B35"/>
-                  <text x="100" y="208" textAnchor="middle" fontSize="24">🍕</text>
-                  
-                  {/* Taco Plushie */}
-                  <circle cx="200" cy="180" r="25" fill="#22C55E"/>
-                  <text x="200" y="188" textAnchor="middle" fontSize="24">🌮</text>
-                  
-                  {/* Hamburger Plushie */}
-                  <circle cx="300" cy="210" r="25" fill="#FBBF24"/>
-                  <text x="300" y="218" textAnchor="middle" fontSize="24">🍔</text>
-                </g>
-                
-                {/* Claw Mechanism */}
-                <g className={prefersReducedMotion ? '' : 'animate-float'}>
-                  {/* Claw Rail */}
-                  <rect x="50" y="20" width="300" height="8" rx="4" fill="#6B7280"/>
-                  
-                  {/* Claw Arm */}
-                  <rect x="195" y="28" width="10" height="80" fill="#374151"/>
-                  
-                  {/* Claw */}
-                  <g transform="translate(200, 108)">
-                    <circle r="12" fill="#9CA3AF"/>
-                    <path d="M-8,-8 L0,8 L8,-8" stroke="#374151" strokeWidth="3" fill="none"/>
-                  </g>
-                </g>
-                
-                {/* Machine Top */}
-                <rect x="10" y="10" width="380" height="40" rx="20" fill="#EF4444"/>
-                <text x="200" y="35" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">DOLLAR ARCADE</text>
-                
-                {/* Coin Slot */}
-                <rect x="350" y="15" width="30" height="6" rx="3" fill="#374151"/>
-                <text x="365" y="45" textAnchor="middle" fontSize="8" fill="#6B7280">$1</text>
-              </svg>
+          {/* Interactive 3D Claw Machine */}
+          <div className="relative mx-auto max-w-2xl mb-8">
+            <ClawMachine3D className="transform hover:scale-105 transition-transform duration-500" />
+            
+            {/* Web3-inspired floating elements */}
+            <div className="absolute -top-4 -left-4 bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 rounded-full shadow-lg animate-bounce">
+              <span className="text-white font-bold text-sm">3D</span>
+            </div>
+            <div className="absolute -top-4 -right-4 bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-full shadow-lg animate-bounce delay-500">
+              <span className="text-white font-bold text-sm">WEB3</span>
+            </div>
+          </div>
+          
+          {/* Interactive instructions */}
+          <div className="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-2xl border border-yellow-200 max-w-md mx-auto">
+            <div className="flex items-center justify-center space-x-2 text-gray-700">
+              <Sparkles className="h-4 w-4 text-yellow-600" />
+              <span className="text-sm font-medium">Click & drag to spin the machine!</span>
+              <Zap className="h-4 w-4 text-green-600" />
             </div>
           </div>
         </div>
