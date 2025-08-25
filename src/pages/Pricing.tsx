@@ -114,7 +114,7 @@ const Pricing: React.FC = () => {
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Web3-inspired title with enhanced styling */}
           <h2 className="text-4xl sm:text-5xl font-bold font-display mb-6">
-            What is <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Dollar App</span>?
+            <span className="text-success-600">What is </span><span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Dollar App</span><span className="text-success-600">?</span>
           </h2>
           
           <div className="relative mb-8">
@@ -237,16 +237,7 @@ const Pricing: React.FC = () => {
                 {/* Coin Slot */}
                 <rect x="425" y="120" width="20" height="4" rx="2" fill="#000"/>
                 <text x="435" y="135" textAnchor="middle" fontSize="8" fill="#666">💰</text>
-                
-                {/* Neon Highlights */}
-                <rect x="25" y="80" width="450" height="4" rx="2" fill="#4CAF50" opacity="0.8" filter="url(#glow)"/>
-                <rect x="25" y="376" width="450" height="4" rx="2" fill="#FFC107" opacity="0.8" filter="url(#glow)"/>
               </svg>
-              
-              {/* Floating UI Elements - Removed pink star and purple thunder */}
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-green-400 to-green-500 p-2 rounded-xl shadow-lg animate-bounce delay-500">
-                <Zap className="h-4 w-4 text-white" />
-              </div>
             </div>
           </div>
           
@@ -270,9 +261,9 @@ const Pricing: React.FC = () => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 h-full flex flex-col ${
+                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 h-full flex flex-col min-h-[400px] ${
                   plan.highlight 
-                    ? 'ring-4 ring-primary-200 shadow-2xl pt-8' 
+                    ? 'ring-4 ring-primary-200 shadow-2xl' 
                     : 'hover:shadow-xl'
                 } ${
                   hoveredPlan === plan.id ? 'shadow-2xl' : ''
@@ -280,15 +271,6 @@ const Pricing: React.FC = () => {
                 onMouseEnter={() => setHoveredPlan(plan.id)}
                 onMouseLeave={() => setHoveredPlan(null)}
               >
-                {/* Highlight Badge */}
-                {plan.highlight && (
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                      <Star className="h-4 w-4 inline mr-1" />
-                      Most Popular
-                    </div>
-                  </div>
-                )}
 
                 {/* Plan Header */}
                 <div className={`bg-gradient-to-r ${plan.color} p-6 text-white relative overflow-hidden`}>
@@ -300,7 +282,7 @@ const Pricing: React.FC = () => {
                     <p className="text-sm opacity-90 mb-4">{plan.description}</p>
                     <div className="flex items-baseline">
                       <span className="text-4xl font-black">{plan.price}</span>
-                      <span className="text-lg opacity-75 ml-1">/one time</span>
+                      <span className="text-lg opacity-75 ml-1">{plan.period}</span>
                     </div>
                   </div>
                 </div>
@@ -378,38 +360,6 @@ const Pricing: React.FC = () => {
             </div>
           </div>
 
-          {/* FAQ Section */}
-          <div className="mt-16">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center font-display">
-              Frequently Asked Questions
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="food-card p-6">
-                <h4 className="font-semibold text-gray-900 mb-2">How do $1 games work?</h4>
-                <p className="text-gray-600 text-sm">
-                  Pay $1 to enter skill-based games. Win prizes that can be redeemed at local restaurants using QR codes.
-                </p>
-              </div>
-              <div className="food-card p-6">
-                <h4 className="font-semibold text-gray-900 mb-2">What is crypto payment?</h4>
-                <p className="text-gray-600 text-sm">
-                  Pay with USDC cryptocurrency on Solana network. All payments settle as USD in your account.
-                </p>
-              </div>
-              <div className="food-card p-6">
-                <h4 className="font-semibold text-gray-900 mb-2">Can I cancel anytime?</h4>
-                <p className="text-gray-600 text-sm">
-                  Yes! All plans can be canceled at any time with no cancellation fees or penalties.
-                </p>
-              </div>
-              <div className="food-card p-6">
-                <h4 className="font-semibold text-gray-900 mb-2">How do I redeem prizes?</h4>
-                <p className="text-gray-600 text-sm">
-                  Winners receive QR codes via email. Present the code at participating restaurants to claim your prize.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
