@@ -136,11 +136,7 @@ const Pricing: React.FC = () => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 h-full flex flex-col min-h-[400px] ${
-                  plan.highlight 
-                    ? 'ring-4 ring-primary-200 shadow-2xl' 
-                    : 'hover:shadow-xl'
-                } ${
+                className={`relative food-card rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 h-full flex flex-col min-h-[400px] hover:shadow-xl ${
                   hoveredPlan === plan.id ? 'shadow-2xl' : ''
                 }`}
                 onMouseEnter={() => setHoveredPlan(plan.id)}
@@ -185,11 +181,7 @@ const Pricing: React.FC = () => {
 
                   {/* CTA Button */}
                   <button
-                    className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mt-auto ${
-                      plan.highlight
-                        ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800'
-                        : 'bg-gradient-to-r from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800'
-                    }`}
+                    className="w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mt-auto bg-gradient-to-r from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800"
                   >
                     {plan.cta}
                   </button>
