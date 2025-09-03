@@ -4,11 +4,16 @@ import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Users, Trophy, QrCode, CreditCard, Play, RotateCcw, Zap, Sparkles } from 'lucide-react';
 import TacoGame from '../components/TacoGame';
+import TacoGame from '../components/TacoGame';
 
 const Landing: React.FC = () => {
   const { user, isLoading } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
+  const [gameActive, setGameActive] = useState(true);
+  const [finalScore, setFinalScore] = useState<number | null>(null);
+  const [gameKey, setGameKey] = useState(0);
+  const [resetTrigger, setResetTrigger] = useState(0);
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [gameKey, setGameKey] = useState(0);
@@ -20,6 +25,26 @@ const Landing: React.FC = () => {
       navigate(`/${user.accountType}/dashboard`);
     }
   }, [user, isLoading, navigate]);
+
+  const handleGameEnd = (score: number) => {
+    console.log('Landing: Game ended with score:', score);
+    setFinalScore(score);
+    setGameActive(false);
+  };
+
+  const restartGame = () => {
+    console.log('Landing: Restarting game');
+    
+    setFinalScore(null);
+    setGameActive(false);
+    
+    setGameKey(prev => prev + 1);
+    setResetTrigger(prev => prev + 1);
+    
+    setTimeout(() => {
+      setGameActive(true);
+    }, 100);
+  };
 
   const handleGameEnd = (score: number) => {
     console.log('Landing: Game ended with score:', score);
@@ -452,6 +477,45 @@ const Landing: React.FC = () => {
           </div>
 
           {/* Game Container */}
+          <div className="food-card p-8 mb-8 relative">
+            <TacoGame 
+              key={gameKey}
+              onGameEnd={handleGameEnd} 
+              gameActive={gameActive}
+              resetTrigger={resetTrigger}
+            />
+            
+            {/* Floating Play Again Button - positioned over the canvas */}
+            {finalScore !== null && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl border-2 border-primary-300 pointer-events-auto">
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold text-primary-700 mb-2 font-display">
+                      🎉 Great Job! 🎉
+                    </h3>
+                    <p className="text-lg text-gray-700 mb-4">
+                      You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                    </p>
+                    <div className="flex space-x-3 mb-4">
+                      <button
+                        onClick={restartGame}
+                        className="food-button px-6 py-3 rounded-lg font-semibold"
+                      >
+                        Play Again
+                      </button>
+                      <Link
+                        to="/hamburger-runner"
+                        className="bg-gradient-to-r from-success-600 to-accent-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-accent-700 transition-all transform hover:scale-105 shadow-sm inline-block"
+                      >
+                        Other Games
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Interaction hint */}
           <div className="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-2xl border border-yellow-200 max-w-md mx-auto">
             <div className="flex items-center justify-center space-x-2 text-gray-700">
