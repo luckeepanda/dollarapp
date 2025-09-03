@@ -155,16 +155,14 @@ const Landing: React.FC = () => {
           <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
             {/* Left side - LIVE GAMES NOW button and Language Toggle */}
             <div className="flex flex-col space-y-3">
-              {/* LIVE GAMES NOW Button - moved from right to left */}
-              <Link
+              {/* LIVE GAMES NOW Button - temporarily hidden */}
+              {/* <Link
                 to="/restaurant-games"
                 className="group relative food-card text-gray-900 px-3 py-2 sm:px-4 sm:py-3 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow overflow-hidden"
               >
-                {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 via-success-500/20 to-primary-400/20 animate-pulse"></div>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
                 
-                {/* Content */}
                 <div className="relative z-10 text-center">
                   <div className="flex items-center space-x-1 sm:space-x-2 mb-1">
                     <div className="relative">
@@ -180,12 +178,11 @@ const Landing: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Corner accents */}
                 <div className="absolute top-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-t-2 border-primary-400 opacity-60"></div>
                 <div className="absolute top-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-t-2 border-success-400 opacity-60"></div>
                 <div className="absolute bottom-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-b-2 border-accent-400 opacity-60"></div>
                 <div className="absolute bottom-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-b-2 border-primary-400 opacity-60"></div>
-              </Link>
+              </Link> */}
               
               {/* Language Toggle - moved below LIVE GAMES NOW */}
               <div className="flex food-card overflow-hidden">
@@ -339,6 +336,121 @@ const Landing: React.FC = () => {
             </p>  */}
           </div>
 
+          {/* Interactive 3D Claw Machine */}
+          <div className="relative mx-auto max-w-3xl mb-8">
+            {/* Arcade-Style Claw Machine Illustration */}
+            <div className="food-card p-8 relative overflow-hidden">
+              <svg 
+                viewBox="0 0 600 500" 
+                className="w-full h-[500px] mx-auto"
+                role="img"
+                aria-label="Colorful Japanese anime-inspired claw machine with food plushies"
+              >
+                <defs>
+                  <linearGradient id="baseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FF6B35"/>
+                    <stop offset="50%" stopColor="#FF8F00"/>
+                    <stop offset="100%" stopColor="#FF6B35"/>
+                  </linearGradient>
+                  <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#E91E63"/>
+                    <stop offset="50%" stopColor="#FF6B35"/>
+                    <stop offset="100%" stopColor="#FF8F00"/>
+                  </linearGradient>
+                  <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(255,255,255,0.3)"/>
+                    <stop offset="100%" stopColor="rgba(255,255,255,0.1)"/>
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Machine Base */}
+                <rect x="50" y="100" width="500" height="350" rx="25" fill="url(#baseGrad)" stroke="#FF8F00" strokeWidth="3"/>
+                
+                {/* Glass Cabinet */}
+                <rect x="70" y="120" width="460" height="280" rx="20" fill="url(#glassGrad)" stroke="#4CAF50" strokeWidth="2" opacity="0.8"/>
+                
+                {/* Machine Top with Neon Effect */}
+                <rect x="40" y="30" width="520" height="80" rx="35" fill="url(#topGrad)" filter="url(#glow)"/>
+                <text x="300" y="75" textAnchor="middle" fontSize="20" fill="white" fontWeight="bold">🎮 DOLLAR ARCADE 🎮</text>
+                
+                {/* Claw Rail */}
+                <rect x="80" y="40" width="440" height="10" rx="5" fill="#FF6B35"/>
+                
+                {/* Animated Claw - Much More Aggressive Movement */}
+                <g className="animate-float">
+                  {/* Claw Cable */}
+                  <rect x="298" y="50" width="4" height="150" fill="#666"/>
+                  
+                  {/* Claw Head */}
+                  <circle cx="300" cy="210" r="18" fill="#FF6B35" stroke="#FF8F00" strokeWidth="3"/>
+                  
+                  {/* Claw Arms - Much More Extended and Aggressive */}
+                  <path d="M 280 220 L 265 250 L 280 270" stroke="#FF6B35" strokeWidth="5" fill="none" strokeLinecap="round"/>
+                  <path d="M 300 220 L 300 270" stroke="#FF6B35" strokeWidth="5" fill="none" strokeLinecap="round"/>
+                  <path d="M 320 220 L 335 250 L 320 270" stroke="#FF6B35" strokeWidth="5" fill="none" strokeLinecap="round"/>
+                </g>
+                
+                {/* Cute Food Plushies with Animated $1 Labels - 6 Total */}
+                <g className="animate-pulse">
+                  {/* Pizza Plushie */}
+                  <circle cx="150" cy="300" r="35" fill="#FF5722"/>
+                  <circle cx="150" cy="300" r="30" fill="#FFD54F"/>
+                  <circle cx="145" cy="295" r="4" fill="#FF1744"/>
+                  <circle cx="155" cy="305" r="4" fill="#4CAF50"/>
+                  <text x="150" y="310" textAnchor="middle" fontSize="32">🍕</text>
+                  <text x="150" y="260" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce">$1</text>
+                  
+                  {/* Taco Plushie */}
+                  <ellipse cx="300" cy="320" rx="32" ry="26" fill="#8BC34A"/>
+                  <ellipse cx="300" cy="320" rx="27" ry="22" fill="#CDDC39"/>
+                  <text x="300" y="330" textAnchor="middle" fontSize="32">🌮</text>
+                  <text x="300" y="280" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce delay-150">$1</text>
+                  
+                  {/* Hamburger Plushie */}
+                  <circle cx="450" cy="280" r="35" fill="#FF8F00"/>
+                  <circle cx="450" cy="280" r="30" fill="#FFD54F"/>
+                  <circle cx="445" cy="275" r="3" fill="#FF1744"/>
+                  <circle cx="455" cy="285" r="3" fill="#4CAF50"/>
+                  <text x="450" y="290" textAnchor="middle" fontSize="32">🍔</text>
+                  <text x="450" y="240" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce delay-300">$1</text>
+                  
+                  {/* French Fries Plushie */}
+                  <rect x="170" y="360" width="50" height="35" rx="18" fill="#FFD54F"/>
+                  <text x="195" y="385" textAnchor="middle" fontSize="32">🍟</text>
+                  <text x="195" y="340" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce delay-450">$1</text>
+                  
+                  {/* Ice Cream Plushie */}
+                  <circle cx="380" cy="360" r="30" fill="#E1BEE7"/>
+                  <text x="380" y="370" textAnchor="middle" fontSize="32">🍦</text>
+                  <text x="380" y="325" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce delay-600">$1</text>
+                  
+                  {/* Donut Plushie */}
+                  <circle cx="220" cy="220" r="30" fill="#D2691E"/>
+                  <circle cx="220" cy="220" r="18" fill="#8B4513"/>
+                  <text x="220" y="230" textAnchor="middle" fontSize="32">🍩</text>
+                  <text x="220" y="185" textAnchor="middle" fontSize="24" fill="#FFD700" fontWeight="bold" className="animate-bounce delay-750">$1</text>
+                </g>
+                
+                {/* Control Panel */}
+                <rect x="470" y="170" width="70" height="120" rx="12" fill="#E91E63"/>
+                <circle cx="505" cy="195" r="12" fill="#FFC107"/>
+                <rect x="490" y="220" width="25" height="18" rx="4" fill="#4CAF50"/>
+                <rect x="490" y="245" width="25" height="10" rx="3" fill="#FF6B35"/>
+                
+                {/* Coin Slot */}
+                <rect x="500" y="145" width="25" height="5" rx="3" fill="#000"/>
+                <text x="512" y="162" textAnchor="middle" fontSize="10" fill="#666">💰</text>
+              </svg>
+            </div>
+          </div>
+
           {/* Game Container */}
           <div className="food-card p-8 mb-8 relative">
             <TacoGame 
@@ -378,6 +490,15 @@ const Landing: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Interaction hint */}
+          <div className="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-2xl border border-yellow-200 max-w-md mx-auto">
+            <div className="flex items-center justify-center space-x-2 text-gray-700">
+              {/* <Sparkles className="h-4 w-4 text-yellow-600" /> */}
+              <span className="text-sm font-medium">Arcade-style gaming platform for restaurants!</span>
+              {/* <Zap className="h-4 w-4 text-green-600" /> */}
+            </div>
           </div>
 
           {/* Game Options Section */}
