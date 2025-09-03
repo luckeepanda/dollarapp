@@ -452,46 +452,6 @@ const Landing: React.FC = () => {
           </div>
 
           {/* Game Container */}
-          <div className="food-card p-8 mb-8 relative">
-            <TacoGame 
-              key={gameKey}
-              onGameEnd={handleGameEnd} 
-              gameActive={gameActive}
-              resetTrigger={resetTrigger}
-            />
-            
-            {/* Floating Play Again Button */}
-            {finalScore !== null && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="food-card bg-white/95 p-6 shadow-2xl border-2 border-primary-200 pointer-events-auto food-glow">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold font-display food-text-gradient mb-2">
-                      🎉 Great Job! 🎉
-                    </h3>
-                    <p className="text-lg text-gray-700 mb-4">
-                      You scored <span className="font-bold text-2xl food-text-gradient">{finalScore}</span> points!
-                    </p>
-                    <div className="flex space-x-3 mb-4">
-                      <button
-                        onClick={restartGame}
-                        className="food-button px-6 py-3 font-semibold flex items-center space-x-2"
-                      >
-                        <RotateCcw className="h-4 w-4" />
-                        <span>Play Again</span>
-                      </button>
-                      <button
-                        onClick={handlePlayFreeClick}
-                        className="bg-gradient-to-r from-success-600 to-success-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-success-800 transition-all transform hover:scale-105 shadow-lg food-glow"
-                      >
-                        Other Games
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Interaction hint */}
           <div className="bg-gradient-to-r from-yellow-50 to-green-50 p-4 rounded-2xl border border-yellow-200 max-w-md mx-auto">
             <div className="flex items-center justify-center space-x-2 text-gray-700">
