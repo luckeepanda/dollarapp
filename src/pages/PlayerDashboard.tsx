@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import PlayerQRCodes from '../components/PlayerQRCodes';
 import AdminTestCredits from '../components/AdminTestCredits';
+import ModernGameCard from '../components/ModernGameCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
@@ -154,73 +155,12 @@ const PlayerDashboard: React.FC = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {restaurantGames.map((game) => (
-                  <div key={game.id} className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg overflow-hidden shadow-lg relative">
-                    {/* Game Header */}
-                    <div className="p-6 text-white relative">
-                      {/* Entry Fee Display - Top Left */}
-                      <div className="absolute top-2 left-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3 rounded-xl shadow-lg border-2 border-white/30">
-                        <span className="font-bold text-3xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
-                      </div>
-                      
-                      {/* Food Emoji - Top Right */}
-                      <div className="absolute top-2 right-2">
-                        <span className="text-4xl drop-shadow-lg">
-                          {game.emoji || '🍔'}
-                        </span>
-                      </div>
-                      
-                      {/* Add spacing to clear both dollar amount box and image */}
-                      <div className="pt-20 mb-4"></div>
-                      {/* Add spacing to clear both dollar amount box and image */}
-                      <div className="pt-20 mb-4"></div>
-                      <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                      <p className="text-primary-100 text-sm mb-4">{game.description}</p>
-                      {game.restaurant && (
-                        <div className="mb-4">
-                          <p className="text-white text-lg font-bold bg-white/30 px-4 py-2 rounded-full text-center border-2 border-white/40">
-                            🍽️ {game.restaurant.username}
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Game Stats */}
-                      <div className="text-center mb-4">
-                        <div className="flex items-center justify-center space-x-1 mb-1">
-                          <Star className="h-4 w-4 text-yellow-300" />
-                          <span className="text-xs text-primary-100">Min Score</span>
-                        </div>
-                        <p className="text-lg font-bold">{game.min_score} pts</p>
-                      </div>
-
-                      {/* Game Type Display */}
-                      <div className="mb-4 text-center">
-                        <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
-                          Single Player
-                        </span>
-                      </div>
-
-                      {/* Game Details */}
-                      <div className="space-y-2 text-sm mb-4">
-                        <div className="flex justify-between">
-                          <span className="text-primary-100">Entry Fee:</span>
-                          <span className="font-medium">${game.entry_fee.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-primary-100">Min Score:</span>
-                          <span className="font-medium">{game.min_score}</span>
-                        </div>
-                      </div>
-
-                      {/* Action Button */}
-                      <Link
-                        to="/restaurant-games"
-                        className="w-full bg-white text-primary-600 py-2 rounded-lg font-bold hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md border border-primary-200"
-                      >
-                        <Play className="h-4 w-4" />
-                        <span>{t('games.joinGame')}</span>
-                      </Link>
-                    </div>
-                  </div>
+                  <ModernGameCard
+                    key={game.id}
+                    game={game}
+                    onView={() => window.location.href = '/restaurant-games'}
+                    userBalance={user?.balance || 0}
+                  />
                 ))}
               </div>
             )}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import RestaurantGameSession from '../components/RestaurantGameSession';
+import ModernGameCard from '../components/ModernGameCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { supabase } from '../lib/supabase';
@@ -171,90 +172,13 @@ const RestaurantGames: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {games.map((game) => (
-              <div 
-                key={game.id} 
-                className="food-card rounded-lg overflow-hidden hover:shadow-lg transition-all relative"
-              >
-                {/* Game Header */}
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6 text-white relative">
-                  {/* Entry Fee Display - Top Left */}
-                  <div className="absolute top-2 left-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3 rounded-xl shadow-lg border-2 border-white/30">
-                    <span className="font-bold text-3xl drop-shadow-lg">${game.entry_fee.toFixed(0)}</span>
-                  </div>
-                {/* Food Emoji - Top Right */}
-                <div className="absolute top-2 right-2">
-                  <span className="text-4xl drop-shadow-lg">
-                    {game.emoji || '🍔'}
-                  </span>
-                </div>
-                  
-                  {/* Add spacing to clear both dollar amount box and emoji */}
-                  <div className="pt-16 mb-4"></div>
-                  <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                  <p className="text-primary-100 text-sm mb-4">{game.description}</p>
-                  {game.restaurant && (
-                    <div className="mb-4">
-                      <p className="text-white text-lg font-bold bg-white/30 px-4 py-2 rounded-full text-center border-2 border-white/40">
-                        🍽️ {game.restaurant.username}
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Game Stats */}
-                <div className="p-6">
-                  <div className="text-center mb-6">
-                    <div className="flex items-center justify-center space-x-1 mb-1">
-                      <Star className="h-4 w-4 text-yellow-600" />
-                      <span className="text-xs text-gray-600">Minimum Score</span>
-                    </div>
-                    <p className="text-lg font-bold text-yellow-600">{game.min_score} points</p>
-                  </div>
-
-                  {/* Game Type Display */}
-                  <div className="mb-4 text-center">
-                    <span className="px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
-                      Single Player Challenge
-                    </span>
-                  </div>
-
-                  {/* Game Details */}
-                  <div className="space-y-2 text-sm mb-6">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">{t('games.entryFee')}:</span>
-                      <span className="text-primary-600 font-medium">${game.entry_fee.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Minimum Score:</span>
-                      <span className="text-yellow-600 font-medium">{game.min_score} points</span>
-                    </div>
-                  </div>
-
-                  {/* Join Button */}
-                  <button
-                    onClick={() => handleJoinGame(game)}
-                    disabled={isJoining === game.id || (user && user.balance < game.entry_fee)}
-                    className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:transform-none"
-                  >
-                    {isJoining === game.id ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        <span>{t('games.joining')}</span>
-                      </>
-                    ) : !user ? (
-                      <>
-                        <Play className="h-4 w-4" />
-                        <span>{t('games.signUpToPlay')}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-4 w-4" />
-                        <span>{t('games.joinGame')} - ${game.entry_fee.toFixed(2)}</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
+              <ModernGameCard
+                key={game.id}
+                game={game}
+                onJoin={() => handleJoinGame(game)}
+                userBalance={user?.balance || 0}
+                className={isJoining === game.id ? 'opacity-75 pointer-events-none' : ''}
+              />
             ))}
           </div>
         )}
