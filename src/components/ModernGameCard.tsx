@@ -188,4 +188,4 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   );
 };
 
-export default ModernBusinessCard;
+export default ModernGameCard;
