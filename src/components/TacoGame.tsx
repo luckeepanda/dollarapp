@@ -15,9 +15,10 @@ interface TacoGameProps {
   onGameEnd: (score: number) => void;
   gameActive: boolean;
   resetTrigger: number;
+  selectedEmoji?: string;
 }
 
-const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger }) => {
+const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger, selectedEmoji = '🌮' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
@@ -210,17 +211,17 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
   }, [gameState.gameOver, gameState.gameStarted, startGame, jump]);
 
   // Drawing functions
-  const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number) => {
+  const drawTaco = (ctx: CanvasRenderingContext2D, x: number, y: number, rotation: number, emoji: string = selectedEmoji) => {
     ctx.save();
-    // Use taco emoji 🌮
+    // Use selected emoji
     ctx.translate(x + TACO_SIZE / 2, y + TACO_SIZE / 2);
     ctx.rotate(rotation);
     
-    // Draw taco emoji
+    // Draw selected emoji
     ctx.font = `${TACO_SIZE}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('🌮', 0, 0);
+    ctx.fillText(emoji, 0, 0);
     
     ctx.restore();
   };
@@ -395,8 +396,8 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.lineWidth = 5; // Thicker outline
       ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
-      ctx.strokeText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
-      ctx.fillText('Taco Flyer', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+      ctx.strokeText('Character Game', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+      ctx.fillText('Character Game', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       // Instructions with better contrast
       ctx.font = 'bold 18px monospace'; // Pixelated font
@@ -406,11 +407,11 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       
       ctx.font = 'bold 16px monospace'; // Pixelated font
-      ctx.strokeText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-      ctx.fillText('Guide the taco through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      ctx.strokeText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      ctx.fillText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
       
-      // Draw taco in center
-      drawTaco(ctx, CANVAS_WIDTH / 2 - TACO_SIZE / 2, CANVAS_HEIGHT / 2 + 60, 0);
+      // Draw selected character in center
+      drawTaco(ctx, CANVAS_WIDTH / 2 - TACO_SIZE / 2, CANVAS_HEIGHT / 2 + 60, 0, selectedEmoji);
       return;
     }
 
@@ -442,9 +443,9 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       drawObstacle(ctx, obstacle.x, obstacle.gapY);
     });
 
-    // Draw taco with rotation based on velocity
+    // Draw character with rotation based on velocity
     const rotation = Math.max(-0.5, Math.min(0.5, gameState.tacoVelocity * 0.1));
-    drawTaco(ctx, 80, gameState.tacoY, rotation);
+    drawTaco(ctx, 80, gameState.tacoY, rotation, selectedEmoji);
 
     // Draw UI with enhanced visibility
     ctx.textAlign = 'left';

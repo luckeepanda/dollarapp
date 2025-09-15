@@ -24,9 +24,12 @@ const FreePlay: React.FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [isSubmittingScore, setIsSubmittingScore] = useState(false);
   const [gameEmojis, setGameEmojis] = useState<string[]>(['🌮', '🍔', '🚀', '🍕']);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('🌮');
+  
+  const characterOptions = ['🌮', '🍕', '🍺', '💅'];
 
   // Rotate game emojis on component mount
-  useEffect(() => {
+  React.useEffect(() => {
     setGameEmojis(getRandomEmojis(4));
   }, []);
 
@@ -78,6 +81,18 @@ const FreePlay: React.FC = () => {
   const handleNicknameSkip = () => {
     setShowNicknameModal(false);
     setShowLeaderboard(true);
+  };
+
+  const handleCharacterSelect = (emoji: string) => {
+    setSelectedEmoji(emoji);
+    // Reset game when character changes
+    setFinalScore(null);
+    setGameActive(false);
+    setGameKey(prev => prev + 1);
+    setResetTrigger(prev => prev + 1);
+    setTimeout(() => {
+      setGameActive(true);
+    }, 100);
   };
 
   const restartGame = useCallback(() => {
@@ -167,6 +182,31 @@ const FreePlay: React.FC = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Character Selection */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold font-display food-text-gradient mb-6">Choose Your Character</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-md mx-auto mb-8">
+            {characterOptions.map((emoji) => (
+              <button
+                key={emoji}
+                onClick={() => handleCharacterSelect(emoji)}
+                className={`p-6 rounded-2xl border-4 transition-all duration-300 transform hover:scale-105 ${
+                  selectedEmoji === emoji
+                    ? 'border-primary-500 bg-primary-50 shadow-lg'
+                    : 'border-gray-200 hover:border-primary-300 bg-white hover:bg-primary-50'
+                }`}
+              >
+                <div className="text-4xl mb-2">{emoji}</div>
+                <div className={`text-sm font-medium ${
+                  selectedEmoji === emoji ? 'text-primary-700' : 'text-gray-600'
+                }`}>
+                  {selectedEmoji === emoji ? 'Selected' : 'Select'}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Game Container */}
         <div className="food-card p-8 mb-8 relative">
           {/* Force component remount with key prop */}
@@ -175,6 +215,7 @@ const FreePlay: React.FC = () => {
             onGameEnd={handleGameEnd} 
             gameActive={gameActive}
             resetTrigger={resetTrigger}
+            selectedEmoji={selectedEmoji}
           />
           
           {/* Floating Play Again Button - positioned over the canvas */}
@@ -197,9 +238,9 @@ const FreePlay: React.FC = () => {
                     </button>
                     <Link
                       to="/hamburger-runner"
-                      className="bg-gradient-to-r from-success-600 to-accent-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-accent-700 transition-all transform hover:scale-105 shadow-sm inline-block"
+                      className="bg-gradient-to-r from-success-600 to-success-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-success-800 transition-all transform hover:scale-105 shadow-sm inline-block"
                     >
-                      Other Games
+                      Try Burger Runner (Beta)
                     </Link>
                   </div>
                   
@@ -232,78 +273,6 @@ const FreePlay: React.FC = () => {
                 <div className="bg-white/30 px-4 py-2 rounded-full text-base font-bold border border-white/40">
                   Currently Playing
                 </div>
-              </div>
-            </div>
-            
-            {/* Hamburger Runner */}
-            <Link
-              to="/hamburger-runner"
-              className="bg-gradient-to-r from-success-500 to-accent-500 rounded-2xl p-8 text-white hover:from-success-600 hover:to-accent-600 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-              <div className="relative z-10">
-                <div className="text-6xl mb-6 animate-pulse">{gameEmojis[1]}</div>
-                <h3 className="text-2xl font-bold font-display mb-3">Hamburger Runner</h3>
-                <p className="text-success-100 text-base mb-6 leading-relaxed">Run and jump through obstacles!</p>
-                <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold border border-white/40">
-                  <Play className="h-4 w-4" />
-                  <span>Play Now</span>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Noodle Tetris Game */}
-            <Link
-              // to="/food-blaster"
-              to="#"
-              className="bg-gradient-to-r from-accent-500 to-primary-600 rounded-2xl p-8 text-white hover:from-accent-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-              <div className="relative z-10">
-                <div className="text-6xl mb-6 animate-float">{gameEmojis[2]}</div>
-                <h3 className="text-2xl font-bold font-display mb-3">Food Blaster</h3>
-                <p className="text-accent-100 text-base mb-6 leading-relaxed">Shoot the food invaders!</p>
-                <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold border border-white/40">
-                  <Play className="h-4 w-4" />
-                  <span>Coming Soon</span>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Pizza Hunter - Coming Soon */}
-            <Link
-              to="/pizza-hunter"
-              className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-8 text-white hover:from-primary-600 hover:to-accent-600 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-              <div className="relative z-10">
-                <div className="text-6xl mb-6 animate-ping">{gameEmojis[3]}</div>
-                <h3 className="text-2xl font-bold font-display mb-3">Pizza Hunter</h3>
-                <p className="text-primary-100 text-base mb-6 leading-relaxed">Hunt for the perfect slice!</p>
-                <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold border border-white/40">
-                  <Play className="h-4 w-4" />
-                  <span>Play Now</span>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Nickname Modal */}
-      <NicknameModal
-        isOpen={showNicknameModal}
-        score={finalScore || 0}
-        onSubmit={handleNicknameSubmit}
-        onSkip={handleNicknameSkip}
-        isSubmitting={isSubmittingScore}
-      />
-
-      {/* Leaderboard Modal */}
-      <LeaderboardModal
-        isOpen={showLeaderboard}
-        onClose={() => setShowLeaderboard(false)}
-        currentScore={finalScore || undefined}
       />
     </div>
   );

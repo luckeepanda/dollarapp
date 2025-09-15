@@ -15,6 +15,9 @@ const Landing: React.FC = () => {
   const [gameKey, setGameKey] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
   const [gameEmojis, setGameEmojis] = useState<string[]>(['🌮', '🍔', '🚀', '🍕']);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('🌮');
+  
+  const characterOptions = ['🌮', '🍕', '🍺', '💅'];
 
   // Rotate game emojis on component mount
   useEffect(() => {
@@ -32,6 +35,18 @@ const Landing: React.FC = () => {
     console.log('Landing: Game ended with score:', score);
     setFinalScore(score);
     setGameActive(false);
+  };
+
+  const handleCharacterSelect = (emoji: string) => {
+    setSelectedEmoji(emoji);
+    // Reset game when character changes
+    setFinalScore(null);
+    setGameActive(false);
+    setGameKey(prev => prev + 1);
+    setResetTrigger(prev => prev + 1);
+    setTimeout(() => {
+      setGameActive(true);
+    }, 100);
   };
 
   const restartGame = () => {
@@ -308,7 +323,7 @@ const Landing: React.FC = () => {
               {t('landing.title')}
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-green-500 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4" itemProp="description">
-              <strong>{t('landing.subtitle')}</strong>
+              <strong>$1 games for real prizes near you.</strong>
             </p>
             
             {/* Clean Button Layout */}
@@ -335,15 +350,34 @@ const Landing: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Title */}
           <div className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse" itemProp="name">
-              {t('landing.tryOurGames')}
+            <h2 className="text-4xl md:text-5xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse" itemProp="name">
+              Choose Your Character
             </h2>
             <div className="flex justify-center mb-4">
               <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-success-500 to-accent-400 rounded-full food-glow"></div>
             </div>
-            {/* <p className="text-xl text-gray-600 max-w-2xl mx-auto font-medium">
-              Experience our exciting collection of food-themed games. Play instantly and compete for high scores!
-            </p>  */}
+            
+            {/* Character Selection */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-md mx-auto">
+              {characterOptions.map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => handleCharacterSelect(emoji)}
+                  className={`p-6 rounded-2xl border-4 transition-all duration-300 transform hover:scale-105 ${
+                    selectedEmoji === emoji
+                      ? 'border-primary-500 bg-primary-50 shadow-lg'
+                      : 'border-gray-200 hover:border-primary-300 bg-white hover:bg-primary-50'
+                  }`}
+                >
+                  <div className="text-4xl mb-2">{emoji}</div>
+                  <div className={`text-sm font-medium ${
+                    selectedEmoji === emoji ? 'text-primary-700' : 'text-gray-600'
+                  }`}>
+                    {selectedEmoji === emoji ? 'Selected' : 'Select'}
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Game Container */}
@@ -353,6 +387,7 @@ const Landing: React.FC = () => {
               onGameEnd={handleGameEnd} 
               gameActive={gameActive}
               resetTrigger={resetTrigger}
+              selectedEmoji={selectedEmoji}
             />
             
             {/* Floating Play Again Button */}
@@ -375,94 +410,16 @@ const Landing: React.FC = () => {
                         <span>Play Again</span>
                       </button>
                       <button
-                        onClick={handlePlayFreeClick}
+                        onClick={() => navigate('/hamburger-runner')}
                         className="bg-gradient-to-r from-success-600 to-success-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-success-800 transition-all transform hover:scale-105 shadow-lg food-glow"
                       >
-                        Other Games
+                        Try Burger Runner (Beta)
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Game Options Section */}
-          <div className="text-center max-w-4xl mx-auto flex flex-col items-center">
-            <h2 className="text-3xl font-bold font-display food-text-gradient mb-8" itemProp="name">{t('landing.chooseYourGame')}</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center" itemScope itemType="https://schema.org/ItemList">
-              {/* Taco Flyer - Currently Playing */}
-              <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 w-full" itemScope itemType="https://schema.org/Game">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
-                <div className="relative z-10">
-                  <div className="text-6xl mb-6 animate-bounce" role="img" aria-label="Game icon">{gameEmojis[0]}</div>
-                  <h3 className="text-2xl font-bold font-display mb-3" itemProp="name">{t('landing.tacoFlyer')}</h3>
-                  <p className="text-primary-100 text-base mb-6 leading-relaxed" itemProp="description">{t('landing.tacoFlyerDesc')}</p>
-                  <div className="bg-white/30 px-4 py-2 rounded-full text-base font-bold font-display border border-white/40">
-                    {t('landing.currentlyPlaying')}
-                  </div>
-                  <meta itemProp="genre" content="Arcade" />
-                  <meta itemProp="gamePlatform" content="Web Browser" />
-                </div>
-              </div>
-              
-              {/* Hamburger Runner */}
-              <Link
-                to="/hamburger-runner"
-                className="bg-gradient-to-r from-success-500 to-success-600 rounded-2xl p-8 text-white hover:from-success-600 hover:to-success-700 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full" itemScope itemType="https://schema.org/Game"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-                <div className="relative z-10">
-                  <div className="text-6xl mb-6 animate-pulse" role="img" aria-label="Game icon">{gameEmojis[1]}</div>
-                  <h3 className="text-2xl font-bold font-display mb-3" itemProp="name">{t('landing.hamburgerRunner')}</h3>
-                  <p className="text-success-100 text-base mb-6 leading-relaxed" itemProp="description">{t('landing.hamburgerRunnerDesc')}</p>
-                  <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold font-display border border-white/40">
-                    <Play className="h-4 w-4" />
-                    <span>{t('landing.playNow')}</span>
-                  </div>
-                  <meta itemProp="genre" content="Endless Runner" />
-                  <meta itemProp="gamePlatform" content="Web Browser" />
-                </div>
-              </Link>
-              
-              {/* Food Blaster Game */}
-              
-              <div 
-                className="bg-gradient-to-r from-accent-500 to-accent-600 rounded-2xl p-8 text-white hover:from-accent-600 hover:to-accent-700 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full" itemScope itemType="https://schema.org/Game"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-                <div className="relative z-10">
-                  <div className="text-6xl mb-6 animate-float" role="img" aria-label="Game icon">{gameEmojis[2]}</div>
-                  <h3 className="text-2xl font-bold font-display mb-3" itemProp="name">{t('landing.foodBlaster')}</h3>
-                  <p className="text-accent-100 text-base mb-6 leading-relaxed" itemProp="description">{t('landing.foodBlasterDesc')}</p>
-                  <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold font-display border border-white/40">
-                    <Play className="h-4 w-4" />
-                    <span>{t('landing.comingSoon')}</span>
-                  </div>
-                  <meta itemProp="genre" content="Shooter" />
-                  <meta itemProp="gamePlatform" content="Web Browser" />
-                </div>
-              </div>
-              
-              {/* Pizza Hunter - Coming Soon */}
-              <div 
-                className="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-8 text-white hover:from-primary-600 hover:to-accent-600 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group shadow-xl hover:shadow-2xl w-full" itemScope itemType="https://schema.org/Game"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-700"></div>
-                <div className="relative z-10">
-                  <div className="text-6xl mb-6 animate-ping" role="img" aria-label="Game icon">{gameEmojis[3]}</div>
-                  <h3 className="text-2xl font-bold font-display mb-3" itemProp="name">{t('landing.pizzaHunter')}</h3>
-                  <p className="text-primary-100 text-base mb-6 leading-relaxed" itemProp="description">{t('landing.pizzaHunterDesc')}</p>
-                  <div className="flex items-center justify-center space-x-2 bg-white/30 px-4 py-2 rounded-full text-base font-bold font-display border border-white/40">
-                    <Play className="h-4 w-4" />
-                    <span>{t('landing.comingSoon')}</span>
-                  </div>
-                  <meta itemProp="genre" content="Arcade" />
-                  <meta itemProp="gamePlatform" content="Web Browser" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -474,8 +431,8 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold font-display food-text-gradient mb-4" itemProp="name">{t('landing.howItWorks')}</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto" itemProp="description">
-              {t('landing.howItWorksSubtitle')}
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto" itemProp="description">
+              Tip your favorite local businesses or win real prizes.
             </p>
           </div>
 
@@ -485,8 +442,9 @@ const Landing: React.FC = () => {
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step1.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">1. Enter Games</h3>
               <p className="text-gray-600" itemProp="text">
-                {t('landing.step1.description')}
+                Enter games for just $1 each.
               </p>
             </div>
 
@@ -495,8 +453,9 @@ const Landing: React.FC = () => {
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step2.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">2. Play & Win</h3>
               <p className="text-gray-600" itemProp="text">
-                {t('landing.step2.description')}
+                Play fun retro games for real prizes.
               </p>
             </div>
 
@@ -505,8 +464,9 @@ const Landing: React.FC = () => {
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step3.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">3. Redeem & Enjoy</h3>
               <p className="text-gray-600" itemProp="text">
-                {t('landing.step3.description')}
+                Use QR codes for instant verification.
               </p>
             </div>
           </div>
