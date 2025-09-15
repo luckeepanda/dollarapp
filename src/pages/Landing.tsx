@@ -304,6 +304,11 @@ const Landing: React.FC = () => {
                     <span className="drop-shadow-lg">🌶️</span>
                   </div>
                   <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs animate-ping delay-300">
+                    <span className="drop-shadow-lg">💰</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
