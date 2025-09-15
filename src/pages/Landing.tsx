@@ -420,7 +420,6 @@ const Landing: React.FC = () => {
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step1.title')}</h3>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name"></h3>
               <p className="text-gray-600" itemProp="text">
                 Enter games for just $1 each.
               </p>
@@ -431,7 +430,6 @@ const Landing: React.FC = () => {
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step2.title')}</h3>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">2. Play & Win</h3>
               <p className="text-gray-600" itemProp="text">
                 Play fun retro games for real prizes.
               </p>
@@ -442,7 +440,6 @@ const Landing: React.FC = () => {
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step3.title')}</h3>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">3. Redeem & Enjoy</h3>
               <p className="text-gray-600" itemProp="text">
                 Use QR codes for instant verification.
               </p>
