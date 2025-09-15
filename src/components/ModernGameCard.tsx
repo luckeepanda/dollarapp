@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getRandomEmojiFromCategory, getRandomAnimationClass } from '../utils/emojiSystem';
-import { Trophy, Users, DollarSign, Star, Play, Clock, Target } from 'lucide-react';
+import { Play, ArrowRight, DollarSign, Trophy, Target } from 'lucide-react';
 
 interface Game {
   id: string;
@@ -189,4 +189,4 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   );
 };
 
-export default ModernBusinessCard;
+export default ModernGameCard;
