@@ -304,40 +304,6 @@ const Landing: React.FC = () => {
                     <span className="drop-shadow-lg">🌶️</span>
                   </div>
                   <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs animate-ping delay-300">
-                    <span className="drop-shadow-lg">🧀</span>
-                  </div>
-                  <div className="absolute top-4 left-1 sm:top-6 sm:left-2 text-xs animate-ping delay-700">
-                    <span className="drop-shadow-lg">🥬</span>
-                  </div>
-                  
-                  {/* Web3 corner accents */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-l-2 border-t-2 border-primary-400 opacity-60"></div>
-                  <div className="absolute top-2 right-2 w-3 h-3 border-r-2 border-t-2 border-success-400 opacity-60"></div>
-                  <div className="absolute bottom-2 left-2 w-3 h-3 border-l-2 border-b-2 border-accent-400 opacity-60"></div>
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-r-2 border-b-2 border-primary-400 opacity-60"></div>
-                </div>
-              </div>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-display food-text-gradient mb-6 drop-shadow-lg animate-pulse" itemProp="headline">
-              {t('landing.title')}
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-green-500 mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium px-4" itemProp="description">
-              <strong>$1 games for real prizes near you.</strong>
-            </p>
-            
-            {/* Clean Button Layout */}
-            <div className="flex flex-col items-center space-y-6 px-4">
-              {/* Get Started Button */}
-              <div className="w-full max-w-lg">
-                <button
-                  onClick={handleGetStartedClick}
-                  className="group relative w-full food-button text-lg px-6 sm:px-8 py-3 sm:py-4 font-display shadow-xl hover:shadow-2xl overflow-hidden"
-                >
-                  <span className="relative z-10">{t('landing.getStarted')}</span>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -396,22 +396,20 @@ const TacoGame: React.FC<TacoGameProps> = ({ onGameEnd, gameActive, resetTrigger
       ctx.lineWidth = 5; // Thicker outline
       ctx.font = 'bold 28px monospace'; // Pixelated font
       ctx.textAlign = 'center';
-      ctx.strokeText('Character Game', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
-      ctx.fillText('Character Game', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
       
       // Instructions with better contrast
       ctx.font = 'bold 18px monospace'; // Pixelated font
       ctx.strokeStyle = '#8B4513'; // Brown outline
       ctx.lineWidth = 4;
-      ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-      ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.strokeText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
+      ctx.fillText('Click or press SPACE to start!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
       
       ctx.font = 'bold 16px monospace'; // Pixelated font
-      ctx.strokeText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
-      ctx.fillText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      ctx.strokeText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 10);
+      ctx.fillText('Guide your character through the pipes', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 10);
       
       // Draw selected character in center
-      drawTaco(ctx, CANVAS_WIDTH / 2 - TACO_SIZE / 2, CANVAS_HEIGHT / 2 + 60, 0, selectedEmoji);
+      drawTaco(ctx, CANVAS_WIDTH / 2 - TACO_SIZE / 2, CANVAS_HEIGHT / 2 + 40, 0, selectedEmoji);
       return;
     }
 
