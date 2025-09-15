@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getRandomEmojiFromCategory, getRandomAnimationClass } from '../utils/emojiSystem';
-import { Play, ArrowRight, DollarSign, Trophy, Target } from 'lucide-react';
 
 interface Game {
   id: string;
