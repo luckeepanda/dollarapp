@@ -330,36 +330,6 @@ const Pricing: React.FC = () => {
               </div>
             ))}
           </div>
-
-          {/* Additional Info Section */}
-          <div className="mt-16 text-center">
-            <div className="food-card p-8 max-w-3xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-display">
-                All Plans Include
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
-                <div className="flex items-center space-x-3">
-                  <div className="bg-success-100 p-2 rounded-lg">
-                    <Check className="h-5 w-5 text-success-600" />
-                  </div>
-                  <span>Real food prizes at local restaurants</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="bg-primary-100 p-2 rounded-lg">
-                    <Check className="h-5 w-5 text-primary-600" />
-                  </div>
-                  <span>QR code redemption system</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="bg-accent-100 p-2 rounded-lg">
-                    <Check className="h-5 w-5 text-accent-600" />
-                  </div>
-                  <span>Mobile-optimized gameplay</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 
