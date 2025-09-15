@@ -312,9 +312,12 @@ const Landing: React.FC = () => {
             
             {/* Dollar App Text */}
             <div className="text-center mb-4">
-              <h1 className="text-5xl sm:text-6xl font-bold font-display">
+              <h1 className="text-6xl sm:text-7xl font-bold font-display mb-3">
                 <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent">Dollar App</span>
               </h1>
+              <p className="text-xl sm:text-2xl font-medium text-primary-600 font-display">
+                $1 games for real prizes near you.
+              </p>
             </div>
           </div>
         </div>
