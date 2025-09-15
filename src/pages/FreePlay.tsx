@@ -273,6 +273,26 @@ const FreePlay: React.FC = () => {
                 <div className="bg-white/30 px-4 py-2 rounded-full text-base font-bold border border-white/40">
                   Currently Playing
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modals */}
+      <NicknameModal
+        isOpen={showNicknameModal}
+        onClose={() => setShowNicknameModal(false)}
+        onSubmit={handleNicknameSubmit}
+        onSkip={handleNicknameSkip}
+        score={finalScore || 0}
+        isSubmitting={isSubmittingScore}
+      />
+
+      <LeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        onPlayAgain={restartGame}
       />
     </div>
   );
