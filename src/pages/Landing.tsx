@@ -159,7 +159,7 @@ const Landing: React.FC = () => {
               {/* Enhanced LIVE GAMES NOW Button with animations */}
               <Link
                 to="/restaurant-games"
-                className="group relative food-card text-gray-900 px-6 py-4 sm:px-10 sm:py-6 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
+                className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
               >
                 {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
@@ -170,21 +170,21 @@ const Landing: React.FC = () => {
                 
                 {/* Content */}
                 <div className="relative z-10 text-center">
-                  <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-1">
-                    <div className="relative">
-                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-primary-500 rounded-full animate-pulse"></div>
-                      <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-primary-400 rounded-full animate-ping"></div>
-                    </div>
-                    <span className="text-sm sm:text-lg font-black food-text-gradient animate-bounce">
-                      LIVE GAMES NOW
-                    </span>
-                    <div className="relative">
-                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-success-500 rounded-full animate-pulse delay-300"></div>
-                      <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-success-400 rounded-full animate-ping delay-300"></div>
-                    </div>
+                  {/* Live indicator dots */}
+                  <div className="flex items-center justify-center space-x-2 mb-3">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-success-500 rounded-full animate-pulse delay-150"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-accent-500 rounded-full animate-pulse delay-300"></div>
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-success-600 animate-pulse delay-150">
-                    JUEGOS EN VIVO AHORA
+                  
+                  {/* LIVE text - large and prominent */}
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-black food-text-gradient animate-bounce mb-1">
+                    LIVE
+                  </div>
+                  
+                  {/* GAMES NOW text - smaller but bold */}
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 animate-pulse">
+                    GAMES NOW
                   </div>
                 </div>
                 
@@ -274,10 +274,10 @@ const Landing: React.FC = () => {
             
             {/* Dollar App Text */}
             <div className="text-center mb-4">
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold font-display mb-4 leading-tight">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-display mb-4 leading-tight">
                 <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent">Dollar App</span>
               </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary-600 font-display mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary-600 font-display mb-8 leading-relaxed">
                 $1 games for real prizes near you.
               </p>
               
@@ -285,7 +285,7 @@ const Landing: React.FC = () => {
               <div className="mt-8">
                 <Link
                   to="/login"
-                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-8 rounded-2xl font-black text-lg sm:text-xl md:text-2xl lg:text-3xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
+                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-2xl font-black text-base sm:text-lg md:text-xl lg:text-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
                 >
                   GET STARTED
                 </Link>
