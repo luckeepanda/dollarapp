@@ -318,6 +318,16 @@ const Landing: React.FC = () => {
               <p className="text-xl sm:text-2xl font-medium text-primary-600 font-display">
                 $1 games for real prizes near you.
               </p>
+              
+              {/* Get Started Button */}
+              <div className="mt-8">
+                <Link
+                  to="/login"
+                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
+                >
+                  Get Started
+                </Link>
+              </div>
             </div>
           </div>
         </div>
