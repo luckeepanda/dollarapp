@@ -135,6 +135,8 @@ const Landing: React.FC = () => {
               <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
             </div>
           </Link>
+        </div>
+      </div>
     );
   }
 
