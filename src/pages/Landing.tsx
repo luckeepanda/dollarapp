@@ -82,27 +82,27 @@ const Landing: React.FC = () => {
         <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
           {/* Left side - LIVE GAMES NOW button and Language Toggle */}
           <div className="flex flex-col space-y-3">
-            {/* LIVE GAMES NOW Button - moved from right to left */}
+            {/* LIVE GAMES NOW Button - Enhanced for higher click emphasis */}
             <Link
               to="/restaurant-games"
-              className="group relative web3-card text-white px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-cyber-200 transition-all duration-300 transform hover:scale-105 web3-glow overflow-hidden"
+              className="group relative food-card text-gray-900 px-6 py-4 sm:px-8 sm:py-5 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl"
             >
               {/* Animated background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-electric-400/20 via-neon-500/20 to-cyber-400/20 animate-pulse"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
               
               {/* Content */}
               <div className="relative z-10 text-center">
                 <div className="flex items-center space-x-2 mb-1">
                   <div className="relative">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <div className="absolute inset-0 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-primary-500 rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-primary-400 rounded-full animate-ping"></div>
                   </div>
-                  <span className="text-sm sm:text-base font-black web3-text-gradient animate-pulse">
+                  <span className="text-sm sm:text-lg font-black food-text-gradient animate-pulse">
                     LIVE GAMES NOW
                   </span>
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-electric-300 animate-pulse delay-150">
+                <div className="text-xs sm:text-sm font-bold text-success-600 animate-pulse delay-150">
                   JUEGOS EN VIVO AHORA
                 </div>
               </div>
@@ -117,49 +117,24 @@ const Landing: React.FC = () => {
               </div>
               <span>For Local Businesses</span>
             </Link> */}
-            
-            {/* Language Toggle - moved below LIVE GAMES NOW */}
-            <div className="flex food-card overflow-hidden">
-              <button
-                onClick={() => setLanguage('en')}
-                className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
-                  language === 'en'
-                    ? 'bg-primary-100 text-primary-800 shadow-sm'
-                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-                }`}
-              >
-                {t('language.english')}
-              </button>
-              <button
-                onClick={() => setLanguage('es')}
-                className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
-                  language === 'es'
-                    ? 'bg-primary-100 text-primary-800 shadow-sm'
-                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-                }`}
-              >
-                {t('language.spanish')}
-              </button>
-            </div>
           </div>
           
-          {/* Right side - For Restaurant Button */}
+          {/* Right side - For Local Business Button */}
           <Link
             to="/restaurant/login"
-            className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
+            className="group relative inline-flex items-center justify-center food-card text-gray-900 px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow"
           >
-            <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
-              <span className="text-white text-sm font-bold">🍽️</span>
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-500 animate-pulse" />
+                <div className="absolute inset-0 bg-primary-500 rounded-full blur-sm opacity-50 animate-ping"></div>
+              </div>
+              <span className="text-lg sm:text-xl font-bold food-text-gradient animate-pulse">
+                For Local Businesses
+              </span>
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
             </div>
-            <span>For Restaurants</span>
           </Link>
-        </div>
-
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-400 mx-auto mb-4 web3-glow"></div>
-          <p className="text-cyber-300 text-lg font-display">Loading...</p>
-        </div>
-      </div>
     );
   }
 
@@ -316,20 +291,20 @@ const Landing: React.FC = () => {
             
             {/* Dollar App Text */}
             <div className="text-center mb-4">
-              <h1 className="text-6xl sm:text-7xl font-bold font-display mb-3">
+              <h1 className="text-7xl sm:text-8xl lg:text-9xl font-bold font-display mb-4">
                 <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent">Dollar App</span>
               </h1>
-              <p className="text-xl sm:text-2xl font-bold text-primary-600 font-display">
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-600 font-display mb-6">
                 $1 games for real prizes near you.
               </p>
               
               {/* Get Started Button */}
-              <div className="mt-8">
+              <div className="mt-6">
                 <Link
                   to="/login"
-                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
+                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-10 py-5 sm:px-12 sm:py-6 rounded-2xl font-black text-xl sm:text-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
                 >
-                  Get Started
+                  {t('landing.getStarted')}
                 </Link>
               </div>
             </div>

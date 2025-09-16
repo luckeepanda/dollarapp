@@ -60,30 +60,6 @@ const Login: React.FC = () => {
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          {/* Language Toggle */}
-          <div className="flex food-card overflow-hidden mb-6 max-w-40 mx-auto">
-            <button
-              onClick={() => setLanguage('en')}
-              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
-                language === 'en'
-                  ? 'bg-primary-100 text-primary-800 shadow-sm'
-                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-              }`}
-            >
-              {t('language.english')}
-            </button>
-            <button
-              onClick={() => setLanguage('es')}
-              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
-                language === 'es'
-                  ? 'bg-primary-100 text-primary-800 shadow-sm'
-                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-              }`}
-            >
-              {t('language.spanish')}
-            </button>
-          </div>
-          
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
