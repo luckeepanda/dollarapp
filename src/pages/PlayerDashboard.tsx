@@ -5,7 +5,6 @@ import PlayerQRCodes from '../components/PlayerQRCodes';
 import AdminTestCredits from '../components/AdminTestCredits';
 import ModernGameCard from '../components/ModernGameCard';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
   DollarSign, 
@@ -24,7 +23,6 @@ import {
 
 const PlayerDashboard: React.FC = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
   const [restaurantGames, setRestaurantGames] = useState<RestaurantGame[]>([]);
   const [isLoadingGames, setIsLoadingGames] = useState(true);
 
@@ -94,7 +92,7 @@ const PlayerDashboard: React.FC = () => {
                   className="food-button px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
                 >
                   <Plus className="h-4 w-4" />
-                  <span>{t('dashboard.addFunds')}</span>
+                  <span>Add Funds</span>
                 </Link>
               </div>
             </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Store, MonitorPlay } from 'lucide-react';
 
 const RestaurantLogin: React.FC = () => {
@@ -11,7 +10,6 @@ const RestaurantLogin: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,7 +22,7 @@ const RestaurantLogin: React.FC = () => {
       console.log('Restaurant login successful, navigating to dashboard for:', user);
       
       // Check if user is actually a restaurant
-      if (user.account_type !== 'restaurant') {
+      if (user.accountType !== 'restaurant') {
         setError('This account is not registered as a restaurant. Please use the player login.');
         setIsLoading(false);
         return;

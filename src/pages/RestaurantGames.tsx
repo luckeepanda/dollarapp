@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import RestaurantGameSession from '../components/RestaurantGameSession';
 import ModernGameCard from '../components/ModernGameCard';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { supabase } from '../lib/supabase';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
@@ -20,7 +19,6 @@ import {
 
 const RestaurantGames: React.FC = () => {
   const { user, updateBalance } = useAuth();
-  const { t } = useLanguage();
   const navigate = useNavigate();
   const [games, setGames] = useState<RestaurantGame[]>([]);
   const [isLoading, setIsLoading] = useState(true);

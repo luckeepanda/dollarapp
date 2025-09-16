@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { DollarSign, LogOut, User, Globe } from 'lucide-react';
+import { DollarSign, LogOut, User } from 'lucide-react';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
