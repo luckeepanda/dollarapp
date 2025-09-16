@@ -104,6 +104,9 @@ const Landing: React.FC = () => {
                 </div>
                 <div className="text-xs sm:text-sm font-bold text-electric-300 animate-pulse delay-150">
                   JUEGOS EN VIVO AHORA
+                </div>
+              </div>
+            </Link>
             {/* For Local Business Button - commented out for now */}
             {/* <Link
               to="/restaurant/login"
