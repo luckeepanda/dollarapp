@@ -79,12 +79,12 @@ const RestaurantLogin: React.FC = () => {
             <Store className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            {t('restaurant.portal')}
+            Local Business Portal
           </h2>
-          <p className="text-gray-600">{t('restaurant.signInToManage')}</p><br/>
+          <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
             <button className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2">
-            <MonitorPlay />&nbsp; {t('restaurant.viewDemo')}
+            <MonitorPlay />&nbsp; View Demo
           </button>
           </Link>
         </div>
@@ -102,7 +102,7 @@ const RestaurantLogin: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('restaurant.email')}
+                Local Business Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -111,7 +111,7 @@ const RestaurantLogin: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="food-input pl-10"
-                  placeholder={t('restaurant.enterRestaurantEmail')}
+                  placeholder="Enter your business email"
                   required
                   disabled={isLoading}
                 />
@@ -120,7 +120,7 @@ const RestaurantLogin: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('common.password')}
+                Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -129,7 +129,7 @@ const RestaurantLogin: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="food-input pl-10 pr-12"
-                  placeholder={t('auth.enterPassword')}
+                  placeholder="Enter your password"
                   required
                   disabled={isLoading}
                 />
@@ -155,23 +155,23 @@ const RestaurantLogin: React.FC = () => {
                   <span>Signing in...</span>
                 </>
               ) : (
-                <span>{t('restaurant.signInToPortal')}</span>
+                <span>Sign In to Local Business Portal</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {t('restaurant.dontHaveAccount')}{' '}
+              Don't have a local business account?{' '}
               <Link to="/restaurant/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-                {t('restaurant.registerHere')}
+                Register here
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
-              {t('auth.backToMainSite')}
+              Back to main site
             </Link>
           </div>
         </div>

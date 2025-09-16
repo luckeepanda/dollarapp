@@ -206,7 +206,7 @@ const Login: React.FC = () => {
 
           <div className="mt-4 text-center">
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
-              {t('auth.backToMainSite')}
+              Back to main site
             </Link>
           </div>
         </div>

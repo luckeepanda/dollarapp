@@ -22,7 +22,7 @@ export const qrService = {
   },
 
   // Validate and redeem QR code
-  async redeemQRCode(code: string, restaurantId: string): Promise<{ valid: boolean; amount?: number; customer?: string }> {
+  async redeemQRCode(code: string, businessId: string): Promise<{ valid: boolean; amount?: number; customer?: string }> {
     // Get QR code details
     const { data: qrCode, error } = await supabase
       .from('qr_codes')
@@ -43,7 +43,7 @@ export const qrService = {
       .from('qr_codes')
       .update({
         is_redeemed: true,
-        redeemed_by: restaurantId,
+        redeemed_by: businessId,
         redeemed_at: new Date().toISOString(),
       })
       .eq('id', qrCode.id);
@@ -52,7 +52,7 @@ export const qrService = {
 
     // Add funds to restaurant balance
     const { error: balanceError } = await supabase.rpc('add_balance', {
-      user_id: restaurantId,
+      user_id: businessId,
       amount: qrCode.amount,
     });
 
@@ -66,14 +66,14 @@ export const qrService = {
   },
 
   // Get restaurant's redemption history
-  async getRedemptionHistory(restaurantId: string): Promise<any[]> {
+  async getRedemptionHistory(businessId: string): Promise<any[]> {
     const { data, error } = await supabase
       .from('qr_codes')
       .select(`
         *,
         profiles!qr_codes_user_id_fkey (username)
       `)
-      .eq('redeemed_by', restaurantId)
+      .eq('redeemed_by', businessId)
       .eq('is_redeemed', true)
       .order('redeemed_at', { ascending: false });
 

@@ -37,7 +37,7 @@ const PrivacyPolicy: React.FC = () => {
                     <li><strong>Account Info:</strong> Name, email, Google/Apple ID, password hash</li>
                     <li><strong>KYC Data (if required):</strong> Legal name, date of birth, address, photo ID, selfie</li>
                     <li><strong>Game Activity:</strong> Gameplay stats, entry fees, wins/losses</li>
-                    <li><strong>Redemption Info:</strong> QR codes, redemption timestamps, restaurant locations</li>
+                    <li><strong>Redemption Info:</strong> QR codes, redemption timestamps, local business locations</li>
                   </ul>
                 </div>
 
@@ -80,7 +80,7 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">3. How We Share Your Information</h2>
               <p className="mb-2">We do not sell your data. We may share information with:</p>
               <ul className="ml-4 space-y-2">
-                <li><strong>Restaurants:</strong> When you redeem a prize, we provide them your redemption details (e.g., QR code ID, item won, time of redemption)</li>
+                <li><strong>Local Businesses:</strong> When you redeem a prize, we provide them your redemption details (e.g., QR code ID, item won, time of redemption)</li>
                 <li><strong>Payment Processors:</strong> Stripe, Coinbase, Solana, etc.</li>
                 <li><strong>Identity Verification Vendors:</strong> Such as Persona, if KYC is required</li>
                 <li><strong>Cloud Providers:</strong> For secure storage and processing (e.g., AWS)</li>
@@ -117,7 +117,7 @@ const PrivacyPolicy: React.FC = () => {
                 <li>Keep you signed in</li>
                 <li>Track game engagement and performance</li>
                 <li>Analyze site usage for improvements</li>
-                <li>Serve localized restaurant content</li>
+                <li>Serve localized local business content</li>
               </ul>
               <p className="mt-2">You can disable cookies in your browser, but some features may not work correctly.</p>
             </div>

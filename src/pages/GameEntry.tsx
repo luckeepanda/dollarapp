@@ -327,7 +327,7 @@ const GameEntry: React.FC = () => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">3. Win Prizes</h3>
-              <p>Qualified players are entered into a random draw. Winners receive QR codes for restaurant redemption.</p>
+              <p>Qualified players are entered into a random draw. Winners receive QR codes for local business redemption.</p>
             </div>
           </div>
         </div>

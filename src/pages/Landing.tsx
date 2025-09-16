@@ -104,15 +104,16 @@ const Landing: React.FC = () => {
                 </div>
                 <div className="text-xs sm:text-sm font-bold text-electric-300 animate-pulse delay-150">
                   JUEGOS EN VIVO AHORA
-                </div>
+            {/* For Local Business Button - commented out for now */}
+            {/* <Link
+              to="/restaurant/login"
+              className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
+                <span className="text-white text-sm font-bold">🍽️</span>
               </div>
-              
-              {/* Corner accents */}
-              <div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-electric-400 opacity-60"></div>
-              <div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-neon-400 opacity-60"></div>
-              <div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-cyber-400 opacity-60"></div>
-              <div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-electric-400 opacity-60"></div>
-            </Link>
+              <span>For Local Businesses</span>
+            </Link> */}
             
             {/* Language Toggle - moved below LIVE GAMES NOW */}
             <div className="flex food-card overflow-hidden">
@@ -235,18 +236,18 @@ const Landing: React.FC = () => {
             </div>
             
             {/* Right side - For Restaurant Button */}
+            {/* For Local Business Button - commented out for now */}
             {/* <Link
               to="/restaurant/login"
               className="group relative inline-flex items-center justify-center food-card text-gray-900 px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow"
             >
-              {/* For Restaurant button 
               <div className="flex items-center space-x-3">
                 <div className="relative">
                   <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-500 animate-pulse" />
                   <div className="absolute inset-0 bg-primary-500 rounded-full blur-sm opacity-50 animate-ping"></div>
                 </div>
                 <span className="text-lg sm:text-xl font-bold food-text-gradient animate-pulse">
-                  For Restaurants
+                  For Local Businesses
                 </span>
                 <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
               </div>
@@ -423,7 +424,7 @@ const Landing: React.FC = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold font-display food-text-gradient mb-4" itemProp="name">{t('landing.howItWorks')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto" itemProp="description">
-              Tip your favorite local businesses or win real prizes.
+              Support your favorite local businesses and win real prizes.
             </p>
           </div>
 

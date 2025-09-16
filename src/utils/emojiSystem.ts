@@ -11,7 +11,7 @@ export const emojiCategories: Record<string, EmojiCategory> = {
   food: {
     name: 'Food & Dining',
     emojis: ['🌮', '🍕', '🍔', '🍣', '🥗', '🍜', '🧁', '🍩'],
-    description: 'Restaurants, cafes, and food establishments'
+    description: 'Local businesses, cafes, and food establishments'
   },
   beverages: {
     name: 'Beverages',
@@ -69,7 +69,7 @@ export const getBusinessEmoji = (businessType?: string): string => {
   
   const type = businessType.toLowerCase();
   
-  if (type.includes('food') || type.includes('restaurant') || type.includes('cafe')) {
+  if (type.includes('food') || type.includes('business') || type.includes('cafe')) {
     return getRandomEmojiFromCategory('food');
   }
   if (type.includes('bar') || type.includes('coffee') || type.includes('drink')) {

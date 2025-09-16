@@ -134,8 +134,8 @@ const RestaurantGames: React.FC = () => {
               <ArrowLeft className="h-5 w-5 text-gray-600" />
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-display">{t('games.restaurantGames')}</h1>
-              <p className="text-gray-600">{t('games.joinGamesWinPrizes')}</p>
+              <h1 className="text-3xl font-bold text-gray-900 font-display">Local Business Games</h1>
+              <p className="text-gray-600">Join games created by local businesses and win prizes!</p>
             </div>
           </div>
         </div>
@@ -146,11 +146,11 @@ const RestaurantGames: React.FC = () => {
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-red-600" />
               <div>
-                <p className="text-sm font-medium text-red-800">{t('games.insufficientBalance')}</p>
+                <p className="text-sm font-medium text-red-800">Insufficient Balance</p>
                 <p className="text-xs text-red-700">
-                  {t('games.needFundsToJoin')}{' '}
+                  You need funds to join games.{' '}
                   <Link to="/deposit" className="font-semibold hover:underline ml-1 text-primary-600">
-                    {t('games.addFundsNow')}
+                    Add funds now
                   </Link>
                 </p>
               </div>
@@ -166,8 +166,8 @@ const RestaurantGames: React.FC = () => {
         ) : games.length === 0 ? (
           <div className="text-center py-12">
             <Trophy className="h-16 w-16 text-primary-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-primary-600 mb-2 font-display">{t('games.noActiveGames')}</h3>
-            <p className="text-gray-600 mb-6">{t('games.checkBackLater')}</p>
+            <h3 className="text-xl font-semibold text-primary-600 mb-2 font-display">No Active Games</h3>
+            <p className="text-gray-600 mb-6">Check back later for new local business games!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -187,20 +187,20 @@ const RestaurantGames: React.FC = () => {
         <div className="mt-12 food-card p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
             <Star className="h-5 w-5 text-primary-600" />
-            <span>{t('games.howRestaurantGamesWork')}</span>
+            <span>How Local Business Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('games.joinPlay')}</h3>
-              <p>{t('games.joinPlayDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Join & Play</h3>
+              <p>Pay $1 to play a single-player challenge. Score above the minimum to qualify for the prize!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('games.competeForVictory')}</h3>
-              <p>{t('games.competeForVictoryDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Meet the Challenge</h3>
+              <p>Each game has a minimum score requirement. Reach or exceed it to qualify for the local business prize.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('games.redeemPrize')}</h3>
-              <p>{t('games.redeemPrizeDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Redeem Your Prize</h3>
+              <p>Qualifying players receive a unique QR code that can be redeemed at the local business for real food prizes.</p>
             </div>
           </div>
         </div>
