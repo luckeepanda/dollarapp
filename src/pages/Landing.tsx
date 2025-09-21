@@ -159,41 +159,40 @@ const Landing: React.FC = () => {
               {/* Enhanced LIVE GAMES NOW Button with animations */}
               <Link
                 to="/restaurant-games"
-                className="group relative bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 text-white px-10 py-8 sm:px-14 sm:py-10 font-black font-display hover:from-green-600 hover:via-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-110 overflow-hidden shadow-2xl hover:shadow-3xl rounded-3xl border-4 border-green-400/50 hover:border-green-300 animate-pulse"
+                className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
               >
-                {/* Animated glow background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/40 via-emerald-500/40 to-green-400/40 animate-pulse"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shimmer"></div>
+                {/* Animated background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
                 
-                {/* Enhanced pulsing glow effect */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-green-500/30 to-emerald-500/30 rounded-3xl blur-xl animate-pulse"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-3xl blur-lg animate-pulse delay-300"></div>
+                {/* Pulsing glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-success-500/20 rounded-lg blur-lg animate-pulse"></div>
                 
                 {/* Content */}
                 <div className="relative z-10 text-center">
-                  {/* Enhanced live indicator dots */}
-                  <div className="flex items-center justify-center space-x-2 mb-4">
-                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full animate-bounce"></div>
-                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full animate-bounce delay-150"></div>
-                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full animate-bounce delay-300"></div>
+                  {/* Live indicator dots */}
+                  <div className="flex items-center justify-center space-x-2 mb-3">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-success-500 rounded-full animate-pulse delay-150"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-accent-500 rounded-full animate-pulse delay-300"></div>
                   </div>
                   
-                  {/* LIVE text - very large and prominent */}
-                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white drop-shadow-2xl animate-bounce mb-2">
+                  {/* LIVE text - large and prominent */}
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-black food-text-gradient animate-bounce mb-1">
                     LIVE
                   </div>
                   
-                  {/* GAMES NOW text - smaller but still bold */}
-                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-green-100 drop-shadow-lg animate-pulse">
+                  {/* GAMES NOW text - smaller but bold */}
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 animate-pulse">
                     GAMES NOW
                   </div>
                 </div>
                 
-                {/* Enhanced corner accents with green theme */}
-                <div className="absolute top-3 left-3 w-3 h-3 sm:w-4 sm:h-4 border-l-3 border-t-3 border-white/60 opacity-80 animate-pulse"></div>
-                <div className="absolute top-3 right-3 w-3 h-3 sm:w-4 sm:h-4 border-r-3 border-t-3 border-white/60 opacity-80 animate-pulse delay-150"></div>
-                <div className="absolute bottom-3 left-3 w-3 h-3 sm:w-4 sm:h-4 border-l-3 border-b-3 border-white/60 opacity-80 animate-pulse delay-300"></div>
-                <div className="absolute bottom-3 right-3 w-3 h-3 sm:w-4 sm:h-4 border-r-3 border-b-3 border-white/60 opacity-80 animate-pulse delay-450"></div>
+                {/* Corner accents */}
+                <div className="absolute top-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-t-2 border-primary-400 opacity-60 animate-pulse"></div>
+                <div className="absolute top-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-t-2 border-success-400 opacity-60 animate-pulse delay-150"></div>
+                <div className="absolute bottom-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-b-2 border-accent-400 opacity-60 animate-pulse delay-300"></div>
+                <div className="absolute bottom-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-b-2 border-primary-400 opacity-60 animate-pulse delay-450"></div>
               </Link>
             </div>
             
