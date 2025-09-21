@@ -304,7 +304,7 @@ const Landing: React.FC = () => {
           {/* Section Title */}
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse" itemProp="name">
-              Choose Your Character
+              Choose Your Player
             </h2>
             <div className="flex justify-center mb-4">
               <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-success-500 to-accent-400 rounded-full food-glow"></div>
