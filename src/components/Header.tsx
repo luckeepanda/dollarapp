@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { DollarSign, LogOut, User } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { DollarSign, LogOut, User, Globe } from 'lucide-react';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -34,6 +36,30 @@ const Header: React.FC = () => {
 
           {user && (
             <div className="flex items-center space-x-4">
+              {/* Language Toggle */}
+              <div className="flex food-card overflow-hidden">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-2 py-1 text-xs font-medium font-display transition-all duration-300 ${
+                    language === 'en'
+                      ? 'bg-primary-100 text-primary-800 shadow-sm'
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => setLanguage('es')}
+                  className={`px-2 py-1 text-xs font-medium font-display transition-all duration-300 ${
+                    language === 'es'
+                      ? 'bg-primary-100 text-primary-800 shadow-sm'
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  ES
+                </button>
+              </div>
+              
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <User className="h-4 w-4" />
                 <span>{user.username}</span>

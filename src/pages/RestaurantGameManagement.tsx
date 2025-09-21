@@ -153,7 +153,7 @@ const RestaurantGameManagement: React.FC = () => {
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-steel-blue">Game Management</h1>
-              <p className="text-royal-blue-200">Create and manage your local business games</p>
+              <p className="text-royal-blue-200">Create and manage your restaurant games</p>
             </div>
           </div>
           
@@ -183,7 +183,7 @@ const RestaurantGameManagement: React.FC = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 text-gray-800 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="e.g., Local Business Lunch Challenge"
+                      placeholder="e.g., Lunch Challenge"
                       required
                     />
                   </div>

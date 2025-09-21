@@ -53,22 +53,22 @@ const TermsOfUse: React.FC = () => {
               <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">4. Redemption Process</h2>
               <p className="mb-2">Winning players receive a unique QR code via email. To redeem:</p>
               <ul className="ml-4 space-y-2">
-                <li>• Visit the participating local business listed in the game</li>
+                <li>• Visit the participating restaurant listed in the game</li>
                 <li>• Show the QR code at checkout</li>
-                <li>• The local business scans the code and fulfills the prize</li>
-                <li>• Dollar App handles payment directly to the local business (110% of food cost)</li>
+                <li>• The restaurant scans the code and fulfills the prize</li>
+                <li>• Dollar App handles payment directly to the restaurant (110% of food cost)</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">5. Local Business Participation</h2>
-              <p className="mb-2">Local businesses agree to:</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">5. Restaurant Participation</h2>
+              <p className="mb-2">Restaurants agree to:</p>
               <ul className="ml-4 space-y-2">
                 <li>• Honor valid QR code redemptions</li>
                 <li>• Serve the designated item promptly</li>
                 <li>• Receive payment in USDC or USD minus platform fees (if any)</li>
               </ul>
-              <p className="mt-2">Dollar App is not responsible for local business delays, closures, or menu substitutions.</p>
+              <p className="mt-2">Dollar App is not responsible for restaurant delays, closures, or menu substitutions.</p>
             </div>
 
             <div>

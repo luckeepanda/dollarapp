@@ -184,7 +184,7 @@ const PlayerQRCodes: React.FC = () => {
       case 'tournament':
         return 'Tournament Win';
       case 'restaurant_game':
-        return 'Local Business Game';
+        return 'Restaurant Game';
       default:
         return 'Game Win';
     }
@@ -290,7 +290,7 @@ const PlayerQRCodes: React.FC = () => {
                     <div className="w-60 h-60 mx-auto bg-red-50 border-2 border-red-200 rounded-lg flex flex-col items-center justify-center">
                       <AlertCircle className="h-8 w-8 text-red-500 mb-2" />
                       <p className="text-sm text-red-600 text-center px-4">
-                        This QR code was rejected by the local business. You can remove it from your list.
+                        Failed to generate QR code
                       </p>
                       <button
                         onClick={() => window.location.reload()}

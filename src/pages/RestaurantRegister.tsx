@@ -96,7 +96,7 @@ const RestaurantRegister: React.FC = () => {
             <Store className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-steel-blue to-steel-blue-100 bg-clip-text text-transparent mb-2">
-            Join as Local Business
+            Join as Restaurant
           </h2>
           <p className="text-steel-blue">Create games and accept QR redemptions</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
@@ -128,7 +128,7 @@ const RestaurantRegister: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-steel-blue mb-2">
-                Local Business Email
+                Restaurant Email
               </label>
               <div className="relative text-steel-blue">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -137,7 +137,7 @@ const RestaurantRegister: React.FC = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-steel-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your business email"
+                  placeholder="Enter your restaurant email"
                   required
                   disabled={isLoading}
                 />
@@ -146,7 +146,7 @@ const RestaurantRegister: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-steel-blue mb-2">
-                Local Business Name
+                Restaurant Name
               </label>
               <div className="relative text-steel-blue">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -155,7 +155,7 @@ const RestaurantRegister: React.FC = () => {
                   value={formData.username}
                   onChange={(e) => setFormData({...formData, username: e.target.value})}
                   className="w-full pl-10 pr-4 py-3 border border-white-300 rounded-xl focus:ring-2 focus:ring-steel-blue-500 focus:border-transparent transition-all"
-                  placeholder="Enter your business name"
+                  placeholder="Enter your restaurant name"
                   required
                   disabled={isLoading}
                   minLength={3}
@@ -219,14 +219,14 @@ const RestaurantRegister: React.FC = () => {
                   <span>Creating Account...</span>
                 </>
               ) : (
-                <span>Create Local Business Account</span>
+                <span>Create Restaurant Account</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-steel-blue">
-              Already have a local business account?{' '}
+              Already have a restaurant account?{' '}
               <Link to="/restaurant/login" className="text-steel-blue-500 font-semibold hover:text-steel-blue-600 transition-colors">
                 Sign in
               </Link>
@@ -241,7 +241,7 @@ const RestaurantRegister: React.FC = () => {
 
           <div className="mt-4 p-4 bg-steel-blue-50 rounded-xl">
             <p className="text-sm text-steel-blue-600 text-center">
-              <strong>Local Business Features:</strong> Create games, manage QR redemptions, and track earnings.
+              <strong>Restaurant Features:</strong> Create games, manage QR redemptions, and track earnings.
             </p>
           </div>
         </div>

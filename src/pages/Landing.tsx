@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { getRandomEmojis } from '../utils/emojiSystem';
 import { Users, Trophy, QrCode, CreditCard, Play, RotateCcw, Zap, Sparkles } from 'lucide-react';
 import TacoGame from '../components/TacoGame';
 
 const Landing: React.FC = () => {
   const { user, isLoading } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [gameActive, setGameActive] = useState(true);
   const [finalScore, setFinalScore] = useState<number | null>(null);
@@ -80,59 +82,78 @@ const Landing: React.FC = () => {
         <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
           {/* Left side - LIVE GAMES NOW button and Language Toggle */}
           <div className="flex flex-col space-y-3">
-            {/* LIVE GAMES NOW Button - Enhanced for higher click emphasis */}
+            {/* LIVE GAMES NOW Button - moved from right to left */}
             <Link
               to="/restaurant-games"
-              className="group relative food-card text-gray-900 px-6 py-4 sm:px-8 sm:py-5 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl"
+              className="group relative web3-card text-white px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-cyber-200 transition-all duration-300 transform hover:scale-105 web3-glow overflow-hidden"
             >
               {/* Animated background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-electric-400/20 via-neon-500/20 to-cyber-400/20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
               
               {/* Content */}
               <div className="relative z-10 text-center">
                 <div className="flex items-center space-x-2 mb-1">
                   <div className="relative">
-                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-primary-500 rounded-full animate-pulse"></div>
-                    <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-primary-400 rounded-full animate-ping"></div>
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
                   </div>
-                  <span className="text-sm sm:text-lg font-black food-text-gradient animate-pulse">
+                  <span className="text-sm sm:text-base font-black web3-text-gradient animate-pulse">
                     LIVE GAMES NOW
                   </span>
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-success-600 animate-pulse delay-150">
+                <div className="text-xs sm:text-sm font-bold text-electric-300 animate-pulse delay-150">
                   JUEGOS EN VIVO AHORA
                 </div>
               </div>
+              
+              {/* Corner accents */}
+              <div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-electric-400 opacity-60"></div>
+              <div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-neon-400 opacity-60"></div>
+              <div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-cyber-400 opacity-60"></div>
+              <div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-electric-400 opacity-60"></div>
             </Link>
-            {/* For Local Business Button - commented out for now */}
-            {/* <Link
-              to="/restaurant/login"
-              className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
-            >
-              <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
-                <span className="text-white text-sm font-bold">🍽️</span>
-              </div>
-              <span>For Local Businesses</span>
-            </Link> */}
+            
+            {/* Language Toggle - moved below LIVE GAMES NOW */}
+            <div className="flex food-card overflow-hidden">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
+                  language === 'en'
+                    ? 'bg-primary-100 text-primary-800 shadow-sm'
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                }`}
+              >
+                {t('language.english')}
+              </button>
+              <button
+                onClick={() => setLanguage('es')}
+                className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
+                  language === 'es'
+                    ? 'bg-primary-100 text-primary-800 shadow-sm'
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                }`}
+              >
+                {t('language.spanish')}
+              </button>
+            </div>
           </div>
           
-          {/* Right side - For Local Business Button */}
+          {/* Right side - For Restaurant Button */}
           <Link
             to="/restaurant/login"
-            className="group relative inline-flex items-center justify-center food-card text-gray-900 px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow"
+            className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
           >
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-500 animate-pulse" />
-                <div className="absolute inset-0 bg-primary-500 rounded-full blur-sm opacity-50 animate-ping"></div>
-              </div>
-              <span className="text-lg sm:text-xl font-bold food-text-gradient animate-pulse">
-                For Local Businesses
-              </span>
-              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
+            <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
+              <span className="text-white text-sm font-bold">🍽️</span>
             </div>
+            <span>For Restaurants</span>
           </Link>
+        </div>
+
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-400 mx-auto mb-4 web3-glow"></div>
+          <p className="text-cyber-300 text-lg font-display">Loading...</p>
         </div>
       </div>
     );
@@ -154,61 +175,78 @@ const Landing: React.FC = () => {
         {/* Header - Responsive Navigation */}
         <header className="relative z-10 w-full">
           <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
-            {/* Left side - Enhanced LIVE GAMES NOW button */}
-            <div>
-              {/* Enhanced LIVE GAMES NOW Button with animations */}
+            {/* Left side - LIVE GAMES NOW button and Language Toggle */}
+            <div className="flex flex-col space-y-3">
+              {/* LIVE GAMES NOW Button - moved from right to left */}
               <Link
                 to="/restaurant-games"
-                className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
+                className="group relative food-card text-gray-900 px-3 py-2 sm:px-4 sm:py-3 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow overflow-hidden"
               >
                 {/* Animated background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
-                
-                {/* Pulsing glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-success-500/20 rounded-lg blur-lg animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 via-success-500/20 to-primary-400/20 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shimmer"></div>
                 
                 {/* Content */}
                 <div className="relative z-10 text-center">
-                  {/* Live indicator dots */}
-                  <div className="flex items-center justify-center space-x-2 mb-3">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-success-500 rounded-full animate-pulse delay-150"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-accent-500 rounded-full animate-pulse delay-300"></div>
+                  <div className="flex items-center space-x-1 sm:space-x-2 mb-1">
+                    <div className="relative">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
+                      <div className="absolute inset-0 w-2 h-2 sm:w-3 sm:h-3 bg-primary-400 rounded-full animate-ping"></div>
+                    </div>
+                    <span className="text-xs sm:text-sm font-black food-text-gradient animate-pulse">
+                      LIVE GAMES NOW
+                    </span>
                   </div>
-                  
-                  {/* LIVE text - large and prominent */}
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-black food-text-gradient animate-bounce mb-1">
-                    LIVE
-                  </div>
-                  
-                  {/* GAMES NOW text - smaller but bold */}
-                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 animate-pulse">
-                    GAMES NOW
+                  <div className="text-xs font-bold text-success-600 animate-pulse delay-150">
+                    JUEGOS EN VIVO AHORA
                   </div>
                 </div>
                 
                 {/* Corner accents */}
-                <div className="absolute top-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-t-2 border-primary-400 opacity-60 animate-pulse"></div>
-                <div className="absolute top-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-t-2 border-success-400 opacity-60 animate-pulse delay-150"></div>
-                <div className="absolute bottom-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-b-2 border-accent-400 opacity-60 animate-pulse delay-300"></div>
-                <div className="absolute bottom-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-b-2 border-primary-400 opacity-60 animate-pulse delay-450"></div>
+                <div className="absolute top-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-t-2 border-primary-400 opacity-60"></div>
+                <div className="absolute top-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-t-2 border-success-400 opacity-60"></div>
+                <div className="absolute bottom-1 left-1 w-1 h-1 sm:w-2 sm:h-2 border-l-2 border-b-2 border-accent-400 opacity-60"></div>
+                <div className="absolute bottom-1 right-1 w-1 h-1 sm:w-2 sm:h-2 border-r-2 border-b-2 border-primary-400 opacity-60"></div>
               </Link>
+              
+              {/* Language Toggle - moved below LIVE GAMES NOW */}
+              <div className="flex food-card overflow-hidden">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
+                    language === 'en'
+                      ? 'bg-primary-100 text-primary-800 shadow-sm'
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  {t('language.english')}
+                </button>
+                <button
+                  onClick={() => setLanguage('es')}
+                  className={`flex-1 px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium font-display transition-all duration-300 text-center ${
+                    language === 'es'
+                      ? 'bg-primary-100 text-primary-800 shadow-sm'
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  {t('language.spanish')}
+                </button>
+              </div>
             </div>
             
             {/* Right side - For Restaurant Button */}
-            {/* For Local Business Button - commented out for now */}
             {/* <Link
               to="/restaurant/login"
               className="group relative inline-flex items-center justify-center food-card text-gray-900 px-4 py-3 sm:px-6 sm:py-4 font-bold font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-105 food-glow"
             >
+              {/* For Restaurant button 
               <div className="flex items-center space-x-3">
                 <div className="relative">
                   <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-500 animate-pulse" />
                   <div className="absolute inset-0 bg-primary-500 rounded-full blur-sm opacity-50 animate-ping"></div>
                 </div>
                 <span className="text-lg sm:text-xl font-bold food-text-gradient animate-pulse">
-                  For Local Businesses
+                  For Restaurants
                 </span>
                 <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent-500 animate-pulse delay-300" />
               </div>
@@ -274,22 +312,9 @@ const Landing: React.FC = () => {
             
             {/* Dollar App Text */}
             <div className="text-center mb-4">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-display mb-4 leading-tight">
+              <h1 className="text-5xl sm:text-6xl font-bold font-display">
                 <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent">Dollar App</span>
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary-600 font-display mb-8 leading-relaxed">
-                $1 games for real prizes.
-              </p>
-              
-              {/* Get Started Button */}
-              <div className="mt-8">
-                <Link
-                  to="/login"
-                  className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-2xl font-black text-base sm:text-lg md:text-xl lg:text-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
-                >
-                  GET STARTED
-                </Link>
-              </div>
             </div>
           </div>
         </div>
@@ -383,9 +408,9 @@ const Landing: React.FC = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold font-display food-text-gradient mb-4" itemProp="name">How It Works</h2>
+            <h2 className="text-4xl font-bold font-display food-text-gradient mb-4" itemProp="name">{t('landing.howItWorks')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto" itemProp="description">
-              Support your favorite local businesses and win real prizes.
+              Tip your favorite local businesses or win real prizes.
             </p>
           </div>
 
@@ -394,7 +419,8 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-primary-500 to-success-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <CreditCard className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">1. Deposit & Play</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step1.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">1. Enter Games</h3>
               <p className="text-gray-600" itemProp="text">
                 Enter games for just $1 each.
               </p>
@@ -404,7 +430,8 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-success-500 to-accent-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <Trophy className="h-8 w-8 text-white mx-auto" />
               </div>
-              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">2. Win Prizes</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step2.title')}</h3>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">2. Play & Win</h3>
               <p className="text-gray-600" itemProp="text">
                 Play fun retro games for real prizes.
               </p>
@@ -414,6 +441,7 @@ const Landing: React.FC = () => {
               <div className="bg-gradient-to-br from-accent-500 to-primary-500 p-6 rounded-lg w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform food-glow" itemScope itemType="https://schema.org/HowToStep">
                 <QrCode className="h-8 w-8 text-white mx-auto" />
               </div>
+              <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">{t('landing.step3.title')}</h3>
               <h3 className="text-xl font-bold font-display text-gray-900 mb-4" itemProp="name">3. Redeem & Enjoy</h3>
               <p className="text-gray-600" itemProp="text">
                 Use QR codes for instant verification.
@@ -427,16 +455,16 @@ const Landing: React.FC = () => {
       {/* <div className="py-16 bg-gradient-to-r from-royal-blue-500 to-steel-blue-500">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Join the Game?
+            {t('landing.cta.title')}
           </h2>
           <p className="text-xl text-royal-blue-100 mb-8">
-            Start playing today and discover amazing food experiences in your area.
+            {t('landing.cta.subtitle')}
           </p>
           <Link
             to="/register"
             className="bg-white text-royal-blue-500 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-royal-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl inline-block border-2 border-transparent hover:border-royal-blue-200"
           >
-            Create Account
+            {t('landing.cta.button')}
           </Link>
         </div>
       </div> */}

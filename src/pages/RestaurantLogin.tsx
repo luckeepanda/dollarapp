@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Store, MonitorPlay } from 'lucide-react';
 
 const RestaurantLogin: React.FC = () => {
@@ -10,6 +11,7 @@ const RestaurantLogin: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,7 +24,7 @@ const RestaurantLogin: React.FC = () => {
       console.log('Restaurant login successful, navigating to dashboard for:', user);
       
       // Check if user is actually a restaurant
-      if (user.accountType !== 'restaurant') {
+      if (user.account_type !== 'restaurant') {
         setError('This account is not registered as a restaurant. Please use the player login.');
         setIsLoading(false);
         return;
@@ -49,16 +51,40 @@ const RestaurantLogin: React.FC = () => {
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
+          {/* Language Toggle */}
+          <div className="flex food-card overflow-hidden mb-6 max-w-40 mx-auto">
+            <button
+              onClick={() => setLanguage('en')}
+              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
+                language === 'en'
+                  ? 'bg-primary-100 text-primary-800 shadow-sm'
+                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+            >
+              {t('language.english')}
+            </button>
+            <button
+              onClick={() => setLanguage('es')}
+              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
+                language === 'es'
+                  ? 'bg-primary-100 text-primary-800 shadow-sm'
+                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+            >
+              {t('language.spanish')}
+            </button>
+          </div>
+          
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <Store className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            Local Business Portal
+            {t('restaurant.portal')}
           </h2>
-          <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
+          <p className="text-gray-600">{t('restaurant.signInToManage')}</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
             <button className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2">
-            <MonitorPlay />&nbsp; View Demo
+            <MonitorPlay />&nbsp; {t('restaurant.viewDemo')}
           </button>
           </Link>
         </div>
@@ -76,7 +102,7 @@ const RestaurantLogin: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Local Business Email
+                {t('restaurant.email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -85,7 +111,7 @@ const RestaurantLogin: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="food-input pl-10"
-                  placeholder="Enter your business email"
+                  placeholder={t('restaurant.enterRestaurantEmail')}
                   required
                   disabled={isLoading}
                 />
@@ -94,7 +120,7 @@ const RestaurantLogin: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('common.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -103,7 +129,7 @@ const RestaurantLogin: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="food-input pl-10 pr-12"
-                  placeholder="Enter your password"
+                  placeholder={t('auth.enterPassword')}
                   required
                   disabled={isLoading}
                 />
@@ -129,23 +155,23 @@ const RestaurantLogin: React.FC = () => {
                   <span>Signing in...</span>
                 </>
               ) : (
-                <span>Sign In to Local Business Portal</span>
+                <span>{t('restaurant.signInToPortal')}</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Don't have a local business account?{' '}
+              {t('restaurant.dontHaveAccount')}{' '}
               <Link to="/restaurant/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-                Register here
+                {t('restaurant.registerHere')}
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
-              Back to main site
+              {t('auth.backToMainSite')}
             </Link>
           </div>
         </div>
