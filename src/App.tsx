@@ -11,12 +11,12 @@ import Register from './pages/Register';
 import EmailVerification from './pages/EmailVerification';
 import AuthCallback from './pages/AuthCallback';
 import PlayerDashboard from './pages/PlayerDashboard';
-import RestaurantDashboard from './pages/RestaurantDashboard';
-import RestaurantLogin from './pages/RestaurantLogin';
-import RestaurantRegister from './pages/RestaurantRegister';
-import RestaurantGameManagement from './pages/RestaurantGameManagement';
-import RestaurantGameDetails from './pages/RestaurantGameDetails';
-import RestaurantGames from './pages/RestaurantGames';
+import LocalBusinessDashboard from './pages/RestaurantDashboard';
+import LocalBusinessLogin from './pages/RestaurantLogin';
+import LocalBusinessRegister from './pages/RestaurantRegister';
+import LocalBusinessGameManagement from './pages/RestaurantGameManagement';
+import LocalBusinessGameDetails from './pages/RestaurantGameDetails';
+import LocalBusinessGames from './pages/RestaurantGames';
 import GameEntry from './pages/GameEntry';
 import QRScanner from './pages/QRScanner';
 import Deposit from './pages/Deposit';
@@ -42,14 +42,14 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/restaurant" element={<RestaurantLogin />} />
-              <Route path="/restaurant/register" element={<RestaurantRegister />} />
+              <Route path="/restaurant" element={<LocalBusinessLogin />} />
+              <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
               <Route path="/food-blaster" element={<FoodBlasterGame />} />
               <Route path="/pizza-hunter" element={<PizzaHunterGame />} />
-              <Route path="/restaurant-games" element={<RestaurantGames />} />
+              <Route path="/restaurant-games" element={<LocalBusinessGames />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-use" element={<TermsOfUse />} />
               <Route path="/pricing" element={<Pricing />} />
@@ -65,17 +65,17 @@ function App() {
               } />
               <Route path="/restaurant/dashboard" element={
                 <ProtectedRoute userType="restaurant">
-                  <RestaurantDashboard />
+                  <LocalBusinessDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/restaurant/games" element={
                 <ProtectedRoute userType="restaurant">
-                  <RestaurantGameManagement />
+                  <LocalBusinessGameManagement />
                 </ProtectedRoute>
               } />
               <Route path="/restaurant/games/:gameId" element={
                 <ProtectedRoute userType="restaurant">
-                  <RestaurantGameDetails />
+                  <LocalBusinessGameDetails />
                 </ProtectedRoute>
               } />
               <Route path="/game" element={

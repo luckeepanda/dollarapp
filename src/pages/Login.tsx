@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 const Login: React.FC = () => {
@@ -12,7 +11,6 @@ const Login: React.FC = () => {
   const [isOAuthLoading, setIsOAuthLoading] = useState<'google' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { login, loginWithGoogle } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,7 +23,7 @@ const Login: React.FC = () => {
       console.log('Login successful, navigating to dashboard for:', user);
       
       // Navigate to appropriate dashboard based on account type
-      navigate(`/${user.account_type}/dashboard`);
+      navigate(`/${user.accountType}/dashboard`);
       
     } catch (error: any) {
       console.error('Login failed:', error);
@@ -60,37 +58,13 @@ const Login: React.FC = () => {
 
       <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          {/* Language Toggle */}
-          <div className="flex food-card overflow-hidden mb-6 max-w-40 mx-auto">
-            <button
-              onClick={() => setLanguage('en')}
-              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
-                language === 'en'
-                  ? 'bg-primary-100 text-primary-800 shadow-sm'
-                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-              }`}
-            >
-              {t('language.english')}
-            </button>
-            <button
-              onClick={() => setLanguage('es')}
-              className={`flex-1 px-3 py-2 text-sm font-medium font-display transition-all duration-300 text-center ${
-                language === 'es'
-                  ? 'bg-primary-100 text-primary-800 shadow-sm'
-                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
-              }`}
-            >
-              {t('language.spanish')}
-            </button>
-          </div>
-          
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mb-6 shadow-lg">
             <span className="text-2xl font-bold text-white">$</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            {t('auth.welcomeBack')}
+            Welcome back
           </h2>
-          <p className="text-gray-600">{t('auth.signInToAccount')}</p>
+          <p className="text-gray-600">Sign in to your Dollar App account</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20">
@@ -130,14 +104,14 @@ const Login: React.FC = () => {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 rounded-lg">{t('auth.orContinueWithEmail')}</span>
+              <span className="px-4 bg-white text-gray-500 rounded-lg">Or continue with email</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.emailAddress')}
+                Email Address
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -146,7 +120,7 @@ const Login: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="food-input pl-10"
-                  placeholder={t('auth.enterEmail')}
+                  placeholder="Enter your email"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -155,7 +129,7 @@ const Login: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('common.password')}
+                Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
@@ -164,7 +138,7 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="food-input pl-10 pr-12"
-                  placeholder={t('auth.enterPassword')}
+                  placeholder="Enter your password"
                   required
                   disabled={isLoading || isOAuthLoading !== null}
                 />
@@ -190,23 +164,23 @@ const Login: React.FC = () => {
                   <span>Signing in...</span>
                 </>
               ) : (
-                <span>{t('auth.signIn')}</span>
+                <span>Sign In</span>
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {t('auth.dontHaveAccount')}{' '}
+              Don't have an account?{' '}
               <Link to="/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-                {t('auth.signUp')}
+                Sign up
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
-              {t('auth.backToMainSite')}
+              Back to main site
             </Link>
           </div>
         </div>

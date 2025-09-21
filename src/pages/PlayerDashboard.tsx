@@ -5,7 +5,6 @@ import PlayerQRCodes from '../components/PlayerQRCodes';
 import AdminTestCredits from '../components/AdminTestCredits';
 import ModernGameCard from '../components/ModernGameCard';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
   DollarSign, 
@@ -24,7 +23,6 @@ import {
 
 const PlayerDashboard: React.FC = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
   const [restaurantGames, setRestaurantGames] = useState<RestaurantGame[]>([]);
   const [isLoadingGames, setIsLoadingGames] = useState(true);
 
@@ -51,9 +49,9 @@ const PlayerDashboard: React.FC = () => {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            {t('dashboard.welcomeBack')}, {user?.username}! 👋
+            Welcome back, {user?.username}! 👋
           </h1>
-          <p className="text-gray-600">{t('dashboard.readyToPlay')}</p>
+          <p className="text-gray-600">Ready to play games and win amazing prizes?</p>
         </div>
 
         {/* Balance Warning */}
@@ -62,11 +60,11 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center space-x-2">
               <AlertCircle className="h-5 w-5 text-red-600" />
               <div>
-                <p className="text-sm font-medium text-red-800">{t('games.insufficientBalance')}</p>
+                <p className="text-sm font-medium text-red-800">Insufficient Balance</p>
                 <p className="text-xs text-red-700">
-                  {t('games.needFundsToJoin')}{' '}
+                  You need funds to join games.{' '}
                   <Link to="/deposit" className="font-semibold hover:underline ml-1 text-primary-600">
-                    {t('games.addFundsNow')}
+                    <span>Add Funds</span>
                   </Link>
                 </p>
               </div>
@@ -79,10 +77,10 @@ const PlayerDashboard: React.FC = () => {
           <div className="food-card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">{t('dashboard.currentBalance')}</p>
+                <p className="text-sm text-gray-600">Current Balance</p>
                 <p className="text-2xl font-bold text-success-600">${user?.balance.toFixed(2)}</p>
                 <p className="text-xs text-gray-500 mt-1">
-                  {user ? Math.floor(user.balance) : 0} {t('dashboard.gameEntriesAvailable')}
+                  {user ? Math.floor(user.balance) : 0} game entries available
                 </p>
               </div>
               <div className="flex items-center space-x-3">
@@ -94,7 +92,7 @@ const PlayerDashboard: React.FC = () => {
                   className="food-button px-4 py-2 rounded-lg font-bold flex items-center space-x-2"
                 >
                   <Plus className="h-4 w-4" />
-                  <span>{t('dashboard.addFunds')}</span>
+                  <span>Add Funds</span>
                 </Link>
               </div>
             </div>
@@ -107,13 +105,13 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-accent-600 flex items-center space-x-2 font-display">
                 <QrCode className="h-6 w-6 text-accent-600" />
-                <span>{t('dashboard.yourPrizeQRCodes')}</span>
+                <span>Your Prize QR Codes</span>
               </h2>
               <button
                 onClick={() => window.location.reload()}
                 className="text-primary-600 hover:text-primary-700 text-sm underline"
               >
-                {t('dashboard.refreshQRCodes')}
+                Refresh QR Codes
               </button>
             </div>
             <PlayerQRCodes />
@@ -124,13 +122,13 @@ const PlayerDashboard: React.FC = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-primary-600 flex items-center space-x-2 font-display">
                 <Trophy className="h-6 w-6 text-primary-600" />
-                <span>{t('dashboard.gamesRightNow')}</span>
+                <span>Games Right Now</span>
               </h2>
               <Link
                 to="/restaurant-games"
                 className="text-primary-600 hover:text-primary-700 font-medium flex items-center space-x-1"
               >
-                <span>{t('dashboard.viewAll')}</span>
+                <span>View All</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -142,14 +140,14 @@ const PlayerDashboard: React.FC = () => {
             ) : restaurantGames.length === 0 ? (
               <div className="text-center py-8">
                 <Trophy className="h-12 w-12 text-primary-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-primary-600 mb-2 font-display">{t('dashboard.noActiveGames')}</h3>
-                <p className="text-gray-600 mb-4">{t('dashboard.checkBackLater')}</p>
+                <h3 className="text-lg font-semibold text-primary-600 mb-2 font-display">No Active Games</h3>
+                <p className="text-gray-600 mb-4">Check back later for new local business games!</p>
                 <Link
                   to="/free-play"
                   className="inline-flex items-center space-x-2 bg-gradient-to-r from-success-600 to-success-700 text-white px-4 py-2 rounded-lg font-bold hover:from-success-700 hover:to-success-800 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
                 >
                   <Play className="h-4 w-4" />
-                  <span>{t('dashboard.tryFreePlay')}</span>
+                  <span>Try Free Play</span>
                 </Link>
               </div>
             ) : (
@@ -173,7 +171,7 @@ const PlayerDashboard: React.FC = () => {
                   className="inline-flex items-center space-x-2 food-button px-6 py-3 rounded-lg font-bold"
                 >
                   <Trophy className="h-5 w-5" />
-                  <span>{t('dashboard.viewAllRestaurantGames')}</span>
+                  <span>View All Local Business Games</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -185,20 +183,20 @@ const PlayerDashboard: React.FC = () => {
         <div className="mt-8 food-card p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
             <TrendingUp className="h-5 w-5 text-primary-600" />
-            <span>{t('dashboard.howRestaurantGamesWork')}</span>
+            <span>How Local Business Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('dashboard.joinRestaurantGames')}</h3>
-              <p>{t('dashboard.joinRestaurantGamesDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Join Local Business Games</h3>
+              <p>Browse games created by local businesses. Any score qualifies - highest score wins the prize!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('dashboard.playCompete')}</h3>
-              <p>{t('dashboard.playCompeteDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Play & Compete</h3>
+              <p>Each attempt costs the entry fee. Keep playing until the game fills up - highest score wins!</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">{t('dashboard.winRealPrizes')}</h3>
-              <p>{t('dashboard.winRealPrizesDesc')}</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Win Real Prizes</h3>
+              <p>Winners receive QR codes that can be redeemed at the local business for real food and prizes!</p>
             </div>
           </div>
         </div>

@@ -25,13 +25,13 @@ export interface WithdrawalHistory {
 
 export const restaurantDashboardService = {
   // Get dashboard statistics
-  async getDashboardStats(restaurantId: string): Promise<DashboardStats> {
+  async getDashboardStats(businessId: string): Promise<DashboardStats> {
     try {
-      // Get restaurant balance
+      // Get business balance
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('balance')
-        .eq('id', restaurantId)
+        .eq('id', businessId)
         .single();
 
       if (profileError) throw profileError;
@@ -45,7 +45,7 @@ export const restaurantDashboardService = {
       const { data: todayRedemptions, error: todayError } = await supabase
         .from('restaurant_games')
         .select('id')
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .eq('qr_redeemed', true)
         .gte('completed_at', today.toISOString())
         .lt('completed_at', tomorrow.toISOString());
@@ -59,7 +59,7 @@ export const restaurantDashboardService = {
       const { data: monthlyGames, error: monthlyError } = await supabase
         .from('restaurant_games')
         .select('prize_pool')
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .eq('qr_redeemed', true)
         .gte('completed_at', firstDayOfMonth.toISOString())
         .lt('completed_at', firstDayOfNextMonth.toISOString());
@@ -72,7 +72,7 @@ export const restaurantDashboardService = {
       const { data: uniqueCustomers, error: customersError } = await supabase
         .from('restaurant_games')
         .select('winner_id')
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .not('winner_id', 'is', null);
 
       if (customersError) throw customersError;
@@ -93,7 +93,7 @@ export const restaurantDashboardService = {
   },
 
   // Get recent redemptions
-  async getRecentRedemptions(restaurantId: string, limit: number = 5): Promise<RecentRedemption[]> {
+  async getRecentRedemptions(businessId: string, limit: number = 5): Promise<RecentRedemption[]> {
     try {
       const { data, error } = await supabase
         .from('restaurant_games')
@@ -105,7 +105,7 @@ export const restaurantDashboardService = {
           winner_id,
           profiles!restaurant_games_winner_id_fkey(username)
         `)
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .eq('qr_redeemed', true)
         .not('winner_id', 'is', null)
         .order('completed_at', { ascending: false })
@@ -134,12 +134,12 @@ export const restaurantDashboardService = {
   },
 
   // Get withdrawal history (transactions)
-  async getWithdrawalHistory(restaurantId: string, limit: number = 5): Promise<WithdrawalHistory[]> {
+  async getWithdrawalHistory(businessId: string, limit: number = 5): Promise<WithdrawalHistory[]> {
     try {
       const { data, error } = await supabase
         .from('transactions')
         .select('id, amount, created_at, status')
-        .eq('user_id', restaurantId)
+        .eq('user_id', businessId)
         .eq('type', 'withdrawal')
         .order('created_at', { ascending: false })
         .limit(limit);
@@ -163,12 +163,12 @@ export const restaurantDashboardService = {
   },
 
   // Get active games count
-  async getActiveGamesCount(restaurantId: string): Promise<number> {
+  async getActiveGamesCount(businessId: string): Promise<number> {
     try {
       const { data, error } = await supabase
         .from('restaurant_games')
         .select('id')
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .eq('status', 'active');
 
       if (error) throw error;
@@ -181,12 +181,12 @@ export const restaurantDashboardService = {
   },
 
   // Get pending QR codes count
-  async getPendingQRCount(restaurantId: string): Promise<number> {
+  async getPendingQRCount(businessId: string): Promise<number> {
     try {
       const { data, error } = await supabase
         .from('restaurant_games')
         .select('id')
-        .eq('restaurant_id', restaurantId)
+        .eq('restaurant_id', businessId)
         .eq('status', 'completed')
         .eq('qr_redeemed', false)
         .not('qr_code', 'is', null);
