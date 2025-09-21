@@ -115,23 +115,38 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
           {game.description}
         </p>
 
-        {/* Centered Min Score Section */}
-        <div className="text-center mb-6">
-          <div className="inline-flex flex-col items-center bg-gradient-to-br from-yellow-50 to-yellow-100 px-6 py-4 rounded-2xl border border-yellow-200 shadow-sm">
-            <div className="flex items-center space-x-2 mb-2">
-              <Target className="h-5 w-5 text-yellow-600" />
+        {/* Bottom section with Min Score and promotional text */}
+        <div className="flex items-center justify-between">
+          {/* Left-aligned Min Score */}
+          <div className="flex flex-col items-start">
+            <div className="flex items-center space-x-2 mb-1">
+              <Target className="h-4 w-4 text-yellow-600" />
               <span className="text-sm font-medium text-yellow-700">Minimum Score</span>
             </div>
-            <div className="text-3xl font-bold text-yellow-800">{game.min_score}</div>
+            <div className="text-2xl font-bold text-yellow-800">{game.min_score}</div>
             <div className="text-xs text-yellow-600">points to qualify</div>
           </div>
+          
+          {/* Right side - Create Account button for promotional text */}
+          {(needsAccount || needsFunds) && (
+            <button
+              onClick={handleButtonClick}
+              className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-md hover:shadow-lg text-sm"
+            >
+              Create Account
+            </button>
+          )}
         </div>
-
-        {/* Game type indicator */}
-        <div className="flex items-center justify-center">
-          <div className="flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-full">
-            <Users className="h-4 w-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700">Single Player Challenge</span>
+        
+        {/* Expanded promotional text */}
+        <div className="mt-4 text-center">
+          <div className="bg-gradient-to-r from-success-50 via-primary-50 to-success-50 p-4 rounded-xl border border-success-200">
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-success-600 via-primary-600 to-success-600 bg-clip-text text-transparent leading-tight">
+              $1 to win ${game.prize_pool?.toFixed(0) || '12'} meal
+            </p>
+            <p className="text-sm text-gray-600 mt-2">
+              Play once, qualify with any score, win real food prizes!
+            </p>
           </div>
         </div>
 
