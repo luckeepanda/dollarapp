@@ -157,6 +157,7 @@ const Landing: React.FC = () => {
             {/* Left side - Enhanced LIVE GAMES NOW button */}
             <div>
               {/* Enhanced LIVE GAMES NOW Button with animations */}
+              <div className="relative">
               <Link
                 to="/restaurant-games"
                 className="group absolute food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
@@ -194,6 +195,7 @@ const Landing: React.FC = () => {
                 <div className="absolute bottom-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-b-2 border-accent-400 opacity-60 animate-pulse delay-300"></div>
                 <div className="absolute bottom-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-b-2 border-primary-400 opacity-60 animate-pulse delay-450"></div>
               </Link>
+              </div>  
             </div>
             
             {/* Right side - For Restaurant Button */}
