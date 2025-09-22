@@ -97,7 +97,7 @@ const Landing: React.FC = () => {
                     <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-primary-400 rounded-full animate-ping"></div>
                   </div>
                   <span className="text-sm sm:text-lg font-black food-text-gradient animate-pulse">
-                    LIVE GAMES NOW
+                    LIVE GAMES NOW!
                   </span>
                 </div>
                 <div className="text-xs sm:text-sm font-bold text-success-600 animate-pulse delay-150">
