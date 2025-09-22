@@ -184,7 +184,7 @@ const Landing: React.FC = () => {
                   
                   {/* GAMES NOW text - smaller but bold */}
                   <div className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 animate-pulse">
-                    GAMES NOW!
+                    GAMES NOW
                   </div>
                 </div>
                 
