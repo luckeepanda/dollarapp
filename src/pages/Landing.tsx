@@ -156,7 +156,7 @@ const Landing: React.FC = () => {
           <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
             {/* Left side - Enhanced LIVE GAMES NOW button */}
             <div>
-              {/* Enhanced LIVE GAMES NOW Button with animations 
+              {/* Enhanced LIVE GAMES NOW Button with animations */}
               <Link
                 to="/restaurant-games"
                 className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
