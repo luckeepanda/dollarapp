@@ -169,7 +169,7 @@ const Landing: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-success-500/20 rounded-lg blur-lg animate-pulse"></div>
                 
                 {/* Content */}
-                <div className="relative z-10 text-center">
+                <div className="absolute z-10 text-center">
                   {/* Live indicator dots */}
                   <div className="flex items-center justify-center space-x-2 mb-3">
                     <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
