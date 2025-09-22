@@ -152,7 +152,7 @@ const Landing: React.FC = () => {
         </div>
         
         {/* Header - Responsive Navigation */}
-        <header className="relative z-10 w-100">
+        <header className="relative z-10 w-full">
           <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
             {/* Left side - Enhanced LIVE GAMES NOW button */}
             <div>
