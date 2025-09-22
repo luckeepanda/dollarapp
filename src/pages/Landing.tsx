@@ -159,7 +159,7 @@ const Landing: React.FC = () => {
               {/* Enhanced LIVE GAMES NOW Button with animations */}
               <Link
                 to="/restaurant-games"
-                className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
+                className="group relative food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse w-300"
               >
                 {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
