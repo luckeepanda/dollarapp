@@ -55,6 +55,10 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   };
 
   const getButtonText = () => {
+    console.log(needsAccount);
+    console.log(needsFunds);
+    console.log(canPlay);
+    console.log(isActive);
     if (needsAccount) return 'Create Account';
     if (needsFunds) return 'Create Account';
     if (canPlay) return 'Play Now';
