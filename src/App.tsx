@@ -42,7 +42,6 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/restaurant" element={<LocalBusinessLogin />} />
               <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/business" element={<LocalBusinessLogin />} />
               <Route path="/business/register" element={<LocalBusinessRegister />} />
