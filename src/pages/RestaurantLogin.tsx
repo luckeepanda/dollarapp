@@ -58,7 +58,8 @@ const RestaurantLogin: React.FC = () => {
           <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
               <span>Sign In to Business Portal</span>
-            <MonitorPlay />&nbsp; View Demo
+          <button>
+            <MonitorPlay />View Demo
           </button>
           </Link>
         </div>
