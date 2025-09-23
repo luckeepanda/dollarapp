@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 
 const PlayerDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateBalance } = useAuth();
   const [restaurantGames, setRestaurantGames] = useState<RestaurantGame[]>([]);
   const [isLoadingGames, setIsLoadingGames] = useState(true);
   const [currentGame, setCurrentGame] = useState<RestaurantGame | null>(null);
