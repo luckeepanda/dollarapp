@@ -151,7 +151,7 @@ const RestaurantLogin: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 
