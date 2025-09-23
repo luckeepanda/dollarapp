@@ -34,18 +34,75 @@ const RestaurantGameManagement: React.FC = () => {
     emoji: '🍔'
   });
 
-  // Food emoji options
-  const foodEmojis = [
-    { emoji: '🍔', name: 'Burger' },
-    { emoji: '🌮', name: 'Taco' },
-    { emoji: '🍕', name: 'Pizza' },
-    { emoji: '🍟', name: 'Fries' },
-    { emoji: '🍦', name: 'Ice Cream' },
-    { emoji: '🌭', name: 'Hot Dog' },
-    { emoji: '🥪', name: 'Sandwich' },
-    { emoji: '🍩', name: 'Donut' },
-    { emoji: '🧁', name: 'Cupcake' },
-    { emoji: '🥤', name: 'Drink' }
+  // Game emoji options - expanded beyond just food
+  const gameEmojis = [
+    // Food & Drinks
+    { emoji: '🍔', name: 'Burger', category: 'Food' },
+    { emoji: '🌮', name: 'Taco', category: 'Food' },
+    { emoji: '🍕', name: 'Pizza', category: 'Food' },
+    { emoji: '🍟', name: 'Fries', category: 'Food' },
+    { emoji: '🍦', name: 'Ice Cream', category: 'Food' },
+    { emoji: '🌭', name: 'Hot Dog', category: 'Food' },
+    { emoji: '🥪', name: 'Sandwich', category: 'Food' },
+    { emoji: '🍩', name: 'Donut', category: 'Food' },
+    { emoji: '🧁', name: 'Cupcake', category: 'Food' },
+    { emoji: '🥤', name: 'Drink', category: 'Food' },
+    { emoji: '☕', name: 'Coffee', category: 'Food' },
+    { emoji: '🍺', name: 'Beer', category: 'Food' },
+    { emoji: '🍷', name: 'Wine', category: 'Food' },
+    { emoji: '🧋', name: 'Bubble Tea', category: 'Food' },
+    
+    // Gaming & Entertainment
+    { emoji: '🎮', name: 'Game Controller', category: 'Gaming' },
+    { emoji: '🕹️', name: 'Joystick', category: 'Gaming' },
+    { emoji: '🎯', name: 'Target', category: 'Gaming' },
+    { emoji: '🎲', name: 'Dice', category: 'Gaming' },
+    { emoji: '🏆', name: 'Trophy', category: 'Gaming' },
+    { emoji: '🥇', name: 'Gold Medal', category: 'Gaming' },
+    { emoji: '⭐', name: 'Star', category: 'Gaming' },
+    { emoji: '💎', name: 'Diamond', category: 'Gaming' },
+    { emoji: '🚀', name: 'Rocket', category: 'Gaming' },
+    { emoji: '⚡', name: 'Lightning', category: 'Gaming' },
+    
+    // Business & Services
+    { emoji: '🏪', name: 'Store', category: 'Business' },
+    { emoji: '🏬', name: 'Department Store', category: 'Business' },
+    { emoji: '🛍️', name: 'Shopping Bags', category: 'Business' },
+    { emoji: '💳', name: 'Credit Card', category: 'Business' },
+    { emoji: '💰', name: 'Money Bag', category: 'Business' },
+    { emoji: '🎁', name: 'Gift', category: 'Business' },
+    { emoji: '🏷️', name: 'Price Tag', category: 'Business' },
+    { emoji: '📱', name: 'Phone', category: 'Business' },
+    { emoji: '💻', name: 'Laptop', category: 'Business' },
+    { emoji: '🔧', name: 'Wrench', category: 'Business' },
+    
+    // Beauty & Wellness
+    { emoji: '💅', name: 'Nail Polish', category: 'Beauty' },
+    { emoji: '💄', name: 'Lipstick', category: 'Beauty' },
+    { emoji: '✂️', name: 'Scissors', category: 'Beauty' },
+    { emoji: '🧴', name: 'Lotion', category: 'Beauty' },
+    { emoji: '🧘‍♀️', name: 'Meditation', category: 'Beauty' },
+    { emoji: '💆‍♀️', name: 'Massage', category: 'Beauty' },
+    { emoji: '🛁', name: 'Bath', category: 'Beauty' },
+    { emoji: '🌸', name: 'Cherry Blossom', category: 'Beauty' },
+    
+    // Transportation & Automotive
+    { emoji: '🚗', name: 'Car', category: 'Auto' },
+    { emoji: '🚙', name: 'SUV', category: 'Auto' },
+    { emoji: '🏍️', name: 'Motorcycle', category: 'Auto' },
+    { emoji: '🚲', name: 'Bicycle', category: 'Auto' },
+    { emoji: '⛽', name: 'Gas Station', category: 'Auto' },
+    { emoji: '🔧', name: 'Repair', category: 'Auto' },
+    
+    // Sports & Fitness
+    { emoji: '⚽', name: 'Soccer', category: 'Sports' },
+    { emoji: '🏀', name: 'Basketball', category: 'Sports' },
+    { emoji: '🏈', name: 'Football', category: 'Sports' },
+    { emoji: '🎾', name: 'Tennis', category: 'Sports' },
+    { emoji: '🏋️‍♀️', name: 'Weightlifting', category: 'Sports' },
+    { emoji: '🧘‍♂️', name: 'Yoga', category: 'Sports' },
+    { emoji: '🏃‍♀️', name: 'Running', category: 'Sports' },
+    { emoji: '🚴‍♀️', name: 'Cycling', category: 'Sports' }
   ];
 
   useEffect(() => {
@@ -204,20 +261,139 @@ const RestaurantGameManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Food Emoji
+                      Game Emoji
                     </label>
-                    <select
-                      value={formData.emoji}
-                      onChange={(e) => setFormData({...formData, emoji: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      required
-                    >
-                      {foodEmojis.map((item) => (
-                        <option key={item.emoji} value={item.emoji}>
-                          {item.emoji} {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="space-y-3">
+                      <select
+                        value={formData.emoji}
+                        onChange={(e) => setFormData({...formData, emoji: e.target.value})}
+                        className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        required
+                      >
+                        {gameEmojis.map((item) => (
+                          <option key={item.emoji} value={item.emoji}>
+                            {item.emoji} {item.name} ({item.category})
+                          </option>
+                        ))}
+                      </select>
+                      
+                      {/* Emoji Categories for better organization */}
+                      <div className="grid grid-cols-6 gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Food</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Food').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Gaming</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Gaming').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Business</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Business').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Beauty</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Beauty').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Auto</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Auto').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-gray-600 mb-2">Sports</p>
+                          <div className="flex flex-wrap gap-1">
+                            {gameEmojis.filter(e => e.category === 'Sports').slice(0, 6).map((item) => (
+                              <button
+                                key={item.emoji}
+                                type="button"
+                                onClick={() => setFormData({...formData, emoji: item.emoji})}
+                                className={`text-lg p-1 rounded hover:bg-gray-200 transition-colors ${
+                                  formData.emoji === item.emoji ? 'bg-green-200 ring-2 ring-green-500' : ''
+                                }`}
+                                title={item.name}
+                              >
+                                {item.emoji}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -259,7 +435,11 @@ const RestaurantGameManagement: React.FC = () => {
                     <div className="border border-gray-300 rounded-xl p-6 text-center bg-gray-50">
                       <div className="text-6xl mb-2">{formData.emoji}</div>
                       <p className="text-sm text-gray-600">
-                        This emoji will appear on your game card
+                        This emoji will represent your game
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {gameEmojis.find(e => e.emoji === formData.emoji)?.name} 
+                        ({gameEmojis.find(e => e.emoji === formData.emoji)?.category})
                       </p>
                     </div>
                   </div>
