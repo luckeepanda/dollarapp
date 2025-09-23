@@ -42,7 +42,6 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/business" element={<LocalBusinessLogin />} />
               <Route path="/business/register" element={<LocalBusinessRegister />} />
               <Route path="/business/login" element={<LocalBusinessLogin />} />
@@ -65,7 +64,7 @@ function App() {
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-              <Route path="/restaurant/dashboard" element={
+              <Route path="/business/dashboard" element={
                 <ProtectedRoute userType="business">
                   <LocalBusinessDashboard />
                 </ProtectedRoute>
