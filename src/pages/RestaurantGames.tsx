@@ -185,7 +185,7 @@ const RestaurantGames: React.FC = () => {
         <div className="mt-12 food-card p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
             <Star className="h-5 w-5 text-primary-600" />
-            <span>How Local Business Games Work</span>
+            <span>How Business Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
@@ -194,11 +194,11 @@ const RestaurantGames: React.FC = () => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Meet the Challenge</h3>
-              <p>Each game has a minimum score requirement. Reach or exceed it to qualify for the local business prize.</p>
+              <p>Each game has a minimum score requirement. Reach or exceed it to qualify for the business prize.</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Redeem Your Prize</h3>
-              <p>Qualifying players receive a unique QR code that can be redeemed at the local business for real food prizes.</p>
+              <p>Qualifying players receive a unique QR code that can be redeemed at the business for real food prizes.</p>
             </div>
           </div>
         </div>
