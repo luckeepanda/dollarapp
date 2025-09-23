@@ -100,14 +100,13 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
             </div>
           </div>
           
-          {/* Right side - Entry button */}
-          <button
-            onClick={handleButtonClick}
-            disabled={!isActive && !needsAccount && !needsFunds}
-            className={`px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()}`}
-          >
-            {getButtonText()}
-          </button>
+          {/* Right side - Live indicator only */}
+          {isActive && (
+            <div className="flex items-center space-x-1 bg-green-100 px-3 py-1 rounded-full">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+              <span className="text-xs font-semibold text-green-700">LIVE</span>
+            </div>
+          )}
         </div>
 
         {/* Description */}
@@ -131,9 +130,20 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
           {(needsAccount || needsFunds) && (
             <button
               onClick={handleButtonClick}
-              className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-lg font-semibold hover:from-primary-700 hover:to-primary-800 transition-all transform hover:scale-105 shadow-md hover:shadow-lg text-sm"
+              className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               Create Account
+            </button>
+          )}
+          
+          {/* Entry button for users with accounts */}
+          {!needsAccount && !needsFunds && (
+            <button
+              onClick={handleButtonClick}
+              disabled={!isActive}
+              className={`px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()}`}
+            >
+              {getButtonText()}
             </button>
           )}
         </div>
@@ -150,15 +160,6 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
           </div>
         </div>
 
-        {/* Status indicator for active games */}
-        {isActive && (
-          <div className="absolute top-4 right-4">
-            <div className="flex items-center space-x-1 bg-green-100 px-3 py-1 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-              <span className="text-xs font-semibold text-green-700">LIVE</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Hover effect indicator */}
