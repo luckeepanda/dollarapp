@@ -93,7 +93,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-500">by</span>
                   <span className="px-3 py-1 bg-gradient-to-r from-primary-100 to-success-100 text-primary-700 text-sm font-semibold rounded-full">
-                    🍽️ {game.business.username}
+                    {game.business.username}
                   </span>
                 </div>
               )}
