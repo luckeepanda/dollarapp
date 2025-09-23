@@ -29,7 +29,7 @@ const RestaurantLogin: React.FC = () => {
       }
       
       // Navigate to restaurant dashboard
-      navigate('/restaurant/dashboard');
+      navigate('/business/dashboard');
       
     } catch (error: any) {
       console.error('Restaurant login failed:', error);
