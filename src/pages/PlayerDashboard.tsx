@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import PlayerQRCodes from '../components/PlayerQRCodes';
 import AdminTestCredits from '../components/AdminTestCredits';
 import ModernGameCard from '../components/ModernGameCard';
+import RestaurantGameSession from '../components/RestaurantGameSession';
 import { useAuth } from '../contexts/AuthContext';
 import { restaurantGameService, type RestaurantGame } from '../services/restaurantGameService';
 import { 
@@ -25,6 +26,9 @@ const PlayerDashboard: React.FC = () => {
   const { user } = useAuth();
   const [restaurantGames, setRestaurantGames] = useState<RestaurantGame[]>([]);
   const [isLoadingGames, setIsLoadingGames] = useState(true);
+  const [currentGame, setCurrentGame] = useState<RestaurantGame | null>(null);
+  const [gameState, setGameState] = useState<'dashboard' | 'playing'>('dashboard');
+  const [isJoining, setIsJoining] = useState<string | null>(null);
 
   useEffect(() => {
     loadRestaurantGames();
@@ -41,6 +45,52 @@ const PlayerDashboard: React.FC = () => {
     }
   };
 
+  const handleJoinGame = async (game: RestaurantGame) => {
+    if (!user) return;
+    
+    if (user.balance < game.entry_fee) {
+      alert('Insufficient balance. Please add funds to play.');
+      return;
+    }
+
+    setIsJoining(game.id);
+    try {
+      await restaurantGameService.joinGame(game.id, user.id);
+      
+      // Update user balance locally
+      updateBalance(user.balance - game.entry_fee);
+      
+      setCurrentGame(game);
+      setGameState('playing');
+    } catch (error: any) {
+      console.error('Failed to join game:', error);
+      alert(error.message || 'Failed to join game. Please try again.');
+    } finally {
+      setIsJoining(null);
+    }
+  };
+
+  const handleGameComplete = (results: any) => {
+    console.log('Restaurant game completed:', results);
+    // Results are handled within the game session component
+  };
+
+  const handleLeaveGame = () => {
+    setCurrentGame(null);
+    setGameState('dashboard');
+    loadRestaurantGames(); // Refresh games list
+  };
+
+  // Render game session
+  if (gameState === 'playing' && currentGame) {
+    return (
+      <RestaurantGameSession
+        game={currentGame}
+        onGameComplete={handleGameComplete}
+        onLeaveGame={handleLeaveGame}
+      />
+    );
+  }
   return (
     <div className="min-h-screen bg-neutral-50">
       <Header />
@@ -156,9 +206,10 @@ const PlayerDashboard: React.FC = () => {
                   <ModernGameCard
                     key={game.id}
                     game={game}
-                    onView={() => window.location.href = '/restaurant-games'}
+                    onJoin={() => handleJoinGame(game)}
                     userBalance={user?.balance || 0}
-                   user={user}
+                    user={user}
+                    className={isJoining === game.id ? 'opacity-75 pointer-events-none' : ''}
                   />
                 ))}
               </div>
