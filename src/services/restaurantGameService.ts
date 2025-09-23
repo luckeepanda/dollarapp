@@ -3,7 +3,7 @@ import { playerQRService } from './playerQRService';
 
 export interface RestaurantGame {
   id: string;
-  restaurant_id: string;
+  business_id: string;
   name: string;
   description: string;
   entry_fee: number;
@@ -21,7 +21,7 @@ export interface RestaurantGame {
   emoji?: string;
   created_at: string;
   completed_at?: string;
-  restaurant?: {
+  business?: {
     username: string;
   };
 }
@@ -55,7 +55,7 @@ export interface GameResult {
 export const restaurantGameService = {
   // Create a new restaurant game
   async createGame(
-    restaurantId: string,
+    businessId: string,
     name: string,
     description: string,
     entryFee: number,
@@ -65,7 +65,7 @@ export const restaurantGameService = {
     emoji: string = '🍔'
   ): Promise<string> {
     const { data, error } = await supabase.rpc('create_restaurant_game', {
-      p_restaurant_id: restaurantId,
+      p_business_id: businessId,
       p_name: name,
       p_description: description,
       p_entry_fee: entryFee,
@@ -89,7 +89,7 @@ export const restaurantGameService = {
       .from('restaurant_games')
       .select(`
         *,
-        restaurant:profiles!restaurant_games_restaurant_id_fkey(username)
+        business:profiles!restaurant_games_business_id_fkey(username)
       `)
       .eq('status', 'active')
       .order('created_at', { ascending: false });
@@ -103,11 +103,11 @@ export const restaurantGameService = {
   },
 
   // Get restaurant's games
-  async getRestaurantGames(restaurantId: string): Promise<RestaurantGame[]> {
+  async getBusinessGames(businessId: string): Promise<RestaurantGame[]> {
     const { data, error } = await supabase
       .from('restaurant_games')
       .select('*')
-      .eq('restaurant_id', restaurantId)
+      .eq('business_id', businessId)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -214,7 +214,7 @@ export const restaurantGameService = {
       .from('restaurant_games')
       .select(`
         *,
-        restaurant:profiles!restaurant_games_restaurant_id_fkey(username)
+        business:profiles!restaurant_games_business_id_fkey(username)
       `)
       .eq('id', gameId)
       .single();
@@ -276,8 +276,8 @@ export const restaurantGameService = {
   },
 
   // Redeem QR code
-  async redeemQR(qrCode: string, restaurantId: string, approved: boolean = true, rejectionReason?: string): Promise<any> {
+  async redeemQR(qrCode: string, businessId: string, approved: boolean = true, rejectionReason?: string): Promise<any> {
     // Use the existing player QR service for redemption
-    return await playerQRService.redeemQRCode(qrCode, restaurantId, approved, rejectionReason);
+    return await playerQRService.redeemQRCode(qrCode, businessId, approved, rejectionReason);
   }
 };

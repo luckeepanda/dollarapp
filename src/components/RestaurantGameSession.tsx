@@ -187,7 +187,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
                         Submitting Score...
                       </h3>
                       <p className="text-lg text-royal-blue-600">
-                        You scored <span className="font-bold text-2xl">{finalScore}</span> points!
+                        Present this code at {game.business?.username || 'the local business'} to claim your prize!
                       </p>
                     </>
                   ) : (
@@ -299,7 +299,7 @@ const RestaurantGameSession: React.FC<RestaurantGameSessionProps> = ({
             <li>• Score at least {game.min_score} points to qualify for the prize</li>
             <li>• Each attempt costs ${game.entry_fee.toFixed(2)}</li>
             <li>• Qualifying players receive a QR code for local business redemption</li>
-            <li>• Present your QR code at {game.restaurant?.username || 'the local business'} to claim your prize</li>
+            <li>• Present your QR code at {game.business?.username || 'the local business'} to claim your prize</li>
           </ul>
         </div>
       </div>

@@ -89,11 +89,11 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
               <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-700 transition-colors mb-1">
                 {game.name}
               </h3>
-              {game.restaurant && (
+              {game.business && (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-500">by</span>
                   <span className="px-3 py-1 bg-gradient-to-r from-primary-100 to-success-100 text-primary-700 text-sm font-semibold rounded-full">
-                    🍽️ {game.restaurant.username}
+                    🍽️ {game.business.username}
                   </span>
                 </div>
               )}

@@ -171,7 +171,7 @@ const PlayerDashboard: React.FC = () => {
                   className="inline-flex items-center space-x-2 food-button px-6 py-3 rounded-lg font-bold"
                 >
                   <Trophy className="h-5 w-5" />
-                  <span>View All Local Business Games</span>
+                  <span>View All Business Games</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -183,11 +183,11 @@ const PlayerDashboard: React.FC = () => {
         <div className="mt-8 food-card p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
             <TrendingUp className="h-5 w-5 text-primary-600" />
-            <span>How Local Business Games Work</span>
+            <span>How Business Games Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Join Local Business Games</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Join Business Games</h3>
               <p>Browse games created by local businesses. Any score qualifies - highest score wins the prize!</p>
             </div>
             <div>
@@ -196,7 +196,7 @@ const PlayerDashboard: React.FC = () => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Win Real Prizes</h3>
-              <p>Winners receive QR codes that can be redeemed at the local business for real food and prizes!</p>
+              <p>Winners receive QR codes that can be redeemed at the business for real food and prizes!</p>
             </div>
           </div>
         </div>

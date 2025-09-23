@@ -44,6 +44,9 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/restaurant" element={<LocalBusinessLogin />} />
               <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
+              <Route path="/business" element={<LocalBusinessLogin />} />
+              <Route path="/business/register" element={<LocalBusinessRegister />} />
+              <Route path="/business/login" element={<LocalBusinessLogin />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
@@ -64,17 +67,17 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/restaurant/dashboard" element={
-                <ProtectedRoute userType="restaurant">
+                <ProtectedRoute userType="business">
                   <LocalBusinessDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/restaurant/games" element={
-                <ProtectedRoute userType="restaurant">
+                <ProtectedRoute userType="business">
                   <LocalBusinessGameManagement />
                 </ProtectedRoute>
               } />
               <Route path="/restaurant/games/:gameId" element={
-                <ProtectedRoute userType="restaurant">
+                <ProtectedRoute userType="business">
                   <LocalBusinessGameDetails />
                 </ProtectedRoute>
               } />
@@ -84,7 +87,7 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/scan" element={
-                <ProtectedRoute userType="restaurant">
+                <ProtectedRoute userType="business">
                   <QRScanner />
                 </ProtectedRoute>
               } />
@@ -94,7 +97,7 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/withdraw" element={
-                <ProtectedRoute userType="restaurant">
+                <ProtectedRoute userType="business">
                   <Withdraw />
                 </ProtectedRoute>
               } />

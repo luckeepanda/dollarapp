@@ -23,7 +23,11 @@ const Login: React.FC = () => {
       console.log('Login successful, navigating to dashboard for:', user);
       
       // Navigate to appropriate dashboard based on account type
-      navigate(`/${user.account_type}/dashboard`);
+      if (user.account_type === 'business') {
+        navigate('/restaurant/dashboard');
+      } else {
+        navigate(`/${user.account_type}/dashboard`);
+      }
       
     } catch (error: any) {
       console.error('Login failed:', error);

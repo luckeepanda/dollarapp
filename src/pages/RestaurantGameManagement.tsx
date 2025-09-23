@@ -58,7 +58,7 @@ const RestaurantGameManagement: React.FC = () => {
     if (!user) return;
     
     try {
-      const gamesData = await restaurantGameService.getRestaurantGames(user.id);
+      const gamesData = await restaurantGameService.getBusinessGames(user.id);
       setGames(gamesData);
     } catch (error) {
       console.error('Failed to load games:', error);
@@ -441,7 +441,7 @@ const RestaurantGameManagement: React.FC = () => {
           <div className="text-center py-12">
             <Trophy className="h-16 w-16 text-steel-blue mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-steel-blue mb-2">No Games Created Yet</h3>
-            <p className="text-royal-blue-200 mb-6">Create your first game to start attracting players!</p>
+            <p className="text-royal-blue-200 mb-6">Create your first business game to start attracting players!</p>
             <button
               onClick={() => setShowCreateForm(true)}
               className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-xl hover:shadow-2xl border border-green-400/30"

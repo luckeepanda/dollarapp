@@ -102,9 +102,9 @@ const RestaurantDashboard: React.FC = () => {
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-                Local Business Dashboard 🍽️
+                Business Dashboard 🍽️
               </h1>
-              <p className="text-gray-600">Manage QR redemptions and track your earnings</p>
+              <p className="text-gray-600">Manage QR redemptions and track your business earnings</p>
             </div>
             <div className="flex items-center space-x-3">
               <button

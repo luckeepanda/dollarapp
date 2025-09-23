@@ -17,7 +17,7 @@ interface RegisterData {
   email: string;
   username: string;
   password: string;
-  accountType: 'player' | 'restaurant' | 'admin';
+  accountType: 'player' | 'business' | 'admin';
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -137,7 +137,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         id: data.id,
         email: data.email,
         username: data.username,
-        accountType: data.account_type,
+        accountType: data.account_type === 'business' ? 'business' : data.account_type,
         balance: parseFloat(data.balance || '0'),
         isKYCVerified: data.is_kyc_verified,
         created_at: data.created_at,
@@ -155,7 +155,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const createOAuthProfile = async (supabaseUser: SupabaseUser, accountType: 'player' | 'restaurant' = 'player') => {
+  const createOAuthProfile = async (supabaseUser: SupabaseUser, accountType: 'player' | 'business' = 'player') => {
     try {
       // Extract username from email or use a default
       const username = supabaseUser.email?.split('@')[0] || `user_${supabaseUser.id.slice(0, 8)}`;
@@ -169,7 +169,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             username: username,
             account_type: accountType,
             balance: 0.00,
-            is_kyc_verified: accountType === 'restaurant' ? false : null,
+            is_kyc_verified: accountType === 'business' ? false : null,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           }

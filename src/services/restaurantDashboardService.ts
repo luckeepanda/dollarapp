@@ -59,7 +59,7 @@ export const restaurantDashboardService = {
       const { data: monthlyGames, error: monthlyError } = await supabase
         .from('restaurant_games')
         .select('prize_pool')
-        .eq('restaurant_id', businessId)
+        .eq('business_id', businessId)
         .eq('qr_redeemed', true)
         .gte('completed_at', firstDayOfMonth.toISOString())
         .lt('completed_at', firstDayOfNextMonth.toISOString());
@@ -72,7 +72,7 @@ export const restaurantDashboardService = {
       const { data: uniqueCustomers, error: customersError } = await supabase
         .from('restaurant_games')
         .select('winner_id')
-        .eq('restaurant_id', businessId)
+        .eq('business_id', businessId)
         .not('winner_id', 'is', null);
 
       if (customersError) throw customersError;
@@ -105,7 +105,7 @@ export const restaurantDashboardService = {
           winner_id,
           profiles!restaurant_games_winner_id_fkey(username)
         `)
-        .eq('restaurant_id', businessId)
+        .eq('business_id', businessId)
         .eq('qr_redeemed', true)
         .not('winner_id', 'is', null)
         .order('completed_at', { ascending: false })
@@ -168,7 +168,7 @@ export const restaurantDashboardService = {
       const { data, error } = await supabase
         .from('restaurant_games')
         .select('id')
-        .eq('restaurant_id', businessId)
+        .eq('business_id', businessId)
         .eq('status', 'active');
 
       if (error) throw error;
@@ -186,7 +186,7 @@ export const restaurantDashboardService = {
       const { data, error } = await supabase
         .from('restaurant_games')
         .select('id')
-        .eq('restaurant_id', businessId)
+        .eq('business_id', businessId)
         .eq('status', 'completed')
         .eq('qr_redeemed', false)
         .not('qr_code', 'is', null);

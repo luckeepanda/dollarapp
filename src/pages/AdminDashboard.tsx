@@ -20,7 +20,7 @@ import {
 interface AdminStats {
   totalUsers: number;
   totalPlayers: number;
-  totalRestaurants: number;
+  totalBusinesses: number;
   totalBalance: number;
   activeGames: number;
   completedGames: number;
@@ -33,7 +33,7 @@ const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<AdminStats>({
     totalUsers: 0,
     totalPlayers: 0,
-    totalRestaurants: 0,
+    totalBusinesses: 0,
     totalBalance: 0,
     activeGames: 0,
     completedGames: 0,
@@ -84,7 +84,7 @@ const AdminDashboard: React.FC = () => {
       // Calculate statistics
       const totalUsers = userStats?.length || 0;
       const totalPlayers = userStats?.filter(u => u.account_type === 'player').length || 0;
-      const totalRestaurants = userStats?.filter(u => u.account_type === 'restaurant').length || 0;
+      const totalBusinesses = userStats?.filter(u => u.account_type === 'business').length || 0;
       const totalBalance = userStats?.reduce((sum, u) => sum + parseFloat(u.balance.toString()), 0) || 0;
       const activeGames = restaurantGames?.filter(g => g.status === 'active').length || 0;
       const completedGames = restaurantGames?.filter(g => g.status === 'completed').length || 0;
@@ -92,7 +92,7 @@ const AdminDashboard: React.FC = () => {
       setStats({
         totalUsers,
         totalPlayers,
-        totalRestaurants,
+        totalBusinesses: totalBusinesses,
         totalBalance,
         activeGames,
         completedGames,
@@ -165,7 +165,7 @@ const AdminDashboard: React.FC = () => {
                   <p className="text-sm text-gray-600">Total Users</p>
                   <p className="text-2xl font-bold text-primary-600">{stats.totalUsers}</p>
                   <p className="text-xs text-gray-600">
-                    {stats.totalPlayers} players, {stats.totalRestaurants} restaurants
+                    {stats.totalPlayers} players, {stats.totalBusinesses} businesses
                   </p>
                 </div>
                 <div className="bg-primary-100 p-3 rounded-lg">
@@ -256,7 +256,7 @@ const AdminDashboard: React.FC = () => {
                       <span className={`food-badge ${
                         activity.account_type === 'player' 
                           ? 'food-badge-primary'
-                          : activity.account_type === 'restaurant'
+                          : activity.account_type === 'business'
                           ? 'food-badge-success'
                           : 'food-badge-error'
                       }`}>

@@ -22,8 +22,8 @@ const RestaurantLogin: React.FC = () => {
       console.log('Restaurant login successful, navigating to dashboard for:', user);
       
       // Check if user is actually a restaurant
-      if (user.account_type !== 'restaurant') {
-        setError('This account is not registered as a restaurant. Please use the player login.');
+      if (user.account_type !== 'business') {
+        setError('This account is not registered as a business. Please use the player login.');
         setIsLoading(false);
         return;
       }
@@ -57,7 +57,7 @@ const RestaurantLogin: React.FC = () => {
           </h2>
           <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
           <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-            <button className="w-full food-button py-3 rounded-lg font-bold flex items-center justify-center space-x-2">
+              <span>Sign In to Business Portal</span>
             <MonitorPlay />&nbsp; View Demo
           </button>
           </Link>
@@ -143,7 +143,7 @@ const RestaurantLogin: React.FC = () => {
             </p>
           </div>
 
-          <div className="mt-4 text-center">
+            Don't have a business account?{' '}
             <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
               Back to main site
             </Link>

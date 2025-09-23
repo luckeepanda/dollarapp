@@ -64,14 +64,14 @@ const RestaurantRegister: React.FC = () => {
         email: formData.email.trim().toLowerCase(),
         username: formData.username.trim(),
         password: formData.password,
-        accountType: 'restaurant'
+        accountType: 'business'
       });
       
       setSuccess('Restaurant account created successfully! Redirecting to email verification...');
       
       // Wait a moment to show success message, then navigate to email verification
       setTimeout(() => {
-        navigate(`/verify-email?email=${encodeURIComponent(formData.email)}&type=restaurant`);
+        navigate(`/verify-email?email=${encodeURIComponent(formData.email)}&type=business`);
       }, 1500);
       
     } catch (error: any) {
@@ -241,7 +241,7 @@ const RestaurantRegister: React.FC = () => {
 
           <div className="mt-4 p-4 bg-steel-blue-50 rounded-xl">
             <p className="text-sm text-steel-blue-600 text-center">
-              <strong>Local Business Features:</strong> Create games, manage QR redemptions, and track earnings.
+              <strong>Business Features:</strong> Create games, manage QR redemptions, and track earnings.
             </p>
           </div>
         </div>
