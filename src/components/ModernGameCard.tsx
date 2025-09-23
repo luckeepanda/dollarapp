@@ -34,7 +34,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   userBalance = 0,
   user
 }) => {
-  console.log(user);
+  console.log('ModernGameCard user:', user);
   const canAfford = userBalance >= game.entry_fee;
   const isActive = game.status === 'active';
   const needsAccount = !user;
@@ -56,10 +56,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   };
 
   const getButtonText = () => {
-    console.log(needsAccount);
-    console.log(needsFunds);
-    console.log(canPlay);
-    console.log(isActive);
+    console.log('Button state:', { needsAccount, needsFunds, canPlay, isActive, user: !!user });
     if (needsAccount) return 'Create Account';
     if (needsFunds) return 'Create Account';
     if (canPlay) return 'Play Now';

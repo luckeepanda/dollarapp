@@ -175,6 +175,7 @@ const RestaurantGames: React.FC = () => {
                 game={game}
                 onJoin={() => handleJoinGame(game)}
                 userBalance={user?.balance || 0}
+               user={user}
                 className={isJoining === game.id ? 'opacity-75 pointer-events-none' : ''}
               />
             ))}

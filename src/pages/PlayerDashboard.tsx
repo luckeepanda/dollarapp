@@ -158,6 +158,7 @@ const PlayerDashboard: React.FC = () => {
                     game={game}
                     onView={() => window.location.href = '/restaurant-games'}
                     userBalance={user?.balance || 0}
+                   user={user}
                   />
                 ))}
               </div>
