@@ -148,18 +148,6 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
           )}
         </div>
         
-        {/* Expanded promotional text */}
-        <div className="mt-4 text-center">
-          <div className="bg-gradient-to-r from-success-50 via-primary-50 to-success-50 p-4 rounded-xl border border-success-200">
-            <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-success-600 via-primary-600 to-success-600 bg-clip-text text-transparent leading-tight">
-              $1 to win ${game.prize_pool?.toFixed(0) || '12'} meal
-            </p>
-            <p className="text-sm text-gray-600 mt-2">
-              Play once, qualify with any score, win real food prizes!
-            </p>
-          </div>
-        </div>
-
       </div>
 
       {/* Hover effect indicator */}
