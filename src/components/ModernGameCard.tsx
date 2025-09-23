@@ -34,6 +34,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   userBalance = 0,
   user
 }) => {
+  console.log(user);
   const canAfford = userBalance >= game.entry_fee;
   const isActive = game.status === 'active';
   const needsAccount = !user;
