@@ -38,6 +38,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   const isActive = game.status === 'active';
   const needsAccount = !user;
   const needsFunds = user && !canAfford;
+  const canPlay = user && canAfford && isActive;
 
   const handleButtonClick = () => {
     if (needsAccount) {
@@ -46,6 +47,8 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
     } else if (needsFunds) {
       // Redirect to create account (for funding)
       window.location.href = '/register';
+    } else if (canPlay && onJoin) {
+      onJoin();
     } else if (onJoin) {
       onJoin();
     }
@@ -53,7 +56,8 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
 
   const getButtonText = () => {
     if (needsAccount) return 'Create Account';
-    if (needsFunds) return 'Need $1 more to play';
+    if (needsFunds) return 'Create Account';
+    if (canPlay) return 'Play Now';
     if (!isActive) return 'Game Completed';
     return '$1 Entry';
   };
@@ -63,7 +67,10 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
       return 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800';
     }
     if (needsFunds) {
-      return 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 cursor-pointer';
+      return 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800 cursor-pointer';
+    }
+    if (canPlay) {
+      return 'bg-gradient-to-r from-success-600 to-success-700 text-white hover:from-success-700 hover:to-success-800';
     }
     if (!isActive) {
       return 'bg-gray-400 text-gray-600 cursor-not-allowed';
@@ -126,26 +133,14 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
             <div className="text-xs text-yellow-600">points to qualify</div>
           </div>
           
-          {/* Right side - Create Account button for promotional text */}
-          {(needsAccount || needsFunds) && (
-            <button
-              onClick={handleButtonClick}
-              className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Create Account
-            </button>
-          )}
-          
-          {/* Entry button for users with accounts */}
-          {!needsAccount && !needsFunds && (
-            <button
-              onClick={handleButtonClick}
-              disabled={!isActive}
-              className={`px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()}`}
-            >
-              {getButtonText()}
-            </button>
-          )}
+          {/* Right side - Action button */}
+          <button
+            onClick={handleButtonClick}
+            disabled={!isActive && !needsAccount && !needsFunds}
+            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()}`}
+          >
+            {getButtonText()}
+          </button>
         </div>
         
       </div>
