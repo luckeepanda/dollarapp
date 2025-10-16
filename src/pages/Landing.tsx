@@ -83,27 +83,9 @@ const Landing: React.FC = () => {
             {/* LIVE GAMES NOW Button - Enhanced for higher click emphasis */}
             <Link
               to="/restaurant-games"
-              className="group relative food-card text-gray-900 px-6 py-4 sm:px-8 sm:py-5 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl"
+              className="live-games-button"
             >
-              {/* Animated background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
-              
-              {/* Content */}
-              <div className="relative z-10 text-center">
-                <div className="flex items-center space-x-2 mb-1">
-                  <div className="relative">
-                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-primary-500 rounded-full animate-pulse"></div>
-                    <div className="absolute inset-0 w-3 h-3 sm:w-4 sm:h-4 bg-primary-400 rounded-full animate-ping"></div>
-                  </div>
-                  <span className="text-sm sm:text-lg font-black food-text-gradient animate-pulse">
-                    LIVE GAMES NOW
-                  </span>
-                </div>
-                <div className="text-xs sm:text-sm font-bold text-success-600 animate-pulse delay-150">
-                  JUEGOS EN VIVO AHORA
-                </div>
-              </div>
+              LIVE GAMES NOW
             </Link>
             {/* For Local Business Button - commented out for now */}
             {/* <Link
@@ -156,46 +138,12 @@ const Landing: React.FC = () => {
           <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
             {/* Left side - Enhanced LIVE GAMES NOW button */}
             <div>
-              {/* Enhanced LIVE GAMES NOW Button with animations */}
-              <div className="relative w-80 h-40">
               <Link
                 to="/restaurant-games"
-                className="group absolute food-card text-gray-900 px-8 py-6 sm:px-12 sm:py-8 font-black font-display hover:text-primary-600 transition-all duration-300 transform hover:scale-110 food-glow overflow-hidden shadow-xl hover:shadow-2xl animate-pulse"
+                className="live-games-button"
               >
-                {/* Animated background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-400/30 via-success-500/30 to-primary-400/30 animate-pulse"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-shimmer"></div>
-                
-                {/* Pulsing glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-success-500/20 rounded-lg blur-lg animate-pulse"></div>
-                
-                {/* Content */}
-                <div className="relative z-10 text-center">
-                  {/* Live indicator dots */}
-                  <div className="flex items-center justify-center space-x-2 mb-3">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-500 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-success-500 rounded-full animate-pulse delay-150"></div>
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-accent-500 rounded-full animate-pulse delay-300"></div>
-                  </div>
-                  
-                  {/* LIVE text - large and prominent */}
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-black food-text-gradient animate-bounce mb-1">
-                    LIVE
-                  </div>
-                  
-                  {/* GAMES NOW text - smaller but bold */}
-                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 animate-pulse">
-                    GAMES NOW
-                  </div>
-                </div>
-                
-                {/* Corner accents */}
-                <div className="absolute top-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-t-2 border-primary-400 opacity-60 animate-pulse"></div>
-                <div className="absolute top-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-t-2 border-success-400 opacity-60 animate-pulse delay-150"></div>
-                <div className="absolute bottom-2 left-2 w-2 h-2 sm:w-3 sm:h-3 border-l-2 border-b-2 border-accent-400 opacity-60 animate-pulse delay-300"></div>
-                <div className="absolute bottom-2 right-2 w-2 h-2 sm:w-3 sm:h-3 border-r-2 border-b-2 border-primary-400 opacity-60 animate-pulse delay-450"></div>
+                LIVE GAMES NOW
               </Link>
-              </div>  
             </div>
             
             {/* Right side - For Restaurant Button */}
