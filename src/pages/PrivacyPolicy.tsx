@@ -99,19 +99,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">5. Your Rights</h2>
-              <p className="mb-2">You may:</p>
-              <ul className="ml-4 space-y-2">
-                <li>Request access to your data</li>
-                <li>Correct inaccurate information</li>
-                <li>Request account deletion</li>
-                <li>Opt out of marketing emails at any time</li>
-              </ul>
-              <p className="mt-2">To exercise any of these rights, contact <a href="mailto:support@dollarfood.app" className="text-primary-600 hover:text-primary-700 underline">support@dollarfood.app</a>.</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">6. Cookies & Tracking</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">5. Cookies & Tracking</h2>
               <p className="mb-2">We use cookies and similar technologies to:</p>
               <ul className="ml-4 space-y-2">
                 <li>Keep you signed in</li>
@@ -123,17 +111,17 @@ const PrivacyPolicy: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">7. Children's Privacy</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">6. Children's Privacy</h2>
               <p>Dollar App is not intended for users under 18 years old. We do not knowingly collect data from minors. If we discover such data has been collected, we will delete it promptly.</p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">8. Data Retention</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">7. Data Retention</h2>
               <p>We retain data as long as your account is active or as needed to comply with legal or tax obligations.</p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">9. Changes to This Policy</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 font-display">8. Changes to This Policy</h2>
               <p>We may update this Privacy Policy from time to time. Changes will be posted here and may be emailed to you. Continued use of the Platform indicates acceptance of the updated policy.</p>
             </div>
           </div>
