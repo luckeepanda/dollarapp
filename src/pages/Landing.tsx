@@ -142,7 +142,7 @@ const Landing: React.FC = () => {
                 to="/restaurant-games"
                 className="live-games-button"
               >
-                LIVE GAMES NOW
+                LIVE GAMES
               </Link>
             </div>
             
