@@ -24,15 +24,17 @@ interface ModernGameCardProps {
   className?: string;
   userBalance?: number;
   user?: any;
+  cardIndex?: number;
 }
 
-const ModernGameCard: React.FC<ModernGameCardProps> = ({ 
-  game, 
+const ModernGameCard: React.FC<ModernGameCardProps> = ({
+  game,
   onJoin,
   onView,
   className = '',
   userBalance = 0,
-  user
+  user,
+  cardIndex = 0
 }) => {
   console.log('ModernGameCard user:', user);
   const canAfford = userBalance >= game.entry_fee;
@@ -66,10 +68,10 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
 
   const getButtonStyle = () => {
     if (needsAccount) {
-      return 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800';
+      return 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800';
     }
     if (needsFunds) {
-      return 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800 cursor-pointer';
+      return 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 cursor-pointer';
     }
     if (canPlay) {
       return 'bg-gradient-to-r from-success-600 to-success-700 text-white hover:from-success-700 hover:to-success-800';
@@ -78,6 +80,18 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
       return 'bg-gray-400 text-gray-600 cursor-not-allowed';
     }
     return 'bg-gradient-to-r from-success-600 to-success-700 text-white hover:from-success-700 hover:to-success-800';
+  };
+
+  const getButtonAnimation = () => {
+    const animations = [
+      'animate-bounce-subtle',
+      'animate-pulse-slow',
+      'animate-wiggle',
+      'animate-glow',
+      'animate-scale-pulse',
+      'animate-shake-gentle'
+    ];
+    return animations[cardIndex % animations.length];
   };
 
   return (
@@ -139,7 +153,7 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
           <button
             onClick={handleButtonClick}
             disabled={!isActive && !needsAccount && !needsFunds}
-            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()}`}
+            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()} ${(needsAccount || needsFunds) ? getButtonAnimation() : ''}`}
           >
             {getButtonText()}
           </button>

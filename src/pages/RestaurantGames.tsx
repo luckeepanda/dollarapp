@@ -169,13 +169,14 @@ const RestaurantGames: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {games.map((game) => (
+            {games.map((game, index) => (
               <ModernGameCard
                 key={game.id}
                 game={game}
                 onJoin={() => handleJoinGame(game)}
                 userBalance={user?.balance || 0}
                user={user}
+                cardIndex={index}
                 className={isJoining === game.id ? 'opacity-75 pointer-events-none' : ''}
               />
             ))}
