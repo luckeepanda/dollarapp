@@ -77,28 +77,7 @@ const Landing: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-dark-950 cyber-grid">
         {/* Top Navigation */}
-        <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
-          {/* Left side - LIVE GAMES NOW button and Language Toggle */}
-          <div className="flex flex-col space-y-3">
-            {/* LIVE GAMES NOW Button - Enhanced for higher click emphasis */}
-            <Link
-              to="/restaurant-games"
-              className="live-games-button"
-            >
-              LIVE GAMES
-            </Link>
-            {/* For Local Business Button - commented out for now */}
-            {/* <Link
-              to="/restaurant/login"
-              className="group relative inline-flex items-center justify-center space-x-2 web3-card text-cyber-300 px-4 py-2 font-medium hover:text-cyber-200 transition-all duration-300 transform hover:scale-105"
-            >
-              <div className="w-6 h-6 bg-gradient-to-r from-neon-400 to-electric-500 rounded-lg flex items-center justify-center web3-glow">
-                <span className="text-white text-sm font-bold">🍽️</span>
-              </div>
-              <span>For Local Businesses</span>
-            </Link> */}
-          </div>
-          
+        <div className="absolute top-8 left-8 right-8 flex justify-end items-center">
           {/* Right side - For Local Business Button */}
           <Link
             to="/restaurant/login"
@@ -135,17 +114,7 @@ const Landing: React.FC = () => {
         
         {/* Header - Responsive Navigation */}
         <header className="relative z-10 w-full">
-          <div className="flex justify-between items-start p-4 sm:p-6 lg:p-8">
-            {/* Left side - Enhanced LIVE GAMES NOW button */}
-            <div>
-              <Link
-                to="/restaurant-games"
-                className="live-games-button"
-              >
-                LIVE GAMES
-              </Link>
-            </div>
-            
+          <div className="flex justify-end items-start p-4 sm:p-6 lg:p-8">
             {/* Right side - For Restaurant Button */}
             {/* For Local Business Button - commented out for now */}
             {/* <Link
@@ -232,12 +201,18 @@ const Landing: React.FC = () => {
               </p>
               
               {/* Get Started Button */}
-              <div className="mt-8">
+              <div className="mt-8 flex flex-col items-center space-y-4">
                 <Link
                   to="/login"
                   className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-2xl font-black text-base sm:text-lg md:text-xl lg:text-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
                 >
                   GET STARTED
+                </Link>
+                <Link
+                  to="/restaurant-games"
+                  className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-2xl font-black text-base sm:text-lg md:text-xl lg:text-2xl hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-green-200 animate-pulse"
+                >
+                  LIVE GAMES
                 </Link>
               </div>
             </div>
