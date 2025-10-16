@@ -45,6 +45,8 @@ function App() {
               <Route path="/business" element={<LocalBusinessLogin />} />
               <Route path="/business/register" element={<LocalBusinessRegister />} />
               <Route path="/business/login" element={<LocalBusinessLogin />} />
+              <Route path="/restaurant/login" element={<LocalBusinessLogin />} />
+              <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
