@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
               to="/restaurant/login"
               className="hover:text-primary-600 transition-colors"
             >
-              Operating Partners
+              Partners
             </Link>
           </div>
         </div>
