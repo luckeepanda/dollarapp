@@ -130,7 +130,7 @@ const RestaurantLogin: React.FC = () => {
                   <span>Signing in...</span>
                 </>
               ) : (
-                <span>Sign In to Local Business Portal</span>
+                <span>Sign In to Business Portal</span>
               )}
             </button>
           </form>
