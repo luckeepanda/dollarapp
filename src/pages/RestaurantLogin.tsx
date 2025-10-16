@@ -53,7 +53,7 @@ const RestaurantLogin: React.FC = () => {
             <Store className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2 font-display">
-            Local Business Portal
+            Local Business
           </h2>
           <p className="text-gray-600">Sign in to manage your games and QR redemptions</p><br/>
           {/* <Link to="https://www.loom.com/share/f23936cd98b14916b27493aa2621d7d5?sid=9c9ff67a-6a4f-4072-a067-1b25f40f229b" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
