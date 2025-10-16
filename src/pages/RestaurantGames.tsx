@@ -187,7 +187,7 @@ const RestaurantGames: React.FC = () => {
         <div className="mt-12 food-card p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center space-x-2 text-gray-900 font-display">
             <Star className="h-5 w-5 text-primary-600" />
-            <span>How Business Games Work</span>
+            <span>How Does It Work</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
             <div>
