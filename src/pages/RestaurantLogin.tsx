@@ -179,8 +179,14 @@ const RestaurantLogin: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <Link to="/" className="text-gray-500 hover:text-primary-600 text-sm transition-colors">
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-sm text-gray-600">
+              Don't have an account yet?{' '}
+              <Link to="/business/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
+                Sign up here
+              </Link>
+            </p>
+            <Link to="/" className="block text-gray-500 hover:text-primary-600 text-sm transition-colors">
               Back to main site
             </Link>
           </div>
