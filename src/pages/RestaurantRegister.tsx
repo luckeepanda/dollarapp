@@ -67,12 +67,12 @@ const RestaurantRegister: React.FC = () => {
         accountType: 'business'
       });
       
-      setSuccess('Business account created successfully! Please verify your email. Your account will be reviewed by our team before activation.');
-
+      setSuccess('Restaurant account created successfully! Redirecting to email verification...');
+      
       // Wait a moment to show success message, then navigate to email verification
       setTimeout(() => {
         navigate(`/verify-email?email=${encodeURIComponent(formData.email)}&type=business`);
-      }, 2000);
+      }, 1500);
       
     } catch (error: any) {
       console.error('Restaurant registration failed:', error);
