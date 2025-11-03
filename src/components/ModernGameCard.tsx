@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Target, Users } from 'lucide-react';
+import { Play, Target, Users, Clock, DollarSign } from 'lucide-react';
 
 interface Game {
   id: string;
@@ -36,19 +36,20 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   user,
   cardIndex = 0
 }) => {
-  console.log('ModernGameCard user:', user);
   const canAfford = userBalance >= game.entry_fee;
   const isActive = game.status === 'active';
   const needsAccount = !user;
   const needsFunds = user && !canAfford;
   const canPlay = user && canAfford && isActive;
 
+  const playerPercentage = game.max_players
+    ? Math.min(100, ((game.current_players || 0) / game.max_players) * 100)
+    : 0;
+
   const handleButtonClick = () => {
     if (needsAccount) {
-      // Redirect to create account
       window.location.href = '/register';
     } else if (needsFunds) {
-      // Redirect to create account (for funding)
       window.location.href = '/register';
     } else if (canPlay && onJoin) {
       onJoin();
@@ -58,111 +59,110 @@ const ModernGameCard: React.FC<ModernGameCardProps> = ({
   };
 
   const getButtonText = () => {
-    console.log('Button state:', { needsAccount, needsFunds, canPlay, isActive, user: !!user });
     if (needsAccount) return 'Create Account';
-    if (needsFunds) return 'Create Account';
-    if (canPlay) return 'Play Now';
-    if (!isActive) return 'Game Completed';
-    return '$1 Entry';
+    if (needsFunds) return 'Add Funds';
+    if (canPlay) return 'Join Game';
+    if (!isActive) return 'Completed';
+    return 'Join Now';
   };
 
   const getButtonStyle = () => {
-    if (needsAccount) {
-      return 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800';
+    if (needsAccount || canPlay) {
+      return 'food-button animate-pulse-fast';
     }
     if (needsFunds) {
-      return 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 cursor-pointer';
-    }
-    if (canPlay) {
-      return 'bg-gradient-to-r from-success-600 to-success-700 text-white hover:from-success-700 hover:to-success-800';
+      return 'gaming-button-orange animate-pulse-fast';
     }
     if (!isActive) {
-      return 'bg-gray-400 text-gray-600 cursor-not-allowed';
+      return 'bg-dark-700 text-dark-300 cursor-not-allowed';
     }
-    return 'bg-gradient-to-r from-success-600 to-success-700 text-white hover:from-success-700 hover:to-success-800';
-  };
-
-  const getButtonAnimation = () => {
-    const animations = [
-      'animate-bounce-subtle',
-      'animate-pulse-slow',
-      'animate-wiggle',
-      'animate-glow',
-      'animate-scale-pulse',
-      'animate-shake-gentle'
-    ];
-    return animations[cardIndex % animations.length];
+    return 'food-button';
   };
 
   return (
-    <div className={`group relative bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 transform hover:scale-[1.02] overflow-hidden ${className}`}>
-      {/* Animated background gradient on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-success-500/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-      
-      {/* Content */}
+    <div className={`group relative gaming-card overflow-hidden hover:border-neon-green-500/50 transition-all duration-200 ${className}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-neon-green-500/5 via-transparent to-vivid-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+
       <div className="relative p-6">
-        {/* Header with static emoji and entry button */}
-        <div className="flex items-start justify-between mb-6">
-          {/* Left side - Static emoji */}
+        <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-4">
-            <div className="text-5xl">
-              {game.emoji || '🍔'}
+            <div className="text-5xl transform group-hover:scale-110 transition-transform duration-200">
+              {game.emoji || '🎮'}
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-700 transition-colors mb-1">
+              <h3 className="text-xl font-bold text-white group-hover:text-neon-green-400 transition-colors mb-1">
                 {game.name}
               </h3>
               {game.business && (
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-500">by</span>
-                  <span className="px-3 py-1 bg-gradient-to-r from-primary-100 to-success-100 text-primary-700 text-sm font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-dark-800 border border-dark-400 text-dark-200 text-xs font-semibold rounded-full">
                     {game.business.username}
                   </span>
                 </div>
               )}
             </div>
           </div>
-          
-          {/* Right side - Live indicator only */}
+
           {isActive && (
-            <div className="flex items-center space-x-1 bg-green-100 px-3 py-1 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-              <span className="text-xs font-semibold text-green-700">LIVE</span>
+            <div className="flex items-center space-x-1 bg-neon-green-500/20 border border-neon-green-500/30 px-3 py-1 rounded-full animate-pulse-fast">
+              <div className="w-2 h-2 bg-neon-green-500 rounded-full animate-ping"></div>
+              <span className="text-xs font-bold text-neon-green-400 tracking-wide">LIVE</span>
             </div>
           )}
         </div>
 
-        {/* Description */}
-        <p className="text-gray-600 text-base mb-6 leading-relaxed">
+        <p className="text-dark-200 text-sm mb-6 leading-relaxed line-clamp-2">
           {game.description}
         </p>
 
-        {/* Bottom section with Min Score and promotional text */}
-        <div className="flex items-center justify-between">
-          {/* Left-aligned Min Score */}
-          <div className="flex flex-col items-start">
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="gaming-stat-card">
             <div className="flex items-center space-x-2 mb-1">
-              <Target className="h-4 w-4 text-yellow-600" />
-              <span className="text-sm font-medium text-yellow-700">Minimum Score</span>
+              <DollarSign className="h-4 w-4 text-neon-green-400" />
+              <span className="text-xs font-medium text-dark-200 uppercase tracking-wide">Entry</span>
             </div>
-            <div className="text-2xl font-bold text-yellow-800">{game.min_score}</div>
-            <div className="text-xs text-yellow-600">points to qualify</div>
+            <div className="text-2xl font-black text-neon-green-400">${game.entry_fee}</div>
           </div>
-          
-          {/* Right side - Action button */}
-          <button
-            onClick={handleButtonClick}
-            disabled={!isActive && !needsAccount && !needsFunds}
-            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg hover:shadow-xl ${getButtonStyle()} ${(needsAccount || needsFunds) ? getButtonAnimation() : ''}`}
-          >
-            {getButtonText()}
-          </button>
+
+          <div className="gaming-stat-card">
+            <div className="flex items-center space-x-2 mb-1">
+              <Target className="h-4 w-4 text-vivid-orange-400" />
+              <span className="text-xs font-medium text-dark-200 uppercase tracking-wide">Min Score</span>
+            </div>
+            <div className="text-2xl font-black text-vivid-orange-400">{game.min_score}</div>
+          </div>
         </div>
-        
+
+        {game.max_players && (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-2">
+                <Users className="h-4 w-4 text-dark-200" />
+                <span className="text-xs font-medium text-dark-200 uppercase tracking-wide">Players</span>
+              </div>
+              <span className="text-sm font-bold text-white">
+                {game.current_players || 0}/{game.max_players}
+              </span>
+            </div>
+            <div className="gaming-progress-bar">
+              <div
+                className="gaming-progress-fill"
+                style={{ width: `${playerPercentage}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        <button
+          onClick={handleButtonClick}
+          disabled={!isActive && !needsAccount && !needsFunds}
+          className={`w-full px-6 py-4 rounded-lg font-bold text-base uppercase tracking-wide transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed ${getButtonStyle()}`}
+        >
+          {getButtonText()}
+        </button>
       </div>
 
-      {/* Hover effect indicator */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-success-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-b-2xl"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-neon-green-500 via-vivid-orange-500 to-neon-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 rounded-b-xl"></div>
     </div>
   );
 };
