@@ -5,9 +5,8 @@ import { getRandomEmojis } from '../utils/emojiSystem';
 import TacoGame from '../components/TacoGame';
 import NicknameModal from '../components/NicknameModal';
 import LeaderboardModal from '../components/LeaderboardModal';
-import SlotMachine from '../components/SlotMachine';
 import { leaderboardService } from '../services/leaderboardService';
-import {
+import { 
   Trophy,
   GamepadIcon,
   Home,
@@ -26,10 +25,8 @@ const FreePlay: React.FC = () => {
   const [isSubmittingScore, setIsSubmittingScore] = useState(false);
   const [gameEmojis, setGameEmojis] = useState<string[]>(['🌮', '🍔', '🚀', '🍕']);
   const [selectedEmoji, setSelectedEmoji] = useState<string>('🌮');
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [hasSpun, setHasSpun] = useState(false);
-
-  const characterOptions = ['🌮', '🍕', '🍺', '💅', '🚗'];
+  
+  const characterOptions = ['🌮', '🍕', '🍺', '💅'];
 
   // Rotate game emojis on component mount
   React.useEffect(() => {
@@ -86,25 +83,16 @@ const FreePlay: React.FC = () => {
     setShowLeaderboard(true);
   };
 
-  const handleSlotSelection = (emoji: string) => {
+  const handleCharacterSelect = (emoji: string) => {
     setSelectedEmoji(emoji);
-    setHasSpun(true);
+    // Reset game when character changes
+    setFinalScore(null);
+    setGameActive(false);
+    setGameKey(prev => prev + 1);
+    setResetTrigger(prev => prev + 1);
     setTimeout(() => {
-      setIsSpinning(false);
-      setFinalScore(null);
-      setGameActive(false);
-      setGameKey(prev => prev + 1);
-      setResetTrigger(prev => prev + 1);
-      setTimeout(() => {
-        setGameActive(true);
-      }, 100);
-    }, 500);
-  };
-
-  const handleStartSpin = () => {
-    if (isSpinning) return;
-    setIsSpinning(true);
-    setHasSpun(false);
+      setGameActive(true);
+    }, 100);
   };
 
   const restartGame = useCallback(() => {
@@ -194,34 +182,28 @@ const FreePlay: React.FC = () => {
       </div>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Slot Machine Character Selection */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold font-display food-text-gradient mb-8">Choose Your Player</h2>
-
-          <div className="flex flex-col items-center space-y-8">
-            <SlotMachine
-              emojis={characterOptions}
-              onSelection={handleSlotSelection}
-              isSpinning={isSpinning}
-            />
-
-            <button
-              onClick={handleStartSpin}
-              disabled={isSpinning}
-              className={`relative group ${
-                isSpinning
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:scale-105 active:scale-95'
-              } transition-all duration-200`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-yellow-500 to-red-600 rounded-full blur-xl opacity-75 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-gradient-to-b from-red-500 to-red-700 text-white px-16 py-6 rounded-full text-3xl font-black shadow-2xl border-8 border-yellow-400 group-hover:border-yellow-300 transition-all">
-                <div className="flex items-center space-x-3">
-                  <Play className="h-8 w-8" />
-                  <span>{isSpinning ? 'SPINNING...' : hasSpun ? 'SPIN AGAIN' : 'START'}</span>
+        {/* Character Selection */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold font-display food-text-gradient mb-6">Choose Your Player</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-md mx-auto mb-8">
+            {characterOptions.map((emoji) => (
+              <button
+                key={emoji}
+                onClick={() => handleCharacterSelect(emoji)}
+                className={`p-6 rounded-2xl border-4 transition-all duration-300 transform hover:scale-105 ${
+                  selectedEmoji === emoji
+                    ? 'border-primary-500 bg-primary-50 shadow-lg'
+                    : 'border-gray-200 hover:border-primary-300 bg-white hover:bg-primary-50'
+                }`}
+              >
+                <div className="text-4xl mb-2">{emoji}</div>
+                <div className={`text-sm font-medium ${
+                  selectedEmoji === emoji ? 'text-primary-700' : 'text-gray-600'
+                }`}>
+                  {selectedEmoji === emoji ? 'Selected' : 'Select'}
                 </div>
-              </div>
-            </button>
+              </button>
+            ))}
           </div>
         </div>
 

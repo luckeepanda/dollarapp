@@ -49,7 +49,6 @@ function App() {
               <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
-              <Route path="/free-play" element={<FreePlay />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
               <Route path="/food-blaster" element={<FoodBlasterGame />} />
               <Route path="/pizza-hunter" element={<PizzaHunterGame />} />
