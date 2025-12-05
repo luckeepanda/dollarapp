@@ -243,7 +243,7 @@ const Landing: React.FC = () => {
         <div className="relative pb-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Link
-              to="/free-play"
+              to="/try-dollar-games"
               className="inline-block bg-white text-orange-600 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-black text-xl sm:text-2xl hover:bg-orange-50 transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-3xl border-4 border-white hover:border-orange-200 group"
             >
               <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-600 group-hover:to-orange-700">

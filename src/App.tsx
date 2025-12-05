@@ -22,6 +22,7 @@ import QRScanner from './pages/QRScanner';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import FreePlay from './pages/FreePlay';
+import TryDollarGames from './pages/TryDollarGames';
 import HamburgerRunnerGame from './pages/HamburgerRunnerGame';
 import FoodBlasterGame from './pages/FoodBlasterGame';
 import PizzaHunterGame from './pages/PizzaHunterGame';
@@ -49,6 +50,7 @@ function App() {
               <Route path="/restaurant/register" element={<LocalBusinessRegister />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route path="/try-dollar-games" element={<TryDollarGames />} />
               <Route path="/hamburger-runner" element={<HamburgerRunnerGame />} />
               <Route path="/food-blaster" element={<FoodBlasterGame />} />
               <Route path="/pizza-hunter" element={<PizzaHunterGame />} />
