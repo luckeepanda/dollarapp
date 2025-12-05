@@ -185,7 +185,7 @@ const Landing: React.FC = () => {
       {/* Green Section */}
       <div
         ref={greenSectionRef}
-        className="relative py-32 bg-gradient-to-br from-green-500 to-green-600 overflow-hidden transition-all duration-1000"
+        className="relative py-32 bg-gradient-to-br from-green-500 to-green-600 overflow-hidden transition-all duration-1000 flex items-center justify-center min-h-screen"
       >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -203,6 +203,13 @@ const Landing: React.FC = () => {
             </defs>
             <rect width="100%" height="100%" fill="url(#green-dots)" />
           </svg>
+        </div>
+
+        {/* Content */}
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
+            We help local small businesses to save money with USDC.
+          </h2>
         </div>
       </div>
 
@@ -233,7 +240,7 @@ const Landing: React.FC = () => {
         {/* Middle Content - Copy Text */}
         <div className="relative flex-1 flex items-center justify-center">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl mb-3">
               We help local small businesses to discover new customers through $1 games.
             </h2>
           </div>
