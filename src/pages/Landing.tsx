@@ -197,7 +197,7 @@ const Landing: React.FC = () => {
                 <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent">Dollar App</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary-600 font-display mb-8 leading-relaxed">
-                $1 games for real prizes.
+                Pay Less, Play More.
               </p>
               
               {/* Get Started Button */}
