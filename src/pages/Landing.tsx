@@ -234,7 +234,7 @@ const Landing: React.FC = () => {
         <div className="relative flex-1 flex items-center justify-center">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl mb-6">
-              We help local small businesses to get new customers through $1 games.
+              We help local small businesses to discover new customers through $1 games.
             </h2>
           </div>
         </div>
