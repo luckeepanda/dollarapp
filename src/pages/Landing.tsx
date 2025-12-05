@@ -18,7 +18,6 @@ const Landing: React.FC = () => {
   const characterOptions = ['🌮', '🍕', '🍺', '💅'];
   const greenSectionRef = useRef<HTMLDivElement>(null);
   const orangeSectionRef = useRef<HTMLDivElement>(null);
-  const gameSectionRef = useRef<HTMLDivElement>(null);
 
   // Redirect logged-in users to their dashboard
   useEffect(() => {
@@ -66,10 +65,6 @@ const Landing: React.FC = () => {
     setTimeout(() => {
       setGameActive(true);
     }, 100);
-  };
-
-  const scrollToGame = () => {
-    gameSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Show loading spinner while checking authentication status
@@ -276,36 +271,26 @@ const Landing: React.FC = () => {
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl mb-6">
               We help local small businesses to get new customers through $1 games.
             </h2>
-
-            {/* Decorative elements around text */}
-            <div className="flex justify-center space-x-8 mt-12">
-              <div className="text-5xl animate-bounce">🏪</div>
-              <div className="text-5xl animate-bounce delay-150">🎮</div>
-              <div className="text-5xl animate-bounce delay-300">👥</div>
-            </div>
           </div>
         </div>
 
         {/* Bottom Button */}
         <div className="relative pb-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <button
-              onClick={scrollToGame}
+            <Link
+              to="/restaurant-games"
               className="inline-block bg-white text-orange-600 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-black text-xl sm:text-2xl hover:bg-orange-50 transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-3xl border-4 border-white hover:border-orange-200 group"
             >
               <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-600 group-hover:to-orange-700">
                 Try Dollar Games
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Game Section */}
-      <div
-        ref={gameSectionRef}
-        className="py-16 bg-gradient-to-br from-neutral-100 to-white relative"
-      >
+      <div className="py-16 bg-gradient-to-br from-neutral-100 to-white relative">
         <div className="absolute inset-0 food-grid opacity-30"></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
