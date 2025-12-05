@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Zap, Sparkles, RotateCcw } from 'lucide-react';
-import TacoGame from '../components/TacoGame';
 
 const Landing: React.FC = () => {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [gameActive, setGameActive] = useState(true);
-  const [finalScore, setFinalScore] = useState<number | null>(null);
-  const [gameKey, setGameKey] = useState(0);
-  const [resetTrigger, setResetTrigger] = useState(0);
-  const [selectedEmoji, setSelectedEmoji] = useState<string>('🌮');
-
-  const characterOptions = ['🌮', '🍕', '🍺', '💅'];
   const greenSectionRef = useRef<HTMLDivElement>(null);
   const orangeSectionRef = useRef<HTMLDivElement>(null);
 
@@ -40,32 +31,6 @@ const Landing: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleGameEnd = (score: number) => {
-    setFinalScore(score);
-    setGameActive(false);
-  };
-
-  const handleCharacterSelect = (emoji: string) => {
-    setSelectedEmoji(emoji);
-    setFinalScore(null);
-    setGameActive(false);
-    setGameKey(prev => prev + 1);
-    setResetTrigger(prev => prev + 1);
-    setTimeout(() => {
-      setGameActive(true);
-    }, 100);
-  };
-
-  const restartGame = () => {
-    setFinalScore(null);
-    setGameActive(false);
-    setGameKey(prev => prev + 1);
-    setResetTrigger(prev => prev + 1);
-    setTimeout(() => {
-      setGameActive(true);
-    }, 100);
-  };
 
   // Show loading spinner while checking authentication status
   if (isLoading) {
@@ -278,96 +243,13 @@ const Landing: React.FC = () => {
         <div className="relative pb-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Link
-              to="/restaurant-games"
+              to="/free-play"
               className="inline-block bg-white text-orange-600 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-black text-xl sm:text-2xl hover:bg-orange-50 transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-3xl border-4 border-white hover:border-orange-200 group"
             >
               <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-600 group-hover:to-orange-700">
                 Try Dollar Games
               </span>
             </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Game Section */}
-      <div className="py-16 bg-gradient-to-br from-neutral-100 to-white relative">
-        <div className="absolute inset-0 food-grid opacity-30"></div>
-
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Title */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold font-display food-text-gradient mb-4 drop-shadow-lg animate-pulse">
-              Choose Your Player
-            </h2>
-            <div className="flex justify-center mb-4">
-              <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-success-500 to-accent-400 rounded-full food-glow"></div>
-            </div>
-
-            {/* Character Selection */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-md mx-auto">
-              {characterOptions.map((emoji) => (
-                <button
-                  key={emoji}
-                  onClick={() => handleCharacterSelect(emoji)}
-                  className={`p-6 rounded-2xl border-4 transition-all duration-300 transform hover:scale-105 ${
-                    selectedEmoji === emoji
-                      ? 'border-primary-500 bg-primary-50 shadow-lg'
-                      : 'border-gray-200 hover:border-primary-300 bg-white hover:bg-primary-50'
-                  }`}
-                >
-                  <div className="text-4xl mb-2">{emoji}</div>
-                  <div
-                    className={`text-sm font-medium ${
-                      selectedEmoji === emoji ? 'text-primary-700' : 'text-gray-600'
-                    }`}
-                  >
-                    {selectedEmoji === emoji ? 'Selected' : 'Select'}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Game Container */}
-          <div className="food-card p-8 mb-8 relative">
-            <TacoGame
-              key={gameKey}
-              onGameEnd={handleGameEnd}
-              gameActive={gameActive}
-              resetTrigger={resetTrigger}
-              selectedEmoji={selectedEmoji}
-            />
-
-            {/* Floating Play Again Button */}
-            {finalScore !== null && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="food-card bg-white/95 p-6 shadow-2xl border-2 border-primary-200 pointer-events-auto food-glow">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold font-display food-text-gradient mb-2">
-                      Great Job!
-                    </h3>
-                    <p className="text-lg text-gray-700 mb-4">
-                      You scored <span className="font-bold text-2xl food-text-gradient">{finalScore}</span> points!
-                    </p>
-                    <div className="flex space-x-3 mb-4">
-                      <button
-                        onClick={restartGame}
-                        className="food-button px-6 py-3 font-semibold flex items-center space-x-2"
-                      >
-                        <RotateCcw className="h-4 w-4" />
-                        <span>Play Again</span>
-                      </button>
-                      <button
-                        onClick={() => navigate('/hamburger-runner')}
-                        className="bg-gradient-to-r from-success-600 to-success-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-success-700 hover:to-success-800 transition-all transform hover:scale-105 shadow-lg food-glow"
-                      >
-                        Try Burger Runner
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
