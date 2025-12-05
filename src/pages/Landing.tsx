@@ -208,7 +208,7 @@ const Landing: React.FC = () => {
         {/* Content */}
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
-            We help local small businesses to save money with USDC.
+            We help small businesses to save money with USDC.
           </h2>
         </div>
       </div>
