@@ -206,10 +206,22 @@ const Landing: React.FC = () => {
         </div>
 
         {/* Content */}
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
             We help small businesses to save money with USDC.
           </h2>
+
+          {/* Button */}
+          <div>
+            <a
+              href="#how-it-works"
+              className="inline-block bg-white text-green-600 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-black text-xl sm:text-2xl hover:bg-green-50 transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-3xl border-4 border-white hover:border-green-200 group"
+            >
+              <span className="bg-gradient-to-r from-green-500 to-green-600 bg-clip-text text-transparent group-hover:from-green-600 group-hover:to-green-700">
+                How It Works
+              </span>
+            </a>
+          </div>
         </div>
       </div>
 
