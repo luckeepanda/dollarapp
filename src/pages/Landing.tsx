@@ -163,7 +163,7 @@ const Landing: React.FC = () => {
               </p>
 
               {/* Buttons */}
-              <div className="mt-8 flex flex-col items-center space-y-4">
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/login"
                   className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-2xl font-black text-base sm:text-lg md:text-xl lg:text-2xl hover:from-primary-600 hover:to-primary-700 transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-primary-200"
@@ -185,12 +185,12 @@ const Landing: React.FC = () => {
       {/* Green Section */}
       <div
         ref={greenSectionRef}
-        className="relative py-32 bg-gradient-to-br from-green-500 to-green-600 overflow-hidden transition-all duration-1000 flex items-center justify-center min-h-screen"
+        className="relative py-16 sm:py-20 md:py-24 lg:py-28 bg-gradient-to-br from-green-500 to-green-600 overflow-hidden transition-all duration-1000 flex items-center justify-center"
       >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-10 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
 
         {/* Decorative pattern */}
@@ -216,13 +216,13 @@ const Landing: React.FC = () => {
       {/* Orange Section with Copy */}
       <div
         ref={orangeSectionRef}
-        className="relative py-32 bg-gradient-to-br from-orange-500 to-orange-600 overflow-hidden transition-all duration-1000 flex flex-col justify-between min-h-screen"
+        className="relative py-16 sm:py-20 md:py-24 lg:py-28 bg-gradient-to-br from-orange-500 to-orange-600 overflow-hidden transition-all duration-1000"
       >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -left-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-white/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
         </div>
 
         {/* Decorative pattern */}
@@ -237,18 +237,15 @@ const Landing: React.FC = () => {
           </svg>
         </div>
 
-        {/* Middle Content - Copy Text */}
-        <div className="relative flex-1 flex items-center justify-center">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl mb-3">
-              We help small businesses to discover new customers through $1 games.
-            </h2>
-          </div>
-        </div>
+        {/* Content Container */}
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          {/* Copy Text */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
+            We help small businesses to discover new customers through $1 games.
+          </h2>
 
-        {/* Bottom Button */}
-        <div className="relative pb-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Button */}
+          <div>
             <Link
               to="/try-dollar-games"
               className="inline-block bg-white text-orange-600 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-black text-xl sm:text-2xl hover:bg-orange-50 transition-all duration-500 transform hover:scale-110 shadow-2xl hover:shadow-3xl border-4 border-white hover:border-orange-200 group"
