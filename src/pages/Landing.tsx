@@ -208,7 +208,7 @@ const Landing: React.FC = () => {
         {/* Content */}
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
-            We help small businesses to save money with USDC.
+            We help SMBs to save money with USDC.
           </h2>
 
           {/* Button */}
@@ -253,7 +253,7 @@ const Landing: React.FC = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           {/* Copy Text */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-2xl">
-            We help small businesses to discover customers through $1 games.
+            We help SMBs to discover new customers through $1 games.
           </h2>
 
           {/* Button */}
