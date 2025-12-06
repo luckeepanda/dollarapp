@@ -26,7 +26,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   const currentUrl = `${baseUrl}${location.pathname}`;
   
   // Default SEO values
-  const defaultTitle = 'Dollar App | Play $1 Games, Win Real Food Prizes';
+  const defaultTitle = 'Dollar App | Save with USDC';
   const defaultDescription = 'Play skill-based mobile games for just $1 and win real food prizes at local restaurants. Join tournaments, compete with friends, and redeem QR codes for delicious meals.';
   const defaultKeywords = 'mobile games, food prizes, restaurant games, skill games, tournament gaming, food rewards, mobile gaming app, arcade games';
   
